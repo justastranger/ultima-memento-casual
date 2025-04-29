@@ -50,3 +50,5 @@ World/Scripts/Obsolete
 World.exe
 World.exe.config
 src/World.exe - Shortcut
+# Prevents the tracking of any changes to the default save file
+World/Saves
