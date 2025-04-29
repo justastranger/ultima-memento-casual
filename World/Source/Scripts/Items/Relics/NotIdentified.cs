@@ -8,6 +8,7 @@ using Server.Misc;
 using System.Collections.Generic;
 using System.Collections;
 using Server.Targeting;
+using System.Text.RegularExpressions;
 
 namespace Server.Items
 {
@@ -66,8 +67,34 @@ namespace Server.Items
 			Container unk = new NotIdentified();
 			unk.ItemID = item.ItemID;
 			unk.Hue = item.Hue;
-			unk.Name = RandomThings.GetOddityAdjective() + " item";
-			unk.NotIdentified = true;
+			// unk.Name = RandomThings.GetOddityAdjective() + " item";
+
+            string itemTypeName = item.GetType().Name;
+            // Only give away information that can be seen even when unidentified
+			// This basically makes the visual information multimodal, both graphical and textual
+            if (!(item.Catalog == Catalogs.Reagent) && !(item.Catalog == Catalogs.Potion) && !(item.Catalog == Catalogs.Scroll))
+            {
+                // Expand type names into separate words by looking for capital letters and inserting spaces before them
+                Regex regex = new Regex("[A-Z]");
+                MatchCollection matches = regex.Matches(itemTypeName);
+                // There are plenty of item types that are single words, so we can skip them
+                if (matches.Count > 1)
+                {
+                    // We're working backwords to prevent drifting indexes, stopping before the first letter that *should* be at the start
+                    for (var i = matches.Count - 1; i > 1; i--)
+                    {
+                        itemTypeName = itemTypeName.Insert(matches[i].Index, " ");
+                    }
+                }
+				// 
+				if (IsStandardResource(item.Resource))
+					unk.Name = RandomThings.GetOddityAdjective() + " " + itemTypeName;
+				else
+					unk.Name = RandomThings.GetOddityAdjective() + " " + item.Resource + " " + itemTypeName;
+            }
+
+
+            unk.NotIdentified = true;
 			unk.NotIDAttempts = 0;
 			unk.NotIDSource = Identity.Merchant;
 			unk.NotIDSkill = IDSkill.Mercantile;
@@ -210,6 +237,8 @@ namespace Server.Items
 				cont.DropItem(item);
 				unk.Delete();
 			}
+			
+			// unk.PropertyList.Add( 1053099, "#{0}\t{1}", CraftResources.GetClilocLowerCaseName( Resource ), Name != null ? (object)Name : (object)LabelNumber );
 		}
 
 		public static void ConfigureItem( Item item, Container cont, Mobile m )
