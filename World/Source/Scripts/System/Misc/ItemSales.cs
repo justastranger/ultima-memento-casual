@@ -3958,6 +3958,7 @@ namespace Server
 			new ItemSalesInfo( typeof(	WizardStaff	),	40	,	5	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Mage	),
 			new ItemSalesInfo( typeof(	WizardStaff	),	40	,	5	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Wizard	),
 			new ItemSalesInfo( typeof(	BlackStaff	),	22	,	15	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Necro	),
+			new ItemSalesInfo( typeof(	BlackStaff	),	22	,	15	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Mage	),
 			new ItemSalesInfo( typeof(	WizardStick	),	38	,	5	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Mage	),
 			new ItemSalesInfo( typeof(	WizardStick	),	38	,	5	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Wizard	),
 			new ItemSalesInfo( typeof(	WolfCap	),	50	,	5	,	0	,	false	,	false	,	World.None	,	Category.Armor	,	Material.Leather	,	Market.Leather	),
