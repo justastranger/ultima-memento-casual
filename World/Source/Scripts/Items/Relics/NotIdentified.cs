@@ -86,6 +86,8 @@ namespace Server.Items
 						if (matches[i].Index == 0) continue;
                         itemTypeName = itemTypeName.Insert(matches[i].Index, " ");
                     }
+					itemTypeName.Replace("Jewelry ", "");
+                    itemTypeName.Replace("Female ", "");
                 }
 				// 
 				if (IsStandardResource(item.Resource))
@@ -195,7 +197,8 @@ namespace Server.Items
 			else if ( item is Spellbook || item is Runebook )
 			{
 				unk.NotIDSource = Identity.Scroll;
-				package = true;
+                unk.Name = RandomThings.GetOddityAdjective() + " book";
+                package = true;
 			}
 			else if ( item is BaseArmor && ( resType == CraftResourceType.Metal || resType == CraftResourceType.Scales || resType == CraftResourceType.Skeletal || resType == CraftResourceType.Block ) )
 			{
