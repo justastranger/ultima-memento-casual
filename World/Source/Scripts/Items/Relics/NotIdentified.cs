@@ -72,7 +72,7 @@ namespace Server.Items
             string itemTypeName = item.GetType().Name;
             // Only give away information that can be seen even when unidentified
 			// This basically makes the visual information multimodal, both graphical and textual
-            if (!(item.Catalog == Catalogs.Reagent) && !(item.Catalog == Catalogs.Potion) && !(item.Catalog == Catalogs.Scroll))
+            if ((item.Catalog != Catalogs.Reagent) && (item.Catalog != Catalogs.Potion) && (item.Catalog != Catalogs.Scroll) && (item.Catalog != Catalogs.Book))
             {
                 // Expand type names into separate words by looking for capital letters and inserting spaces before them
                 Regex regex = new Regex("[A-Z]");
@@ -81,8 +81,9 @@ namespace Server.Items
                 if (matches.Count > 1)
                 {
                     // We're working backwords to prevent drifting indexes, stopping before the first letter that *should* be at the start
-                    for (var i = matches.Count - 1; i > 1; i--)
+                    for (var i = matches.Count - 1; i > 0; i--)
                     {
+						if (matches[i].Index == 0) continue;
                         itemTypeName = itemTypeName.Insert(matches[i].Index, " ");
                     }
                 }
