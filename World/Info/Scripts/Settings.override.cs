@@ -1,3 +1,4 @@
+using System;
 namespace Server
 {
     /// <summary>
@@ -10,6 +11,15 @@ namespace Server
         {
             // Example:
             // MySettings.S_SaveOnCharacterLogout = true;
+            MySettings.S_ServerSaveMinutes = 15.0;
+            MySettings.S_MaxMerchant = 4000;
+            MySettings.S_BlackMarket = true;
+            //MySettings.S_CustomMerchant = true;
+            MySettings.S_HousesPerAccount = -1;
+            MySettings.S_HouseStorage = true;
+            MySettings.S_DamageToPets = 1.2;
+            MySettings.S_Stables = 7;
+            Console.WriteLine("Settings Overridden.");
         }
     }
 }
