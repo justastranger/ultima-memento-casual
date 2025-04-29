@@ -70,6 +70,7 @@ namespace Server.Items
 			// unk.Name = RandomThings.GetOddityAdjective() + " item";
 
             string itemTypeName = item.GetType().Name;
+			string resourceName = item.Resource.ToString();
             // Only give away information that can be seen even when unidentified
 			// This basically makes the visual information multimodal, both graphical and textual
             if ((item.Catalog != Catalogs.Reagent) && (item.Catalog != Catalogs.Potion) && (item.Catalog != Catalogs.Scroll) && (item.Catalog != Catalogs.Book))
@@ -86,8 +87,18 @@ namespace Server.Items
 						if (matches[i].Index == 0) continue;
                         itemTypeName = itemTypeName.Insert(matches[i].Index, " ");
                     }
-					itemTypeName.Replace("Jewelry ", "");
+                    itemTypeName.Replace("Jewelry ", "");
+                    itemTypeName.Replace("Trinket ", "");
                     itemTypeName.Replace("Female ", "");
+                }
+				matches = regex.Matches(resourceName);
+				if (matches.Count > 1)
+				{
+                    for (var i = matches.Count - 1; i > 0; i--)
+                    {
+                        if (matches[i].Index == 0) continue;
+                        resourceName = resourceName.Insert(matches[i].Index, " ");
+                    }
                 }
 				// 
 				if (IsStandardResource(item.Resource))
