@@ -51,7 +51,7 @@ World.exe
 World.exe.config
 src/World.exe - Shortcut
 # Prevents the tracking of any changes to the default save file
-Saves/**/*.bin
+Saves/
 # I keep a backup of the latest Ultima: Momento release
 World.exe.original
 /World/Data/Data.ref
