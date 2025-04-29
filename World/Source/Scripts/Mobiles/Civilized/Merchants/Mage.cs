@@ -79,11 +79,6 @@ namespace Server.Mobiles
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.None,		ItemSalesInfo.Material.Cloth,	ItemSalesInfo.Market.Wizard,	ItemSalesInfo.World.None,	null	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Rune,		ItemSalesInfo.Material.All,		ItemSalesInfo.Market.Mage,		ItemSalesInfo.World.None,	null	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Wand,		ItemSalesInfo.Material.All,		ItemSalesInfo.Market.Mage,		ItemSalesInfo.World.None,	null	 );
-					Add(typeof(WizardStaff), 40);
-					Add(typeof(WildStaff), 10);
-					Add(typeof(WizardStick), 38);
-                    Add(typeof(WizardWand), 5);
-                    Add(typeof(MagicalWand), 5);
                 }
 			}
 		}
