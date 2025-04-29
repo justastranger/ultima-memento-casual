@@ -2233,14 +2233,14 @@ namespace Server.Mobiles
             if ( Deleted || !from.Alive )
                 return;
 
-			int idCost = 200;
+			// int idCost = 200;
 
 			if ( BeggingPose(from) > 0 && !(this is PlayerBarkeeper) ) // LET US SEE IF THEY ARE BEGGING
 			{
-				idCost = idCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * idCost ); if ( idCost < 1 ){ idCost = 1; }
-				SayTo(from, "Since you are begging, which item shall I examine, for " + idCost.ToString() + " gold?");
+				// idCost = idCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * idCost ); if ( idCost < 1 ){ idCost = 1; }
+				SayTo(from, "Since you are begging, which item shall I examine, for a bit less gold?");
 			}
-			else { SayTo(from, "Which item shall I examine, for " + idCost.ToString() + " gold?"); }
+			else { SayTo(from, "Which item shall I examine, for some gold?"); }
 
             from.Target = new IDTarget(this);
         }
@@ -2491,6 +2491,9 @@ namespace Server.Mobiles
 							m_Vendor.SayTo(from, "I cannot really tell you much about that." );
 							return;
 						}
+						
+						if (examine.CoinPrice < nCost)
+							nCost = (int)Math.Round(examine.CoinPrice * MySettings.S_IdentifyRate);
 
 						Container packs = from.Backpack;
 

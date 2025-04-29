@@ -511,6 +511,10 @@ namespace Server
 	// If false, then vendors will not buy things from player characters. Merchant crates will also be disabled and act as normal containers.
 
 		public static bool S_VendorsBuyStuff = true;
+		
+	// Sets the rate of an item's value that a merchant charges to identify it.
+		
+		public static double S_IdentifyRate = 0.5;
 
 	// The settings below control how much gold a merchant has in order to participate in commerce. The first setting determines whether a
 	// merchant is rich (true) and has no limits to buying, or is not rich (false) and has a limited budget. The second setting determines
