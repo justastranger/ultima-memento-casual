@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Server;
+using Server.Items;
 
 namespace Server.Mobiles
 {
@@ -49,8 +50,17 @@ namespace Server.Mobiles
 				{
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Tavern,		ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Cook,		ItemSalesInfo.World.None,	null	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Supply,		ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Cook,		ItemSalesInfo.World.None,	null	 );
-				}
-			}
+                    Add(typeof(BeverageBottle), 5);
+                    Add(typeof(Pitcher), 10);
+                    Add(typeof(Jug), 15);
+                    Add(typeof(CeramicMug), 2);
+                    Add(typeof(SkullMug), 5);
+                    Add(typeof(PewterMug), 2);
+                    Add(typeof(Goblet), 2);
+                    Add(typeof(GlassMug), 2);
+                }
+
+            }
 		}
 
 		public Waiter( Serial serial ) : base( serial )

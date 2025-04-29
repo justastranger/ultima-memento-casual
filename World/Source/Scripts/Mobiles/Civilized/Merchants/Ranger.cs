@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Server.ContextMenus;
 using Server.Gumps;
 using Server.Misc;
+using Server.Items;
 
 namespace Server.Mobiles
 {
@@ -69,7 +70,10 @@ namespace Server.Mobiles
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Armor,		ItemSalesInfo.Material.Leather,		ItemSalesInfo.Market.Leather,	ItemSalesInfo.World.None,	null	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.All,			ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Ranger,	ItemSalesInfo.World.None,	null	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.None,		ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Animals,	ItemSalesInfo.World.None,	null	 );
-				}
+                    Add(typeof(BeverageBottle), 5);
+                    Add(typeof(Pitcher), 10);
+                    Add(typeof(Jug), 15);
+                }
 			}
 		}
 

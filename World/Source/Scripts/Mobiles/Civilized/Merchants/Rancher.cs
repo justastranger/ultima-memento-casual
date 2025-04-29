@@ -60,7 +60,10 @@ namespace Server.Mobiles
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Rare,	ItemSalesInfo.Material.None,	ItemSalesInfo.Market.Stable,	ItemSalesInfo.World.None,	null	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Weapon,	ItemSalesInfo.Material.All,		ItemSalesInfo.Market.Stable,	ItemSalesInfo.World.None,	null	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.None,	ItemSalesInfo.Material.All,		ItemSalesInfo.Market.Animals,	ItemSalesInfo.World.None,	null	 );
-				}
+                    Add(typeof(BeverageBottle), 5);
+                    Add(typeof(Pitcher), 10);
+                    Add(typeof(Jug), 15);
+                }
 			}
 		}
 
