@@ -251,10 +251,13 @@ namespace Server
 				case SkillName.Mining:
 					return true;
 
+				// Identification and secondary benefit skills
 				case SkillName.Anatomy:
 				case SkillName.Druidism:
 				case SkillName.Mercantile:
 				case SkillName.ArmsLore:
+				case SkillName.Tasting:
+					return true;
 				case SkillName.Parry:
 				case SkillName.Begging:
 				case SkillName.Peacemaking:
@@ -279,7 +282,6 @@ namespace Server
 				case SkillName.Spiritualism:
 				case SkillName.Stealing:
 				case SkillName.Taming:
-				case SkillName.Tasting:
 				case SkillName.Tracking:
 				case SkillName.Veterinary:
 				case SkillName.Swords:
