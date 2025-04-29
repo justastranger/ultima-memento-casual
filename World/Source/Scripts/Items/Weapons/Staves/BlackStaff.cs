@@ -31,7 +31,7 @@ namespace Server.Items
 		{
 			Weight = 6.0;
 			Resource = CraftResource.Iron;
-			Name = "wizard staff";
+			Name = "black staff";
 			ItemID = Utility.RandomList( 0xDF0, 0x0DF1, 0x2AAC, 0x63B1, 0x6522 );
 		}
 
