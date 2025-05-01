@@ -10,7 +10,7 @@ namespace Server.Items
 		private Mobile m_Owner;
 		private bool m_Open;
 
-		public override int DefaultMaxWeight
+        public override int DefaultMaxWeight
 		{
 			get
 			{
@@ -18,7 +18,15 @@ namespace Server.Items
 			}
 		}
 
-		public override bool IsVirtualItem
+        public new int MaxItems
+		{
+			get
+			{
+				return 999;
+			}
+		}
+
+        public override bool IsVirtualItem
 		{
 			get { return true; }
 		}
