@@ -9,6 +9,7 @@ namespace Server.Items
 	{
 		private Mobile m_Owner;
 		private bool m_Open;
+		private int m_MaxItems = 999;
 
         public override int DefaultMaxWeight
 		{
@@ -18,13 +19,62 @@ namespace Server.Items
 			}
 		}
 
+        [CommandProperty(AccessLevel.GameMaster)]
         public new int MaxItems
-		{
-			get
-			{
-				return 999;
-			}
-		}
+        {
+            get { return (m_MaxItems == -1 ? DefaultMaxItems : m_MaxItems); }
+            set { m_MaxItems = value; InvalidateProperties(); }
+        }
+
+        public override bool CheckHold(Mobile m, Item item, bool message, bool checkItems, int plusItems, int plusWeight)
+        {
+            if (m.AccessLevel < AccessLevel.GameMaster)
+            {
+                if (IsDecoContainer)
+                {
+                    if (message)
+                        SendCantStoreMessage(m, item);
+
+                    return false;
+                }
+
+                int maxItems = this.MaxItems;
+
+                if (checkItems && maxItems != 0 && (this.TotalItems + plusItems + item.TotalItems + (item.IsVirtualItem ? 0 : 1)) > maxItems)
+                {
+                    if (message)
+                        SendFullItemsMessage(m, item);
+
+                    return false;
+                }
+                else
+                {
+                    int maxWeight = this.MaxWeight;
+
+                    if (maxWeight != 0 && (this.TotalWeight + plusWeight + item.TotalWeight + item.PileWeight) > maxWeight)
+                    {
+                        if (message)
+                            SendFullWeightMessage(m, item);
+
+                        return false;
+                    }
+                }
+            }
+
+            object parent = this.Parent;
+
+            while (parent != null)
+            {
+                if (parent is Container)
+                    return ((Container)parent).CheckHold(m, item, message, checkItems, plusItems, plusWeight);
+                else if (parent is Item)
+                    parent = ((Item)parent).Parent;
+                else
+                    break;
+            }
+
+            return true;
+        }
 
         public override bool IsVirtualItem
 		{
