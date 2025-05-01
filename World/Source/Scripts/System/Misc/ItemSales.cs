@@ -2666,6 +2666,7 @@ namespace Server
 			new ItemSalesInfo( typeof(	Harpoon	),	40	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Sailor	),
 			new ItemSalesInfo( typeof(	HarpoonRope	),	2	,	250	,	0	,	false	,	false	,	World.None	,	Category.Resource	,	Material.None	,	Market.Sailor	),
 			new ItemSalesInfo( typeof(	Hatchet	),	20	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Carpenter	),
+			new ItemSalesInfo( typeof(	Hatchet	),	20	,	15	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Smith	),
 			new ItemSalesInfo( typeof(	Head	),	40	,	0	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Evil	),
 			new ItemSalesInfo( typeof(	HealerCrate	),	400	,	5	,	75	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Healer	),
 			new ItemSalesInfo( typeof(	HearthOfHomeFireDeed	),	5000	,	1	,	90	,	false	,	false	,	World.None	,	Category.Rare	,	Material.None	,	Market.Home	),
