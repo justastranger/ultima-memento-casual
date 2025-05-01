@@ -76,27 +76,29 @@ namespace Server.Items
             if ((item.Catalog != Catalogs.Reagent) && (item.Catalog != Catalogs.Potion) && (item.Catalog != Catalogs.Scroll) && (item.Catalog != Catalogs.Book))
             {
                 // Expand type names into separate words by looking for capital letters and inserting spaces before them
-                Regex regex = new Regex("[A-Z]");
+                // We're searching specifically for capital letters that aren't at the start
+                Regex regex = new Regex("\\B[A-Z]");
+
+				// remove irrelevant details from the type name
+                itemTypeName.Replace("Jewelry", "");
+                itemTypeName.Replace("Trinket", "");
+                itemTypeName.Replace("Female", "");
+
                 MatchCollection matches = regex.Matches(itemTypeName);
-                // There are plenty of item types that are single words, so we can skip them
-                if (matches.Count > 1)
+                if (matches.Count > 0)
                 {
-                    // We're working backwords to prevent drifting indexes, stopping before the first letter that *should* be at the start
+                    // We're working backwords to prevent drifting indexes
                     for (var i = matches.Count - 1; i > 0; i--)
                     {
-						if (matches[i].Index == 0) continue;
                         itemTypeName = itemTypeName.Insert(matches[i].Index, " ");
                     }
-                    itemTypeName.Replace("Jewelry ", "");
-                    itemTypeName.Replace("Trinket ", "");
-                    itemTypeName.Replace("Female ", "");
                 }
+				// ditto for the resource
 				matches = regex.Matches(resourceName);
-				if (matches.Count > 1)
+				if (matches.Count > 0)
 				{
                     for (var i = matches.Count - 1; i > 0; i--)
                     {
-                        if (matches[i].Index == 0) continue;
                         resourceName = resourceName.Insert(matches[i].Index, " ");
                     }
                 }
