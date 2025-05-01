@@ -77,12 +77,12 @@ namespace Server.Items
             {
                 // Expand type names into separate words by looking for capital letters and inserting spaces before them
                 // We're searching specifically for capital letters that aren't at the start
-                Regex regex = new Regex("\\B[A-Z]");
+                Regex regex = new Regex(@"\w[A-Z]");
 
-				// remove irrelevant details from the type name
-                itemTypeName.Replace("Jewelry", "");
-                itemTypeName.Replace("Trinket", "");
-                itemTypeName.Replace("Female", "");
+                // remove irrelevant details from the type name
+                itemTypeName = itemTypeName.Replace("Jewelry", "")
+										   .Replace("Trinket", "")
+										   .Replace("Female", "");
 
                 MatchCollection matches = regex.Matches(itemTypeName);
                 if (matches.Count > 0)
@@ -94,6 +94,10 @@ namespace Server.Items
                     }
                 }
 				// ditto for the resource
+				resourceName = resourceName.Replace("Scales", "")
+										   .Replace("Leather", "")
+										   .Replace("Tree", "")
+										   .Replace("Skeletal", "");
 				matches = regex.Matches(resourceName);
 				if (matches.Count > 0)
 				{
