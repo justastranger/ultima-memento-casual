@@ -581,8 +581,9 @@ namespace Server.Misc
 			if ( reg.IsPartOf( typeof( PublicRegion ) ) )
 				return false;
 
-			if ( reg.IsPartOf( "the Island of Poseidon" ) )
-				return false;
+			if (reg.IsPartOf("the Island of Poseidon"))
+				//return false;
+				return true;
 
 			if ( reg.IsPartOf( "the Village of Ravendark" ) )
 				return false;
