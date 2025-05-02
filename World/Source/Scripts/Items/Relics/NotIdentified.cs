@@ -75,21 +75,19 @@ namespace Server.Items
 			// This basically makes the visual information multimodal, both graphical and textual
             if ((item.Catalog != Catalogs.Reagent) && (item.Catalog != Catalogs.Potion) && (item.Catalog != Catalogs.Scroll) && (item.Catalog != Catalogs.Book))
             {
-                // Expand type names into separate words by looking for capital letters and inserting spaces before them
-                // We're searching specifically for capital letters that aren't at the start
-                Regex regex = new Regex(@"\w[A-Z]");
-
                 // remove irrelevant details from the type name
                 itemTypeName = itemTypeName.Replace("Jewelry", "")
 										   .Replace("Trinket", "")
 										   .Replace("Female", "");
-
-                MatchCollection matches = regex.Matches(itemTypeName);
+                // Expand type names into separate words by looking for capital letters and inserting spaces before them
+                // We're searching specifically for capital letters that aren't at the start
+                MatchCollection matches = new Regex(@"[A-Z]").Matches(itemTypeName);
                 if (matches.Count > 0)
                 {
                     // We're working backwords to prevent drifting indexes
                     for (var i = matches.Count - 1; i > 0; i--)
                     {
+						if (matches[i].Index == 0) continue;
                         itemTypeName = itemTypeName.Insert(matches[i].Index, " ");
                     }
                 }
@@ -98,11 +96,12 @@ namespace Server.Items
 										   .Replace("Leather", "")
 										   .Replace("Tree", "")
 										   .Replace("Skeletal", "");
-				matches = regex.Matches(resourceName);
+                matches = new Regex(@"[A-Z]").Matches(resourceName);
 				if (matches.Count > 0)
 				{
                     for (var i = matches.Count - 1; i > 0; i--)
                     {
+                        if (matches[i].Index == 0) continue;
                         resourceName = resourceName.Insert(matches[i].Index, " ");
                     }
                 }
@@ -110,7 +109,7 @@ namespace Server.Items
 				if (IsStandardResource(item.Resource))
 					unk.Name = RandomThings.GetOddityAdjective() + " " + itemTypeName;
 				else
-					unk.Name = RandomThings.GetOddityAdjective() + " " + item.Resource + " " + itemTypeName;
+					unk.Name = RandomThings.GetOddityAdjective() + " " + resourceName + " " + itemTypeName;
             }
 
 
