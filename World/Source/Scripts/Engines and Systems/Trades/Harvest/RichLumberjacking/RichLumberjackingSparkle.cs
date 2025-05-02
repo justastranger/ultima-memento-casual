@@ -45,13 +45,21 @@ namespace Server.Engines.Harvest
         public override void OnDoubleClick(Mobile from)
         {
             var tool = from.FindItemOnLayer(Layer.TwoHanded) as IHarvestTool;
-            if (tool != null && tool != null && tool.HarvestSystem == RichLumberjacking.System)
+            if (tool != null && tool.HarvestSystem == RichLumberjacking.System)
             {
                 tool.HarvestSystem.StartHarvesting(from, (Item)tool, this);
             }
             else
             {
-                from.SendMessage("The tree catches your eye. An axe might help.");
+                tool = from.FindItemOnLayer(Layer.OneHanded) as IHarvestTool;
+                if (tool != null && tool.HarvestSystem == RichLumberjacking.System)
+                {
+                    tool.HarvestSystem.StartHarvesting(from, (Item)tool, this);
+                }
+                else
+                {
+                    from.SendMessage("The tree catches your eye. An axe might help.");
+                }
             }
         }
 
