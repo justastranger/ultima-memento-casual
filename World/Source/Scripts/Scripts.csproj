@@ -19,6 +19,7 @@
 
   <PropertyGroup>
     <DefineConstants>NEWTIMERS</DefineConstants>
+    <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
