@@ -36,7 +36,7 @@ namespace Server.Items
 			{
 				return base.OnDragDropInto(from, dropped, p);
 			}
-			else if (dropped is NotIdentified notIDDropped && notIDDropped.Items.First().Catalog == Catalogs.Reagent)
+			else if (dropped is NotIdentified && dropped.Items.First().Catalog == Catalogs.Reagent)
 			{
                 return base.OnDragDropInto(from, dropped, p);
             }
