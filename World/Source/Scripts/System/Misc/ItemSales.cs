@@ -1910,6 +1910,7 @@ namespace Server
 			new ItemSalesInfo( typeof(	ArtifactLargeVase	),	5000	,	1	,	95	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Art	),
 			new ItemSalesInfo( typeof(	ArtifactVase	),	5000	,	1	,	95	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Art	),
 			new ItemSalesInfo( typeof(	AssassinRobe	),	38	,	10	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.Cloth	,	Market.Assassin	),
+			new ItemSalesInfo( typeof(	AssassinRobe	),	38	,	10	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.Cloth	,	Market.Tailor	),
 			new ItemSalesInfo( typeof(	AssassinSpike	),	21	,	15	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Assassin	),
 			new ItemSalesInfo( typeof(	AssassinSpike	),	21	,	15	,	0	,	false	,	false	,	World.None	,	Category.Weapon	,	Material.Metal	,	Market.Smith	),
 			new ItemSalesInfo( typeof(	AwaseMisoSoup	),	3	,	15	,	0	,	false	,	false	,	World.Orient	,	Category.None	,	Material.None	,	Market.Monk	),
