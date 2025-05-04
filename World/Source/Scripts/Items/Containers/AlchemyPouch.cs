@@ -20,7 +20,11 @@ namespace Server.Items
 
 		public override bool OnDragDropInto( Mobile from, Item dropped, Point3D p )
         {
-			if ( dropped is Container && !(dropped is AlchemyPouch) )
+            if (dropped is NotIdentified && dropped.Items.First().Catalog == Catalogs.Reagent)
+            {
+                return base.OnDragDropInto(from, dropped, p);
+            }
+            else if ( dropped is Container && !(dropped is AlchemyPouch))
 			{
                 from.SendMessage("You can only use another alchemy rucksack within this sack.");
                 return false;
@@ -36,10 +40,6 @@ namespace Server.Items
 			{
 				return base.OnDragDropInto(from, dropped, p);
 			}
-			else if (dropped is NotIdentified && dropped.Items.First().Catalog == Catalogs.Reagent)
-			{
-                return base.OnDragDropInto(from, dropped, p);
-            }
 
 			from.SendMessage("This rucksack is for small alchemical crafting items.");
 			return false;
