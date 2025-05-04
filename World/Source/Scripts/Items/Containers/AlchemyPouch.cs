@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Server;
 
 namespace Server.Items
@@ -35,6 +36,10 @@ namespace Server.Items
 			{
 				return base.OnDragDropInto(from, dropped, p);
 			}
+			else if (dropped is NotIdentified notIDDropped && notIDDropped.Items.First().Catalog == Catalogs.Reagent)
+			{
+                return base.OnDragDropInto(from, dropped, p);
+            }
 
 			from.SendMessage("This rucksack is for small alchemical crafting items.");
 			return false;
