@@ -53,7 +53,8 @@ namespace Server.Mobiles
 					ItemInformation.GetSellList( m_Merchant, this, 	ItemSalesInfo.Category.All,			ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Healer,	ItemSalesInfo.World.None,	typeof( Garlic )	 );
 					ItemInformation.GetSellList( m_Merchant, this, 	ItemSalesInfo.Category.All,			ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Healer,	ItemSalesInfo.World.None,	typeof( RefreshPotion )	 );
 					ItemInformation.GetSellList( m_Merchant, this, 	ItemSalesInfo.Category.All,			ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Healer,	ItemSalesInfo.World.None,	typeof( HealPotion )	 );
-				}
+                    ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.All, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Healer, ItemSalesInfo.World.None, typeof(GreaterHealPotion));
+                }
 			}
 
 			public class InternalSellInfo : GenericSellInfo
@@ -66,7 +67,8 @@ namespace Server.Mobiles
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.All,			ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Healer,	ItemSalesInfo.World.None,	typeof( Garlic )	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.All,			ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Healer,	ItemSalesInfo.World.None,	typeof( RefreshPotion )	 );
 					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.All,			ItemSalesInfo.Material.All,			ItemSalesInfo.Market.Healer,	ItemSalesInfo.World.None,	typeof( HealPotion )	 );
-				}
+                    ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.All, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Healer, ItemSalesInfo.World.None, typeof(GreaterHealPotion));
+                }
 			}
 		}
 
