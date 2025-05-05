@@ -3852,6 +3852,7 @@ namespace Server
 			new ItemSalesInfo( typeof(	TarotDeck	),	5	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Inn	),
 			new ItemSalesInfo( typeof(	tarotpoker	),	5	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Inn	),
 			new ItemSalesInfo( typeof(	TastyHeart	),	40	,	0	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Evil	),
+			new ItemSalesInfo( typeof(	EvilSkull	),	40	,	0	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Evil	),
 			new ItemSalesInfo( typeof(	TattsukeHakama	),	16	,	0	,	0	,	false	,	false	,	World.Orient	,	Category.None	,	Material.Cloth	,	Market.Monk	),
 			new ItemSalesInfo( typeof(	TavernCrate	),	400	,	5	,	75	,	false	,	false	,	World.None	,	Category.Tavern	,	Material.None	,	Market.Inn	),
 			new ItemSalesInfo( typeof(	TavernTable	),	1100	,	30	,	0	,	false	,	false	,	World.None	,	Category.Tavern	,	Material.None	,	Market.Inn	),
