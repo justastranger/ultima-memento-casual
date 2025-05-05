@@ -17,7 +17,7 @@ namespace Server.Mobiles
 			Body = 178;
 			BaseSoundID = 0xA8;
 
-			ControlSlots = 5;
+			ControlSlots = 2;
 			Blessed = true;
 			ActiveSpeed = 0.1;
 			PassiveSpeed = 0.2;
