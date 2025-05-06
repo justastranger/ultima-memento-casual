@@ -1550,7 +1550,7 @@ namespace Server
 			new ItemSalesInfo( typeof(	AppleTreeDeed	),	640	,	2	,	90	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Druid	),
 			new ItemSalesInfo( typeof(	AquariumEastAddonDeed	),	1600	,	1	,	95	,	false	,	false	,	World.None	,	Category.Rare	,	Material.None	,	Market.Fisherman	),
 			new ItemSalesInfo( typeof(	AquariumSouthAddonDeed	),	1600	,	1	,	95	,	false	,	false	,	World.None	,	Category.Rare	,	Material.None	,	Market.Fisherman	),
-			new ItemSalesInfo( typeof(	ArcaneGem	),	20	,	0	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Mage	),
+			new ItemSalesInfo( typeof(	ArcaneGem	),	100	,	0	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Mage	),
 			new ItemSalesInfo( typeof(	ArcherQuiver	),	32	,	5	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Bow	),
 			new ItemSalesInfo( typeof(	ArcherQuiver	),	32	,	5	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Ranger	),
 			new ItemSalesInfo( typeof(	MagicQuiver	),	50	,	5	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Bow	),
