@@ -21,36 +21,39 @@ namespace Server.Misc
 
 			builder.Append("Changes<br>");
 			builder.Append("- Combat - Add teleport cooldown for OmniAI<br>");
+			builder.Append("- Combat - Creatures will no longer begin combat with self-buffing<br>");
 			builder.Append("- Craft - BlankScroll, Bottle, and Jar are no longer considered Resources (they're cheaper to buy)<br>");
 			builder.Append("- Craft - Jars can now be bought from Alchemist and Herbalist<br>");
 			builder.Append("- Craft - Druidic Herbalism now takes 4 total reagents, up from 2<br>");
 			builder.Append("- Craft - Witch Brewing now takes 4 total reagents, up from 2<br>");
 			builder.Append("- Craft - Crafting any scroll can now be used to reach 125 Inscription<br>");
-			builder.Append("- Item - Retroactive nerfs to Indecency and Gargoyle Shield");
-			builder.Append("- Item - Retroactive buffs to Polar bear cape, Polar bear boots, Grim Reaper's Robe, Robe of Teleport");
-			builder.Append("- Item - Rebalancing to Royal Guard Sash");
-			builder.Append("- Item - Nerfs to Shroud of Shadows, Jade Scimitar");
-			builder.Append("- Item - Buffs to Earrings of Health, Grim Reaper's lantern, Wildfire bow");
-			builder.Append("- Item - Elixirs can now only exceed your skill cap by 5");
+			builder.Append("- Item - Retroactive nerfs to Indecency and Gargoyle Shield<br>");
+			builder.Append("- Item - Retroactive buffs to Polar bear cape, Polar bear boots, Grim Reaper's Robe, Robe of Teleport<br>");
+			builder.Append("- Item - Rebalancing changes to Royal Guard Sash<br>");
+			builder.Append("- Item - Nerfs to Shroud of Shadows, Jade Scimitar<br>");
+			builder.Append("- Item - Buffs to Earrings of Health, Grim Reaper's lantern, Wildfire bow<br>");
+			builder.Append("- Item - Elixirs can now only exceed your skill cap by 5<br>");
 			builder.Append("- Misc - BarkFragment, BlankMap, WheatSheaf, and Sand can now be sold<br>");
 			builder.Append("- Misc - Add a 'clear the deck' phrase to remove corpses from boat<br>");
-			builder.Append("- Misc - The Merchant Advertiser now works for Sosaria and Underworld<br>");
 			builder.Append("- Misc - Library now has placeholder text<br>");
-			builder.Append("- Mobs - Creatures will no longer begin combat with self-buffing<br>");
 			builder.Append("- NPC - Always announce gold when buy/sell<br>");
 			builder.Append("- Pets - Tooltip now shows 'real' level, which matters when pets de-level<br>");
-			builder.Append("- Quest - Display rumor count after last rumor is verified<br>");
+			builder.Append("- Quest - Display rumor count after last Sage Artifact rumor is verified<br>");
 			builder.Append("- Shoppe - Targeting a container now adds all possible items to the Order<br>");
 			builder.Append("- Shoppe - All Shoppes (except Cartography) now have Orders<br>");
 
 			builder.Append("<br>");
 			builder.Append("Fixes<br>");
 			builder.Append("- Misc - Sacrificing the Dark Core of Exodus now only deletes your own core<br>");
-			builder.Append("- Misc - Fix an issue with Fast-move delay causing ghost speed to be slowed down<br>");
+			builder.Append("- Misc - Fix an issue with Fast-move delay causing monster ghost speed to be slowed down<br>");
+			builder.Append("- Misc - Thief artifact decorations could be purchased for 0g from Sage<br>");
+			builder.Append("- Misc - The Merchant Advertiser now works for Sosaria and Underworld<br>");
 			builder.Append("- Pets - Fix issue where applying Traits could lower stats<br>");
+			builder.Append("- Misc - Weapon Abilities now respect ServerSettings cap for Lower Mana Cost (no change for Live)<br>");
 			builder.Append("- Quest - Sage Artifact now references Land instead of Map<br>");
 			builder.Append("- Quest - Fix hiking boots typo in beginner hints<br>");
 			builder.Append("- Quest - Fix an issue where only a small subset of Citizens could satisfy the Sage Artifact rumor objective<br>");
+			builder.Append("- Race - Logging in as dead non-humans now leaves your body id alone<br>");
 			builder.Append(SEPARATOR_LINE);
 
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +62,7 @@ namespace Server.Misc
 
 			builder.Append("Breaking Changes<br>");
 			builder.Append("- Commands - [Cacheclear command has been added<br>");
-			builder.Append("- Race - Logging in as dead non-humans now leaves your body id alone<br>");
+			builder.Append("- Race - (did not actually work) Logging in as dead non-humans now leaves your body id alone<br>");
 
 			builder.Append("Changes<br>");
 			builder.Append("- Augment - Resources no longer give weapons resists<br>");
