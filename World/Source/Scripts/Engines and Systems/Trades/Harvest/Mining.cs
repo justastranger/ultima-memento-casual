@@ -208,12 +208,13 @@ namespace Server.Engines.Harvest
 			if ( !base.CheckHarvest( from, tool ) )
 				return false;
 
-			if ( from.Mounted )
-			{
-				from.SendLocalizedMessage( 501864 ); // You can't mine while riding.
-				return false;
-			}
-			else if ( from.IsBodyMod && !from.Body.IsHuman && from.RaceID < 1 )
+			// if ( from.Mounted )
+			// {
+				// from.SendLocalizedMessage( 501864 ); // You can't mine while riding.
+				// return false;
+			// }
+			// else 
+			if ( from.IsBodyMod && !from.Body.IsHuman && from.RaceID < 1 )
 			{
 				from.SendLocalizedMessage( 501865 ); // You can't mine while polymorphed.
 				return false;
@@ -240,12 +241,13 @@ namespace Server.Engines.Harvest
 				OnBadHarvestTarget( from, tool, toHarvest );
 				return false;
 			}
-			else if ( from.Mounted )
-			{
-				from.SendLocalizedMessage( 501864 ); // You can't mine while riding.
-				return false;
-			}
-			else if ( from.IsBodyMod && !from.Body.IsHuman && from.RaceID < 1 )
+			//else if ( from.Mounted )
+			//{
+			//	from.SendLocalizedMessage( 501864 ); // You can't mine while riding.
+			//	return false;
+			//}
+			//else 
+			if ( from.IsBodyMod && !from.Body.IsHuman && from.RaceID < 1 )
 			{
 				from.SendLocalizedMessage( 501865 ); // You can't mine while polymorphed.
 				return false;
