@@ -467,6 +467,7 @@ namespace Server.Items
 		}
 
 		public override int DefaultMaxWeight{ get{ return 2400; } }
+		public override int DefaultMaxItems { get { return 999; } }
 
 		public override bool CheckContentDisplay( Mobile from )
 		{
