@@ -201,6 +201,10 @@ namespace Server.Engines.MLQuests.Definitions
                 if (IsCompleted())
                 {
                     y += 16;
+                    y += 16;
+                    g.AddLabel(98, y, BaseQuestGump.COLOR_LABEL, string.Format("You heard {0} rumors, no wonder you're exhausted!", RumorAttempts));
+                    
+                    y += 16;
                     g.AddLabel(103, y, BaseQuestGump.COLOR_LABEL, string.Format("Return to {0}.", QuesterNameAttribute.GetQuesterNameFor(Instance.QuesterType)));
                 }
             }
@@ -261,12 +265,11 @@ namespace Server.Engines.MLQuests.Definitions
                             Land = Utility.Random(options); // Intentionally anywhere
                         }
 
-                        var map = Lands.MapName(Land);
-                        var name = Worlds.GetMyMapDisplayName(map);
+                        var name = Lands.LandName(Land);
 
                         return forCitizen
-                            ? string.Format("I *think* I saw it... or maybe I didn't... wait, no, I definitely saw it! It was, like, right there... or was it? I dunno, man. I think it was in the world of {0}", name)
-                            : string.Format("You must search the world of {0}.", name);
+                            ? string.Format("I *think* I saw it... or maybe I didn't... wait, no, I definitely saw it! It was, like, right there... or was it? I dunno, man. I think it was in the {0}", name)
+                            : string.Format("You must search {0}.", name);
                     }
 
                 case RumorType.Dungeon:
@@ -343,7 +346,6 @@ namespace Server.Engines.MLQuests.Definitions
         }
     }
     #endregion
-
 }
 
 #region Items

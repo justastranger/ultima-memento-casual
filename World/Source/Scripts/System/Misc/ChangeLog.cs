@@ -6,7 +6,7 @@ namespace Server.Misc
     {
 		public static string Version()
 		{
-			return "Version: 1.0.2";
+			return "Version: 1.1.0";
 		}
 
 		public static string Versions()
@@ -17,6 +17,44 @@ namespace Server.Misc
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			builder.Append(Version());
+			builder.Append("<br>");
+
+			builder.Append("Changes<br>");
+			builder.Append("- Combat - Add teleport cooldown for OmniAI<br>");
+			builder.Append("- Craft - BlankScroll, Bottle, and Jar are no longer considered Resources (they're cheaper to buy)<br>");
+			builder.Append("- Craft - Jars can now be bought from Alchemist and Herbalist<br>");
+			builder.Append("- Craft - Druidic Herbalism now takes 4 total reagents, up from 2<br>");
+			builder.Append("- Craft - Witch Brewing now takes 4 total reagents, up from 2<br>");
+			builder.Append("- Craft - Crafting any scroll can now be used to reach 125 Inscription<br>");
+			builder.Append("- Item - Retroactive nerfs to Indecency and Gargoyle Shield");
+			builder.Append("- Item - Retroactive buffs to Polar bear cape, Polar bear boots, Grim Reaper's Robe, Robe of Teleport");
+			builder.Append("- Item - Rebalancing to Royal Guard Sash");
+			builder.Append("- Item - Nerfs to Shroud of Shadows, Jade Scimitar");
+			builder.Append("- Item - Buffs to Earrings of Health, Grim Reaper's lantern, Wildfire bow");
+			builder.Append("- Item - Elixirs can now only exceed your skill cap by 5");
+			builder.Append("- Misc - BarkFragment, BlankMap, WheatSheaf, and Sand can now be sold<br>");
+			builder.Append("- Misc - Add a 'clear the deck' phrase to remove corpses from boat<br>");
+			builder.Append("- Misc - The Merchant Advertiser now works for Sosaria and Underworld<br>");
+			builder.Append("- Misc - Library now has placeholder text<br>");
+			builder.Append("- Mobs - Creatures will no longer begin combat with self-buffing<br>");
+			builder.Append("- NPC - Always announce gold when buy/sell<br>");
+			builder.Append("- Pets - Tooltip now shows 'real' level, which matters when pets de-level<br>");
+			builder.Append("- Quest - Display rumor count after last rumor is verified<br>");
+			builder.Append("- Shoppe - Targeting a container now adds all possible items to the Order<br>");
+			builder.Append("- Shoppe - All Shoppes (except Cartography) now have Orders<br>");
+
+			builder.Append("<br>");
+			builder.Append("Fixes<br>");
+			builder.Append("- Misc - Sacrificing the Dark Core of Exodus now only deletes your own core<br>");
+			builder.Append("- Misc - Fix an issue with Fast-move delay causing ghost speed to be slowed down<br>");
+			builder.Append("- Pets - Fix issue where applying Traits could lower stats<br>");
+			builder.Append("- Quest - Sage Artifact now references Land instead of Map<br>");
+			builder.Append("- Quest - Fix hiking boots typo in beginner hints<br>");
+			builder.Append("- Quest - Fix an issue where only a small subset of Citizens could satisfy the Sage Artifact rumor objective<br>");
+			builder.Append(SEPARATOR_LINE);
+
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 			builder.Append("<br>");
 
 			builder.Append("Breaking Changes<br>");
@@ -70,7 +108,6 @@ namespace Server.Misc
 			builder.Append("- Skill - Stealthing is now 2x more likely to gain<br>");
 			builder.Append("- Skill - Discord failure cooldown is 3s, down from 12s<br>");
 			builder.Append("- Skill - Pseudo-grandmaster Seafarers no longer need docks for boats<br>");
-			builder.Append("- Shoppe - Now properly rejects Tools when full<br>");
 			builder.Append("- Spell - Curse now reduces max Resistance for Players by 10<br>");
 			builder.Append("- Spell - You may now fast travel out of the lost land<br>");
 
@@ -103,6 +140,7 @@ namespace Server.Misc
 			builder.Append("- Pets - Fix an issue where applying traits used boosted values<br>");
 			builder.Append("- Quest - Fix null ref crash after [buildworld and restart<br>");
 			builder.Append("- Quest - Prematurely turning in a quest tome now returns it<br>");
+			builder.Append("- Shoppe - Now properly rejects Tools when full<br>");
 			builder.Append("- Spell - Chain Lightning no longer does doubles damage to one target<br>");
 			builder.Append("- Spell - Fix bad message for Reveal spells that fail to cast<br>");
 			builder.Append(SEPARATOR_LINE);

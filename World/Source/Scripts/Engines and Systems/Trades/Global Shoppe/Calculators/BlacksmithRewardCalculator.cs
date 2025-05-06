@@ -4,9 +4,20 @@ using System;
 
 namespace Server.Engines.GlobalShoppe
 {
-    public sealed class BlacksmithRewardCalculator : BaseCraftRewardCalculator
+    public sealed class BlacksmithRewardCalculator : BaseCraftRewardCalculator<EquipmentOrderContext>
     {
         public static readonly BlacksmithRewardCalculator Instance = new BlacksmithRewardCalculator();
+
+        protected override int ComputeGold(TradeSkillContext context, EquipmentOrderContext order)
+        {
+            var gold = base.ComputeGold(context, order);
+            if (gold < 1) return gold;
+            if (order.Resource == CraftResource.Iron) return gold;
+
+            // Further reduce value for non-basic resource multiplier
+
+            return gold / 3;
+        }
 
         protected override CraftItem FindCraftItem(Type type)
         {
@@ -82,7 +93,7 @@ namespace Server.Engines.GlobalShoppe
                     else if (resource < CraftResource.Dwarven)
                     {
                         // Custom metals (that aren't handled above)
-                        materialMultiplier = ((1 + 0.05 * (resourceTier - (int)CraftResource.Valorite)) * Math.Pow((int)CraftResource.Valorite, 2)); // Every level above Valorite is worth +0.05
+                        materialMultiplier = (1 + 0.05 * (resourceTier - (int)CraftResource.Valorite)) * Math.Pow((int)CraftResource.Valorite, 2); // Every level above Valorite is worth +0.05
                     }
                     break;
             }
