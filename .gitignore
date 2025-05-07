@@ -56,3 +56,4 @@ World/Saves/
 World.exe.original
 /World/Data/Data.ref
 /World/Crash*.txt
+/World/Newtonsoft.Json.dll
