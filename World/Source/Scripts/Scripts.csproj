@@ -33,6 +33,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Info\Scripts\SettingsOnly.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Info\Scripts\Configurable.csproj" />
     <ProjectReference Include="..\System\System.csproj" />
   </ItemGroup>
 
