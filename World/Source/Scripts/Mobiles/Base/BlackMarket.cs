@@ -124,7 +124,7 @@ namespace Server
 
 		public static int Price( Item item, Mobile m, Mobile vendor )
 		{
-			int price = ItemInformation.GetBuysPrice( ItemInformation.GetInfo( item.GetType() ), false, item, false, true );
+			int price = ItemInformation.GetBuysPrice( item.GetType(), false, item, false, true );
 
 			BaseVendor merchant = (BaseVendor)vendor;
 			PlayerMobile pm = (PlayerMobile)m;

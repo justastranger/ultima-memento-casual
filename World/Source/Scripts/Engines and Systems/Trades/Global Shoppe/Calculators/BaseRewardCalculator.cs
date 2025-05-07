@@ -39,6 +39,14 @@ namespace Server.Engines.GlobalShoppe
 				Console.WriteLine("Failed to find item price for '{0}'", resourceType);
 				return 0;
 			}
+        protected virtual int GetSellPrice(Type resourceType)
+        {
+            var sellInfo = ItemSalesInfo.m_SellingInfo.FirstOrDefault(info => info.Key == resourceType).Value;
+            if (sellInfo == null)
+            {
+                Console.WriteLine("Failed to find item price for '{0}'", resourceType);
+                return 0;
+            }
 
 			return sellInfo.iPrice;
 		}
