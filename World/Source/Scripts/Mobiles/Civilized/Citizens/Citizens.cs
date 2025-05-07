@@ -743,19 +743,19 @@ namespace Server.Mobiles
 					if ( spellbook > 2 )
 					{
 						Spellbook tome = new Spellbook();
-						CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( tome ), false, tome, false, true );
+						CitizenCost = ItemInformation.GetBuysPrice( tome.GetType(), false, tome, false, true );
 						PackItem( tome ); 
 					}
 					else if ( spellbook == 2 )
 					{
 						Spellbook tome = new NecromancerSpellbook();
-						CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( tome ), false, tome, false, true );
+						CitizenCost = ItemInformation.GetBuysPrice( tome.GetType(), false, tome, false, true );
 						PackItem( tome ); 
 					}
 					else
 					{
 						Spellbook tome = new NecromancerSpellbook();
-						CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( tome ), false, tome, false, true );
+						CitizenCost = ItemInformation.GetBuysPrice( tome.GetType(), false, tome, false, true );
 						PackItem( tome ); 
 					}
 				}
@@ -763,20 +763,20 @@ namespace Server.Mobiles
 				{
 					Item book = new Runebook(0);
 					PackItem( book );
-					CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( book ), false, book, false, true );
+					CitizenCost = ItemInformation.GetBuysPrice( book.GetType(), false, book, false, true );
 				}
 			}
 			else if ( CitizenType == 1 && CitizenService == 7 )
 			{
 				Item scroll = Loot.RandomScroll(Utility.Random(12)+1);
 				PackItem( scroll );
-				CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( scroll ), false, scroll, false, true );
+				CitizenCost = ItemInformation.GetBuysPrice( scroll.GetType(), false, scroll, false, true );
 			}
 			else if ( CitizenType == 1 && CitizenService == 8 )
 			{
 				Item wand = new MagicalWand(0);
 				PackItem( wand );
-				CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( wand ), false, wand, false, true );
+				CitizenCost = ItemInformation.GetBuysPrice( wand.GetType(), false, wand, false, true );
 			}
 			else if ( CitizenService == 5 )
 			{
@@ -790,7 +790,7 @@ namespace Server.Mobiles
 					arty.Name = RandomThings.MagicItemName( arty, this, Region.Find( this.Location, this.Map ) );
 					arty.Name = cultInfo.ToTitleCase(arty.Name);
 					PackItem( arty );
-					CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( arty ), false, arty, false, true );
+					CitizenCost = ItemInformation.GetBuysPrice( arty.GetType(), false, arty, false, true );
 
 					if ( CitizenCost < 1 )
 						arty.Delete();
@@ -811,7 +811,7 @@ namespace Server.Mobiles
 					arty.Name = RandomThings.MagicItemName( arty, this, Region.Find( this.Location, this.Map ) );
 					arty.Name = cultInfo.ToTitleCase(arty.Name);
 					PackItem( arty );
-					CitizenCost = ItemInformation.GetBuysPrice( ItemInformation.ItemTableRef( arty ), false, arty, false, true );
+					CitizenCost = ItemInformation.GetBuysPrice( arty.GetType(), false, arty, false, true );
 
 					if ( CitizenCost < 1 )
 						arty.Delete();

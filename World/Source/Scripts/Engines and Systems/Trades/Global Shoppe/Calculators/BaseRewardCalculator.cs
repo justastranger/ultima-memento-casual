@@ -26,7 +26,7 @@ namespace Server.Engines.GlobalShoppe
 
         protected virtual int GetSellPrice(Type resourceType)
         {
-            var sellInfo = ItemSalesInfo.m_SellingInfo.FirstOrDefault(info => info.ItemsType == resourceType);
+            var sellInfo = ItemSalesInfo.m_SellingInfo.FirstOrDefault(info => info.Key == resourceType).Value;
             if (sellInfo == null)
             {
                 Console.WriteLine("Failed to find item price for '{0}'", resourceType);

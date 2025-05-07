@@ -37,7 +37,7 @@ namespace Server
 			{
 				if ( !(examine is IRelic) && vendor == null && skills != SkillName.Mercantile && from.Skills[SkillName.Mercantile].Value > Utility.Random( 100 ) )
 				{
-					int gold = ItemInformation.GetBuysPrice( ItemInformation.GetInfo( examine.GetType() ), false, examine, false, false ) * examine.Amount;
+					int gold = ItemInformation.GetBuysPrice( examine.GetType(), false, examine, false, false ) * examine.Amount;
 					if ( gold > 0 )
 					{
 						if ( from.Skills[SkillName.Mercantile].Base < 50 && Utility.RandomBool() )

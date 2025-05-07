@@ -34,7 +34,7 @@ namespace Server.Commands
             DefWitchery.CraftSystem,
         };
 
-        private delegate void EvaluateCraftItem(CraftItem craftItem, int craftItemSaleInfoIndex, int totalSalePrice, int totalBuyPrice);
+        private delegate void EvaluateCraftItem(CraftItem craftItem, Type craftItemSaleInfoType, int totalSalePrice, int totalBuyPrice);
 
         public static void Initialize()
         {
@@ -46,7 +46,7 @@ namespace Server.Commands
         [Description("Creates a custom CSV file that details prices for craftable items")]
         public static void OnExportCraftCommand(CommandEventArgs e)
         {
-            var allSellInfo = ItemSalesInfo.m_SellingInfo;
+            Dictionary<Type,ItemSalesInfo> allSellInfo = ItemSalesInfo.m_SellingInfo;
             Directory.CreateDirectory("Data/_Prices");
 
             foreach (var craftSystem in AllCraftSystems)
@@ -79,17 +79,16 @@ namespace Server.Commands
         public static void OnRecreateCraftCommand(CommandEventArgs e)
         {
             var allSellInfo = ItemSalesInfo.m_SellingInfo;
-            var updatedSaleInfoLookup = new Dictionary<int, ItemSalesInfo>();
+            var updatedSaleInfoLookup = new Dictionary<Type, ItemSalesInfo>();
 
             foreach (var craftSystem in AllCraftSystems)
             {
-                CalculateCraftedItemResourcePrice(craftSystem, allSellInfo, (craftItem, craftItemSaleInfoIndex, totalSalePrice, totalBuyPrice) =>
+                CalculateCraftedItemResourcePrice(craftSystem, allSellInfo, (craftItem, craftItemSaleInfoType, totalSalePrice, totalBuyPrice) =>
                 {
-                    var saleInfo = allSellInfo[craftItemSaleInfoIndex];
-                    var buyPrice = ItemInformation.GetBuysPrice(craftItemSaleInfoIndex, false, null, false, false);
-
+                    var saleInfo = allSellInfo[craftItemSaleInfoType];
+                    var buyPrice = ItemInformation.GetBuysPrice(craftItemSaleInfoType, false, null, false, false);
                     ItemSalesInfo existing;
-                    if (updatedSaleInfoLookup.TryGetValue(craftItemSaleInfoIndex, out existing))
+                    if (updatedSaleInfoLookup.TryGetValue(craftItemSaleInfoType, out existing))
                     {
                         Console.WriteLine("An item has already had it's price calculated: {0}", craftItem.ItemType);
                     }
@@ -97,7 +96,7 @@ namespace Server.Commands
                     // Items should sell for twice the value of the reagents required to craft it
                     var calculatedSalePrice = 2 * totalSalePrice;
 
-                    updatedSaleInfoLookup[craftItemSaleInfoIndex] = new ItemSalesInfo(saleInfo.ItemsType, calculatedSalePrice, saleInfo.iQty, saleInfo.iRarity, saleInfo.iSells, saleInfo.iBuys, saleInfo.iWorld, saleInfo.iCategory, saleInfo.iMaterial, saleInfo.iMarket);
+                    updatedSaleInfoLookup[craftItemSaleInfoType] = new ItemSalesInfo(saleInfo.ItemsType, calculatedSalePrice, saleInfo.iQty, saleInfo.iRarity, saleInfo.iSells, saleInfo.iBuys, saleInfo.iWorld, saleInfo.iCategory, saleInfo.iMaterial, saleInfo.iMarket);
                 });
             }
 
@@ -123,11 +122,12 @@ namespace Server.Commands
                 writer.WriteLine("File contents:");
                 writer.WriteLine();
 
-                for (var i = 0; i < allSellInfo.Length; i++)
+                //for (var i = 0; i < allSellInfo.Count; i++)
+                foreach (var kvp in allSellInfo)
                 {
                     ItemSalesInfo saleInfo;
-                    if (!updatedSaleInfoLookup.TryGetValue(i, out saleInfo))
-                        saleInfo = allSellInfo[i]; // Default to the pre-existing value
+                    if (!updatedSaleInfoLookup.TryGetValue(kvp.Key, out saleInfo))
+                        saleInfo = allSellInfo[kvp.Key]; // Default to the pre-existing value
 
                     writer.WriteLine("			new ItemSalesInfo( typeof(	{0}	),	{1}	,	{2}	,	{3}	,	{4}	,	{5}	,	World.{6}	,	Category.{7}	,	Material.{8}	,	Market.{9}	),", saleInfo.ItemsType.Name, saleInfo.iPrice, saleInfo.iQty, saleInfo.iRarity, saleInfo.iSells ? "true" : "false", saleInfo.iBuys ? "true" : "false", saleInfo.iWorld, saleInfo.iCategory, saleInfo.iMaterial, saleInfo.iMarket);
                 }
@@ -136,7 +136,7 @@ namespace Server.Commands
             }
         }
 
-        private static void CalculateCraftedItemResourcePrice(CraftSystem craftSystem, ItemSalesInfo[] allSellInfo, EvaluateCraftItem evaluate)
+        private static void CalculateCraftedItemResourcePrice(CraftSystem craftSystem, Dictionary<Type,ItemSalesInfo> allSellInfo, EvaluateCraftItem evaluate)
         {
             for (int groupIndex = 0; groupIndex < craftSystem.CraftGroups.Count; groupIndex++)
             {
@@ -145,8 +145,9 @@ namespace Server.Commands
                 for (int itemIndex = 0; itemIndex < group.CraftItems.Count; itemIndex++)
                 {
                     var craftItem = group.CraftItems.GetAt(itemIndex);
-                    var craftItemSaleInfoIndex = Array.FindIndex(allSellInfo, info => info.ItemsType == craftItem.ItemType);
-                    if (craftItemSaleInfoIndex < 0)
+                    //var craftItemSaleInfoIndex = Array.FindIndex(allSellInfo, info => info.ItemsType == craftItem.ItemType);
+                    int count = allSellInfo.Select(info => info.Key).Where(itemType => itemType == craftItem.ItemType).Count();
+                    if (count == 0)
                     {
                         Console.WriteLine("An item is craftable but does not have an entry for sale: '{0}'", craftItem.ItemType.Name);
                         continue;
@@ -159,21 +160,22 @@ namespace Server.Commands
                         var resource = craftItem.Resources.GetAt(resourceIndex);
                         if (resource == null) break;
 
-                        var craftResourceItemSaleInfoindex = Array.FindIndex(allSellInfo, info => info.ItemsType == resource.ItemType);
-                        if (craftResourceItemSaleInfoindex < 0)
+                        // var craftResourceItemSaleInfoindex = Array.FindIndex(allSellInfo, info => info.ItemsType == resource.ItemType);
+                        int resourceCount = allSellInfo.Select(info => info.Key).Where(itemType => itemType == resource.ItemType).Count();
+                        if (resourceCount == 0)
                         {
                             Console.WriteLine("A resource does not have an entry for sale: '{0}'", resource.ItemType.Name);
                             continue;
                         }
 
-                        var resourceSaleInfo = allSellInfo[craftResourceItemSaleInfoindex];
-                        var resourceBuyPrice = ItemInformation.GetBuysPrice(craftResourceItemSaleInfoindex, false, null, false, false);
+                        var resourceSaleInfo = allSellInfo[resource.ItemType];
+                        var resourceBuyPrice = ItemInformation.GetBuysPrice(resource.ItemType, false, null, false, false);
 
                         totalSalePrice += resource.Amount * resourceSaleInfo.iPrice;
                         totalBuyPrice += resource.Amount * resourceBuyPrice;
                     }
 
-                    evaluate(craftItem, craftItemSaleInfoIndex, totalSalePrice, totalBuyPrice);
+                    evaluate(craftItem, craftItem.ItemType, totalSalePrice, totalBuyPrice);
                 }
             }
         }
