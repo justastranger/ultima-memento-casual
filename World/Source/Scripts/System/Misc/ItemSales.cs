@@ -15,6 +15,8 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Server
 {
@@ -630,14 +632,14 @@ namespace Server
 
 			if ( info == null)
 			{
-                Console.WriteLine("Type without ItemSalesInfo data detected: " + type.Name.ToString());
+                Console.WriteLine("Type without ItemSalesInfo data detected: " + type.FullName.ToString());
                 return 0;
             }
 
 			if ( MyServerSettings.HigherPrice() > 0 )
 				return (int)(info.iPrice + ( info.iPrice * MyServerSettings.HigherPrice() ));
 
-			if ( info.iCategory == ItemSalesInfo.Category.Resource && MyServerSettings.ResourcePrice() > 0 )
+			if ( info.iCategories.Contains(ItemSalesInfo.Category.Resource) && MyServerSettings.ResourcePrice() > 0 )
 				return (int)(info.iPrice + ( info.iPrice * MyServerSettings.ResourcePrice() ));
 
 			if ( guild )
@@ -692,19 +694,16 @@ namespace Server
 
 		public static int GetQty( Type type, bool guild )
 		{
-			int qty = 0;
-			int rar = 0;
-			ItemSalesInfo.Category tCategory = ItemSalesInfo.Category.None;
-
 			ItemSalesInfo info = GetData( type );
-			if ( info != null )
+			if ( info == null )
 			{
-				qty = info.iQty;
-				rar = info.iRarity;
-				tCategory = info.iCategory;
+				return 0;
 			}
 
-			if ( rar == 200 )
+            int qty = info.iQty;
+            int rar = info.iRarity;
+
+            if ( rar == 200 )
 				qty = 0;
 			else if ( rar > 100 && !guild )
 				qty = 0;
@@ -712,14 +711,14 @@ namespace Server
 				qty = qty * 10;
 
 			if ( Utility.RandomMinMax( 1, 100 ) < rar && rar < 101 && rar > 0 )
-				qty = 0;
+				return 0;
 
 			if ( qty < 1 )
 				return 0;
 
 			qty = Utility.RandomMinMax( 1, qty );
 
-			if ( ( tCategory == ItemSalesInfo.Category.Resource || tCategory == ItemSalesInfo.Category.Reagent ) )
+			if ( ( info.iCategories.Contains(ItemSalesInfo.Category.Resource) || info.iCategories.Contains(ItemSalesInfo.Category.Reagent) ) )
 			{
 				if ( qty > 0 )
 				{
@@ -736,9 +735,9 @@ namespace Server
 			return qty;
 		}
 
-		public static bool WillDeal( Type type, Mobile m, bool selling, bool blackMarket, ItemSalesInfo.World world, bool guild )
+		public static bool WillDeal( Type type, Mobile m, bool selling, bool blackMarket, List<ItemSalesInfo.World> worlds, bool guild )
 		{
-			if ( MySettings.S_NoBuyResources && iCategory(type) == ItemSalesInfo.Category.Resource )
+			if ( MySettings.S_NoBuyResources && iCategories(type).Contains(ItemSalesInfo.Category.Resource) )
 				return false;
 
 			if ( blackMarket )
@@ -754,7 +753,7 @@ namespace Server
 				return true;
 
 			// These areas only sell a couple of items so let them always sell
-			if ( ( world == ItemSalesInfo.World.Ambrosia || world == ItemSalesInfo.World.Elf ) && WorldTest( type, m, world ) )
+			if ( ( worlds.Contains(ItemSalesInfo.World.Ambrosia) || worlds.Contains(ItemSalesInfo.World.Elf) ) && WorldTest( type, m, worlds ) )
 				return true;
 
 			if ( Utility.RandomMinMax(1,10) > 4 )
@@ -798,34 +797,31 @@ namespace Server
                     oName = null;
 
                     chemist = Chemist(itemType, v_Market, v_Category);
-                    if ((specificType != null && itemType == specificType) || (iSells(itemType) && v_Market == iMarket(itemType) && v_Category == iCategory(itemType)))
+                    if ((specificType != null && itemType == specificType) || (iSells(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
                     {
                         set = true;
                     }
                     else if
                     (
-                        WillDeal(itemType, m, true, false, iWorld(itemType), v_Guild) && itemType != null && specificType == null &&
-                        (chemist ||
-                        (
-                        (!chemist) &&
-                        (v_Category == iCategory(itemType) || v_Category == ItemSalesInfo.Category.All) &&
-                        (v_Material == iMaterial(itemType) || v_Material == ItemSalesInfo.Material.All) &&
-                        (v_Market == iMarket(itemType) || v_Market == ItemSalesInfo.Market.All) &&
-                        (v_World == iWorld(itemType) || WorldTest(itemType, m, v_World))
-                        )
-                        )
+                        WillDeal(itemType, m, true, false, iWorlds(itemType), v_Guild) && itemType != null && specificType == null &&
+                        (chemist || ( (!chemist) &&
+							(iCategories(itemType).Contains(v_Category) || v_Category == ItemSalesInfo.Category.All) &&
+							(iMaterials(itemType).Contains(v_Material) || v_Material == ItemSalesInfo.Material.All) &&
+							(iMarkets(itemType).Contains(v_Market) || v_Market == ItemSalesInfo.Market.All) &&
+							(iWorlds(itemType).Contains(v_World) || WorldTest(itemType, m, v_World))
+						) )
                     )
                     {
                         set = true;
                     }
 
-                    if (CurrentMonth != "12" && iCategory(itemType) == ItemSalesInfo.Category.Christmas)
+                    if (CurrentMonth != "12" && iCategories(itemType).Contains(ItemSalesInfo.Category.Christmas))
                         set = false;
 
-                    if (CurrentMonth != "10" && iCategory(itemType) == ItemSalesInfo.Category.Halloween)
+                    if (CurrentMonth != "10" && iCategories(itemType).Contains(ItemSalesInfo.Category.Halloween))
                         set = false;
 
-                    if (v_Market == ItemSalesInfo.Market.Sage && v_Category == ItemSalesInfo.Category.Artifact && iMarket(itemType) != ItemSalesInfo.Market.Thief && iCategory(itemType) == ItemSalesInfo.Category.Artifact)
+                    if (v_Market == ItemSalesInfo.Market.Sage && v_Category == ItemSalesInfo.Category.Artifact && !iMarkets(itemType).Contains(ItemSalesInfo.Market.Thief) && iCategories(itemType).Contains(ItemSalesInfo.Category.Artifact))
                     {
                         // This section is just for the sage to display artifacts that cannot be bought.
                         oItem = (Item)Activator.CreateInstance(itemType);
@@ -846,7 +842,7 @@ namespace Server
                         qty = GetQty(itemType, v_Guild);
 
                         // These areas only sell a couple of items so let them always sell at least 1
-                        if (qty < 1 && (iWorld(itemType) == ItemSalesInfo.World.Ambrosia || iWorld(itemType) == ItemSalesInfo.World.Elf))
+                        if (qty < 1 && (iWorlds(itemType).Contains(ItemSalesInfo.World.Ambrosia) || iWorlds(itemType).Contains(ItemSalesInfo.World.Elf)))
                             qty = 1;
 
                         price = GetSellPrice(itemType, v_Guild);
@@ -869,7 +865,7 @@ namespace Server
                                 oItemID = oItem.ItemID;
                                 ResourceMods.DefaultItemHue(oItem);
                                 oHue = oItem.Hue;
-                                oHue = ClothHue(oHue, iMaterial(itemType), iMarket(itemType));
+                                oHue = ClothHue(oHue, iMaterials(itemType), iMarkets(itemType));
                                 oName = oItem.Name;
                                 oItem.Delete();
 
@@ -906,19 +902,19 @@ namespace Server
                     set = false;
                     chemist = Chemist(itemType, v_Market, v_Category);
 
-                    if (force || ((specificType != null && itemType == specificType) || (iRarity(itemType) == 200 && v_Market == iMarket(itemType))) || (iBuys(itemType) && v_Market == iMarket(itemType) && v_Category == iCategory(itemType)))
+                    if (force || ((specificType != null && itemType == specificType) || (iRarity(itemType) == 200 && iMarkets(itemType).Contains(v_Market))) || (iBuys(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
                     {
                         set = true;
                     }
                     else if
                     (
-                        WillDeal(itemType, m, false, false, iWorld(itemType), v_Guild) && itemType != null && specificType == null &&
+                        WillDeal(itemType, m, false, false, iWorlds(itemType), v_Guild) && itemType != null && specificType == null &&
                         (chemist ||
                         (
                         (!chemist) &&
-                        (v_Category == iCategory(itemType) || v_Category == ItemSalesInfo.Category.All) &&
-                        (v_Material == iMaterial(itemType) || v_Material == ItemSalesInfo.Material.All) &&
-                        (v_Market == iMarket(itemType) || v_Market == ItemSalesInfo.Market.All)
+                        (iCategories(itemType).Contains(v_Category) || v_Category == ItemSalesInfo.Category.All) &&
+                        (iMaterials(itemType).Contains(v_Material) || v_Material == ItemSalesInfo.Material.All) &&
+                        (iMarkets(itemType).Contains(v_Market) || v_Market == ItemSalesInfo.Market.All)
                         )
                         )
                     )
@@ -926,7 +922,7 @@ namespace Server
                         set = true;
                     }
 
-                    if (!SetAllowedSell(iCategory(itemType), itemType))
+                    if (!SetAllowedSell(iCategories(itemType), itemType))
                         set = false;
 
                     if (set)
@@ -966,18 +962,18 @@ namespace Server
                     set = false;
                     skip = false;
 
-                    if (specificType != null && itemType == specificType && WillDeal(itemType, m, true, true, iWorld(itemType), false))
+                    if (specificType != null && itemType == specificType && WillDeal(itemType, m, true, true, iWorlds(itemType), false))
                     {
                         set = true;
                     }
                     else if
                     (
-                        WillDeal(itemType, m, true, true, iWorld(itemType), false) && itemType != null && specificType == null &&
+                        WillDeal(itemType, m, true, true, iWorlds(itemType), false) && itemType != null && specificType == null &&
                         (
-                        (v_Category == iCategory(itemType) || v_Category == ItemSalesInfo.Category.All) &&
-                        (v_Material == iMaterial(itemType) || v_Material == ItemSalesInfo.Material.All) &&
-                        (v_Market == iMarket(itemType) || v_Market == ItemSalesInfo.Market.All) &&
-                        (v_World == iWorld(itemType) || WorldTest(itemType, m, v_World))
+                        (iCategories(itemType).Contains(v_Category) || v_Category == ItemSalesInfo.Category.All) &&
+                        (iMaterials(itemType).Contains(v_Material) || v_Material == ItemSalesInfo.Material.All) &&
+                        (iMarkets(itemType).Contains(v_Market) || v_Market == ItemSalesInfo.Market.All) &&
+                        (iWorlds(itemType).Contains(v_World) || WorldTest(itemType, m, v_World))
                         )
                     )
                         set = true;
@@ -1031,24 +1027,24 @@ namespace Server
 			}
 		}
 
-		public static int ClothHue ( int hue, ItemSalesInfo.Material v_Material, ItemSalesInfo.Market v_Market )
+		public static int ClothHue ( int hue, List<ItemSalesInfo.Material> v_Materials, List<ItemSalesInfo.Market> v_Markets )
 		{
-			if ( v_Material == ItemSalesInfo.Material.Cloth )
+			if ( v_Materials.Contains(ItemSalesInfo.Material.Cloth))
 			{
-				if ( v_Market == ItemSalesInfo.Market.Sailor )
+				if ( v_Markets.Contains(ItemSalesInfo.Market.Sailor))
 					return Utility.RandomDyedHue();
-				if ( v_Market == ItemSalesInfo.Market.Tailor )
+				if ( v_Markets.Contains(ItemSalesInfo.Market.Tailor))
 					return Utility.RandomDyedHue();
-				if ( v_Market == ItemSalesInfo.Market.Wizard )
+				if ( v_Markets.Contains(ItemSalesInfo.Market.Wizard) )
 					return Utility.RandomDyedHue();
 			}
 
 			return hue;
 		}
 
-		public static bool SetAllowedSell( ItemSalesInfo.Category v_Category, Type itemType )
+		public static bool SetAllowedSell( List<ItemSalesInfo.Category> v_Categories, Type itemType )
 		{
-			if ( v_Category == ItemSalesInfo.Category.MonsterRace && MySettings.S_MonsterCharacters < 1 )
+			if ( v_Categories.Contains(ItemSalesInfo.Category.MonsterRace) && MySettings.S_MonsterCharacters < 1 )
 				return false;
 
 			if ( !MySettings.S_BuyCloth )
@@ -1068,40 +1064,46 @@ namespace Server
 			return true;
 		}
 
-		public static bool WorldTest( Type type, Mobile m, ItemSalesInfo.World world )
+
+        public static bool WorldTest(Type type, Mobile m, ItemSalesInfo.World world)
+		{
+			return WorldTest(type, m, new List<ItemSalesInfo.World> { world });
+		}
+
+
+        public static bool WorldTest( Type type, Mobile m, List<ItemSalesInfo.World> worlds )
 		{
 			Region reg = Region.Find( m.Location, m.Map );
 
-			ItemSalesInfo.World area = ItemSalesInfo.World.None;
 			ItemSalesInfo info = GetData( type );
-			if ( info != null )
-				area = info.iWorld;
-
-			if ( world == ItemSalesInfo.World.Orient || area == ItemSalesInfo.World.Orient )
+			if (info == null)
 				return false;
-			if ( area == ItemSalesInfo.World.None )
+
+			if ( worlds.Contains(ItemSalesInfo.World.Orient) || info.iWorlds.Contains(ItemSalesInfo.World.Orient) )
+				return false;
+			if (info.iWorlds.Contains(ItemSalesInfo.World.None) )
 				return true;
-			if ( reg.IsPartOf( "the Enchanted Pass" ) && area == ItemSalesInfo.World.Elf )
+			if ( reg.IsPartOf( "the Enchanted Pass" ) && info.iWorlds.Contains(ItemSalesInfo.World.Elf) )
 				return true;
-			if ( Worlds.isHauntedRegion( m ) && area == ItemSalesInfo.World.Necro )
+			if ( Worlds.isHauntedRegion( m ) && info.iWorlds.Contains(ItemSalesInfo.World.Necro) )
 				return true;
-			if ( ( Worlds.IsSeaDungeon( m.Location, m.Map ) || Worlds.IsWaterSea( m ) ) && area == ItemSalesInfo.World.Sea )
+			if ( ( Worlds.IsSeaDungeon( m.Location, m.Map ) || Worlds.IsWaterSea( m ) ) && info.iWorlds.Contains(ItemSalesInfo.World.Sea) )
 				return true;
-			if ( m.Land == Land.Lodoria && area == ItemSalesInfo.World.Lodor )
+			if ( m.Land == Land.Lodoria && info.iWorlds.Contains(ItemSalesInfo.World.Lodor) )
 				return true;
-			if ( m.Land == Land.Sosaria && area == ItemSalesInfo.World.Sosaria )
+			if ( m.Land == Land.Sosaria && info.iWorlds.Contains(ItemSalesInfo.World.Sosaria) )
 				return true;
-			if ( m.Land == Land.Underworld && area == ItemSalesInfo.World.Underworld )
+			if ( m.Land == Land.Underworld && info.iWorlds.Contains(ItemSalesInfo.World.Underworld) )
 				return true;
-			if ( m.Land == Land.Serpent && area == ItemSalesInfo.World.Serpent )
+			if ( m.Land == Land.Serpent && info.iWorlds.Contains(ItemSalesInfo.World.Serpent) )
 				return true;
-			if ( m.Land == Land.IslesDread && area == ItemSalesInfo.World.Dread )
+			if ( m.Land == Land.IslesDread && info.iWorlds.Contains(ItemSalesInfo.World.Dread) )
 				return true;
-			if ( m.Land == Land.Savaged && area == ItemSalesInfo.World.Savage )
+			if ( m.Land == Land.Savaged && info.iWorlds.Contains(ItemSalesInfo.World.Savage) )
 				return true;
-			if ( m.Land == Land.Ambrosia && area == ItemSalesInfo.World.Ambrosia )
+			if ( m.Land == Land.Ambrosia && info.iWorlds.Contains(ItemSalesInfo.World.Ambrosia) )
 				return true;
-			if ( m.Land == Land.UmberVeil && area == ItemSalesInfo.World.Umber )
+			if ( m.Land == Land.UmberVeil && info.iWorlds.Contains(ItemSalesInfo.World.Umber) )
 				return true;
 
 			return false;
@@ -1169,92 +1171,90 @@ namespace Server
 
 			if ( cat == ItemSalesInfo.Category.Reagent )
 			{
-				ItemSalesInfo.Market category = ItemSalesInfo.Market.None;
+                ItemSalesInfo info = GetData( type );
+				if (info == null)
+					return false;
+					//category = info.iMarket;
 
-				ItemSalesInfo info = GetData( type );
-				if ( info != null )
-					category = info.iMarket;
-
-				if ( mkt == ItemSalesInfo.Market.Alchemy )
+				if (info.iMarkets.Contains(ItemSalesInfo.Market.Alchemy) )
 				{
-					if ( category == ItemSalesInfo.Market.Reg_AH ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHDW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHDW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_NA ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_NAHW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AH) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHDW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHW) ){ chemist = true; }
+					if (info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NA) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NAHW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Necro )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Necro) )
 				{
-					if ( category == ItemSalesInfo.Market.Reg_NA ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_NAHW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NA) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NAHW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Druid )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Druid) )
 				{
-					if ( category == ItemSalesInfo.Market.Reg_AHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHDW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHDW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHDW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Witch )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Witch) )
 				{
-					if ( category == ItemSalesInfo.Market.Reg_AHDW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHDW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_NAHW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHDW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NAHW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Mage )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Mage) )
 				{
-					if ( category == ItemSalesInfo.Market.Reg_MAHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHDW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Herbalist )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Herbalist) )
 				{
-					if ( category == ItemSalesInfo.Market.Reg_AH ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHDW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_AHW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_MAHDW ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Reg_NAHW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AH) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHDW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NAHW) ){ chemist = true; }
 				}
 			}
 			else if ( cat == ItemSalesInfo.Category.Resource )
 			{
-				ItemSalesInfo.Market category = ItemSalesInfo.Market.None;
+                ItemSalesInfo info = GetData( type );
+				if (info == null)
+					return false;
+					// category = info.iMarket;
 
-				ItemSalesInfo info = GetData( type );
-				if ( info != null )
-					category = info.iMarket;
-
-				if ( mkt == ItemSalesInfo.Market.Alchemy )
+				if ( info.iMarkets.Contains(ItemSalesInfo.Market.Alchemy) )
 				{
-					if ( category == ItemSalesInfo.Market.Res_AH ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Res_NAHW ){ chemist = true; }
+					if (info.iMarkets.Contains(ItemSalesInfo.Market.Res_AH) ){ chemist = true; }
+					if (info.iMarkets.Contains(ItemSalesInfo.Market.Res_NAHW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Necro )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Necro) )
 				{
-					if ( category == ItemSalesInfo.Market.Res_NAHW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_NAHW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Druid )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Druid) )
 				{
-					if ( category == ItemSalesInfo.Market.Res_DW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_DW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Witch )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Witch) )
 				{
-					if ( category == ItemSalesInfo.Market.Res_DW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_DW) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Mage )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Mage) )
 				{
-					if ( category == ItemSalesInfo.Market.Res_MAHD ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_MAHD) ){ chemist = true; }
 				}
-				else if ( mkt == ItemSalesInfo.Market.Herbalist )
+				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Herbalist) )
 				{
-					if ( category == ItemSalesInfo.Market.Res_AH ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Res_MAHD ){ chemist = true; }
-					if ( category == ItemSalesInfo.Market.Res_NAHW ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_AH) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_MAHD) ){ chemist = true; }
+					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_NAHW) ){ chemist = true; }
 				}
 			}
 
@@ -1265,23 +1265,54 @@ namespace Server
 		public static bool iSells( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? false : info.iSells ); }
 		public static bool iBuys( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? false : info.iBuys ); }
 		public static ItemSalesInfo.Category iCategory( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? ItemSalesInfo.Category.None : info.iCategory ); }
-		public static ItemSalesInfo.Material iMaterial( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? ItemSalesInfo.Material.None : info.iMaterial ); }
-		public static ItemSalesInfo.Market iMarket( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? ItemSalesInfo.Market.None : info.iMarket ); }
-		public static ItemSalesInfo.World iWorld( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? ItemSalesInfo.World.None : info.iWorld ); }
-	}
+        public static List<ItemSalesInfo.Category> iCategories(Type type) { ItemSalesInfo info = GetData(type); return (info == null ? new List<ItemSalesInfo.Category> { ItemSalesInfo.Category.None } : info.iCategories); }
+        public static ItemSalesInfo.Material iMaterial( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? ItemSalesInfo.Material.None : info.iMaterial ); }
+        public static List<ItemSalesInfo.Material> iMaterials(Type type) { ItemSalesInfo info = GetData(type); return (info == null ? new List<ItemSalesInfo.Material> { ItemSalesInfo.Material.None } : info.iMaterials); }
+        public static ItemSalesInfo.Market iMarket( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? ItemSalesInfo.Market.None : info.iMarket ); }
+        public static List<ItemSalesInfo.Market> iMarkets(Type type) { ItemSalesInfo info = GetData(type); return (info == null ? new List<ItemSalesInfo.Market> { ItemSalesInfo.Market.None } : info.iMarkets); }
+        public static ItemSalesInfo.World iWorld( Type type ){ ItemSalesInfo info = GetData( type ); return ( info == null ? ItemSalesInfo.World.None : info.iWorld ); }
+        public static List<ItemSalesInfo.World> iWorlds(Type type) { ItemSalesInfo info = GetData(type); return (info == null ? new List<ItemSalesInfo.World> { ItemSalesInfo.World.None } : info.iWorlds); }
+    }
 
 	public class ItemSalesInfo
 	{
-		private Type m_ItemsType;
+        private class StringOrArray<T> : JsonConverter
+        {
+            public override bool CanConvert(Type objectType)
+            {
+				return objectType == typeof(List<T>);
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                JToken token = JToken.Load(reader);
+
+                // If the token is an array, deserialize it as a List<string> and then parse each element.
+                if (token.Type == JTokenType.Array)
+                {
+					return token.ToObject<List<string>>().Select(world => (T)Enum.Parse(typeof(T), world)).ToList<T>();
+                }
+
+                // Otherwise, assume it's a single value and wrap it in a list.
+                return new List<T> { (T)Enum.Parse(typeof(T), token.ToObject<string>()) };
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                serializer.Serialize(writer, ((List<T>)value).Select(e => e.ToString()).ToList<string>());
+            }
+        }
+
+        private Type m_ItemsType;
 		private int m_Price;
 		private int m_Qty;
 		private int m_Rarity;
 		private bool m_Sells;
 		private bool m_Buys;
-		private World m_World;
-		private Category m_Category;
-		private Material m_Material;
-		private Market m_Market;
+        private List<World> m_World;
+        private List<Category> m_Categories;
+        private List<Material> m_Materials;
+        private List<Market> m_Markets;
 
 		public Type ItemsType{ get{ return m_ItemsType; } }
 		public int iPrice { get{ return m_Price; } }
@@ -1289,12 +1320,16 @@ namespace Server
 		public int iRarity { get{ return m_Rarity; } }
 		public bool iSells { get{ return m_Sells; } }
 		public bool iBuys { get{ return m_Buys; } }
-		public World iWorld { get{ return m_World; } }
-		public Category iCategory { get{ return m_Category; } }
-		public Material iMaterial { get{ return m_Material; } }
-		public Market iMarket { get{ return m_Market; } }
+		public World iWorld { get{ return m_World.First(); } }
+        public List<World> iWorlds { get { return m_World; } }
+        public Category iCategory { get{ return m_Categories.First(); } }
+        public List<Category> iCategories { get { return m_Categories; } }
+        public Material iMaterial { get{ return m_Materials.First(); } }
+        public List<Material> iMaterials { get { return m_Materials; } }
+        public Market iMarket { get{ return m_Markets.First(); } }
+        public List<Market> iMarkets { get { return m_Markets; } }
 
-		static ItemSalesInfo()
+        static ItemSalesInfo()
 		{
 			Console.WriteLine("Loading economic information...");
             foreach (string file in Directory.EnumerateFiles(".\\Data\\json\\ItemSalesInfo"))
@@ -1303,8 +1338,15 @@ namespace Server
                 {
 					try
 					{
-                        ItemSalesInfo output = JsonConvert.DeserializeObject<ItemSalesInfo>(streamReader.ReadToEnd());
-                        m_SellingInfo.Add(output.ItemsType, output);
+                        ItemSalesInfo output = JsonConvert.DeserializeObject<ItemSalesInfo>(streamReader.ReadToEnd(), new StringOrArray<Category>(), new StringOrArray<Material>(), new StringOrArray<Market>(), new StringOrArray<World>());
+						if (!m_SellingInfo.ContainsKey(output.ItemsType))
+                        {
+                            m_SellingInfo.Add(output.ItemsType, output);
+                        }
+						else
+						{
+							Console.WriteLine("Duplicate ItemSalesInfo for " + output.ItemsType.FullName + " found at '" + file + "'");
+						}
                     }
 					catch (Exception e)
 					{
@@ -1315,7 +1357,21 @@ namespace Server
 			Console.WriteLine("Economy initialized.");
         }
 
-		public ItemSalesInfo( Type v_ItemType, int v_Price, int v_Qty, int v_Rarity, bool v_Sells, bool v_Buys, World v_World, Category v_Category, Material v_Material, Market v_Market )
+        public ItemSalesInfo(Type v_ItemType, int v_Price, int v_Qty, int v_Rarity, bool v_Sells, bool v_Buys, List<World> v_Worlds, List<Category> v_Categories, List<Material> v_Materials, List<Market> v_Markets)
+        {
+            m_ItemsType = v_ItemType;
+            m_Price = v_Price;
+            m_Qty = v_Qty;
+            m_Rarity = v_Rarity;
+            m_Sells = v_Sells;
+            m_Buys = v_Buys;
+            m_World = v_Worlds;
+            m_Categories = v_Categories;
+            m_Materials = v_Materials;
+            m_Markets = v_Markets;
+        }
+
+        public ItemSalesInfo( Type v_ItemType, int v_Price, int v_Qty, int v_Rarity, bool v_Sells, bool v_Buys, World v_World, Category v_Category, Material v_Material, Market v_Market )
 		{
 			m_ItemsType = v_ItemType;
 			m_Price = v_Price;
@@ -1323,14 +1379,14 @@ namespace Server
 			m_Rarity = v_Rarity;
 			m_Sells = v_Sells;
 			m_Buys = v_Buys;
-			m_World = v_World;
-			m_Category = v_Category;
-			m_Material = v_Material;
-			m_Market = v_Market;
+			m_World = new List<World> { v_World };
+			m_Categories = new List<Category> { v_Category };
+			m_Materials = new List<Material> { v_Material };
+			m_Markets = new List<Market> { v_Market };
 		}
 
 		[JsonConstructor]
-		public ItemSalesInfo(string m_ItemsType, int m_Price, int m_Qty, int m_Rarity, bool m_Sells, bool m_Buys, string m_World, string m_Category, string m_Material, string m_Market)
+		public ItemSalesInfo(string m_ItemsType, int m_Price, int m_Qty, int m_Rarity, bool m_Sells, bool m_Buys, List<World> m_World, List<Category> m_Category, List<Material> m_Material, List<Market> m_Market)
 		{
 			this.m_ItemsType = Type.GetType(m_ItemsType, true);
 			this.m_Price = m_Price;
@@ -1338,13 +1394,13 @@ namespace Server
 			this.m_Rarity = m_Rarity;
 			this.m_Sells = m_Sells;
 			this.m_Buys = m_Buys;
-			this.m_World = (World)Enum.Parse(typeof(World), m_World);
-			this.m_Category = (Category)Enum.Parse(typeof(Category), m_Category);
-			this.m_Material = (Material)Enum.Parse(typeof(Material), m_Material);
-			this.m_Market = (Market)Enum.Parse(typeof(Market), m_Market);
+			this.m_World = m_World;
+			this.m_Categories = m_Category;
+			this.m_Materials = m_Material;
+			this.m_Markets = m_Market;
 		}
 
-		public enum World
+        public enum World
 		{
 			None = 0,
 			Ambrosia = 1,
