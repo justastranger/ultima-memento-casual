@@ -860,12 +860,10 @@ namespace Server
 			Dictionary<Type,ItemSalesInfo> list = ItemSalesInfo.m_SellingInfo;
 
 			bool v_Guild = false;
-				if ( m is BaseGuildmaster )
-					v_Guild = true;
+			if ( m is BaseGuildmaster )
+				v_Guild = true;
 
 			int price = 0;
-			bool chemist = false;
-			bool set = false;
 
 			if ( v_Market == ItemSalesInfo.Market.Cartographer && !(LIST.IsInList( typeof( PresetMapEntry ) ) ) )
 				LIST.Add( typeof( PresetMapEntry ), 3 );
@@ -875,37 +873,24 @@ namespace Server
                 if (kvp.Key != null && kvp.Value.ItemsType != null)
 				{
                     Type itemType = kvp.Key;
-                    set = false;
 
-                    if (force || ((specificType != null && itemType == specificType) || (iRarity(itemType) == 200 && iMarkets(itemType).Contains(v_Market))) || (iBuys(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
-                    {
-                        set = true;
-                    }
-                    else if
-                    (
-                        WillDeal(itemType, m, false, false, iWorlds(itemType), v_Guild) && itemType != null && specificType == null &&
-                        (chemist ||
-                        (
-                        (!chemist) &&
-                        (iCategories(itemType).Contains(v_Category) || v_Category == ItemSalesInfo.Category.All) &&
-                        (iMaterials(itemType).Contains(v_Material) || v_Material == ItemSalesInfo.Material.All) &&
-                        (iMarkets(itemType).Contains(v_Market) || v_Market == ItemSalesInfo.Market.All)
-                        )
-                        )
-                    )
-                    {
-                        set = true;
-                    }
-
+                    // skip the item if it's blocked from sale
                     if (!SetAllowedSell(iCategories(itemType), itemType))
-                        set = false;
+                        continue;
 
-                    if (set)
+                    if (LIST.IsInList(itemType))
+                        continue;
+
+                    if ((force || ((specificType != null && itemType == specificType) || (iRarity(itemType) == 200 && iMarkets(itemType).Contains(v_Market))) || (iBuys(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
+						|| (
+							WillDeal(itemType, m, false, false, iWorlds(itemType), v_Guild) && itemType != null && specificType == null &&
+							((iCategories(itemType).Contains(v_Category) || v_Category == ItemSalesInfo.Category.All) &&
+							(iMaterials(itemType).Contains(v_Material) || v_Material == ItemSalesInfo.Material.All) &&
+							(iMarkets(itemType).Contains(v_Market) || v_Market == ItemSalesInfo.Market.All))
+						))
                     {
                         price = GetBuysPrice(itemType, v_Guild, null, !force, false);
 
-                        if (LIST.IsInList(itemType))
-                            price = 0;
 
                         if (price > 0)
                             LIST.Add(itemType, price);
