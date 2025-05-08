@@ -43,14 +43,14 @@ namespace Server.Engines.Harvest
 
         public static void Initialize()
         {
-            CommandSystem.Register("OreVein-Build", AccessLevel.Administrator, OnBuild);
-            CommandSystem.Register("OreVein-Clear", AccessLevel.Administrator, OnClear);
+            CommandSystem.Register("OreVein-Build", AccessLevel.Counselor, OnBuild);
+            CommandSystem.Register("OreVein-Clear", AccessLevel.Counselor, OnClear);
             CommandSystem.Register("OreVein-DebugMe", AccessLevel.GameMaster, OnDebugMe);
             CommandSystem.Register("OreVein-ExportData", AccessLevel.Administrator, OnExportData);
             CommandSystem.Register("OreVein-ExportMarkers", AccessLevel.Administrator, OnExportMarkers);
             CommandSystem.Register("OreVein-LoadData", AccessLevel.Administrator, OnLoadData);
-            CommandSystem.Register("OreVein-Restart", AccessLevel.Administrator, OnRestart);
-            CommandSystem.Register("OreVein", AccessLevel.GameMaster, args => { args.Mobile.SendGump(new RichVeinGump(args.Mobile)); });
+            CommandSystem.Register("OreVein-Restart", AccessLevel.Counselor, OnRestart);
+            CommandSystem.Register("OreVein", AccessLevel.Counselor, args => { args.Mobile.SendGump(new RichVeinGump(args.Mobile)); });
         }
 
         [Usage("OreVein-Build <MapId> | NULL")]

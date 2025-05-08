@@ -1631,7 +1631,7 @@ namespace Server.Misc
     {
 		public static void Initialize()
 		{
-            CommandSystem.Register( "world", AccessLevel.Administrator, new CommandEventHandler( WhereWorld_OnCommand ) );
+            CommandSystem.Register( "world", AccessLevel.Player, new CommandEventHandler( WhereWorld_OnCommand ) );
 		}
 		public static void Register( string command, AccessLevel access, CommandEventHandler handler )
 		{
