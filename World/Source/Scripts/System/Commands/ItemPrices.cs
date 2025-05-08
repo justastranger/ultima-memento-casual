@@ -96,7 +96,7 @@ namespace Server.Commands
                     // Items should sell for twice the value of the reagents required to craft it
                     var calculatedSalePrice = 2 * totalSalePrice;
 
-                    updatedSaleInfoLookup[craftItemSaleInfoType] = new ItemSalesInfo(saleInfo.ItemsType, calculatedSalePrice, saleInfo.iQty, saleInfo.iRarity, saleInfo.iSells, saleInfo.iBuys, saleInfo.iWorld, saleInfo.iCategory, saleInfo.iMaterial, saleInfo.iMarket);
+                    updatedSaleInfoLookup[craftItemSaleInfoType] = new ItemSalesInfo(saleInfo.ItemsType, calculatedSalePrice, saleInfo.iQty, saleInfo.iRarity, saleInfo.iSells, saleInfo.iBuys, saleInfo.iWorlds, saleInfo.iCategories, saleInfo.iMaterials, saleInfo.iMarkets);
                 });
             }
 
