@@ -590,11 +590,11 @@ namespace Server.Misc
 
 			if ( m is PlayerMobile )
 			{
-				if ( m.AccessLevel > AccessLevel.Player 
-					|| m.Skills[SkillName.Necromancy].Base >= 50.0 && m.Karma < 0 // NECROMANCERS
-					|| m.Skills[SkillName.Forensics].Base >= 80.0 && m.Karma < 0 // UNDERTAKERS
-					|| m.Skills[SkillName.Knightship].Base >= 50.0 && m.Karma <= -5000 // DEATH KNIGHTS
-					|| m.Skills[SkillName.Psychology].Base >= 50.0 && m.Skills[SkillName.Swords].Base >= 50.0 && m.Karma <= -5000 && Server.Misc.GetPlayerInfo.isSyth(m,false) // SYTH
+				if ( m.AccessLevel > AccessLevel.Counselor 
+					|| (m.Skills[SkillName.Necromancy].Base >= 50.0 && m.Karma < 0) // NECROMANCERS
+					|| (m.Skills[SkillName.Forensics].Base >= 80.0 && m.Karma < 0) // UNDERTAKERS
+					|| (m.Skills[SkillName.Knightship].Base >= 50.0 && m.Karma <= -5000) // DEATH KNIGHTS
+					|| (m.Skills[SkillName.Psychology].Base >= 50.0 && m.Skills[SkillName.Swords].Base >= 50.0 && m.Karma <= -5000 && Server.Misc.GetPlayerInfo.isSyth(m,false)) // SYTH
 					|| Server.Items.BaseRace.IsRavendarkCreature( m ) // EVIL UNDEAD CREATURE PLAYERS
 					|| ((PlayerMobile)m).Fugitive == 1) // OUTLAWS
 				{

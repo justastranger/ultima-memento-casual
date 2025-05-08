@@ -244,7 +244,7 @@ namespace Server.Targeting
 
 				object root = item.RootParent;
 
-				if ( !m_AllowNonlocal && root is Mobile && root != from && from.AccessLevel == AccessLevel.Player )
+				if ( !m_AllowNonlocal && root is Mobile && root != from && from.AccessLevel <= AccessLevel.Counselor )
 				{
 					OnNonlocalTarget( from, targeted );
 					OnTargetFinish( from );

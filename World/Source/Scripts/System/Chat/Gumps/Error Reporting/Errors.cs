@@ -32,7 +32,7 @@ namespace Knives.Chat3
 
 		private static void OnLogin( LoginEventArgs e )
 		{
-			if ( e.Mobile.AccessLevel != AccessLevel.Player
+			if ( e.Mobile.AccessLevel > AccessLevel.Counselor
 			&& s_ErrorLog.Count != 0
 			&& !s_Checked.Contains( e.Mobile ) )
 				new ErrorsNotifyGump( e.Mobile );
@@ -71,7 +71,7 @@ namespace Knives.Chat3
 				if ( state.Mobile == null )
 					continue;
 
-				if ( state.Mobile.AccessLevel != AccessLevel.Player )
+				if ( state.Mobile.AccessLevel > AccessLevel.Counselor )
 					Notify( state.Mobile );
 			}
 		}

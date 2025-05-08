@@ -1823,7 +1823,7 @@ namespace Server
 				{
 					Mobile m = mobs[i];
 
-					if ( m.Location.m_X == x && m.Location.m_Y == y && ( m.AccessLevel == AccessLevel.Player || !m.Hidden ) )
+					if ( m.Location.m_X == x && m.Location.m_Y == y && ( m.AccessLevel <= AccessLevel.Counselor || !m.Hidden ) )
 						if ( ( m.Z + 16 ) > z && ( z + height ) > m.Z )
 							return false;
 				}
@@ -3497,7 +3497,7 @@ namespace Server
 
 		public bool LineOfSight( object from, object dest )
 		{
-			if ( from == dest || ( from is Mobile && ( (Mobile) from ).AccessLevel > AccessLevel.Player ) )
+			if ( from == dest || ( from is Mobile && ( (Mobile) from ).AccessLevel > AccessLevel.Counselor ) )
 				return true;
 			else if ( dest is Item && from is Mobile && ( (Item) dest ).RootParent == from )
 				return true;
@@ -3507,7 +3507,7 @@ namespace Server
 
 		public bool LineOfSight( Mobile from, Point3D target )
 		{
-			if ( from.AccessLevel > AccessLevel.Player )
+			if ( from.AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			Point3D eye = from.Location;
@@ -3519,7 +3519,7 @@ namespace Server
 
 		public bool LineOfSight( Mobile from, Mobile to )
 		{
-			if ( from == to || from.AccessLevel > AccessLevel.Player )
+			if ( from == to || from.AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			Point3D eye = from.Location;

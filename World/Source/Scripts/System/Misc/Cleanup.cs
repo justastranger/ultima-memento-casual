@@ -75,7 +75,7 @@ namespace Server.Misc
 					if ( rootParent is Mobile )
 					{
 						Mobile rootMobile = (Mobile)rootParent;
-						if ( item.Parent != rootMobile && rootMobile.AccessLevel == AccessLevel.Player )
+						if ( item.Parent != rootMobile && rootMobile.AccessLevel <= AccessLevel.Counselor )
 						{
 							items.Add( item );
 							continue;

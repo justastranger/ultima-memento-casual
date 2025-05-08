@@ -1073,7 +1073,7 @@ namespace Server.Misc
 			if ( !(me.CanSee( m )) || !(me.InLOS( m )) )
 				return false;
 
-			if ( m.AccessLevel > AccessLevel.Player )
+			if ( m.AccessLevel > AccessLevel.Counselor )
 				return false;
 
 			if ( m is BasePerson || m is BaseVendor || m is PlayerVendor || m is Citizens || m is PlayerBarkeeper )
@@ -8708,7 +8708,7 @@ namespace Server.Mobiles
 						continue;
 
 					// Staff members cannot be targeted.
-					if ( m.AccessLevel > AccessLevel.Player )
+					if ( m.AccessLevel > AccessLevel.Counselor )
 						continue;
 
 					// Does it have to be a player?
@@ -8823,7 +8823,7 @@ namespace Server.Mobiles
 
 			foreach( Mobile trg in m_Mobile.GetMobilesInRange( m_Mobile.RangePerception ) )
 			{
-				if( trg != m_Mobile && trg.Player && trg.Alive && trg.Hidden && trg.AccessLevel == AccessLevel.Player && m_Mobile.InLOS( trg ) )
+				if( trg != m_Mobile && trg.Player && trg.Alive && trg.Hidden && trg.AccessLevel <= AccessLevel.Counselor && m_Mobile.InLOS( trg ) )
 				{
 					m_Mobile.DebugSay( "Trying to detect {0}", trg.Name );
 

@@ -196,7 +196,7 @@ namespace Server.Items
 
 		public override void OnMovement( Mobile m, Point3D oldLocation )
 		{
-			if ( m_TurnedOn && IsLockedDown && (!m.Hidden || m.AccessLevel == AccessLevel.Player) && Utility.InRange( m.Location, this.Location, 2 ) && !Utility.InRange( oldLocation, this.Location, 2 ) )
+			if ( m_TurnedOn && IsLockedDown && (!m.Hidden || m.AccessLevel <= AccessLevel.Counselor) && Utility.InRange( m.Location, this.Location, 2 ) && !Utility.InRange( oldLocation, this.Location, 2 ) )
 			{
 				int[] sounds = MonsterStatuetteInfo.GetInfo( m_Type ).Sounds;
 

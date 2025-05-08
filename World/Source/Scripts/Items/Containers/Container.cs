@@ -298,7 +298,7 @@ namespace Server.Items
 
 		public override void OnDoubleClick( Mobile from )
 		{
-			if ( from.AccessLevel > AccessLevel.Player || from.InRange( this.GetWorldLocation(), 2 ) || this.RootParent is PlayerVendor )
+			if ( from.AccessLevel > AccessLevel.Counselor || from.InRange( this.GetWorldLocation(), 2 ) || this.RootParent is PlayerVendor )
 			{
 				Open( from );
 
@@ -411,7 +411,7 @@ namespace Server.Items
 
 		public override bool OnDragLift( Mobile from )
 		{
-			if ( from.AccessLevel > AccessLevel.Player )
+			if ( from.AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			from.SendLocalizedMessage( 500169 ); // You cannot pick that up.

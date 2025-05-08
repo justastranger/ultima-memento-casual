@@ -33,7 +33,7 @@ namespace Server.Items
 				{
 					Item item = (Item)targeted;
 
-					if( item.Movable == false && from.AccessLevel == AccessLevel.Player )
+					if( item.Movable == false && from.AccessLevel <= AccessLevel.Counselor )
 						return;
 
 					Type type = targeted.GetType();

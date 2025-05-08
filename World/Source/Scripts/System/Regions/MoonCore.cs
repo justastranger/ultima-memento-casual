@@ -42,7 +42,7 @@ namespace Server.Regions
 			base.OnEnter( m );
 			if ( m is PlayerMobile )
 			{
-				if ( this.Name == "the Core of the Moon" && m.Blessed == false && m.Alive && m.AccessLevel == AccessLevel.Player )
+				if ( this.Name == "the Core of the Moon" && m.Blessed == false && m.Alive && m.AccessLevel <= AccessLevel.Counselor )
 				{
 					Effects.SendLocationParticles( EffectItem.Create( m.Location, m.Map, EffectItem.DefaultDuration ), 0x3709, 10, 30, 5052 );
 					Effects.PlaySound( m.Location, m.Map, 0x225 );

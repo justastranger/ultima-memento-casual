@@ -44,7 +44,7 @@ namespace Server.Items
 
 		public override void OnTrigger( Mobile from )
 		{
-			if ( !from.Alive || !from.Player || ItemID != 0x1A81 || from.AccessLevel > AccessLevel.Player )
+			if ( !from.Alive || !from.Player || ItemID != 0x1A81 || from.AccessLevel > AccessLevel.Counselor )
 				return;
 
 			if ( Server.Misc.SeeIfGemInBag.GemInPocket( from ) == true || Server.Misc.SeeIfJewelInBag.JewelInPocket( from ) == true )

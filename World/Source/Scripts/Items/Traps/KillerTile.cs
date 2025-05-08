@@ -28,7 +28,7 @@ namespace Server.Items
 				Effects.SendLocationParticles(EffectItem.Create(air, m.Map, EffectItem.DefaultDuration), 0x2007, 9, 32, Server.Misc.PlayerSettings.GetMySpellHue( true, m, 0 ), 0, 5022, 0);
 				m.PlaySound( 0x014 );
 			}
-			else if ( m is PlayerMobile && m.Blessed == false && m.Alive && m.AccessLevel == AccessLevel.Player && Server.Misc.SeeIfGemInBag.GemInPocket( m ) == false && Server.Misc.SeeIfJewelInBag.JewelInPocket( m ) == false )
+			else if ( m is PlayerMobile && m.Blessed == false && m.Alive && m.AccessLevel <= AccessLevel.Counselor && Server.Misc.SeeIfGemInBag.GemInPocket( m ) == false && Server.Misc.SeeIfJewelInBag.JewelInPocket( m ) == false )
 			{
 				double chance = 90 <= m.Skills[SkillName.RemoveTrap].Value
 					? 0.25 + ((m.Skills[SkillName.RemoveTrap].Value - 90) / 100) // Flat 25% + 1% per skill pint

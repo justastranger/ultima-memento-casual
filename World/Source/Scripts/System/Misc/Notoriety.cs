@@ -53,7 +53,7 @@ namespace Server.Misc
 
 		public static bool Mobile_AllowBeneficial( Mobile from, Mobile target )
 		{
-			if( from == null || target == null || from.AccessLevel > AccessLevel.Player || target.AccessLevel > AccessLevel.Player )
+			if( from == null || target == null || from.AccessLevel > AccessLevel.Counselor || target.AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			Map map = from.Map;
@@ -146,7 +146,7 @@ namespace Server.Misc
 
 		public static int CorpseNotoriety( Mobile source, Corpse target )
 		{
-			if( target.AccessLevel > AccessLevel.Player )
+			if( target.AccessLevel > AccessLevel.Counselor )
 				return Notoriety.CanBeAttacked;
 
 			Body body = (Body)target.Amount;
@@ -237,7 +237,7 @@ namespace Server.Misc
 			if( target is BasePerson || target is BaseNPC || ( target is BaseVendor && target.RaceID > 0 ) )
 				return Notoriety.Innocent;
 
-			if( target.AccessLevel > AccessLevel.Player )
+			if( target.AccessLevel > AccessLevel.Counselor )
 				return Notoriety.CanBeAttacked;
 
 			if( source.Player && !target.Player && source is PlayerMobile && target is BaseCreature )
@@ -246,7 +246,7 @@ namespace Server.Misc
 
 				Mobile master = bc.GetMaster();
 
-				if ( master != null && master.AccessLevel > AccessLevel.Player )
+				if ( master != null && master.AccessLevel > AccessLevel.Counselor )
 					return Notoriety.CanBeAttacked;
 
 				master = bc.ControlMaster;

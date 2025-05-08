@@ -31,7 +31,7 @@ namespace Knives.TownHouses
 
 		private static void OnLogin( LoginEventArgs e )
 		{
-			if ( e.Mobile.AccessLevel != AccessLevel.Player
+			if ( e.Mobile.AccessLevel > AccessLevel.Counselor
 			&& s_ErrorLog.Count != 0
 			&& !s_Checked.Contains( e.Mobile ) )
 				new ErrorsNotifyGump( e.Mobile );
@@ -53,7 +53,7 @@ namespace Knives.TownHouses
 				if ( state.Mobile == null )
 					continue;
 
-				if ( state.Mobile.AccessLevel != AccessLevel.Player )
+				if ( state.Mobile.AccessLevel > AccessLevel.Counselor )
 					Notify( state.Mobile );
 			}
 		}

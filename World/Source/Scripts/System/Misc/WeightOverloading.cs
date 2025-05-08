@@ -58,7 +58,7 @@ namespace Server.Misc
 		{
 			Mobile from = e.Mobile;
 
-			if ( !from.Alive || from.AccessLevel > AccessLevel.Player  )
+			if ( !from.Alive || from.AccessLevel > AccessLevel.Counselor  )
 				return;
 
 			if ( !from.Player )
@@ -120,7 +120,7 @@ namespace Server.Misc
 
 		public static bool IsOverloaded( Mobile m )
 		{
-			if ( !m.Player || !m.Alive || m.AccessLevel > AccessLevel.Player )
+			if ( !m.Player || !m.Alive || m.AccessLevel > AccessLevel.Counselor )
 				return false;
 
 			return ( (Mobile.BodyWeight + m.TotalWeight) > (GetMaxWeight( m ) + OverloadAllowance) );

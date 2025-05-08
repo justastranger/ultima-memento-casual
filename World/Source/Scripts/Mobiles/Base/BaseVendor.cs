@@ -1816,7 +1816,7 @@ namespace Server.Mobiles
 		{
 			PlayerMobile pm = (PlayerMobile)from;
 
-			if ( AccessLevel.Counselor <= pm.AccessLevel ) // Staff can always buy
+			if (pm.AccessLevel > AccessLevel.Counselor ) // Staff can always buy
 				return true;
 
 			if ( this is BaseGuildmaster && this.NpcGuild != pm.NpcGuild ) // ONLY GUILD MEMBERS CAN BUY FROM GUILD MASTERS

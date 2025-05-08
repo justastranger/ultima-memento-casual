@@ -69,7 +69,7 @@ namespace Server.Mobiles
 
 		public override void OnDoubleClick( Mobile from )
 		{
-			if ( from.Race != Race.Elf && from == ControlMaster && from.AccessLevel == AccessLevel.Player )
+			if ( from.Race != Race.Elf && from == ControlMaster && from.AccessLevel <= AccessLevel.Counselor )
 			{
 				Item pads = from.FindItemOnLayer( Layer.Shoes );
 				

@@ -1094,7 +1094,7 @@ namespace Server.Items
 			m_BJInfo.doubleOn = OkToDouble(m_BJInfo, m_DoubleDown);
 			from.SendGump(new BlackJackCardGump(from, this, null));
 			from.PlaySound(739);
-			if (from.Hidden && from.AccessLevel == AccessLevel.Player) // Don't let someone sit at the slots and play hidden
+			if (from.Hidden && from.AccessLevel <= AccessLevel.Counselor) // Don't let someone sit at the slots and play hidden
 			{
 				from.Hidden = false;
 				from.SendLocalizedMessage(500816); // You have been revealed!

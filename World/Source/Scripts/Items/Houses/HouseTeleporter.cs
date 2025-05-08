@@ -58,7 +58,7 @@ namespace Server.Items
 			{
 				if ( CheckAccess( m ) )
 				{
-					if ( !m.Hidden || m.AccessLevel == AccessLevel.Player )
+					if ( !m.Hidden || m.AccessLevel <= AccessLevel.Counselor )
 						new EffectTimer( Location, Map, 2023, 0x1F0, TimeSpan.FromSeconds( 0.4 ) ).Start();
 
 					new DelayTimer( this, m ).Start();
@@ -170,7 +170,7 @@ namespace Server.Items
 
 						m.MoveToWorld( p, map );
 
-						if ( !m.Hidden || m.AccessLevel == AccessLevel.Player )
+						if ( !m.Hidden || m.AccessLevel <= AccessLevel.Counselor )
 						{
 							Effects.PlaySound( target.Location, target.Map, 0x1FE );
 

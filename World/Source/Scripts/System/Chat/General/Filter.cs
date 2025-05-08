@@ -36,7 +36,7 @@ namespace Knives.Chat3
 
                     if (index >= 0)
                     {
-                        if (m.AccessLevel == AccessLevel.Player && punish)
+                        if (m.AccessLevel <= AccessLevel.Counselor && punish)
                         {
                             if (++Data.GetData(m).Warnings <= Data.FilterWarnings)
                                 m.SendMessage(Data.GetData(m).SystemC, General.Local(111) + " " + filter);

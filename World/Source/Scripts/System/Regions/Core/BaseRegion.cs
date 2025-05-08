@@ -543,7 +543,7 @@ namespace Server.Regions
 				{
 					Mobile m = sector.Mobiles[j];
 
-					if ( m.X == x && m.Y == y && ( m.AccessLevel == AccessLevel.Player || !m.Hidden ) )
+					if ( m.X == x && m.Y == y && ( m.AccessLevel <= AccessLevel.Counselor || !m.Hidden ) )
 						if ( m.Z + 16 > z && m.Z < top )
 						{
 							ok = false;

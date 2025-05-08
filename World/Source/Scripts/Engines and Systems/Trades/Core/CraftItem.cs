@@ -1282,7 +1282,7 @@ namespace Server.Engines.Craft
 					if (context.AutomaticallyMarkQuestItems && tool != null && (tool is BaseRunicTool) == false && from is PlayerMobile)
 						MLQuestSystem.MarkQuestItem((PlayerMobile) from, item);
 
-					if( from.AccessLevel > AccessLevel.Player )
+					if( from.AccessLevel > AccessLevel.Counselor )
 						CommandLogging.WriteLine( from, "Crafting {0} with craft system {1}", CommandLogging.Format( item ), craftSystem.GetType().Name );
 				}
 

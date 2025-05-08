@@ -28,7 +28,7 @@ namespace Server.Network
 		{
 			Mobile from = state.Mobile;
 			
-			if ( from.AccessLevel >= AccessLevel.Counselor || DateTime.Now >= from.NextActionTime )
+			if ( from.AccessLevel > AccessLevel.Counselor || DateTime.Now >= from.NextActionTime )
 			{
 				Serial use = pvSrc.ReadInt32();
 				Serial targ = pvSrc.ReadInt32();

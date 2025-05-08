@@ -1471,7 +1471,7 @@ namespace Server
 		{
 			if( m_Deleted || m_Map == null )
 				return false;
-			else if( target == this || m_AccessLevel > AccessLevel.Player )
+			else if( target == this || m_AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			return m_Map.LineOfSight( this, target );
@@ -1481,7 +1481,7 @@ namespace Server
 		{
 			if( m_Deleted || m_Map == null )
 				return false;
-			else if( target == this || m_AccessLevel > AccessLevel.Player )
+			else if( target == this || m_AccessLevel > AccessLevel.Counselor )
 				return true;
 			else if( target is Item && ((Item)target).RootParent == this )
 				return true;
@@ -1493,7 +1493,7 @@ namespace Server
 		{
 			if( m_Deleted || m_Map == null )
 				return false;
-			else if( m_AccessLevel > AccessLevel.Player )
+			else if( m_AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			return m_Map.LineOfSight( this, target );
@@ -3092,7 +3092,7 @@ namespace Server
 		/// <returns>True if the move is allowed, false if not.</returns>
 		protected virtual bool OnMove( Direction d )
 		{
-			if( m_Hidden && m_AccessLevel == AccessLevel.Player )
+			if( m_Hidden && m_AccessLevel <= AccessLevel.Counselor )
 			{
 				if( m_AllowedStealthSteps-- <= 0 || (d & Direction.Running) != 0 || this.Mounted )
 					RevealingAction();
@@ -3512,7 +3512,7 @@ namespace Server
 			{
 				if( !shoved.Alive || !Alive || shoved.IsDeadBondedPet || IsDeadBondedPet )
 					return true;
-				else if( shoved.m_Hidden && shoved.m_AccessLevel > AccessLevel.Player )
+				else if( shoved.m_Hidden && shoved.m_AccessLevel > AccessLevel.Counselor )
 					return true;
 
 				if( !m_Pushing )
@@ -3521,7 +3521,7 @@ namespace Server
 
 					int number;
 
-					if( this.AccessLevel > AccessLevel.Player )
+					if( this.AccessLevel > AccessLevel.Counselor )
 					{
 						number = shoved.m_Hidden ? 1019041 : 1019040;
 					}
@@ -7116,7 +7116,7 @@ namespace Server
 		// Mobile did something which should unhide him
 		public virtual void RevealingAction()
 		{
-			if( m_Hidden && m_AccessLevel == AccessLevel.Player )
+			if( m_Hidden && m_AccessLevel <= AccessLevel.Counselor )
 				Hidden = false;
 
 			DisruptiveAction(); // Anything that unhides you will also distrupt meditation
@@ -8887,8 +8887,8 @@ namespace Server
 
 			return this == m || (
 				m.m_Map == m_Map &&
-				(!m.Hidden || (m_AccessLevel != AccessLevel.Player && (m_AccessLevel >= m.AccessLevel || m_AccessLevel >= AccessLevel.Developer))) &&
-				((m.Alive || (Core.SE && Skills.Spiritualism.Value >= 100.0)) || !Alive || m_AccessLevel > AccessLevel.Player || m.Warmode));
+				(!m.Hidden || (m_AccessLevel > AccessLevel.Counselor && (m_AccessLevel >= m.AccessLevel || m_AccessLevel >= AccessLevel.Developer))) &&
+				((m.Alive || (Core.SE && Skills.Spiritualism.Value >= 100.0)) || !Alive || m_AccessLevel > AccessLevel.Counselor || m.Warmode));
 
 		}
 
@@ -10299,7 +10299,7 @@ namespace Server
 			}
 		}
 
-		public virtual bool KeepsItemsOnDeath { get { return m_AccessLevel > AccessLevel.Player; } }
+		public virtual bool KeepsItemsOnDeath { get { return m_AccessLevel > AccessLevel.Counselor; } }
 
 		public Item FindItemOnLayer( Layer layer )
 		{
@@ -11944,7 +11944,7 @@ namespace Server
 		{
 			if( m_Deleted )
 				return;
-			else if( AccessLevel == AccessLevel.Player && DisableHiddenSelfClick && Hidden && from == this )
+			else if( AccessLevel <= AccessLevel.Counselor && DisableHiddenSelfClick && Hidden && from == this )
 				return;
 
 			if( m_GuildClickMessage )

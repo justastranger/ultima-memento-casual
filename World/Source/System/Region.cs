@@ -806,7 +806,7 @@ namespace Server
 		{
 			if ( m_Parent != null )
 				return m_Parent.GetLogoutDelay( m );
-			else if ( m.AccessLevel > AccessLevel.Player )
+			else if ( m.AccessLevel > AccessLevel.Counselor )
 				return m_StaffLogoutDelay;
 			else
 				return m_DefaultLogoutDelay;

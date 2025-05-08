@@ -91,7 +91,7 @@ namespace Server.Items
 
 			foreach ( Mobile mob in GetMobilesInRange( 3 ) )
 			{
-				if ( !mob.Player || !mob.Alive || mob.AccessLevel > AccessLevel.Player )
+				if ( !mob.Player || !mob.Alive || mob.AccessLevel > AccessLevel.Counselor )
 					continue;
 
 				if ( Server.Misc.SeeIfGemInBag.GemInPocket( mob ) == true || Server.Misc.SeeIfJewelInBag.JewelInPocket( mob ) == true )
@@ -122,7 +122,7 @@ namespace Server.Items
 
 		public override bool OnMoveOver( Mobile m )
 		{
-			if ( !m.Alive || !m.Player || m.AccessLevel > AccessLevel.Player )
+			if ( !m.Alive || !m.Player || m.AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			if ( m is PlayerMobile && Spells.Research.ResearchAirWalk.UnderEffect( m ) )
@@ -152,7 +152,7 @@ namespace Server.Items
 		{
 			base.OnMovement( m, oldLocation );
 
-			if ( m.Location == oldLocation || !m.Player || !m.Alive || m.AccessLevel > AccessLevel.Player )
+			if ( m.Location == oldLocation || !m.Player || !m.Alive || m.AccessLevel > AccessLevel.Counselor )
 				return;
 
 			if ( CheckRange( m.Location, oldLocation, 1 ) )

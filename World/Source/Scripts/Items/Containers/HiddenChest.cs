@@ -31,7 +31,7 @@ namespace Server.Items
 				if (level < 1){level = 1;}
 				if (level > 10){level = 10;}
 
-			if ( m.AccessLevel == AccessLevel.Player && m is PlayerMobile )
+			if ( m.AccessLevel <= AccessLevel.Counselor && m is PlayerMobile )
 				FoundBox( m, false, level, this );
 
 			return true;

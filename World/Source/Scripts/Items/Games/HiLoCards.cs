@@ -595,7 +595,7 @@ namespace Server.Items
 			from.SendGump(new HiloCardGump(from, this, carddeck.BackDesign, Focus3(m_Hand, m_Count - 1, m_GuessCount), 0, true, null));
 #endif
 			from.PlaySound(739);
-			if (from.Hidden && from.AccessLevel == AccessLevel.Player) // Don't let someone sit at the slots and play hidden
+			if (from.Hidden && from.AccessLevel <= AccessLevel.Counselor) // Don't let someone sit at the slots and play hidden
 			{
 				from.Hidden = false;
 				from.SendLocalizedMessage(500816); // You have been revealed!

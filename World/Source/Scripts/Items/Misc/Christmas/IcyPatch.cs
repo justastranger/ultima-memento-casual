@@ -30,7 +30,7 @@ namespace Server.Items
 
 		public override bool OnMoveOver(Mobile m)
 		{
-			if (m is PlayerMobile && m.Alive && m.AccessLevel == AccessLevel.Player)
+			if (m is PlayerMobile && m.Alive && m.AccessLevel <= AccessLevel.Counselor)
 			{
 				switch (Utility.Random(3))
 				{

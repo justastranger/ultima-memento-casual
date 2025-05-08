@@ -125,7 +125,7 @@ namespace Server.Mobiles
 
 				foreach ( Mobile m in m_Owner.GetMobilesInRange( 10 ) )
 				{
-					if ( !((BaseCreature)m_Owner).Controlled && m != m_Owner && m.Player && m_Owner.InLOS( m ) && m_Owner.CanBeHarmful( m ) && m_Owner.CanSee( m ) && m.AccessLevel == AccessLevel.Player && ( (BaseCreature)m_Owner ).IsEnemy( m ) )
+					if ( !((BaseCreature)m_Owner).Controlled && m != m_Owner && m.Player && m_Owner.InLOS( m ) && m_Owner.CanBeHarmful( m ) && m_Owner.CanSee( m ) && m.AccessLevel <= AccessLevel.Counselor && ( (BaseCreature)m_Owner ).IsEnemy( m ) )
 					{
 						toTeleport = m;
 						break;

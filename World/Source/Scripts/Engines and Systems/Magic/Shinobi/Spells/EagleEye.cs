@@ -147,7 +147,7 @@ namespace Server.Spells.Shinobi
 
 					foreach ( Mobile m in eable )
 					{
-						if ( m.Hidden && (m.AccessLevel == AccessLevel.Player || Caster.AccessLevel > m.AccessLevel) && CheckDifficulty( Caster, m ) )
+						if ( m.Hidden && (m.AccessLevel <= AccessLevel.Counselor || Caster.AccessLevel > m.AccessLevel) && CheckDifficulty( Caster, m ) )
 							targets.Add( m );
 					}
 

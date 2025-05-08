@@ -65,7 +65,7 @@ namespace Server.Items
 
 		public override bool OnMoveOver( Mobile m )
 		{
-			if( m.Alive && ( m.AccessLevel == AccessLevel.Player || !m.Hidden ) )
+			if( m.Alive && ( m.AccessLevel <= AccessLevel.Counselor || !m.Hidden ) )
 			{
 				if( m.Player )
 				{

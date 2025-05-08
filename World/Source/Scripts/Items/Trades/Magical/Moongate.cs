@@ -120,7 +120,7 @@ namespace Server.Items
 
 				m.MoveToWorld( m_Target, m_TargetMap );
 
-				if ( m.AccessLevel == AccessLevel.Player || !m.Hidden )
+				if ( m.AccessLevel <= AccessLevel.Counselor || !m.Hidden )
 					m.PlaySound( 0x1FE );
 
 				OnGateUsed( m );
@@ -143,7 +143,7 @@ namespace Server.Items
 
 				m.MoveToWorld( m_Target, m_TargetMap );
 
-				if ( m.AccessLevel == AccessLevel.Player || !m.Hidden )
+				if ( m.AccessLevel <= AccessLevel.Counselor || !m.Hidden )
 					m.PlaySound( 0x1FE );
 
 				OnGateUsed( m );
@@ -200,7 +200,7 @@ namespace Server.Items
 		{
 			if ( IsInTown( from.Location, from.Map ) && !IsInTown( m_Target, m_TargetMap ) || (from.Map != Map.Lodor && TargetMap == Map.Lodor && ShowLodorWarning) )
 			{
-				if ( from.AccessLevel == AccessLevel.Player || !from.Hidden )
+				if ( from.AccessLevel <= AccessLevel.Counselor || !from.Hidden )
 					from.Send( new PlaySound( 0x20E, from.Location ) );
 				from.CloseGump( typeof( MoongateConfirmGump ) );
 				from.SendGump( new MoongateConfirmGump( from, this ) );

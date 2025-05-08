@@ -1341,7 +1341,7 @@ namespace Server.Mobiles
 				strBase = this.Str;	//this.Str already includes GetStatOffset/str
 				strOffs = AosAttributes.GetValue( this, AosAttribute.BonusHits );
 
-				if ( Core.ML && strOffs > 25 && AccessLevel <= AccessLevel.Player )
+				if ( Core.ML && strOffs > 25 && AccessLevel <= AccessLevel.Counselor )
 					strOffs = 25;
 
 				if ( AnimalForm.UnderTransformation( this, typeof( MysticalFox ) ) || AnimalForm.UnderTransformation( this, typeof( GreyWolf ) ) )
@@ -1371,7 +1371,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if( Core.ML && this.AccessLevel == AccessLevel.Player )
+				if( Core.ML && this.AccessLevel <= AccessLevel.Counselor )
 					return Math.Min( base.Str, 150 );
 
 				return base.Str;
@@ -1387,7 +1387,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if( Core.ML && this.AccessLevel == AccessLevel.Player )
+				if( Core.ML && this.AccessLevel <= AccessLevel.Counselor )
 					return Math.Min( base.Int, 150 );
 
 				return base.Int;
@@ -1403,7 +1403,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if( Core.ML && this.AccessLevel == AccessLevel.Player )
+				if( Core.ML && this.AccessLevel <= AccessLevel.Counselor )
 					return Math.Min( base.Dex, 150 );
 
 				return base.Dex;
@@ -1586,7 +1586,7 @@ namespace Server.Mobiles
 
 		public override void SetLocation( Point3D loc, bool isTeleport )
 		{
-			if ( !isTeleport && AccessLevel == AccessLevel.Player )
+			if ( !isTeleport && AccessLevel <= AccessLevel.Counselor )
 			{
 				// moving, not teleporting
 				int zDrop = ( this.Location.Z - loc.Z );
@@ -2208,7 +2208,7 @@ namespace Server.Mobiles
 		public override bool OnMoveOver( Mobile m )
 		{
 			if ( m is BaseCreature && !((BaseCreature)m).Controlled )
-				return ( !Alive || !m.Alive || IsDeadBondedPet || m.IsDeadBondedPet ) || ( Hidden && m.AccessLevel > AccessLevel.Player );
+				return ( !Alive || !m.Alive || IsDeadBondedPet || m.IsDeadBondedPet ) || ( Hidden && m.AccessLevel > AccessLevel.Counselor );
 
 			return base.OnMoveOver( m );
 		}
@@ -2929,7 +2929,7 @@ namespace Server.Mobiles
 
 		public bool AntiMacroCheck( Skill skill, object obj )
 		{
-			if ( obj == null || m_AntiMacroTable == null || this.AccessLevel != AccessLevel.Player )
+			if ( obj == null || m_AntiMacroTable == null || this.AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			Hashtable tbl = (Hashtable)m_AntiMacroTable[skill];
@@ -3598,7 +3598,7 @@ namespace Server.Mobiles
 			if( m_LastOnline == DateTime.MinValue && Account != null )
 				m_LastOnline = ((Account)Account).LastLogin;
 
-			if ( AccessLevel > AccessLevel.Player )
+			if ( AccessLevel > AccessLevel.Counselor )
 				m_IgnoreMobiles = true;
 
 			List<Mobile> list = this.Stabled;
@@ -3894,7 +3894,7 @@ namespace Server.Mobiles
 			if( !Core.SE )
 				return base.OnMove( d );
 
-			if( AccessLevel != AccessLevel.Player )
+			if( AccessLevel > AccessLevel.Counselor )
 				return true;
 
 			if( Hidden && DesignContext.Find( this ) == null )	//Hidden & NOT customizing a house

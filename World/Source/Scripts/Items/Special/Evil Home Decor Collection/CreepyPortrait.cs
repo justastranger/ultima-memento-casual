@@ -28,7 +28,7 @@ namespace Server.Items
 
 		public override void OnMovement( Mobile m, Point3D old )
 		{
-			if ( m.Alive && m.Player && ( m.AccessLevel == AccessLevel.Player || !m.Hidden ) )
+			if ( m.Alive && m.Player && ( m.AccessLevel <= AccessLevel.Counselor || !m.Hidden ) )
 			{
 				if ( !Utility.InRange( old, Location, 2 ) && Utility.InRange( m.Location, Location, 2 ) )
 				{

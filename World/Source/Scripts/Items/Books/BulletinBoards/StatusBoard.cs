@@ -122,7 +122,7 @@ namespace Server.Gumps
 				}
 				else
 				{
-					if ((from.AccessLevel == AccessLevel.Player && (( mk.AccessLevel == AccessLevel.Counselor && mk.Hidden ) || mk.AccessLevel >= AccessLevel.GameMaster )) || (from.AccessLevel >= AccessLevel.Player && mk.AccessLevel > from.AccessLevel))
+					if ((from.AccessLevel <= AccessLevel.Counselor && (( mk.AccessLevel == AccessLevel.Counselor && mk.Hidden ) || mk.AccessLevel >= AccessLevel.GameMaster )) || (from.AccessLevel >= AccessLevel.Player && mk.AccessLevel > from.AccessLevel))
 					{
 						--t;
 					}
@@ -205,7 +205,7 @@ namespace Server.Gumps
             }
             else
             {
-               if ((from.AccessLevel == AccessLevel.Player && (( m.AccessLevel == AccessLevel.Counselor && m.Hidden ) || m.AccessLevel >= AccessLevel.GameMaster )) || (from.AccessLevel >= AccessLevel.Player && m.AccessLevel > from.AccessLevel))
+               if ((from.AccessLevel <= AccessLevel.Counselor && (( m.AccessLevel == AccessLevel.Counselor && m.Hidden ) || m.AccessLevel >= AccessLevel.GameMaster )) || (from.AccessLevel >= AccessLevel.Player && m.AccessLevel > from.AccessLevel))
                {
                   --i;
                }
