@@ -877,7 +877,7 @@ namespace Server
                     // skip the item if it's blocked from sale
                     if (!SetAllowedSell(iCategories(itemType), itemType))
                         continue;
-
+					// skip the item if it's already been checked and priced
                     if (LIST.IsInList(itemType))
                         continue;
 
