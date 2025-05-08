@@ -353,7 +353,7 @@ namespace Server.Misc
     {
 		public static void Initialize()
 		{
-            CommandSystem.Register( "weather", AccessLevel.Administrator, new CommandEventHandler( Weather_OnCommand ) );
+            CommandSystem.Register( "weather", AccessLevel.Player, new CommandEventHandler( Weather_OnCommand ) );
 		}
 		public static void Register( string command, AccessLevel access, CommandEventHandler handler )
 		{
