@@ -767,18 +767,11 @@ namespace Server
 			Dictionary<Type,ItemSalesInfo> list = ItemSalesInfo.m_SellingInfo;
 
 			bool v_Guild = false;
-				if ( m is BaseGuildmaster )
-					v_Guild = true;
+			if ( m is BaseGuildmaster )
+				v_Guild = true;
 
 			int price = 0;
 			int qty = 0;
-			bool chemist = false;
-			bool set = false;
-
-			Item oItem = null;
-			int oItemID = 0;
-			int oHue = 0;
-			string oName = null;
 
 			string CurrentMonth = DateTime.Now.ToString("MM");
 
@@ -789,54 +782,39 @@ namespace Server
 				if (kvp.Key != null && kvp.Value.ItemsType != null)
 				{
 					Type itemType = kvp.Key;
-                    set = false;
-                    oItem = null;
-                    oItemID = 0;
-                    oHue = 0;
-                    oName = null;
 
-                    // chemist = Chemist(itemType, v_Market, v_Category);
-                    if ((specificType != null && itemType == specificType) || (iSells(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
-                    {
-                        set = true;
-                    }
-                    else if
-                    (
-                        WillDeal(itemType, m, true, false, iWorlds(itemType), v_Guild) && itemType != null && specificType == null &&
-                        (chemist || ( (!chemist) &&
-							(iCategories(itemType).Contains(v_Category) || v_Category == ItemSalesInfo.Category.All) &&
-							(iMaterials(itemType).Contains(v_Material) || v_Material == ItemSalesInfo.Material.All) &&
-							(iMarkets(itemType).Contains(v_Market) || v_Market == ItemSalesInfo.Market.All) &&
-							(iWorlds(itemType).Contains(v_World) || WorldTest(itemType, m, v_World))
-						) )
-                    )
-                    {
-                        set = true;
-                    }
-
+					// skip Christmas decorations outside of Christmas
                     if (CurrentMonth != "12" && iCategories(itemType).Contains(ItemSalesInfo.Category.Christmas))
-                        set = false;
-
+                        continue;
+					// ditto for Halloween
                     if (CurrentMonth != "10" && iCategories(itemType).Contains(ItemSalesInfo.Category.Halloween))
-                        set = false;
+                        continue;
 
                     if (v_Market == ItemSalesInfo.Market.Sage && v_Category == ItemSalesInfo.Category.Artifact && !iMarkets(itemType).Contains(ItemSalesInfo.Market.Thief) && iCategories(itemType).Contains(ItemSalesInfo.Category.Artifact))
                     {
+                        #region Sage's Artifact Displays
                         // This section is just for the sage to display artifacts that cannot be bought.
-                        oItem = (Item)Activator.CreateInstance(itemType);
+                        Item oItem = (Item)Activator.CreateInstance(itemType);
 
                         if (oItem != null)
                         {
-                            oItemID = oItem.ItemID;
-                            oHue = oItem.Hue;
-                            oName = oItem.Name;
+                            int oItemID = oItem.ItemID;
+                            int oHue = oItem.Hue;
+                            string oName = oItem.Name;
                             oItem.Delete();
 
                             if (!LIST.Contains(new GenericBuyInfo(oName, itemType, 0, 1, oItemID, oHue)))
                                 LIST.Add(new GenericBuyInfo(oName, itemType, 0, 1, oItemID, oHue));
                         }
+                        #endregion
                     }
-                    else if (set)
+                    else if (((specificType != null && itemType == specificType) || (iSells(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
+						|| ( WillDeal(itemType, m, true, false, iWorlds(itemType), v_Guild) && itemType != null && specificType == null &&
+						( (iCategories(itemType).Contains(v_Category) || v_Category == ItemSalesInfo.Category.All) &&
+							(iMaterials(itemType).Contains(v_Material) || v_Material == ItemSalesInfo.Material.All) &&
+							(iMarkets(itemType).Contains(v_Market) || v_Market == ItemSalesInfo.Market.All) &&
+							(iWorlds(itemType).Contains(v_World) || WorldTest(itemType, m, v_World)) )
+						))
                     {
                         qty = GetQty(itemType, v_Guild);
 
@@ -857,15 +835,15 @@ namespace Server
 
                         if (qty > 0)
                         {
-                            oItem = (Item)Activator.CreateInstance(itemType);
+                            Item oItem = (Item)Activator.CreateInstance(itemType);
 
                             if (oItem != null)
                             {
-                                oItemID = oItem.ItemID;
+                                int oItemID = oItem.ItemID;
                                 ResourceMods.DefaultItemHue(oItem);
-                                oHue = oItem.Hue;
+                                int oHue = oItem.Hue;
                                 oHue = ClothHue(oHue, iMaterials(itemType), iMarkets(itemType));
-                                oName = oItem.Name;
+                                string oName = oItem.Name;
                                 oItem.Delete();
 
                                 if (!LIST.Contains(new GenericBuyInfo(oName, itemType, price, qty, oItemID, oHue)))
@@ -898,7 +876,6 @@ namespace Server
 				{
                     Type itemType = kvp.Key;
                     set = false;
-                    // chemist = Chemist(itemType, v_Market, v_Category);
 
                     if (force || ((specificType != null && itemType == specificType) || (iRarity(itemType) == 200 && iMarkets(itemType).Contains(v_Market))) || (iBuys(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
                     {
