@@ -53,7 +53,7 @@ namespace Server.Spells.Necromancy
 		{
 			BuffInfo.RemoveBuff( m, BuffIcon.WraithForm );
 
-			if ( m is PlayerMobile && m.AccessLevel == AccessLevel.Player )
+			if ( m is PlayerMobile && m.AccessLevel <= AccessLevel.Counselor )
 				((PlayerMobile)m).IgnoreMobiles = false;
 		}
 	}

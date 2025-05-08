@@ -518,13 +518,13 @@ namespace Knives.TownHouses
                 if (c_Free)
                     price = 0;
 
-                if (m.AccessLevel == AccessLevel.Player && !Server.Mobiles.Banker.Withdraw(m, price))
+                if (m.AccessLevel <= AccessLevel.Counselor && !Server.Mobiles.Banker.Withdraw(m, price))
                 {
                     m.SendMessage("You cannot afford this house.");
                     return;
                 }
 
-                if (m.AccessLevel == AccessLevel.Player)
+                if (m.AccessLevel <= AccessLevel.Counselor)
                     m.SendLocalizedMessage(1060398, price.ToString()); // ~1_AMOUNT~ gold has been withdrawn from your bank box.
 
                 Visible = false;
@@ -767,7 +767,7 @@ namespace Knives.TownHouses
 				return;
 			}
 
-			if ( c_House.Owner.AccessLevel != AccessLevel.Player )
+			if ( c_House.Owner.AccessLevel > AccessLevel.Counselor )
 				return;
 
 			if ( !CanBuyHouse( c_House.Owner ) && c_DemolishTimer == null )
@@ -988,7 +988,7 @@ namespace Knives.TownHouses
 				return;
 			}
 
-			if ( !c_Free && c_House.Owner.AccessLevel == AccessLevel.Player && !Server.Mobiles.Banker.Withdraw( c_House.Owner, c_Price ) )
+			if ( !c_Free && c_House.Owner.AccessLevel <= AccessLevel.Counselor && !Server.Mobiles.Banker.Withdraw( c_House.Owner, c_Price ) )
 			{
 				c_House.Owner.SendMessage( "Since you can not afford the rent, the bank has reclaimed your town house." );
 				PackUpHouse();
@@ -1101,7 +1101,7 @@ namespace Knives.TownHouses
 
 		public override void OnDoubleClick( Mobile m )
 		{
-			if ( m.AccessLevel != AccessLevel.Player )
+			if ( m.AccessLevel > AccessLevel.Counselor )
 				new TownHouseSetupGump( m, this );
 			else if ( !Visible )
 				return;

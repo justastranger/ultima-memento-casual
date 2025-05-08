@@ -56,7 +56,7 @@ namespace Server.Items
 					m.PlaySound( 0x014 );
 				}
 				else if (
-				( m is PlayerMobile && m.Blessed == false && m.Alive && m.AccessLevel == AccessLevel.Player && Server.Misc.SeeIfGemInBag.GemInPocket( m ) == false && Server.Misc.SeeIfJewelInBag.JewelInPocket( m ) == false ) 
+				( m is PlayerMobile && m.Blessed == false && m.Alive && m.AccessLevel <= AccessLevel.Counselor && Server.Misc.SeeIfGemInBag.GemInPocket( m ) == false && Server.Misc.SeeIfJewelInBag.JewelInPocket( m ) == false ) 
 				|| 
 				( m is BaseCreature && m.Blessed == false && !(m is PlayerMobile ) ) 
 				)

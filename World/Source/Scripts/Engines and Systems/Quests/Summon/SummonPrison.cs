@@ -248,7 +248,7 @@ namespace Server.Items
 				this.PrisonerSerial = monster;
 				this.LootType = LootType.Blessed;
 
-				if ( from.AccessLevel == AccessLevel.Player  ){ TestMyPack( from, Dungeon, KeyA, KeyB, KeyC, ReagentQtyA, ReagentNameA, ReagentQtyB, ReagentNameB, true ); }
+				if ( from.AccessLevel <= AccessLevel.Counselor  ){ TestMyPack( from, Dungeon, KeyA, KeyB, KeyC, ReagentQtyA, ReagentNameA, ReagentQtyB, ReagentNameB, true ); }
 
 				SummonTimer thisTimer = new SummonTimer( this ); 
 				thisTimer.Start();

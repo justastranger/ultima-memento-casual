@@ -91,7 +91,7 @@ namespace Server.Items
 
 		public override void OnTrigger( Mobile from )
 		{
-			if ( !from.Alive || !from.Player || from.AccessLevel > AccessLevel.Player )
+			if ( !from.Alive || !from.Player || from.AccessLevel > AccessLevel.Counselor )
 				return;
 
 			if ( Server.Misc.SeeIfGemInBag.GemInPocket( from ) == true || Server.Misc.SeeIfJewelInBag.JewelInPocket( from ) == true )
@@ -124,7 +124,7 @@ namespace Server.Items
 
 			foreach ( Mobile mob in GetMobilesInRange( 1 ) )
 			{
-				if ( mob.Alive && !mob.IsDeadBondedPet && mob.AccessLevel == AccessLevel.Player && mob.Player )
+				if ( mob.Alive && !mob.IsDeadBondedPet && mob.AccessLevel <= AccessLevel.Counselor && mob.Player )
 				{
 					itHurts = (int)( (Utility.RandomMinMax(50,200) * ( 100 - mob.FireResistance ) ) / 100 );
 					Spells.SpellHelper.Damage( TimeSpan.FromTicks( 1 ), mob, mob, itHurts );

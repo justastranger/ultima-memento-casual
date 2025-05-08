@@ -126,7 +126,7 @@ namespace Server.Mobiles
 
 					if ( m is PlayerMobile && m.InRange( this.Location, 20 ) && m.Alive && m.Map == this.Map )
 					{
-						if ( m.AccessLevel == AccessLevel.Player ){ dive = false; }
+						if ( m.AccessLevel <= AccessLevel.Counselor ){ dive = false; }
 					}
 				}
 

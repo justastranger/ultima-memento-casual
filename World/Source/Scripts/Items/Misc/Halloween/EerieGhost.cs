@@ -34,7 +34,7 @@ namespace Server.Items
 
 		public override void OnMovement( Mobile m, Point3D oldLocation )
 		{
-			if ( ((ItemID>=0x5755 && ItemID<=0x5759) || (ItemID>=0x575B && ItemID<=0x575F)) && IsLockedDown && (!m.Hidden || m.AccessLevel == AccessLevel.Player) && Utility.InRange( m.Location, this.Location, 2 ) && !Utility.InRange( oldLocation, this.Location, 2 ) )
+			if ( ((ItemID>=0x5755 && ItemID<=0x5759) || (ItemID>=0x575B && ItemID<=0x575F)) && IsLockedDown && (!m.Hidden || m.AccessLevel <= AccessLevel.Counselor) && Utility.InRange( m.Location, this.Location, 2 ) && !Utility.InRange( oldLocation, this.Location, 2 ) )
 				Effects.PlaySound( this.Location, this.Map, m_Sounds[Utility.Random( m_Sounds.Length )] );
 
 			base.OnMovement( m, oldLocation );

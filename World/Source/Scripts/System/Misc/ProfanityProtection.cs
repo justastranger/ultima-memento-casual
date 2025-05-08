@@ -54,7 +54,7 @@ namespace Server.Misc
 		{
 			Mobile from = e.Mobile;
 
-			if ( from.AccessLevel > AccessLevel.Player )
+			if ( from.AccessLevel > AccessLevel.Counselor )
 				return;
 
 			if ( !NameVerification.Validate( e.Speech, 0, int.MaxValue, true, true, false, int.MaxValue, m_Exceptions, m_Disallowed, m_StartDisallowed ) )

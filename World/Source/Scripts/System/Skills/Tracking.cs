@@ -320,7 +320,7 @@ namespace Server.SkillHandlers
 					if ( ( m.WhisperHue == 666 || m.WhisperHue == 999 ) && m.Hidden && check( m ) ) // ADD HIDDEN SEA MONSTERS
 						list.Add( m );
 
-					if ( m != from && m.Alive && !(m is SpellCritter) && !(m is CorpseCritter) && ( (!m.Hidden || MyServerSettings.LineOfSight( m, true )) || m.AccessLevel == AccessLevel.Player || from.AccessLevel > m.AccessLevel) && check( m ) && CheckDifficulty( from, m ) )
+					if ( m != from && m.Alive && !(m is SpellCritter) && !(m is CorpseCritter) && ( (!m.Hidden || MyServerSettings.LineOfSight( m, true )) || m.AccessLevel <= AccessLevel.Counselor || from.AccessLevel > m.AccessLevel) && check( m ) && CheckDifficulty( from, m ) )
 						list.Add( m );
 				}
 			}

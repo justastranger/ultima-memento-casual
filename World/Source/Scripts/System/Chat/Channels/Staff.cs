@@ -18,7 +18,7 @@ namespace Knives.Chat3
 
         public override bool CanChat(Mobile m, bool say)
         {
-            if (m.AccessLevel == AccessLevel.Player)
+            if (m.AccessLevel <= AccessLevel.Counselor)
             {
                 if (say) m.SendMessage(Data.GetData(m).SystemC, General.Local(191));
                 return false;

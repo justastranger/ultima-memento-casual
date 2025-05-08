@@ -127,7 +127,7 @@ namespace Server.Items
 			{
                 from.SendMessage("This must be locked down in a house to use!");
 			}
-			else if ( from.AccessLevel > AccessLevel.Player || from.InRange( this.GetWorldLocation(), 2 ) )
+			else if ( from.AccessLevel > AccessLevel.Counselor || from.InRange( this.GetWorldLocation(), 2 ) )
 			{
 				Open( from );
 			}

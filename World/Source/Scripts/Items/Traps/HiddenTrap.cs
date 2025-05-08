@@ -1193,7 +1193,7 @@ namespace Server.Items
 
 		public static bool CanSetOffTraps( Mobile m )
 		{
-			if ( m is PlayerMobile && ( !m.Alive || m.Blessed || m.AccessLevel > AccessLevel.Player ) )
+			if ( m is PlayerMobile && ( !m.Alive || m.Blessed || m.AccessLevel > AccessLevel.Counselor ) )
 				return false;
 
 			return true;

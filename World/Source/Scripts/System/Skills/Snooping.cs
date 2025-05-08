@@ -44,7 +44,7 @@ namespace Server.SkillHandlers
 
 		public static void Container_Snoop( Container cont, Mobile from )
 		{
-			if ( from.AccessLevel > AccessLevel.Player || from.InRange( cont.GetWorldLocation(), 1 ) )
+			if ( from.AccessLevel > AccessLevel.Counselor || from.InRange( cont.GetWorldLocation(), 1 ) )
 			{
 				Mobile root = cont.RootParent as Mobile;
 
@@ -57,19 +57,19 @@ namespace Server.SkillHandlers
 					return;
 				}
 
-				if ( root != null && root.AccessLevel > AccessLevel.Player && from.AccessLevel == AccessLevel.Player )
+				if ( root != null && root.AccessLevel > AccessLevel.Counselor && from.AccessLevel == AccessLevel.Player )
 				{
 					from.SendLocalizedMessage( 500209 ); // You can not peek into the container.
 					return;
 				}
 
-				if ( root != null && from.AccessLevel == AccessLevel.Player && !CheckSnoopAllowed( from, root ) )
+				if ( root != null && from.AccessLevel <= AccessLevel.Counselor && !CheckSnoopAllowed( from, root ) )
 				{
 					from.SendLocalizedMessage( 1001018 ); // You cannot perform negative acts on your target.
 					return;
 				}
 
-				if ( root != null && from.AccessLevel == AccessLevel.Player && from.Skills[SkillName.Snooping].Value < Utility.Random( 100 ) )
+				if ( root != null && from.AccessLevel <= AccessLevel.Counselor && from.Skills[SkillName.Snooping].Value < Utility.Random( 100 ) )
 				{
 					Map map = from.Map;
 
@@ -89,10 +89,10 @@ namespace Server.SkillHandlers
 					}
 				}
 
-				if ( from.AccessLevel == AccessLevel.Player && from.Karma > 0 )
+				if ( from.AccessLevel <= AccessLevel.Counselor && from.Karma > 0 )
 					Titles.AwardKarma( from, -4, true );
 
-				if ( from.AccessLevel > AccessLevel.Player || from.CheckTargetSkill( SkillName.Snooping, cont, 0.0, 125.0 ) )
+				if ( from.AccessLevel > AccessLevel.Counselor || from.CheckTargetSkill( SkillName.Snooping, cont, 0.0, 125.0 ) )
 				{
 					if ( cont is TrapableContainer && ((TrapableContainer)cont).ExecuteTrap( from ) )
 						return;

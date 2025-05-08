@@ -3355,7 +3355,7 @@ namespace Server.Multis
 			if ( m == null )
 				return false;
 
-			if ( m.AccessLevel > AccessLevel.Player || IsFriend( m ) || ( m_Access != null && m_Access.Contains( m ) ) )
+			if ( m.AccessLevel > AccessLevel.Counselor || IsFriend( m ) || ( m_Access != null && m_Access.Contains( m ) ) )
 				return true;
 
 			if ( m is BaseCreature )
@@ -3375,7 +3375,7 @@ namespace Server.Multis
 					if ( m == null )
 						return false;
 
-					if ( m.AccessLevel > AccessLevel.Player || IsFriend( m ) || ( m_Access != null && m_Access.Contains( m ) ) )
+					if ( m.AccessLevel > AccessLevel.Counselor || IsFriend( m ) || ( m_Access != null && m_Access.Contains( m ) ) )
 						return true;
 				}
 			}

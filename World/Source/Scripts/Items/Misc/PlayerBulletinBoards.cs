@@ -485,7 +485,7 @@ namespace Server.Items
 								return;
 							}
 
-							if ( poster.AccessLevel > AccessLevel.Player && from.AccessLevel <= poster.AccessLevel )
+							if ( poster.AccessLevel > AccessLevel.Counselor && from.AccessLevel <= poster.AccessLevel )
 							{
 								from.SendLocalizedMessage( 501354 ); // Uh oh...a bigger boot may be required.
 							}

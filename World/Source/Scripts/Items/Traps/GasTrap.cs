@@ -89,7 +89,7 @@ namespace Server.Items
 
 		public override void OnTrigger( Mobile from )
 		{
-			if ( m_Poison == null || !from.Player || !from.Alive || from.AccessLevel > AccessLevel.Player )
+			if ( m_Poison == null || !from.Player || !from.Alive || from.AccessLevel > AccessLevel.Counselor )
 				return;
 
 			if ( Server.Misc.SeeIfGemInBag.GemInPocket( from ) == true || Server.Misc.SeeIfJewelInBag.JewelInPocket( from ) == true )

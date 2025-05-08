@@ -720,7 +720,7 @@ namespace Server.Mobiles
 				return allownull;
 			else if ( from == to && !harm )
 				return true;
-			else if ( (harm && to.Blessed) || (to.AccessLevel != AccessLevel.Player && to.Hidden) )
+			else if ( (harm && to.Blessed) || (to.AccessLevel > AccessLevel.Counselor && to.Hidden) )
 				return false;
 
 			if ( checkguildparty )

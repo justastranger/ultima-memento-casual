@@ -111,7 +111,7 @@ namespace Knives.Chat3
             {
                 ArrayList states = new ArrayList(Server.Network.NetState.Instances);
                 foreach (Server.Network.NetState state in Server.Network.NetState.Instances)
-                    if (state.Mobile != null && state.Mobile.AccessLevel != AccessLevel.Player)
+                    if (state.Mobile != null && state.Mobile.AccessLevel > AccessLevel.Counselor)
                         states.Remove(state);
 
                 AddHtml(0, y += 20, width, "<CENTER>" + states.Count + " " + General.Local(19));
