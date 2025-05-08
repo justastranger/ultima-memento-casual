@@ -770,7 +770,6 @@ namespace Server
 				if ( m is BaseGuildmaster )
 					v_Guild = true;
 
-			int entries = list.Count;
 			int price = 0;
 			int qty = 0;
 			bool chemist = false;
@@ -796,7 +795,7 @@ namespace Server
                     oHue = 0;
                     oName = null;
 
-                    chemist = Chemist(itemType, v_Market, v_Category);
+                    // chemist = Chemist(itemType, v_Market, v_Category);
                     if ((specificType != null && itemType == specificType) || (iSells(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
                     {
                         set = true;
@@ -886,7 +885,6 @@ namespace Server
 				if ( m is BaseGuildmaster )
 					v_Guild = true;
 
-			int entries = list.Count;
 			int price = 0;
 			bool chemist = false;
 			bool set = false;
@@ -900,7 +898,7 @@ namespace Server
 				{
                     Type itemType = kvp.Key;
                     set = false;
-                    chemist = Chemist(itemType, v_Market, v_Category);
+                    // chemist = Chemist(itemType, v_Market, v_Category);
 
                     if (force || ((specificType != null && itemType == specificType) || (iRarity(itemType) == 200 && iMarkets(itemType).Contains(v_Market))) || (iBuys(itemType) && iMarkets(itemType).Contains(v_Market) && iCategories(itemType).Contains(v_Category)))
                     {
@@ -1172,11 +1170,14 @@ namespace Server
 			if ( cat == ItemSalesInfo.Category.Reagent )
 			{
                 ItemSalesInfo info = GetData( type );
-				if (info == null)
-					return false;
-					//category = info.iMarket;
+                if (info == null)
+                {
+                    Console.WriteLine("Null ItemSalesInfo for: " + type.FullName);
+                    return false;
+                }
+                //category = info.iMarket;
 
-				if (info.iMarkets.Contains(ItemSalesInfo.Market.Alchemy) )
+                if ( mkt == ItemSalesInfo.Market.Alchemy )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AH) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHD) ){ chemist = true; }
@@ -1187,31 +1188,31 @@ namespace Server
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NA) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NAHW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Necro) )
+				else if ( mkt == ItemSalesInfo.Market.Necro )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NA) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NAHW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Druid) )
+				else if ( mkt == ItemSalesInfo.Market.Druid )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHD) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHDW) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHD) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Witch) )
+				else if ( mkt == ItemSalesInfo.Market.Witch )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHDW) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHW) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_NAHW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Mage) )
+				else if ( mkt == ItemSalesInfo.Market.Mage )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHD) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_MAHDW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Herbalist) )
+				else if ( mkt == ItemSalesInfo.Market.Herbalist )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AH) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Reg_AHD) ){ chemist = true; }
@@ -1226,31 +1227,34 @@ namespace Server
 			{
                 ItemSalesInfo info = GetData( type );
 				if (info == null)
-					return false;
+				{
+					Console.WriteLine("Null ItemSalesInfo for: " + type.FullName);
+                    return false;
+                }
 					// category = info.iMarket;
 
-				if ( info.iMarkets.Contains(ItemSalesInfo.Market.Alchemy) )
+				if ( mkt == ItemSalesInfo.Market.Alchemy )
 				{
 					if (info.iMarkets.Contains(ItemSalesInfo.Market.Res_AH) ){ chemist = true; }
 					if (info.iMarkets.Contains(ItemSalesInfo.Market.Res_NAHW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Necro) )
+				else if ( mkt == ItemSalesInfo.Market.Necro )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_NAHW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Druid) )
+				else if ( mkt == ItemSalesInfo.Market.Druid )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_DW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Witch) )
+				else if ( mkt == ItemSalesInfo.Market.Witch )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_DW) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Mage) )
+				else if ( mkt == ItemSalesInfo.Market.Mage )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_MAHD) ){ chemist = true; }
 				}
-				else if ( info.iMarkets.Contains(ItemSalesInfo.Market.Herbalist) )
+				else if ( mkt == ItemSalesInfo.Market.Herbalist )
 				{
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_AH) ){ chemist = true; }
 					if ( info.iMarkets.Contains(ItemSalesInfo.Market.Res_MAHD) ){ chemist = true; }
@@ -4306,8 +4310,6 @@ namespace Server.Commands
 					UpdateFile(sPath, "" + oItem.Name + "");
 					oItem.Delete();
 				}
-				entries--;
-				val++;
 			}
 			m_Mobile.SendMessage( "Finished test. See stock.txt for details." );
 		}
