@@ -10,6 +10,7 @@ using Server.Regions;
 using Server.Multis;
 using Server.Targeting;
 using Server.Engines.GlobalShoppe;
+using System.Linq;
 
 namespace Server.Mobiles
 {
@@ -1011,7 +1012,7 @@ namespace Server.Mobiles
 					{
 						LockableContainer parentcon = item.ParentEntity as LockableContainer;
 
-						if ( item is Container && ( (Container)item ).Items.Count != 0 )
+						if ( item is Container && (((Container)item ).Items.Count != 0 && ((Container)item).Items.Where(i => !(i is BasePiece)).Any()))
 							continue;
 
 						if ( parentcon != null && parentcon.Locked == true )
