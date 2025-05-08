@@ -1012,7 +1012,7 @@ namespace Server.Mobiles
 					{
 						LockableContainer parentcon = item.ParentEntity as LockableContainer;
 
-						if ( item is Container && (((Container)item ).Items.Count != 0 && ((Container)item).Items.Where(i => !(i is BasePiece)).Any()))
+						if ( item is Container && ((Container)item ).Items.Count != 0 && ((Container)item).Items.Where(i => !(i is BasePiece)).Any())
 							continue;
 
 						if ( parentcon != null && parentcon.Locked == true )
