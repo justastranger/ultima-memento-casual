@@ -4261,7 +4261,6 @@ namespace Server.Commands
 			Dictionary<Type,ItemSalesInfo> list = ItemSalesInfo.m_SellingInfo;
 
 			int entries = list.Count;
-			int val = 0;
 			Item oItem = null;
 			string sPath = "Data/stock.txt";
 
