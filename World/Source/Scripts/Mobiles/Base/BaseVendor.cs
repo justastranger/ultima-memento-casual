@@ -1010,16 +1010,16 @@ namespace Server.Mobiles
 
 					foreach ( Item item in items )
 					{
-						LockableContainer parentcon = item.ParentEntity as LockableContainer;
+                        LockableContainer parentcon = item.ParentEntity as LockableContainer;
 
 						if ( item is Container && ((Container)item ).Items.Count != 0 && !((item is BaseBoard) && ((BaseBoard)item).Items.All(i => i is BasePiece)))
 							continue;
 
-						if ( parentcon != null && parentcon.Locked == true )
+                        if ( parentcon != null && parentcon.Locked == true )
 							continue;
 
 						if ( item.IsStandardLoot() && item.Movable && ssi.IsSellable( item ) )
-						{
+                        {
 							PlayerMobile pm = (PlayerMobile)from;
 
 							int barter = (int)from.Skills[SkillName.Mercantile].Value;
@@ -1888,7 +1888,7 @@ namespace Server.Mobiles
 
 			foreach ( SellItemResponse resp in list )
 			{
-				if ( resp.Item.RootParent != seller || resp.Amount <= 0 || !resp.Item.IsStandardLoot() || !resp.Item.Movable || ( resp.Item is Container && ( (Container)resp.Item ).Items.Count != 0 ) )
+				if ( resp.Item.RootParent != seller || resp.Amount <= 0 || !resp.Item.IsStandardLoot() || !resp.Item.Movable || ( resp.Item is Container && ( (Container)resp.Item ).Items.Count != 0 && !((resp.Item is BaseBoard) && ((BaseBoard)resp.Item).Items.All(i => i is BasePiece))) )
 					continue;
 
 				foreach ( IShopSellInfo ssi in info )
@@ -1923,7 +1923,7 @@ namespace Server.Mobiles
 
 			foreach ( SellItemResponse resp in list )
 			{
-				if ( resp.Item.RootParent != seller || resp.Amount <= 0 || !resp.Item.IsStandardLoot() || !resp.Item.Movable || ( resp.Item is Container && ( (Container)resp.Item ).Items.Count != 0 ) )
+				if ( resp.Item.RootParent != seller || resp.Amount <= 0 || !resp.Item.IsStandardLoot() || !resp.Item.Movable || ( resp.Item is Container && ( (Container)resp.Item ).Items.Count != 0 && !((resp.Item is BaseBoard) && ((BaseBoard)resp.Item).Items.All(i => i is BasePiece))) )
 					continue;
 
 				if ( BeggingPose(seller) > 0 && !(this is PlayerBarkeeper) ) // LET US SEE IF THEY ARE BEGGING
