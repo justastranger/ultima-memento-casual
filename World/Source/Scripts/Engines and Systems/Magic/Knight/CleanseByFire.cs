@@ -122,11 +122,11 @@ namespace Server.Spells.Chivalry
 							bev.Poison = null;
 							bev.Poisoner = null;
 
-							Caster.SendMessage("You have purified the beverage of poison.");
+							Caster.SendMessage("You have purified the beverage of poison, boiling some of it away in the process.");
 						}
 						else
 						{
-							Caster.SendMessage("You have failed to purify your target!"); // You have failed to cure your target!
+							Caster.SendMessage("You have failed to purify your target, boiling some of it away in the process!"); // You have failed to cure your target!
 						}
 
 						IEntity from = new Entity(Serial.Zero, new Point3D(i.X, i.Y, i.Z - 5), i.Map);
