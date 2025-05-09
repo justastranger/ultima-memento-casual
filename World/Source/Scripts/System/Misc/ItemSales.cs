@@ -1302,21 +1302,41 @@ namespace Server
             {
                 using (StreamReader streamReader = new StreamReader(file))
                 {
+					// the constructor for ItemSalesInfo intentionally throws an exception if the type can't be found
 					try
 					{
+						// the JsonConverters intercept the final four prameters and pre-processes them into the correct Type, allowing it to pretend to independently accept two different Types for each
+						// without them, there would need to be 16 copies of the constructor
                         ItemSalesInfo output = JsonConvert.DeserializeObject<ItemSalesInfo>(streamReader.ReadToEnd(), new StringOrArray<Category>(), new StringOrArray<Material>(), new StringOrArray<Market>(), new StringOrArray<World>());
-						if (!m_SellingInfo.ContainsKey(output.ItemsType))
-                        {
-                            m_SellingInfo.Add(output.ItemsType, output);
-                        }
+
+                        // check to make sure it's an Item that the game can instantiate by type
+                        // Items that lack a parameterless constructor are never found or created directly, only as part of something else
+                        if (typeof(Item).IsAssignableFrom(output.ItemsType))
+						{
+							if (output.ItemsType.GetConstructor(Type.EmptyTypes) != null)
+							{
+                                if (!m_SellingInfo.ContainsKey(output.ItemsType))
+                                {
+									m_SellingInfo.Add(output.ItemsType, output);
+								}
+								else
+                                {
+                                    Console.WriteLine("Duplicate ItemSalesInfo for '" + output.ItemsType.FullName + "' found at '" + Path.GetFileName(file) + "'");
+                                }
+							}
+							else
+                            {
+                                Console.WriteLine("Invalid Item Type: '" + output.ItemsType.FullName + "' found at '" + Path.GetFileName(file) + "' does not have a parameterless constructor.");
+							} 
+						}
 						else
 						{
-							Console.WriteLine("Duplicate ItemSalesInfo for " + output.ItemsType.FullName + " found at '" + file + "'");
-						}
+                            Console.WriteLine("Invalid Type '" + output.ItemsType.FullName + "' from '" + Path.GetFileName(file) + "' is not an Item.");
+                        }
                     }
-					catch (Exception e)
-					{
-						Console.WriteLine("Invalid JSON or ItemType namespace at: " + Path.GetFileName(file));
+					catch (Exception)
+                    {
+						Console.WriteLine("Invalid JSON or Item Type namespace at: '" + Path.GetFileName(file) + "'");
 					}
                 }
             }
