@@ -69,34 +69,21 @@ namespace Server.Items
 			unk.Hue = item.Hue;
 			// unk.Name = RandomThings.GetOddityAdjective() + " item";
 
-            string itemTypeName = item.GetType().Name;
+            // create an unconfigured version of the base Item to grab its name
+			Item blankItem = Loot.Construct(item.GetType());
+			string blankItemName = blankItem.Name;
+
 			string resourceName = item.Resource.ToString();
             // Only give away information that can be seen even when unidentified
 			// This basically makes the visual information multimodal, both graphical and textual
             if ((item.Catalog != Catalogs.Reagent) && (item.Catalog != Catalogs.Potion) && (item.Catalog != Catalogs.Scroll) && (item.Catalog != Catalogs.Book))
             {
-                // remove irrelevant details from the type name
-                itemTypeName = itemTypeName.Replace("Jewelry", "")
-										   .Replace("Trinket", "")
-										   .Replace("Female", "");
-                // Expand type names into separate words by looking for capital letters and inserting spaces before them
-                // We're searching specifically for capital letters that aren't at the start
-                MatchCollection matches = new Regex(@"[A-Z]").Matches(itemTypeName);
-                if (matches.Count > 0)
-                {
-                    // We're working backwords to prevent drifting indexes
-                    for (var i = matches.Count - 1; i > 0; i--)
-                    {
-						if (matches[i].Index == 0) continue;
-                        itemTypeName = itemTypeName.Insert(matches[i].Index, " ");
-                    }
-                }
-				// ditto for the resource
+				// Clean up the Resource Type name
 				resourceName = resourceName.Replace("Scales", "")
 										   .Replace("Leather", "")
 										   .Replace("Tree", "")
 										   .Replace("Skeletal", "");
-                matches = new Regex(@"[A-Z]").Matches(resourceName);
+                var matches = new Regex(@"[A-Z]").Matches(resourceName);
 				if (matches.Count > 0)
 				{
                     for (var i = matches.Count - 1; i > 0; i--)
@@ -107,9 +94,11 @@ namespace Server.Items
                 }
 				// 
 				if (IsStandardResource(item.Resource))
-					unk.Name = RandomThings.GetOddityAdjective() + " " + itemTypeName;
+					unk.Name = RandomThings.GetOddityAdjective() + " " + blankItemName;
 				else
-					unk.Name = RandomThings.GetOddityAdjective() + " " + resourceName + " " + itemTypeName;
+					unk.Name = RandomThings.GetOddityAdjective() + " " + resourceName + " " + blankItemName;
+				// Clean up the temporary, fake Item that we used to get an accurate Item Type name
+				blankItem.Delete();
             }
 
 
