@@ -92,7 +92,108 @@ namespace Server.Spells.Chivalry
 			FinishSequence();
 		}
 
-		private class InternalTarget : Target
+        public void Target(Item i)
+        {
+			if (i is BaseBeverage)
+			{
+				BaseBeverage bev = (BaseBeverage)i;
+				if (bev.Quantity > 0)
+				{
+					if (bev.Poison == null)
+					{
+						Caster.SendMessage("That beverage is not poisoned!");
+					}
+					else if (CheckSequence())
+					{
+						SpellHelper.Turn(Caster, i);
+
+						/* Cures the target beverage of poisons, but causes a portion of it to be lost.
+                         * The amount of loss is lessened if the caster has high Karma.
+                         */
+
+						Poison p = bev.Poison;
+
+						// Cleanse by fire is now difficulty based 
+						int chanceToCure = 10000 + (int)(Caster.Skills[SkillName.Knightship].Value * 75) - ((p.Level + 1) * 2000);
+						chanceToCure /= 100;
+
+						if (chanceToCure > Utility.Random(100))
+						{
+							bev.Poison = null;
+							bev.Poisoner = null;
+
+							Caster.SendMessage("You have purified the beverage of poison.");
+						}
+						else
+						{
+							Caster.SendMessage("You have failed to purify your target!"); // You have failed to cure your target!
+						}
+
+						IEntity from = new Entity(Serial.Zero, new Point3D(i.X, i.Y, i.Z - 5), i.Map);
+						IEntity to = new Entity(Serial.Zero, new Point3D(i.X, i.Y, i.Z + 45), i.Map);
+						Effects.SendMovingParticles(from, to, 0x374B, 1, 0, false, false, 63, 2, 9501, 1, 0, EffectLayer.Head, 0x100);
+
+						Caster.PlaySound(0x208);
+						Caster.FixedParticles(0x3709, 1, 30, 9934, 0, 7, EffectLayer.Waist);
+
+
+						int reduction = 3 - ComputePowerValue(50);
+						if (reduction < 1)
+							reduction = 1;
+						else if (reduction > 5)
+							reduction = 5;
+						bev.Quantity -= reduction;
+
+						if (bev.Quantity == 0)
+							Caster.SendMessage("You boiled away the last of the beverage!");
+					}
+				}
+				else
+					Caster.SendMessage("This container is empty!");
+			}
+			else if (i is Food)
+			{
+				Food food = (Food)i;
+                if (food.Poison == null)
+                {
+                    Caster.SendMessage("That food is not poisoned!");
+                }
+				else if (CheckSequence())
+				{
+                    SpellHelper.Turn(Caster, i);
+
+                    /* Cures the target beverage of poisons, but causes a portion of it to be lost.
+                     * The amount of loss is lessened if the caster has high Karma.
+                     */
+
+                    Poison p = food.Poison;
+
+                    // Cleanse by fire is now difficulty based 
+                    int chanceToCure = 10000 + (int)(Caster.Skills[SkillName.Knightship].Value * 75) - ((p.Level + 1) * 2000);
+                    chanceToCure /= 100;
+
+					// food is purified individually, destroying one each time you fail
+					if (chanceToCure > Utility.Random(100))
+                    {
+                        food.Poison = null;
+                        food.Poisoner = null;
+
+                        Caster.SendMessage("You have purified the food of poison.");
+                    }
+                    else
+                    {
+						food.Amount -= 1;
+                        Caster.SendMessage("You have failed to purify your target, burning it in the process!"); // You have failed to cure your target!
+                    }
+                }
+            }
+			else
+				Caster.SendMessage("You can only purify food and beverages!");
+
+            FinishSequence();
+        }
+
+        private class InternalTarget : Target
 		{
 			private CleanseByFireSpell m_Owner;
 
@@ -103,8 +204,10 @@ namespace Server.Spells.Chivalry
 
 			protected override void OnTarget( Mobile from, object o )
 			{
-				if ( o is Mobile )
-					m_Owner.Target( (Mobile) o );
+				if (o is Mobile)
+					m_Owner.Target((Mobile)o);
+				else if (o is Item)
+					m_Owner.Target((Item)o);
 			}
 
 			protected override void OnTargetFinish( Mobile from )
