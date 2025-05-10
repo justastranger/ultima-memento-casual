@@ -47,7 +47,11 @@ namespace Server.Items
 
 		public override bool OnDragDrop( Mobile from, Item dropped )
         {
-			if ( dropped is Container && !(dropped is AlchemyPouch) )
+            if (dropped is NotIdentified && dropped.Items.First().Catalog == Catalogs.Reagent)
+            {
+                return base.OnDragDrop(from, dropped);
+            }
+            else if ( dropped is Container && !(dropped is AlchemyPouch) )
 			{
                 from.SendMessage("You can only use another alchemy rucksack within this sack.");
                 return false;
