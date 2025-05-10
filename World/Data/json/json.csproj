@@ -37,7 +37,7 @@
     <None Include="ItemSalesInfo\*" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Schema\" />
+    <None Include="Schema\*" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
