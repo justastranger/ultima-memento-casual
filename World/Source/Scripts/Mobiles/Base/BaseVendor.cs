@@ -194,7 +194,8 @@ namespace Server.Mobiles
 
 			if (MySettings.S_ScaleMerchantCoins)
 			{
-				double multiplier;
+				double maxMultiplier;
+				double minMultiplier;
 				var land = Lands.GetLand(from);
 				switch (land)
 				{
@@ -204,31 +205,42 @@ namespace Server.Mobiles
 					case Land.SkaraBrae: // Not a big need for Gold here
 					case Land.Sosaria:
 					case Land.None:
-						multiplier = 1;
+						minMultiplier = 1.5;
+						maxMultiplier = 1;
 						break;
 
 					case Land.UmberVeil: // Off of Sosaria
 					case Land.IslesDread: // Off of Sosaria (Ancient Pyramid)
 					case Land.Ambrosia: // A single Necromancer + Wandering Healers
 					case Land.Lodoria: // Usually from Poseidon
-					case Land.Serpent: // After Umber
-					case Land.Savaged: // Lots of Vendors
-						multiplier = 1.5;
+                        minMultiplier = 1.75;
+                        maxMultiplier = 1.5;
+                        break;
+                    case Land.Serpent: // After Umber
+                    case Land.Savaged: // Lots of Vendors
+						minMultiplier = 2.25;
+						maxMultiplier = 1.75;
 						break;
 
 					case Land.Kuldar: // Give a small reason to go back
-						multiplier = 1.75;
+						minMultiplier = 2.5;
+						maxMultiplier = 2;
 						break;
 
 					case Land.Underworld: // A small encampent
-						multiplier = 2.0;
+						minMultiplier = 2.75;
+						maxMultiplier = 2.25;
 						break;
 				}
 
-				if (1 < multiplier)
+				if (1 < maxMultiplier)
 				{
-					minGold = (int)(minGold * multiplier);
-					maxGold = (int)(maxGold * multiplier);
+					minGold = (int)(minGold * minMultiplier);
+					maxGold = (int)(maxGold * maxMultiplier);
+				}
+				if (minGold > maxGold)
+				{
+					maxGold = (int)(maxGold * 1.5);
 				}
 			}
 
