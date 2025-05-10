@@ -564,8 +564,9 @@ namespace Server.Misc
 			if ( reg.IsPartOf( "the Painting of the Glade" ) )
 				return false;
 
-			if ( reg.IsPartOf( "the Island of the Black Knight" ) )
-				return false;
+			if (reg.IsPartOf("the Island of the Black Knight"))
+                //return false;
+                return true;
 
 			if ( reg.IsPartOf( "the Castle of the Black Knight" ) )
 				return false;
