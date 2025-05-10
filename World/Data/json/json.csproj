@@ -32,8 +32,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <None Include="ItemSalesInfo\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Schema\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
