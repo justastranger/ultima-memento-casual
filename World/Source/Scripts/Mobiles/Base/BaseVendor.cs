@@ -245,6 +245,14 @@ namespace Server.Mobiles
 			}
 
 			CoinPurse = Utility.RandomMinMax( minGold, maxGold );
+            // Guildmasters get a separate minimum and a bonus if they're lucky (1 in 3, assuming an even distribution from RandomMinMax)
+            if (this is BaseGuildmaster)
+			{
+				if (CoinPurse < ((int)(maxGold * 0.66)))
+                    CoinPurse = ((int)(maxGold * 0.66));
+                else
+                    CoinPurse = ((int)(CoinPurse * 1.5));
+			}
 
 			RefreshSelf();
 			m_CoinsNeedReset = false;
