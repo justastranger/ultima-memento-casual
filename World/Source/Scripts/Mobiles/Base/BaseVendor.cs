@@ -1483,6 +1483,7 @@ namespace Server.Mobiles
 				{
 					item.Amount = 1;
 					MutatePurchase(item, buyer, true);
+					item.Purchased = true;
 
 					if ( cont == null || !cont.TryDropItem( buyer, item, false ) )
 						item.MoveToWorld( buyer.Location, buyer.Map );
@@ -1491,6 +1492,7 @@ namespace Server.Mobiles
 					{
 						item = bii.GetEntity() as Item;
 						MutatePurchase(item, buyer, true);
+						item.Purchased = true;
 							
 						if ( item is Spear ){ item.ItemID = 0xF62; }
 						else if ( item is Club ){ item.ItemID = 0x13B4; }
@@ -1565,7 +1567,7 @@ namespace Server.Mobiles
 				case 3: if (doMutation) BaseRunicTool.ApplyAttributes(item, 2, 3, 15, 40); break; // 15k - Starting Difficult dungeons
 				case 4: if (doMutation) BaseRunicTool.ApplyAttributes(item, 2, 3, 20, 50); break; // 20k - After a lot of Difficult
 				case 5: if (doMutation) BaseRunicTool.ApplyAttributes(item, 2, 4, 25, 50); break; // 25k - Begin Challenging
-				case 6: if (doMutation) BaseRunicTool.ApplyAttributes(item, 3, 5, 40, 70); break; // 30k - Lots of Challenging
+				case 6: if (doMutation) BaseRunicTool.ApplyAttributes(item, 3, 4, 40, 70); break; // 30k - Lots of Challenging
 				// Hard
 				// Deadly
 				default: return false;

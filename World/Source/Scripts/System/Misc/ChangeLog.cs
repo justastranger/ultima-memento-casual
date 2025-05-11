@@ -27,6 +27,8 @@ namespace Server.Misc
 			builder.Append("- Craft - Druidic Herbalism now takes 4 total reagents, up from 2<br>");
 			builder.Append("- Craft - Witch Brewing now takes 4 total reagents, up from 2<br>");
 			builder.Append("- Craft - Crafting any scroll can now be used to reach 125 Inscription<br>");
+			builder.Append("- Craft - Dwarven ore now yields 2 ingots per ore, down from 4<br>");
+			builder.Append("- Gump - Tillerman gump now has tooltips<br>");
 			builder.Append("- Item - Retroactive nerfs to Indecency and Gargoyle Shield<br>");
 			builder.Append("- Item - Retroactive buffs to Polar bear cape, Polar bear boots, Grim Reaper's Robe, Robe of Teleport<br>");
 			builder.Append("- Item - Rebalancing changes to Royal Guard Sash<br>");
@@ -36,7 +38,10 @@ namespace Server.Misc
 			builder.Append("- Misc - BarkFragment, BlankMap, WheatSheaf, and Sand can now be sold<br>");
 			builder.Append("- Misc - Add a 'clear the deck' phrase to remove corpses from boat<br>");
 			builder.Append("- Misc - Library now has placeholder text<br>");
+			builder.Append("- Misc - Thief pedestals now provide more variety by default<br>");
 			builder.Append("- NPC - Always announce gold when buy/sell<br>");
+			builder.Append("- NPC - Vendor bought equipment is now limited to 1g resale value<br>");
+			builder.Append("- NPC - Max properties from vendor-bought magical items is now 4, down from 5<br>");
 			builder.Append("- Pets - Tooltip now shows 'real' level, which matters when pets de-level<br>");
 			builder.Append("- Quest - Display rumor count after last Sage Artifact rumor is verified<br>");
 			builder.Append("- Shoppe - Targeting a container now adds all possible items to the Order<br>");
