@@ -302,7 +302,7 @@ namespace Server.Items
         {
             private DungeoneerCrate m_Crate;
 
-            public EmptyTimer(DungeoneerCrate crate) : base(TimeSpan.FromHours(4))
+            public EmptyTimer(DungeoneerCrate crate) : base(TimeSpan.FromMinutes(5))
             {
                 m_Crate = crate;
                 Priority = TimerPriority.FiveSeconds;
