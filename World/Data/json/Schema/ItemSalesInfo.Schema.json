@@ -34,35 +34,69 @@
         },
         "m_World": {
             "type": ["array", "string"],
-			"enum": ["None","Ambrosia","Dread","Elf","Lodor","Necro","Orient","Savage","Sea","Serpent","Sosaria","Umber","Underworld"],
-            "items": {
-                "type": "string",
-				"enum": ["None","Ambrosia","Dread","Elf","Lodor","Necro","Orient","Savage","Sea","Serpent","Sosaria","Umber","Underworld"]
-            }
+			"oneOf": [
+				{
+					"type": "string",
+					"enum": ["None","Ambrosia","Dread","Elf","Lodor","Necro","Orient","Savage","Sea","Serpent","Sosaria","Umber","Underworld"]
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": ["None","Ambrosia","Dread","Elf","Lodor","Necro","Orient","Savage","Sea","Serpent","Sosaria","Umber","Underworld"]
+					}
+				}
+			]
         },
         "m_Category": {
             "type": ["array", "string"],
-			"enum": ["None","Armor","Artifact","Book","Christmas","Halloween","MonsterRace","Pack","Potion","Rare","Reagent","Resource","Rune","Scroll","Shield","Supply","Tavern","Wand","Weapon","All"],
-            "items": {
-                "type": "string",
-				"enum": ["None","Armor","Artifact","Book","Christmas","Halloween","MonsterRace","Pack","Potion","Rare","Reagent","Resource","Rune","Scroll","Shield","Supply","Tavern","Wand","Weapon","All"]
-            }
+			"oneOf": [
+				{
+					"type": "string",
+					"enum": ["None","Armor","Artifact","Book","Christmas","Halloween","MonsterRace","Pack","Potion","Rare","Reagent","Resource","Rune","Scroll","Shield","Supply","Tavern","Wand","Weapon","All"]
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": ["None","Armor","Artifact","Book","Christmas","Halloween","MonsterRace","Pack","Potion","Rare","Reagent","Resource","Rune","Scroll","Shield","Supply","Tavern","Wand","Weapon","All"]
+					}
+				}
+			]
+			
         },
         "m_Material": {
             "type": ["array", "string"],
-			"enum": ["None","Bone","Cloth","Leather","Metal","Scales","Wood","All"],
-            "items": {
-                "type": "string",
-				"enum": ["None","Bone","Cloth","Leather","Metal","Scales","Wood","All"]
-            }
+			"oneOf": [
+				{
+					"type": "string",
+					"enum": ["None","Bone","Cloth","Leather","Metal","Scales","Wood","All"]
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": ["None","Bone","Cloth","Leather","Metal","Scales","Wood","All"]
+					}
+				}
+			]
+            
         },
         "m_Market": {
             "type": ["array", "string"],
-			"enum": ["None","Alchemy","Animals","Art","Assassin","Banker","Barber","Bard","Bow","Butcher","Carpenter","Cartographer","Cattle","Cook","Death","Druid","Elemental","Evil","Farmer","Fighter","Fisherman","Glass","Healer","Herbalist","Home","Inn","Jester","Jeweler","Leather","Lumber","Mage","Mill","Miner","Monk","Necro","Painter","Paladin","Provisions","Ranger","Reg_AH","Reg_AHD","Reg_AHDW","Reg_AHW","Reg_MAHD","Reg_MAHDW","Reg_NA","Reg_NAHW","Res_AH","Res_DW","Res_MAHD","Res_NAHW","Sage","Sailor","Scribe","Shoes","Smith","Stable","Stone","Supplies","Tailor","Tanner","Tavern","Thief","Tinker","Undertaker","Wax","Witch","Wizard","All"],
-            "items": {
-                "type": "string",
-				"enum": ["None","Alchemy","Animals","Art","Assassin","Banker","Barber","Bard","Bow","Butcher","Carpenter","Cartographer","Cattle","Cook","Death","Druid","Elemental","Evil","Farmer","Fighter","Fisherman","Glass","Healer","Herbalist","Home","Inn","Jester","Jeweler","Leather","Lumber","Mage","Mill","Miner","Monk","Necro","Painter","Paladin","Provisions","Ranger","Reg_AH","Reg_AHD","Reg_AHDW","Reg_AHW","Reg_MAHD","Reg_MAHDW","Reg_NA","Reg_NAHW","Res_AH","Res_DW","Res_MAHD","Res_NAHW","Sage","Sailor","Scribe","Shoes","Smith","Stable","Stone","Supplies","Tailor","Tanner","Tavern","Thief","Tinker","Undertaker","Wax","Witch","Wizard","All"]
-            }
+			"oneOf": [
+				{
+					"type": "string",
+					"enum": ["None","Alchemy","Animals","Art","Assassin","Banker","Barber","Bard","Bow","Butcher","Carpenter","Cartographer","Cattle","Cook","Death","Druid","Elemental","Evil","Farmer","Fighter","Fisherman","Glass","Healer","Herbalist","Home","Inn","Jester","Jeweler","Leather","Lumber","Mage","Mill","Miner","Monk","Necro","Painter","Paladin","Provisions","Ranger","Reg_AH","Reg_AHD","Reg_AHDW","Reg_AHW","Reg_MAHD","Reg_MAHDW","Reg_NA","Reg_NAHW","Res_AH","Res_DW","Res_MAHD","Res_NAHW","Sage","Sailor","Scribe","Shoes","Smith","Stable","Stone","Supplies","Tailor","Tanner","Tavern","Thief","Tinker","Undertaker","Wax","Witch","Wizard","All"],
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"enum": ["None","Alchemy","Animals","Art","Assassin","Banker","Barber","Bard","Bow","Butcher","Carpenter","Cartographer","Cattle","Cook","Death","Druid","Elemental","Evil","Farmer","Fighter","Fisherman","Glass","Healer","Herbalist","Home","Inn","Jester","Jeweler","Leather","Lumber","Mage","Mill","Miner","Monk","Necro","Painter","Paladin","Provisions","Ranger","Reg_AH","Reg_AHD","Reg_AHDW","Reg_AHW","Reg_MAHD","Reg_MAHDW","Reg_NA","Reg_NAHW","Res_AH","Res_DW","Res_MAHD","Res_NAHW","Sage","Sailor","Scribe","Shoes","Smith","Stable","Stone","Supplies","Tailor","Tanner","Tavern","Thief","Tinker","Undertaker","Wax","Witch","Wizard","All"]
+					}
+				}
+			]
         }
     }
 }
