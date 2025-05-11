@@ -297,7 +297,16 @@ namespace Server.Mobiles
 					from.SendMessage(message);
 			}
 
-			if ( !vendor.SetCoinPurse( from, newCoins ) ) return 0; // Unexpected case
+            // Guildmasters get a separate minimum and a bonus if they're lucky (1 in 3, assuming an even distribution from RandomMinMax)
+            if (this is BaseGuildmaster)
+            {
+                if (newCoins < ((int)(maxGold * 0.66)))
+                    newCoins = ((int)(maxGold * 0.66));
+                else
+                    newCoins = ((int)(newCoins * 1.5));
+            }
+
+            if ( !vendor.SetCoinPurse( from, newCoins ) ) return 0; // Unexpected case
 
 			if ( vendor.m_CoinsNeedReset )
 			{
