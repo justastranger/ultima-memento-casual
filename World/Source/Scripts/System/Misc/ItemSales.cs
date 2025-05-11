@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Windows.Forms;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Server.Commands;
 
 namespace Server
 {
@@ -1296,51 +1297,64 @@ namespace Server
         public List<Market> iMarkets { get { return m_Markets; } }
 
         static ItemSalesInfo()
-		{
-			Console.WriteLine("Loading economic information...");
+        {
+            Console.WriteLine("Loading economic information...");
+            InitializeItemSalesInfo();
+            CommandSystem.Register("ReloadSales", AccessLevel.GameMaster, new CommandEventHandler(ReloadSales_OnCommand));
+        }
+
+        private static void ReloadSales_OnCommand(CommandEventArgs e)
+        {
+            Console.WriteLine("Reloading economic information.");
+            m_SellingInfo = new Dictionary<Type, ItemSalesInfo>();
+            InitializeItemSalesInfo();
+        }
+
+        private static void InitializeItemSalesInfo()
+        {
             foreach (string file in Directory.EnumerateFiles(".\\Data\\json\\ItemSalesInfo"))
             {
                 using (StreamReader streamReader = new StreamReader(file))
                 {
-					// the constructor for ItemSalesInfo intentionally throws an exception if the type can't be found
-					try
-					{
-						// the JsonConverters intercept the final four prameters and pre-processes them into the correct Type, allowing it to pretend to independently accept two different Types for each
-						// without them, there would need to be 16 copies of the constructor
+                    // the constructor for ItemSalesInfo intentionally throws an exception if the type can't be found
+                    try
+                    {
+                        // the JsonConverters intercept the final four prameters and pre-processes them into the correct Type, allowing it to pretend to independently accept two different Types for each
+                        // without them, there would need to be 16 copies of the constructor
                         ItemSalesInfo output = JsonConvert.DeserializeObject<ItemSalesInfo>(streamReader.ReadToEnd(), new StringOrArray<Category>(), new StringOrArray<Material>(), new StringOrArray<Market>(), new StringOrArray<World>());
 
                         // check to make sure it's an Item that the game can instantiate by type
                         // Items that lack a parameterless constructor are never found or created directly, only as part of something else
                         if (typeof(Item).IsAssignableFrom(output.ItemsType))
-						{
-							if (output.ItemsType.GetConstructor(Type.EmptyTypes) != null)
-							{
+                        {
+                            if (output.ItemsType.GetConstructor(Type.EmptyTypes) != null)
+                            {
                                 if (!m_SellingInfo.ContainsKey(output.ItemsType))
                                 {
-									m_SellingInfo.Add(output.ItemsType, output);
-								}
-								else
+                                    m_SellingInfo.Add(output.ItemsType, output);
+                                }
+                                else
                                 {
                                     Console.WriteLine("Duplicate ItemSalesInfo for '" + output.ItemsType.FullName + "' found at '" + Path.GetFileName(file) + "'");
                                 }
-							}
-							else
+                            }
+                            else
                             {
                                 Console.WriteLine("Invalid Item Type: '" + output.ItemsType.FullName + "' found at '" + Path.GetFileName(file) + "' does not have a parameterless constructor.");
-							} 
-						}
-						else
-						{
+                            }
+                        }
+                        else
+                        {
                             Console.WriteLine("Invalid Type '" + output.ItemsType.FullName + "' from '" + Path.GetFileName(file) + "' is not an Item.");
                         }
                     }
-					catch (Exception)
+                    catch (Exception)
                     {
-						Console.WriteLine("Invalid JSON or Item Type namespace at: '" + Path.GetFileName(file) + "'");
-					}
+                        Console.WriteLine("Invalid JSON or Item Type namespace at: '" + Path.GetFileName(file) + "'");
+                    }
                 }
             }
-			Console.WriteLine("Economy initialized.");
+            Console.WriteLine("Economy initialized.");
         }
 
         public ItemSalesInfo(Type v_ItemType, int v_Price, int v_Qty, int v_Rarity, bool v_Sells, bool v_Buys, List<World> v_Worlds, List<Category> v_Categories, List<Material> v_Materials, List<Market> v_Markets)
