@@ -1303,6 +1303,8 @@ namespace Server
             CommandSystem.Register("ReloadSales", AccessLevel.GameMaster, new CommandEventHandler(ReloadSales_OnCommand));
         }
 
+        [Usage("ReloadSales")]
+        [Description("Discards and reloads all of the Item sales data.")]
         private static void ReloadSales_OnCommand(CommandEventArgs e)
         {
             Console.WriteLine("Reloading economic information.");
