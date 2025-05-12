@@ -1300,19 +1300,9 @@ namespace Server
         {
             Console.WriteLine("Loading economic information...");
             InitializeItemSalesInfo();
-            CommandSystem.Register("ReloadSales", AccessLevel.GameMaster, new CommandEventHandler(ReloadSales_OnCommand));
         }
 
-        [Usage("ReloadSales")]
-        [Description("Discards and reloads all of the Item sales data.")]
-        private static void ReloadSales_OnCommand(CommandEventArgs e)
-        {
-            Console.WriteLine("Reloading economic information.");
-            m_SellingInfo = new Dictionary<Type, ItemSalesInfo>();
-            InitializeItemSalesInfo();
-        }
-
-        private static void InitializeItemSalesInfo()
+        public static void InitializeItemSalesInfo()
         {
             foreach (string file in Directory.EnumerateFiles(".\\Data\\json\\ItemSalesInfo"))
             {
