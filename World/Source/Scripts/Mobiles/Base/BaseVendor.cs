@@ -11,6 +11,7 @@ using Server.Multis;
 using Server.Targeting;
 using Server.Engines.GlobalShoppe;
 using System.Linq;
+using Server.Commands;
 
 namespace Server.Mobiles
 {
@@ -156,6 +157,11 @@ namespace Server.Mobiles
 					this.PackItem( Loot.RandomItem( this, -10 ) );
 			}
 		}
+
+		static BaseVendor()
+		{
+            CommandSystem.Register("ReloadSales", AccessLevel.GameMaster, new CommandEventHandler(ReloadSales_OnCommand));
+        }
 
 		public BaseVendor( string title ) : base( AIType.AI_Vendor, FightMode.Closest, 15, 1, 0.1, 0.2 )
 		{
@@ -366,7 +372,22 @@ namespace Server.Mobiles
 			}
 		}
 
-		public virtual bool GetGender()
+		// this command has to live here in order to hot-reload vendor sales info
+        [Usage("ReloadSales")]
+        [Description("Discards and reloads all of the Item sales data.")]
+        private static void ReloadSales_OnCommand(CommandEventArgs e)
+        {
+            Console.WriteLine("Reloading economic information.");
+            ItemSalesInfo.m_SellingInfo = new Dictionary<Type, ItemSalesInfo>();
+            ItemSalesInfo.InitializeItemSalesInfo();
+            foreach (BaseVendor mobile in World.Mobiles.Values.Where(mob => mob is BaseVendor))
+            {
+				mobile.LoadSBInfo();
+            }
+        }
+
+
+        public virtual bool GetGender()
 		{
 			return Utility.RandomBool();
 		}
