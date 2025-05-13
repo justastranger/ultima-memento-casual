@@ -67,19 +67,24 @@ namespace Server.Items
 			Container unk = new NotIdentified();
 			unk.ItemID = item.ItemID;
 			unk.Hue = item.Hue;
-			// unk.Name = RandomThings.GetOddityAdjective() + " item";
+            // unk.Name = RandomThings.GetOddityAdjective() + " item";
 
             // create an unconfigured version of the base Item to grab its name
-			Item blankItem = Loot.Construct(item.GetType());
-			string blankItemName = blankItem.Name;
+            Item blankItem = Loot.Construct(item.GetType());
+            string blankItemName = blankItem.Name;
 
-			string resourceName = item.Resource.ToString();
             // Only give away information that can be seen even when unidentified
-			// This basically makes the visual information multimodal, both graphical and textual
+            // This basically makes the visual information multimodal, both graphical and textual
+            if (item is TrinketTalisman)
+			{
+				TrinketTalisman trinketTalisman = (TrinketTalisman)item;
+                blankItemName = TrinketTalisman.GetSubtypeName(trinketTalisman.Subtype);
+            }
             if ((item.Catalog != Catalogs.Reagent) && (item.Catalog != Catalogs.Potion) && (item.Catalog != Catalogs.Scroll) && (item.Catalog != Catalogs.Book))
             {
-				// Clean up the Resource Type name
-				resourceName = resourceName.Replace("Scales", "")
+                string resourceName = item.Resource.ToString();
+                // Clean up the Resource Type name
+                resourceName = resourceName.Replace("Scales", "")
 										   .Replace("Leather", "")
 										   .Replace("Tree", "")
 										   .Replace("Skeletal", "");
