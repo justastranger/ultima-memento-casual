@@ -6,8 +6,201 @@ namespace Server.Items
 {
 	public class TrinketTalisman : BaseTrinket
 	{
+		private int m_Subtype;
+		public int Subtype { get { return m_Subtype; } }
 		public override Catalogs DefaultCatalog{ get{ return Catalogs.Trinket; } }
 		public override CraftResource DefaultResource{ get{ return CraftResource.None; } }
+
+		// fake constructor for NotIdentified
+		public static string GetSubtypeName(int type)
+        {
+            switch (type)
+            {
+                case 0: return "talisman";
+                case 1: return "idol";
+                case 2: return "totem";
+                case 3: return "symbol";
+                case 4:
+                    switch (Utility.RandomMinMax(0, 2))
+                    {
+                        case 0: return "bag";
+                        case 1: return "pouch";
+                        case 2: return "sack";
+                    }
+                    break;
+                case 5: return "ankh";  // Ankh
+                case 6: return "censer";    // Censer
+                case 7: return "cube";  // Cube
+                case 8: return "lamp";  // Lamp
+                case 9:
+                    switch (Utility.RandomMinMax(0, 3))
+                    {
+                        case 0: return "box";
+                        case 1: return "chest";
+                        case 2: return "casket";
+                        case 3: return "coffer";
+                    }
+                    break;
+                case 10:
+                    switch (Utility.RandomMinMax(0, 2))
+                    {
+                        case 0: return "ball";
+                        case 1: return "orb";
+                        case 2: return "sphere";
+                    }
+                    break;
+                case 11: return "dice"; // Dice
+                case 12: return "eye";  // Eye
+                case 13:
+                    switch (Utility.RandomMinMax(0, 2))
+                    {
+                        case 0: return "gem";
+                        case 1: return "crystal";
+                        case 2: return "jewel";
+                    }
+                    break;
+                case 14: return "unicorn horn"; // Unicorn Horn
+                case 15:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "rose";
+                        case 1: return "flower";
+                    }
+                    break;
+                case 16:
+                    switch (Utility.RandomMinMax(0, 2))
+                    {
+                        case 0: return "medal";
+                        case 1: return "badge";
+                        case 2: return "medallion";
+                    }
+                    break;
+                case 17:
+                    switch (Utility.RandomMinMax(0, 2))
+                    {
+                        case 0: return "mug";
+                        case 1: return "tankard";
+                        case 2: return "stein";
+                    }
+                    break;
+                case 18: return "mushroom";
+                case 19:
+                    switch (Utility.RandomMinMax(1, 3))
+                    {
+                        case 1: return "orb";
+                        case 2: return "stone";
+                        case 3: return "sphere";
+                    }
+                    break;
+                case 20:
+                    switch (Utility.RandomMinMax(0, 4))
+                    {
+                        case 0: return "plant";
+                        case 1: return "flower";
+                        case 2: return "weed";
+                        case 3: return "vine";
+                        case 4: return "herb";
+                    }
+                    break;
+                case 21: return "tablet";
+                case 22: return "flask"; // Bottle
+                case 23: return "rune"; // Rune
+                case 24: return "rune"; // Rune
+                case 25:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "scroll";
+                        case 1: return "parchment";
+                    }
+                    break;
+                case 26:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "scroll";
+                        case 1: return "parchment";
+                    }
+                    break;
+                case 27: return "skull";    // Skull
+                case 28:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "rock";
+                        case 1: return "stone";
+                    }
+                    break;
+                case 29:
+                    switch (Utility.RandomMinMax(0, 4))
+                    {
+                        case 0: return "urn";
+                        case 1: return "vase";
+                        case 2: return "jar";
+                        case 3: return "pot";
+                        case 4: return "ewer";
+                    }
+                    break;
+                case 30: return "vial"; // Vial
+                case 31: return "bone"; // Bone
+                case 32: return "eye";  // Evil Eye
+                case 33:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "frog";
+                        case 1: return "toad";
+                    }
+                    break;
+                case 34:
+                    switch (Utility.RandomMinMax(0, 3))
+                    {
+                        case 0: return "chalice";
+                        case 1: return "goblet";
+                        case 2: return "cup";
+                        case 3: return "grail";
+                    }
+                    break;
+                case 35:
+                    switch (Utility.RandomMinMax(0, 2))
+                    {
+                        case 0: return "gem";
+                        case 1: return "crystal";
+                        case 2: return "jewel";
+                    }
+                    break;
+                case 36: return "skull";    // Monster Skull
+                case 37: return Server.Misc.RandomThings.GetRandomBookType(false);
+                case 38: return "doll"; // Doll
+                case 39:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "hand";
+                        case 1: return "claw";
+                    }
+                    break;
+                case 40: return "heart";    // Heart
+                case 41: return "rabbit foot";  // Rabbit's Foot
+                case 42:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "gems";
+                        case 1: return "jewels";
+                    }
+                    break;
+                case 43: return "teeth";
+                case 44:
+                    switch (Utility.RandomMinMax(0, 1))
+                    {
+                        case 0: return "chains";
+                        case 1: return "shackles";
+                    }
+                    break;
+                case 45: return "map";
+                case 46: return "skull";    // Creature Skull
+                case 47: return "fishing hook";    // Fishing Hook
+                case 48: return "coin"; // Coin
+                case 49: return "head"; // Monster Head
+                case 50: return "brazier"; // Brazier
+            }
+			return "talisman";
+        }
 
 		[Constructable]
 		public TrinketTalisman() : base( 0x2F58 ) 
@@ -16,7 +209,7 @@ namespace Server.Items
 			Hue = 0;
 
 			int trinket = Utility.RandomMinMax( 0, 50 );
-
+			m_Subtype = trinket;
 			switch ( trinket ) 
 			{
 				case 0 :	Name = "talisman"; 						ItemID = 0x2F58; 		break;
