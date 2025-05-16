@@ -2610,6 +2610,23 @@ namespace Server.Mobiles
                     m_Vendor.SayTo(from, "Place some gold in the bag and I will charge it by that amount.");
                     return;
                 }
+                else if (targeted is WeightReductionContainer)
+                {
+                    Container pack = from.Backpack;
+                    var bagofholding = (WeightReductionContainer)targeted;
+                    int price = bagofholding.GetRechargeCost();
+                    if (price > 0 && pack.ConsumeTotal(typeof(Gold), price))
+                    {
+                        m_Vendor.SayTo(from, "I've reopened the bag's connection for " + price + " gold.");
+                        bagofholding.ResetAccessTime();
+                        return;
+                    }
+                    else
+                    {
+                        m_Vendor.SayTo(from, "You will need to bring more gold if you want that Bag of Holding reopened.");
+                        return;
+                    }
+                }
                 else if (targeted is Item && ((Item)targeted).Enchanted != MagicSpell.None && ((Item)targeted).EnchantUsesMax > 0)
                 {
                     Item rep = (Item)targeted;

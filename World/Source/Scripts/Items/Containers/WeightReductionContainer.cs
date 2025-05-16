@@ -180,6 +180,27 @@ namespace Server.Items
             Hue = ContainerHue;
         }
 
+        public void ResetAccessTime()
+        {
+            NextAccessTime = DateTime.Now;
+        }
+
+        public bool CanAccess()
+        {
+            return DateTime.Now > NextAccessTime;
+        }
+
+        public int GetRechargeCost()
+        {
+            if (CanAccess()) return 0;
+            else
+            {
+                DateTime max = DateTime.Now.AddMinutes(5);
+                TimeSpan remaining = max - NextAccessTime;
+                // 5000 gold per minute
+                return (int)(5000 * Math.Ceiling(remaining.TotalMinutes));
+            }
+        }
         public override bool OnDragDrop(Mobile from, Item dropped)
         {
             if (dropped is Container)
