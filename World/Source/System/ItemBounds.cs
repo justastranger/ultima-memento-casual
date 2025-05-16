@@ -28,21 +28,21 @@ namespace Server
 		private const int MAX_ITEM_ID = 0x10000; // 65536
 		private static Rectangle2D[] m_Bounds;
 
-		public static Rectangle2D[] Table
-		{
-			get
-			{
-				return m_Bounds;
-			}
-		}
+        public static Rectangle2D[] Table
+        {
+            get
+            {
+                return m_Bounds;
+            }
+        }
 
-		static ItemBounds()
-		{
-			if ( File.Exists( "Data/Bounds.bin" ) )
-			{
-				using ( FileStream fs = new FileStream( "Data/Bounds.bin", FileMode.Open, FileAccess.Read, FileShare.Read ) )
-				{
-					BinaryReader bin = new BinaryReader( fs );
+        static ItemBounds()
+        {
+            if (File.Exists("Data/Bounds.bin"))
+            {
+                using (FileStream fs = new FileStream("Data/Bounds.bin", FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    BinaryReader bin = new BinaryReader(fs);
 
 					m_Bounds = new Rectangle2D[MAX_ITEM_ID];
 
@@ -55,15 +55,15 @@ namespace Server
 						int xMax = bin.ReadInt16();
 						int yMax = bin.ReadInt16();
 
-						m_Bounds[i].Set( xMin, yMin, (xMax - xMin) + 1, (yMax - yMin) + 1 );
-					}
+                        m_Bounds[i].Set(xMin, yMin, (xMax - xMin) + 1, (yMax - yMin) + 1);
+                    }
 
-					bin.Close();
-				}
-			}
-			else
-			{
-				Console.WriteLine( "Warning: Wrong Game Version!" );
+                    bin.Close();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Warning: Wrong Game Version!");
 
 				m_Bounds = new Rectangle2D[MAX_ITEM_ID];
 			}
