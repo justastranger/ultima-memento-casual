@@ -54,7 +54,10 @@ namespace Server.Engines.GlobalShoppe
                         typeof(CookableFood),
 
                         // Pumpkins
-                        typeof(BaseLight)
+                        typeof(BaseLight),
+
+						// Only purchasable
+						typeof(WoodenBowlOfPeas)
                     )
                 )
                 .ToList();
@@ -161,7 +164,7 @@ namespace Server.Engines.GlobalShoppe
                 this,
                 context,
                 "BAKER WORK SHOPPE",
-                "Pans or Rolling Pins",
+                "Culinary Sets",
                 "Dough"
             );
         }
