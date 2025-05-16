@@ -5,217 +5,217 @@ using Server.Items;
 
 namespace Server.Engines.Craft
 {
-	public enum EnhanceResult
-	{
-		None,
-		NotInBackpack,
-		BadItem,
-		BadResource,
-		AlreadyEnhanced,
-		Success,
-		Failure,
-		Broken,
-		NoResources,
-		NoSkill
-	}
+    public enum EnhanceResult
+    {
+        None,
+        NotInBackpack,
+        BadItem,
+        BadResource,
+        AlreadyEnhanced,
+        Success,
+        Failure,
+        Broken,
+        NoResources,
+        NoSkill
+    }
 
-	public class Enhance
-	{
-		public static EnhanceResult Invoke( Mobile from, CraftSystem craftSystem, BaseTool tool, Item item, CraftResource resource, Type resType, ref object resMessage )
-		{
-			if ( item == null )
-				return EnhanceResult.BadItem;
+    public class Enhance
+    {
+        public static EnhanceResult Invoke(Mobile from, CraftSystem craftSystem, BaseTool tool, Item item, CraftResource resource, Type resType, ref object resMessage)
+        {
+            if (item == null)
+                return EnhanceResult.BadItem;
 
-			if ( !item.IsChildOf( from.Backpack ) )
-				return EnhanceResult.NotInBackpack;
+            if (!item.IsChildOf(from.Backpack))
+                return EnhanceResult.NotInBackpack;
 
-			if ( !item.ResourceCanChange() )
-				return EnhanceResult.BadItem;
+            if (!item.ResourceCanChange())
+                return EnhanceResult.BadItem;
 
-			if ( item is IArcaneEquip )
-			{
-				IArcaneEquip eq = (IArcaneEquip)item;
-				if ( eq.IsArcane )
-					return EnhanceResult.BadItem;
-			}
+            if (item is IArcaneEquip)
+            {
+                IArcaneEquip eq = (IArcaneEquip)item;
+                if (eq.IsArcane)
+                    return EnhanceResult.BadItem;
+            }
 
-			if ( Item.IsStandardResource( resource ) )
-				return EnhanceResult.BadResource;
+            if (Item.IsStandardResource(resource))
+                return EnhanceResult.BadResource;
 
-			if ( !Item.IsStandardResource( item.Resource ) )
-				return EnhanceResult.AlreadyEnhanced;
-			
-			int num = craftSystem.CanCraft( from, tool, item.GetType() );
-			
-			if ( num > 0 )
-			{
-				resMessage = num;
-				return EnhanceResult.None;
-			}
+            if (!Item.IsStandardResource(item.Resource))
+                return EnhanceResult.AlreadyEnhanced;
 
-			CraftItem craftItem = craftSystem.CraftItems.SearchFor( item.GetType() );
+            int num = craftSystem.CanCraft(from, tool, item.GetType());
 
-			if ( craftItem == null || craftItem.Resources.Count == 0 )
-				return EnhanceResult.BadItem;
+            if (num > 0)
+            {
+                resMessage = num;
+                return EnhanceResult.None;
+            }
 
-			bool allRequiredSkills = false;
-			if( craftItem.GetSuccessChance( from, resType, craftSystem, false, ref allRequiredSkills ) <= 0.0 )
-				return EnhanceResult.NoSkill;
+            CraftItem craftItem = craftSystem.CraftItems.SearchFor(item.GetType());
 
-			CraftResourceInfo info = CraftResources.GetInfo( resource );
+            if (craftItem == null || craftItem.Resources.Count == 0)
+                return EnhanceResult.BadItem;
 
-			if ( info == null || info.ResourceTypes.Length == 0 )
-				return EnhanceResult.BadResource;
+            bool allRequiredSkills = false;
+            if (craftItem.GetSuccessChance(from, resType, craftSystem, false, ref allRequiredSkills) <= 0.0)
+                return EnhanceResult.NoSkill;
 
-			CraftAttributeInfo attributes = info.AttributeInfo;
+            CraftResourceInfo info = CraftResources.GetInfo(resource);
 
-			if ( attributes == null )
-				return EnhanceResult.BadResource;
+            if (info == null || info.ResourceTypes.Length == 0)
+                return EnhanceResult.BadResource;
 
-			int resHue = 0, maxAmount = 0;
+            CraftAttributeInfo attributes = info.AttributeInfo;
 
-			if ( !craftItem.ConsumeRes( from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.None, ref resMessage ) )
-				return EnhanceResult.NoResources;
+            if (attributes == null)
+                return EnhanceResult.BadResource;
 
-			int playerSkill = (int)from.Skills[craftSystem.MainSkill].Value;
-			int materialSkill = (int)CraftResources.GetSkill( resource );
-			int densityMod = (int)(item.Density) * 5;
-			int breakMod = 20 + ( (int)(item.Density) * 10 );
+            int resHue = 0, maxAmount = 0;
 
-			playerSkill = playerSkill - materialSkill + densityMod;
+            if (!craftItem.ConsumeRes(from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.None, ref resMessage))
+                return EnhanceResult.NoResources;
 
-			EnhanceResult res = EnhanceResult.Success;
+            int playerSkill = (int)from.Skills[craftSystem.MainSkill].Value;
+            int materialSkill = (int)CraftResources.GetSkill(resource);
+            int densityMod = (int)(item.Density) * 5;
+            int breakMod = 20 + ((int)(item.Density) * 10);
 
-			if ( playerSkill < Utility.Random(100) )
-			{
-				res = EnhanceResult.Failure;
+            playerSkill = playerSkill - materialSkill + densityMod;
 
-				if ( Utility.Random(100) > breakMod )
-					res = EnhanceResult.Broken;
-			}
+            EnhanceResult res = EnhanceResult.Success;
 
-			switch ( res )
-			{
-				case EnhanceResult.Broken:
-				{
-					if ( !craftItem.ConsumeRes( from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.Half, ref resMessage ) )
-						return EnhanceResult.NoResources;
+            if (playerSkill < Utility.Random(100))
+            {
+                res = EnhanceResult.Failure;
 
-					item.Delete();
-					break;
-				}
-				case EnhanceResult.Success:
-				{
-					if ( !craftItem.ConsumeRes( from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.All, ref resMessage ) )
-						return EnhanceResult.NoResources;
+                if (Utility.Random(100) > breakMod)
+                    res = EnhanceResult.Broken;
+            }
 
-					craftSystem.PlayCraftEffect( from );
-					item.Resource = resource;
+            switch (res)
+            {
+                case EnhanceResult.Broken:
+                    {
+                        if (!craftItem.ConsumeRes(from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.Half, ref resMessage))
+                            return EnhanceResult.NoResources;
 
-					break;
-				}
-				case EnhanceResult.Failure:
-				{
-					if ( !craftItem.ConsumeRes( from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.Half, ref resMessage ) )
-						return EnhanceResult.NoResources;
+                        item.Delete();
+                        break;
+                    }
+                case EnhanceResult.Success:
+                    {
+                        if (!craftItem.ConsumeRes(from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.All, ref resMessage))
+                            return EnhanceResult.NoResources;
 
-					break;
-				}
-			}
+                        craftSystem.PlayCraftEffect(from);
+                        item.Resource = resource;
 
-			return res;
-		}
+                        break;
+                    }
+                case EnhanceResult.Failure:
+                    {
+                        if (!craftItem.ConsumeRes(from, resType, craftSystem, ref resHue, ref maxAmount, ConsumeType.Half, ref resMessage))
+                            return EnhanceResult.NoResources;
 
-		public static void CheckResult( ref EnhanceResult res, int chance )
-		{
-			if ( res != EnhanceResult.Success )
-				return; // we've already failed..
+                        break;
+                    }
+            }
 
-			int random = Utility.Random( 100 );
+            return res;
+        }
 
-			if ( 10 > random )
-				res = EnhanceResult.Failure;
-			else if ( chance > random )
-				res = EnhanceResult.Broken;
-		}
+        public static void CheckResult(ref EnhanceResult res, int chance)
+        {
+            if (res != EnhanceResult.Success)
+                return; // we've already failed..
 
-		public static void BeginTarget( Mobile from, CraftSystem craftSystem, BaseTool tool )
-		{
-			CraftContext context = craftSystem.GetContext( from );
+            int random = Utility.Random(100);
 
-			if ( context == null )
-				return;
+            if (10 > random)
+                res = EnhanceResult.Failure;
+            else if (chance > random)
+                res = EnhanceResult.Broken;
+        }
 
-			int lastRes = context.LastResourceIndex;
-			CraftSubResCol subRes = craftSystem.CraftSubRes;
+        public static void BeginTarget(Mobile from, CraftSystem craftSystem, BaseTool tool)
+        {
+            CraftContext context = craftSystem.GetContext(from);
 
-			if ( lastRes >= 0 && lastRes < subRes.Count )
-			{
-				CraftSubRes res = subRes.GetAt( lastRes );
+            if (context == null)
+                return;
 
-				if ( from.Skills[craftSystem.MainSkill].Value < res.RequiredSkill )
-				{
-					from.SendGump( new CraftGump( from, craftSystem, tool, res.Message ) );
-				}
-				else
-				{
-					CraftResource resource = CraftResources.GetFromType( res.ItemType );
+            int lastRes = context.LastResourceIndex;
+            CraftSubResCol subRes = craftSystem.CraftSubRes;
 
-					if ( resource != CraftResource.None )
-					{
-						from.Target = new InternalTarget( craftSystem, tool, res.ItemType, resource );
-						from.SendLocalizedMessage( 1061004 ); // Target an item to enhance with the properties of your selected material.
-					}
-					else
-					{
-						from.SendGump( new CraftGump( from, craftSystem, tool, 1061010 ) ); // You must select a special material in order to enhance an item with its properties.
-					}
-				}
-			}
-			else
-			{
-				from.SendGump( new CraftGump( from, craftSystem, tool, 1061010 ) ); // You must select a special material in order to enhance an item with its properties.
-			}
+            if (lastRes >= 0 && lastRes < subRes.Count)
+            {
+                CraftSubRes res = subRes.GetAt(lastRes);
 
-		}
+                if (from.Skills[craftSystem.MainSkill].Value < res.RequiredSkill)
+                {
+                    from.SendGump(new CraftGump(from, craftSystem, tool, res.Message));
+                }
+                else
+                {
+                    CraftResource resource = CraftResources.GetFromType(res.ItemType);
 
-		private class InternalTarget : Target
-		{
-			private CraftSystem m_CraftSystem;
-			private BaseTool m_Tool;
-			private Type m_ResourceType;
-			private CraftResource m_Resource;
+                    if (resource != CraftResource.None)
+                    {
+                        from.Target = new InternalTarget(craftSystem, tool, res.ItemType, resource);
+                        from.SendLocalizedMessage(1061004); // Target an item to enhance with the properties of your selected material.
+                    }
+                    else
+                    {
+                        from.SendGump(new CraftGump(from, craftSystem, tool, 1061010)); // You must select a special material in order to enhance an item with its properties.
+                    }
+                }
+            }
+            else
+            {
+                from.SendGump(new CraftGump(from, craftSystem, tool, 1061010)); // You must select a special material in order to enhance an item with its properties.
+            }
 
-			public InternalTarget( CraftSystem craftSystem, BaseTool tool, Type resourceType, CraftResource resource ) :  base ( 2, false, TargetFlags.None )
-			{
-				m_CraftSystem = craftSystem;
-				m_Tool = tool;
-				m_ResourceType = resourceType;
-				m_Resource = resource;
-			}
+        }
 
-			protected override void OnTarget( Mobile from, object targeted )
-			{
-				if ( targeted is Item )
-				{
-					object message = null;
-					EnhanceResult res = Enhance.Invoke( from, m_CraftSystem, m_Tool, (Item)targeted, m_Resource, m_ResourceType, ref message );
+        private class InternalTarget : Target
+        {
+            private CraftSystem m_CraftSystem;
+            private BaseTool m_Tool;
+            private Type m_ResourceType;
+            private CraftResource m_Resource;
 
-					switch ( res )
-					{
-						case EnhanceResult.NotInBackpack: message = 1061005; break; // The item must be in your backpack to enhance it.
-						case EnhanceResult.AlreadyEnhanced: message = 1061012; break; // This item is already enhanced with the properties of a special material.
-						case EnhanceResult.BadItem: message = 1061011; break; // You cannot enhance this type of item with the properties of the selected special material.
-						case EnhanceResult.BadResource: message = 1061010; break; // You must select a special material in order to enhance an item with its properties.
-						case EnhanceResult.Broken: message = 1061080; break; // You attempt to enhance the item, but fail catastrophically. The item is lost.
-						case EnhanceResult.Failure: message = 1061082; break; // You attempt to enhance the item, but fail. Some material is lost in the process.
-						case EnhanceResult.Success: message = 1061008; break; // You enhance the item with the properties of the special material.
-						case EnhanceResult.NoSkill: message = 1044153; break; // You don't have the required skills to attempt this item.
-					}
+            public InternalTarget(CraftSystem craftSystem, BaseTool tool, Type resourceType, CraftResource resource) : base(2, false, TargetFlags.None)
+            {
+                m_CraftSystem = craftSystem;
+                m_Tool = tool;
+                m_ResourceType = resourceType;
+                m_Resource = resource;
+            }
 
-					from.SendGump( new CraftGump( from, m_CraftSystem, m_Tool, message ) );
-				}
-			}
-		}
-	}
+            protected override void OnTarget(Mobile from, object targeted)
+            {
+                if (targeted is Item)
+                {
+                    object message = null;
+                    EnhanceResult res = Enhance.Invoke(from, m_CraftSystem, m_Tool, (Item)targeted, m_Resource, m_ResourceType, ref message);
+
+                    switch (res)
+                    {
+                        case EnhanceResult.NotInBackpack: message = 1061005; break; // The item must be in your backpack to enhance it.
+                        case EnhanceResult.AlreadyEnhanced: message = 1061012; break; // This item is already enhanced with the properties of a special material.
+                        case EnhanceResult.BadItem: message = 1061011; break; // You cannot enhance this type of item with the properties of the selected special material.
+                        case EnhanceResult.BadResource: message = 1061010; break; // You must select a special material in order to enhance an item with its properties.
+                        case EnhanceResult.Broken: message = 1061080; break; // You attempt to enhance the item, but fail catastrophically. The item is lost.
+                        case EnhanceResult.Failure: message = 1061082; break; // You attempt to enhance the item, but fail. Some material is lost in the process.
+                        case EnhanceResult.Success: message = 1061008; break; // You enhance the item with the properties of the special material.
+                        case EnhanceResult.NoSkill: message = 1044153; break; // You don't have the required skills to attempt this item.
+                    }
+
+                    from.SendGump(new CraftGump(from, m_CraftSystem, m_Tool, message));
+                }
+            }
+        }
+    }
 }

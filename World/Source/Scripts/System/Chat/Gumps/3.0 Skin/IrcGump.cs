@@ -25,8 +25,8 @@ namespace Knives.Chat3
             AddButton(width / 2 + 60, y, 0x2716, "Channel Options", new GumpCallback(ChannelOptions));
 
             AddHtml(0, y += 20, width, "<CENTER>" + General.Local(98));
-            AddButton(width/2-80, y+3, Data.IrcEnabled ? 0x2343 : 0x2342, "IRC Enabled", new GumpCallback(IrcEnabled));
-            AddButton(width/2+60, y+3, Data.IrcEnabled ? 0x2343 : 0x2342, "IRC Enabled", new GumpCallback(IrcEnabled));
+            AddButton(width / 2 - 80, y + 3, Data.IrcEnabled ? 0x2343 : 0x2342, "IRC Enabled", new GumpCallback(IrcEnabled));
+            AddButton(width / 2 + 60, y + 3, Data.IrcEnabled ? 0x2343 : 0x2342, "IRC Enabled", new GumpCallback(IrcEnabled));
 
             if (!Data.IrcEnabled)
             {
@@ -35,10 +35,10 @@ namespace Knives.Chat3
             }
 
             AddHtml(0, y += 25, width, "<CENTER>" + General.Local(115));
-            AddButton(width/2-80, y, Data.IrcAutoConnect ? 0x2343 : 0x2342, "IRC Auto Connect", new GumpCallback(IrcAutoConnect));
-            AddButton(width/2+60, y, Data.IrcAutoConnect ? 0x2343 : 0x2342, "IRC Auto Connect", new GumpCallback(IrcAutoConnect));
+            AddButton(width / 2 - 80, y, Data.IrcAutoConnect ? 0x2343 : 0x2342, "IRC Auto Connect", new GumpCallback(IrcAutoConnect));
+            AddButton(width / 2 + 60, y, Data.IrcAutoConnect ? 0x2343 : 0x2342, "IRC Auto Connect", new GumpCallback(IrcAutoConnect));
 
-            AddHtml(0, y+=20, width, "<CENTER>" + General.Local(116));
+            AddHtml(0, y += 20, width, "<CENTER>" + General.Local(116));
             AddButton(width / 2 - 80, y, Data.IrcAutoReconnect ? 0x2343 : 0x2342, "IRC Auto Reconnect", new GumpCallback(IrcAutoReconnect));
             AddButton(width / 2 + 60, y, Data.IrcAutoReconnect ? 0x2343 : 0x2342, "IRC Auto Reconnect", new GumpCallback(IrcAutoReconnect));
 
@@ -73,7 +73,7 @@ namespace Knives.Chat3
             AddButton(width / 2 - 60, y + 4, 0x2716, "Connect or Cancel or Close", new GumpCallback(ConnectCancelClose));
             AddButton(width / 2 + 50, y + 4, 0x2716, "Connect or Cancel or Close", new GumpCallback(ConnectCancelClose));
 
-            AddBackgroundZero(0, 0, width, y+40, Data.GetData(Owner).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 40, Data.GetData(Owner).DefaultBack);
         }
 
         private void ChannelOptions()

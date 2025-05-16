@@ -46,7 +46,7 @@ namespace Server.Commands
         [Description("Creates a custom CSV file that details prices for craftable items")]
         public static void OnExportCraftCommand(CommandEventArgs e)
         {
-            Dictionary<Type,ItemSalesInfo> allSellInfo = ItemSalesInfo.m_SellingInfo;
+            Dictionary<Type, ItemSalesInfo> allSellInfo = ItemSalesInfo.m_SellingInfo;
             Directory.CreateDirectory("Data/_Prices");
 
             foreach (var craftSystem in AllCraftSystems)
@@ -136,7 +136,7 @@ namespace Server.Commands
             }
         }
 
-        private static void CalculateCraftedItemResourcePrice(CraftSystem craftSystem, Dictionary<Type,ItemSalesInfo> allSellInfo, EvaluateCraftItem evaluate)
+        private static void CalculateCraftedItemResourcePrice(CraftSystem craftSystem, Dictionary<Type, ItemSalesInfo> allSellInfo, EvaluateCraftItem evaluate)
         {
             for (int groupIndex = 0; groupIndex < craftSystem.CraftGroups.Count; groupIndex++)
             {

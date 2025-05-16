@@ -18,23 +18,23 @@ namespace Server.Items
             Attributes.RegenHits = 3;
             Attributes.RegenStam = 3;
             Attributes.RegenMana = 3;
-            SkillBonuses.SetValues( 0, SkillName.Tactics, 10.0 );
-			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
-		}
+            SkillBonuses.SetValues(0, SkillName.Tactics, 10.0);
+            ArtifactLevel = 2;
+            Server.Misc.Arty.ArtySetup(this, 10, "");
+        }
 
-        public Artifact_WarriorsClasp( Serial serial ) : base( serial )
+        public Artifact_WarriorsClasp(Serial serial) : base(serial)
         {
         }
-        public override void Serialize( GenericWriter writer )
+        public override void Serialize(GenericWriter writer)
         {
-            base.Serialize( writer );
-            writer.Write( (int)0 );
+            base.Serialize(writer);
+            writer.Write((int)0);
         }
-        public override void Deserialize( GenericReader reader )
+        public override void Deserialize(GenericReader reader)
         {
-            base.Deserialize( reader );
-			ArtifactLevel = 2;
+            base.Deserialize(reader);
+            ArtifactLevel = 2;
             int version = reader.ReadInt();
         }
     }

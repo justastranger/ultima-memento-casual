@@ -5,8 +5,8 @@ namespace Knives.Chat3
 {
     public enum FilterPenalty { None, Ban, Jail }
 
-	public class Filter
-	{
+    public class Filter
+    {
         public static string FilterText(Mobile m, string s)
         {
             return FilterText(m, s, true);

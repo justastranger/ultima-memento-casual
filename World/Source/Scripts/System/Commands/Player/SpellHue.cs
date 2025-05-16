@@ -25,12 +25,12 @@ namespace Server.Items
         {
             Mobile m = e.Mobile;
 
-			int hue = 0;
+            int hue = 0;
 
-			if (e.Length >= 1){ hue = e.GetInt32(0); }
+            if (e.Length >= 1) { hue = e.GetInt32(0); }
 
-			m.SendMessage(68, "You have changed your magery spell effects color.");
-			((PlayerMobile)m).MagerySpellHue = hue;
+            m.SendMessage(68, "You have changed your magery spell effects color.");
+            ((PlayerMobile)m).MagerySpellHue = hue;
         }
     }
 }

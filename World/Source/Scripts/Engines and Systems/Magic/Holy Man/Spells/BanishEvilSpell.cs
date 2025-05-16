@@ -8,18 +8,18 @@ using Server.Spells;
 
 namespace Server.Spells.HolyMan
 {
-	public class BanishEvilSpell : HolyManSpell
-	{
-		private static SpellInfo m_Info = new SpellInfo(
-				"Banish", "Exilium",
-				266,
-				9040
-			);
+    public class BanishEvilSpell : HolyManSpell
+    {
+        private static SpellInfo m_Info = new SpellInfo(
+                "Banish", "Exilium",
+                266,
+                9040
+            );
 
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
-		public override int RequiredTithing{ get{ return 120; } }
-		public override double RequiredSkill{ get{ return 60.0; } }
-		public override int RequiredMana{ get{ return 30; } }
+        public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds(3); } }
+        public override int RequiredTithing { get { return 120; } }
+        public override double RequiredSkill { get { return 60.0; } }
+        public override int RequiredMana { get { return 30; } }
 
         public BanishEvilSpell(Mobile caster, Item scroll) : base(caster, scroll, m_Info)
         {
@@ -32,7 +32,7 @@ namespace Server.Spells.HolyMan
 
         public void Target(Mobile m)
         {
-			BaseCreature bc = m as BaseCreature;
+            BaseCreature bc = m as BaseCreature;
 
             SlayerEntry undead = SlayerGroup.GetEntryByName(SlayerName.Silver);
             SlayerEntry exorcism = SlayerGroup.GetEntryByName(SlayerName.Exorcism);
@@ -45,50 +45,50 @@ namespace Server.Spells.HolyMan
             {
                 Caster.SendMessage("Your prayers cannot banish that!");
             }
-			else if (!undead.Slays(m) && !exorcism.Slays(m))
-			{
+            else if (!undead.Slays(m) && !exorcism.Slays(m))
+            {
                 Caster.SendMessage("Your prayers cannot banish such a creature!");
             }
-			else if( bc.IsBonded )
-			{
+            else if (bc.IsBonded)
+            {
                 Caster.SendMessage("Your prayers cannot banish such a creature!");
-			}
-			else if ( exorcism.Slays(m) && !bc.IsDispellable )
-			{
-				m.Say("Your pitiful prayers are heard by no one, mortal!");
-				double damage;
-				damage = GetNewAosDamage(48, 1, 5, Caster);
-				m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
-				m.PlaySound(0x208);
-				SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-			}
-			else if ( m.Fame >= 23000 )
-			{
-				m.Say("Your pitiful prayers are heard by no one, mortal!");
-				double damage;
-				damage = GetNewAosDamage(48, 1, 5, Caster);
-				m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
-				m.PlaySound(0x208);
-				SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-			}
+            }
+            else if (exorcism.Slays(m) && !bc.IsDispellable)
+            {
+                m.Say("Your pitiful prayers are heard by no one, mortal!");
+                double damage;
+                damage = GetNewAosDamage(48, 1, 5, Caster);
+                m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
+                m.PlaySound(0x208);
+                SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
+                DrainSoulsInSymbol(Caster, RequiredTithing);
+            }
+            else if (m.Fame >= 23000)
+            {
+                m.Say("Your pitiful prayers are heard by no one, mortal!");
+                double damage;
+                damage = GetNewAosDamage(48, 1, 5, Caster);
+                m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
+                m.PlaySound(0x208);
+                SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
+                DrainSoulsInSymbol(Caster, RequiredTithing);
+            }
             else if (CheckHSequence(m))
             {
                 SpellHelper.Turn(Caster, m);
 
                 m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
                 m.PlaySound(0x208);
-				DrainSoulsInSymbol( Caster, RequiredTithing );
+                DrainSoulsInSymbol(Caster, RequiredTithing);
 
-				if (undead.Slays(m))
-				{
-					m.Say("No! You cannot banish me! I will return from the Underworld!");
-				}
-				else
-				{
-					m.Say("No! You cannot kill that which is dead! I will return!");
-				}
+                if (undead.Slays(m))
+                {
+                    m.Say("No! You cannot banish me! I will return from the Underworld!");
+                }
+                else
+                {
+                    m.Say("No! You cannot kill that which is dead! I will return!");
+                }
 
                 new InternalTimer(m).Start();
             }

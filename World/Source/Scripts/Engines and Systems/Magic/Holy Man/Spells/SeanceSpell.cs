@@ -7,18 +7,18 @@ using Server.Spells;
 
 namespace Server.Spells.HolyMan
 {
-	public class SeanceSpell : HolyManSpell
-	{
-		private static SpellInfo m_Info = new SpellInfo(
-				"Seance", "Spiritus Mundi",
-				266,
-				9040
-			);
+    public class SeanceSpell : HolyManSpell
+    {
+        private static SpellInfo m_Info = new SpellInfo(
+                "Seance", "Spiritus Mundi",
+                266,
+                9040
+            );
 
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
-		public override int RequiredTithing{ get{ return 120; } }
-		public override double RequiredSkill{ get{ return 60.0; } }
-		public override int RequiredMana{ get{ return 30; } }
+        public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds(3); } }
+        public override int RequiredTithing { get { return 120; } }
+        public override double RequiredSkill { get { return 60.0; } }
+        public override int RequiredMana { get { return 30; } }
 
         private int m_NewBody;
         private int m_OldBody;
@@ -41,8 +41,8 @@ namespace Server.Spells.HolyMan
                 Caster.SendMessage("You cannot enter the realm of the dead while in that form.");
                 return false;
             }
-			else if ( DisguiseTimers.IsDisguised( Caster ) )
-			{
+            else if (DisguiseTimers.IsDisguised(Caster))
+            {
                 Caster.SendMessage("You cannot enter the realm of the dead while disguised.");
                 return false;
             }
@@ -53,8 +53,8 @@ namespace Server.Spells.HolyMan
             }
             else
             {
-				m_NewBody = 970;
-				m_NewHue = 0x9C4;
+                m_NewBody = 970;
+                m_NewHue = 0x9C4;
             }
             m_OldBody = Caster.Body;
             m_OldHue = Caster.Hue;
@@ -75,11 +75,11 @@ namespace Server.Spells.HolyMan
             {
                 Caster.SendMessage("You cannot enter the realm of the dead while in that form.");
             }
-			else if ( DisguiseTimers.IsDisguised( Caster ) )
-			{
+            else if (DisguiseTimers.IsDisguised(Caster))
+            {
                 Caster.SendMessage("You cannot enter the realm of the dead while disguised.");
             }
-            else if (!Caster.CanBeginAction(typeof(Server.Spells.Shinobi.Deception)) || !Caster.CanBeginAction(typeof(Server.Spells.Fifth.IncognitoSpell)) || (Caster.IsBodyMod && Caster.RaceID != Caster.BodyMod) )
+            else if (!Caster.CanBeginAction(typeof(Server.Spells.Shinobi.Deception)) || !Caster.CanBeginAction(typeof(Server.Spells.Fifth.IncognitoSpell)) || (Caster.IsBodyMod && Caster.RaceID != Caster.BodyMod))
             {
                 DoFizzle();
             }
@@ -105,7 +105,7 @@ namespace Server.Spells.HolyMan
                         m_Timers[Caster] = t;
 
                         t.Start();
-						DrainSoulsInSymbol( Caster, RequiredTithing );
+                        DrainSoulsInSymbol(Caster, RequiredTithing);
                     }
                 }
                 else
@@ -144,7 +144,7 @@ namespace Server.Spells.HolyMan
                 m_OldBody = body;
                 m_OldHue = hue;
 
-                int val = (int)( owner.Skills[SkillName.Healing].Value + ( owner.Skills[SkillName.Spiritualism].Value / 2 ) );
+                int val = (int)(owner.Skills[SkillName.Healing].Value + (owner.Skills[SkillName.Spiritualism].Value / 2));
 
                 if (val > 100)
                     val = 100;
@@ -152,8 +152,8 @@ namespace Server.Spells.HolyMan
                 Delay = TimeSpan.FromSeconds(val);
                 Priority = TimerPriority.TwoFiftyMS;
 
-				BuffInfo.RemoveBuff( owner, BuffIcon.Seance );
-				BuffInfo.AddBuff( owner, new BuffInfo( BuffIcon.Seance, 1063538, Delay, owner ) );
+                BuffInfo.RemoveBuff(owner, BuffIcon.Seance);
+                BuffInfo.AddBuff(owner, new BuffInfo(BuffIcon.Seance, 1063538, Delay, owner));
             }
 
             protected override void OnTick()
@@ -162,10 +162,10 @@ namespace Server.Spells.HolyMan
                 {
                     m_Owner.BodyValue = m_OldBody;
                     m_Owner.Hue = m_OldHue;
-					m_Owner.RaceBody();
-					m_Owner.Blessed = false;
+                    m_Owner.RaceBody();
+                    m_Owner.Blessed = false;
                     m_Owner.EndAction(typeof(SeanceSpell));
-					BuffInfo.RemoveBuff( m_Owner, BuffIcon.Seance );
+                    BuffInfo.RemoveBuff(m_Owner, BuffIcon.Seance);
                 }
             }
         }

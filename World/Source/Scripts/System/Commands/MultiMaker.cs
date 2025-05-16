@@ -151,7 +151,7 @@ namespace Arya.Misc
                         foreach (StaticTile t in stlist)
                         {
                             list.Add(t);
-                            
+
                             int id = t.ID - 36653;
                             if (id < 2 || id > 36653)
                                 remove.Add(t);
@@ -366,25 +366,25 @@ namespace Arya.Misc
                 int zOffset = item.Z - center.Z;
                 string id = "0x" + (item.ItemID).ToString("X");
 
-				m_SimpleComponents++;
-				m_TotalComponents++;
-				simplecount++;
-				if (simplecount > 1)
-					sl.Append("");
-				sl.Append("");
-				sl.AppendFormat("{0} {1} {2} {3}", id, xOffset, yOffset, zOffset);
+                m_SimpleComponents++;
+                m_TotalComponents++;
+                simplecount++;
+                if (simplecount > 1)
+                    sl.Append("");
+                sl.Append("");
+                sl.AppendFormat("{0} {1} {2} {3}", id, xOffset, yOffset, zOffset);
 
-				if ( item.ItemID == 3026 || item.ItemID == 3025 || item.ItemID == 1711 || item.ItemID == 1709 || item.ItemID == 1701 || item.ItemID == 1703 || item.ItemID == 1663 || item.ItemID == 1661 || item.ItemID == 1653 || item.ItemID == 1655 )
-				{
-					sl.Append(" 0 0\n");
-				}
-				else
-				{
-					sl.Append(" 1 0\n");
-				}
+                if (item.ItemID == 3026 || item.ItemID == 3025 || item.ItemID == 1711 || item.ItemID == 1709 || item.ItemID == 1701 || item.ItemID == 1703 || item.ItemID == 1663 || item.ItemID == 1661 || item.ItemID == 1653 || item.ItemID == 1655)
+                {
+                    sl.Append(" 0 0\n");
+                }
+                else
+                {
+                    sl.Append(" 1 0\n");
+                }
 
-				if (generateTest)
-					AddIdentifyAddOnComponent(IdentifyAddon, item.ItemID, xOffset, yOffset, zOffset, item.Hue, -1, string.Format("({0},{1}): {2}, {3}, {4}", m_TotalComponents, item.ItemID, xOffset, yOffset, zOffset), 0);
+                if (generateTest)
+                    AddIdentifyAddOnComponent(IdentifyAddon, item.ItemID, xOffset, yOffset, zOffset, item.Hue, -1, string.Format("({0},{1}): {2}, {3}, {4}", m_TotalComponents, item.ItemID, xOffset, yOffset, zOffset), 0);
             }
             if (cc.Length > 4)
                 cl.AppendFormat("{0}", cc.ToString());

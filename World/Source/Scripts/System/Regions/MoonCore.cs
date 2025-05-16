@@ -15,69 +15,69 @@ using Server.Spells.Chivalry;
 
 namespace Server.Regions
 {
-	public class MoonCore : BaseRegion
-	{
-		public MoonCore( XmlElement xml, Map map, Region parent ) : base( xml, map, parent )
-		{
-		}
+    public class MoonCore : BaseRegion
+    {
+        public MoonCore(XmlElement xml, Map map, Region parent) : base(xml, map, parent)
+        {
+        }
 
-		public override bool AllowHousing( Mobile from, Point3D p )
-		{
-			return false;
-		}
+        public override bool AllowHousing(Mobile from, Point3D p)
+        {
+            return false;
+        }
 
-		public override void AlterLightLevel( Mobile m, ref int global, ref int personal )
-		{
-			global = LightCycle.CaveLevel;
-		}
+        public override void AlterLightLevel(Mobile m, ref int global, ref int personal)
+        {
+            global = LightCycle.CaveLevel;
+        }
 
-		public override bool OnBeginSpellCast( Mobile m, ISpell s )
-		{
-			m.SendMessage( "That does not seem to work here." );
-			return false;
-		}
+        public override bool OnBeginSpellCast(Mobile m, ISpell s)
+        {
+            m.SendMessage("That does not seem to work here.");
+            return false;
+        }
 
-		public override void OnEnter( Mobile m )
-		{
-			base.OnEnter( m );
-			if ( m is PlayerMobile )
-			{
-				if ( this.Name == "the Core of the Moon" && m.Blessed == false && m.Alive && m.AccessLevel <= AccessLevel.Counselor )
-				{
-					Effects.SendLocationParticles( EffectItem.Create( m.Location, m.Map, EffectItem.DefaultDuration ), 0x3709, 10, 30, 5052 );
-					Effects.PlaySound( m.Location, m.Map, 0x225 );
-					m.Damage( 100, m );
-				}
-				else if ( this.Name == "the Core of the Moon" )
-				{
-					m.SendMessage( "You can feel an intense heat!" );
-				}
-				else if ( m.Skills[SkillName.Elementalism].Base >= 80.0 || m.Skills[SkillName.Magery].Base >= 80.0 || m.Skills[SkillName.Necromancy].Base >= 80.0 )
-				{
-					LoggingFunctions.LogRegions( m, this.Name, "enter" );
-				}
-				else
-				{
-					BaseCreature.TeleportPets( m, new Point3D(3696, 523, 5), Map.Sosaria, false );
-					m.MoveToWorld (new Point3D(3696, 523, 5), Map.Sosaria);
-					m.PlaySound( 0x1FE );
-					m.SendMessage("You lack the magical essence to remain on the moon.");
-				}
-			}
+        public override void OnEnter(Mobile m)
+        {
+            base.OnEnter(m);
+            if (m is PlayerMobile)
+            {
+                if (this.Name == "the Core of the Moon" && m.Blessed == false && m.Alive && m.AccessLevel <= AccessLevel.Counselor)
+                {
+                    Effects.SendLocationParticles(EffectItem.Create(m.Location, m.Map, EffectItem.DefaultDuration), 0x3709, 10, 30, 5052);
+                    Effects.PlaySound(m.Location, m.Map, 0x225);
+                    m.Damage(100, m);
+                }
+                else if (this.Name == "the Core of the Moon")
+                {
+                    m.SendMessage("You can feel an intense heat!");
+                }
+                else if (m.Skills[SkillName.Elementalism].Base >= 80.0 || m.Skills[SkillName.Magery].Base >= 80.0 || m.Skills[SkillName.Necromancy].Base >= 80.0)
+                {
+                    LoggingFunctions.LogRegions(m, this.Name, "enter");
+                }
+                else
+                {
+                    BaseCreature.TeleportPets(m, new Point3D(3696, 523, 5), Map.Sosaria, false);
+                    m.MoveToWorld(new Point3D(3696, 523, 5), Map.Sosaria);
+                    m.PlaySound(0x1FE);
+                    m.SendMessage("You lack the magical essence to remain on the moon.");
+                }
+            }
 
-			Server.Misc.RegionMusic.MusicRegion( m, this );
-		}
+            Server.Misc.RegionMusic.MusicRegion(m, this);
+        }
 
-		public override void OnExit( Mobile m )
-		{
-			base.OnExit( m );
-			if ( m is PlayerMobile && this.Name != "the Core of the Moon" )
-			{
-				if ( m.Skills[SkillName.Elementalism].Base >= 80.0 || m.Skills[SkillName.Magery].Base >= 80.0 || m.Skills[SkillName.Necromancy].Base >= 80.0 )
-				{
-					LoggingFunctions.LogRegions( m, this.Name, "exit" );
-				}
-			}
-		}
-	}
+        public override void OnExit(Mobile m)
+        {
+            base.OnExit(m);
+            if (m is PlayerMobile && this.Name != "the Core of the Moon")
+            {
+                if (m.Skills[SkillName.Elementalism].Base >= 80.0 || m.Skills[SkillName.Magery].Base >= 80.0 || m.Skills[SkillName.Necromancy].Base >= 80.0)
+                {
+                    LoggingFunctions.LogRegions(m, this.Name, "exit");
+                }
+            }
+        }
+    }
 }

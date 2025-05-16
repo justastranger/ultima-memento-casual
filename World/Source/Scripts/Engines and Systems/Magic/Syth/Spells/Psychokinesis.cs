@@ -7,21 +7,21 @@ using Server.Items;
 namespace Server.Spells.Syth
 {
     public class Psychokinesis : SythSpell
-	{
-		public override int spellIndex { get { return 270; } }
-		public int CirclePower = 1;
-		public static int spellID = 270;
-		public override int RequiredTithing{ get{ return Int32.Parse(  Server.Spells.Syth.SythSpell.SpellInfo( spellIndex, 10 )); } }
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 0.5 ); } }
-		public override double RequiredSkill{ get{ return (double)(Int32.Parse( Server.Spells.Syth.SythSpell.SpellInfo( spellIndex, 2 ))); } }
-		public override int RequiredMana{ get{ return Int32.Parse(  Server.Spells.Syth.SythSpell.SpellInfo( spellIndex, 3 )); } }
+    {
+        public override int spellIndex { get { return 270; } }
+        public int CirclePower = 1;
+        public static int spellID = 270;
+        public override int RequiredTithing { get { return Int32.Parse(Server.Spells.Syth.SythSpell.SpellInfo(spellIndex, 10)); } }
+        public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds(0.5); } }
+        public override double RequiredSkill { get { return (double)(Int32.Parse(Server.Spells.Syth.SythSpell.SpellInfo(spellIndex, 2))); } }
+        public override int RequiredMana { get { return Int32.Parse(Server.Spells.Syth.SythSpell.SpellInfo(spellIndex, 3)); } }
 
-		private static SpellInfo m_Info = new SpellInfo(
-				Server.Spells.Syth.SythSpell.SpellInfo( spellID, 1 ),
-				Server.Misc.Research.CapsCast( Server.Spells.Syth.SythSpell.SpellInfo( spellID, 4 ) ),
-				203,
-				0
-			);
+        private static SpellInfo m_Info = new SpellInfo(
+                Server.Spells.Syth.SythSpell.SpellInfo(spellID, 1),
+                Server.Misc.Research.CapsCast(Server.Spells.Syth.SythSpell.SpellInfo(spellID, 4)),
+                203,
+                0
+            );
 
         public Psychokinesis(Mobile caster, Item scroll) : base(caster, scroll, m_Info)
         {
@@ -55,7 +55,7 @@ namespace Server.Spells.Syth
                 if (!item.IsAccessibleTo(this.Caster))
                 {
                     item.OnDoubleClickNotAccessible(this.Caster);
-					DrainCrystals( Caster, RequiredTithing );
+                    DrainCrystals(Caster, RequiredTithing);
                 }
                 else if (!item.CheckItemUse(this.Caster, item))
                 {
@@ -63,25 +63,25 @@ namespace Server.Spells.Syth
                 else if (root != null && root is Mobile && root != this.Caster)
                 {
                     item.OnSnoop(this.Caster);
-					DrainCrystals( Caster, RequiredTithing );
+                    DrainCrystals(Caster, RequiredTithing);
                 }
                 else if (item is Corpse && !((Corpse)item).CheckLoot(this.Caster, null))
                 {
                 }
-                else if ( this.Caster.Region.OnDoubleClick(this.Caster, item) )
+                else if (this.Caster.Region.OnDoubleClick(this.Caster, item))
                 {
                     Effects.SendLocationParticles(EffectItem.Create(item.Location, item.Map, EffectItem.DefaultDuration), 0x376A, 9, 32, 0, 0, 5022, 0);
                     Effects.PlaySound(item.Location, item.Map, 0x1F5);
 
                     item.OnItemUsed(this.Caster, item);
-					DrainCrystals( Caster, RequiredTithing );
+                    DrainCrystals(Caster, RequiredTithing);
                 }
             }
 
             this.FinishSequence();
         }
 
-#region Grab
+        #region Grab
         public void Target(Item item)
         {
             if (this.CheckSequence())
@@ -89,22 +89,22 @@ namespace Server.Spells.Syth
                 SpellHelper.Turn(this.Caster, item);
                 object root = item.RootParent;
 
-				if (item.Movable == false){ Caster.SendMessage( "That item does not seem to move." ); }
-				else if (item.Amount > 1){ Caster.SendMessage( "There are too many items stacked here to move." ); }
-				else if (item.Weight > (Caster.Int / 20)){ Caster.SendMessage( "That is to heavy to move." ); }
-				else if (item.RootParentEntity != null){ Caster.SendMessage( "You can not move objects that are inside of other objects or being worn." ); }
-				else
-				{
-					Effects.SendLocationParticles(EffectItem.Create(item.Location, item.Map, EffectItem.DefaultDuration), 0x376A, 9, 32, 0, 0, 5022, 0);
-					Effects.PlaySound(item.Location, item.Map, 0x1F5);
-					Caster.AddToBackpack( item );
-					Caster.SendMessage( "You move the object to within your grasp and place it in your backpack."); 
-					DrainCrystals( Caster, RequiredTithing );
-				}
-			}
+                if (item.Movable == false) { Caster.SendMessage("That item does not seem to move."); }
+                else if (item.Amount > 1) { Caster.SendMessage("There are too many items stacked here to move."); }
+                else if (item.Weight > (Caster.Int / 20)) { Caster.SendMessage("That is to heavy to move."); }
+                else if (item.RootParentEntity != null) { Caster.SendMessage("You can not move objects that are inside of other objects or being worn."); }
+                else
+                {
+                    Effects.SendLocationParticles(EffectItem.Create(item.Location, item.Map, EffectItem.DefaultDuration), 0x376A, 9, 32, 0, 0, 5022, 0);
+                    Effects.PlaySound(item.Location, item.Map, 0x1F5);
+                    Caster.AddToBackpack(item);
+                    Caster.SendMessage("You move the object to within your grasp and place it in your backpack.");
+                    DrainCrystals(Caster, RequiredTithing);
+                }
+            }
             this.FinishSequence();
         }
-#endregion
+        #endregion
 
         public class InternalTarget : Target
         {
@@ -120,10 +120,10 @@ namespace Server.Spells.Syth
                     this.m_Owner.Target((ITelekinesisable)o);
                 else if (o is Container)
                     this.m_Owner.Target((Container)o);
-                    else if (o is Item)
+                else if (o is Item)
                     this.m_Owner.Target((Item)o);
                 else
-					from.SendMessage( "This power will not work on that!"); 
+                    from.SendMessage("This power will not work on that!");
             }
 
             protected override void OnTargetFinish(Mobile from)

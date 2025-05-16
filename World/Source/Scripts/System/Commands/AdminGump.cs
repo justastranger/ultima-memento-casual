@@ -157,15 +157,15 @@ namespace Server.Gumps
         }
 
         private static string[] m_AccessLevelStrings = new string[]
-			{
-				"Player",
-				"Counselor",
-				"Game Master",
-				"Seer",
-				"Administrator",
-				"Developer",
-				"Owner"
-			};
+            {
+                "Player",
+                "Counselor",
+                "Game Master",
+                "Seer",
+                "Administrator",
+                "Developer",
+                "Owner"
+            };
 
         public static string FormatAccessLevel(AccessLevel level)
         {
@@ -190,7 +190,7 @@ namespace Server.Gumps
 
             AddPage(0);
 
-			AddImage(0, 0, 5200, Server.Misc.PlayerSettings.GetGumpHue( from ));
+            AddImage(0, 0, 5200, Server.Misc.PlayerSettings.GetGumpHue(from));
 
             AddPageButton(10, 10, GetButtonID(0, 0), "INFORMATION", AdminGumpPage.Information_General, AdminGumpPage.Information_Perf);
             AddPageButton(10, 30, GetButtonID(0, 1), "ADMINISTER", AdminGumpPage.Administer, AdminGumpPage.Administer_Access, AdminGumpPage.Administer_Commands, AdminGumpPage.Administer_Server, AdminGumpPage.Administer_WorldBuilding, AdminGumpPage.Administer_Access_Lockdown);
@@ -2367,27 +2367,27 @@ namespace Server.Gumps
                                 }
                             #region original case 30
                             case 33: // View all empty accounts
-                            {
-                                ArrayList results = new ArrayList();
-
-                                foreach ( Account acct in Accounts.GetAccounts() )
                                 {
-                                    bool empty = true;
+                                    ArrayList results = new ArrayList();
 
-                                    for ( int i = 0; empty && i < acct.Length; ++i )
-                                        empty = ( acct[i] == null );
+                                    foreach (Account acct in Accounts.GetAccounts())
+                                    {
+                                        bool empty = true;
 
-                                    if ( empty )
-                                        results.Add( acct );
+                                        for (int i = 0; empty && i < acct.Length; ++i)
+                                            empty = (acct[i] == null);
+
+                                        if (empty)
+                                            results.Add(acct);
+                                    }
+
+                                    if (results.Count == 1)
+                                        from.SendGump(new AdminGump(from, AdminGumpPage.AccountDetails_Information, 0, null, "One match found.", results[0]));
+                                    else
+                                        from.SendGump(new AdminGump(from, AdminGumpPage.Accounts, 0, results, (results.Count == 0 ? "Nothing matched your search terms." : null), new ArrayList()));
+
+                                    break;
                                 }
-
-                                if ( results.Count == 1 )
-                                    from.SendGump( new AdminGump( from, AdminGumpPage.AccountDetails_Information, 0, null, "One match found.", results[0] ) );
-                                else
-                                    from.SendGump( new AdminGump( from, AdminGumpPage.Accounts, 0, results, (results.Count == 0 ? "Nothing matched your search terms." : null), new ArrayList() ) );
-
-                                break;
-                            }
                             #endregion
                             default:
                                 {
@@ -2626,8 +2626,8 @@ namespace Server.Gumps
                                 {
                                     CommandLogging.WriteLine(from, "{0} {1} killing {2}", from.AccessLevel, CommandLogging.Format(from), CommandLogging.Format(m));
                                     //m.Kill();
-									m.BoltEffect( 0 );
-									m.Damage( 10000, from );
+                                    m.BoltEffect(0);
+                                    m.Damage(10000, from);
                                     notice = "They have been killed.";
                                     break;
                                 }
@@ -2635,7 +2635,7 @@ namespace Server.Gumps
                                 {
                                     CommandLogging.WriteLine(from, "{0} {1} resurrecting {2}", from.AccessLevel, CommandLogging.Format(from), CommandLogging.Format(m));
                                     m.Resurrect();
-									Server.Misc.Death.Penalty( m, false );
+                                    Server.Misc.Death.Penalty(m, false);
                                     notice = "They have been resurrected.";
                                     break;
                                 }

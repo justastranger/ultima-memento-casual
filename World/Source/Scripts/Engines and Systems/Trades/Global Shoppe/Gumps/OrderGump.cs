@@ -228,7 +228,8 @@ namespace Server.Engines.GlobalShoppe
                         {
                             AddItem(from, order, item);
                         }
-                    };
+                    }
+                    ;
                 }
                 else
                 {

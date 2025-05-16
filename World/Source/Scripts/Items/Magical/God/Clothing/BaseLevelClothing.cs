@@ -18,23 +18,23 @@ namespace Server.Items
         private int m_Points;
         private int m_MaxLevel;
 
-		public BaseLevelClothing( int itemID, Layer layer ) : this( itemID, layer, 0 )
-		{
-		}
+        public BaseLevelClothing(int itemID, Layer layer) : this(itemID, layer, 0)
+        {
+        }
 
-		public BaseLevelClothing( int itemID, Layer layer, int hue ) : base( itemID, layer, hue )
+        public BaseLevelClothing(int itemID, Layer layer, int hue) : base(itemID, layer, hue)
 
-		{
+        {
             MaxLevel = LevelItems.DefaultMaxLevel;
-			LootType = LootType.Blessed;
+            LootType = LootType.Blessed;
 
             /* Invalidate the level and refresh the item props
              * Extremely important to call this method */
             LevelItemManager.InvalidateLevel(this);
-			ArtifactLevel = 3;
+            ArtifactLevel = 3;
         }
 
-		public override bool DisplayLootType{ get{ return false; } }
+        public override bool DisplayLootType { get { return false; } }
 
         public BaseLevelClothing(Serial serial)
             : base(serial)
@@ -81,7 +81,7 @@ namespace Server.Items
                         break;
                     }
             }
-			ArtifactLevel = 3;
+            ArtifactLevel = 3;
         }
 
         public override void GetProperties(ObjectPropertyList list)
@@ -92,7 +92,7 @@ namespace Server.Items
              * Will display experience as well, if DisplayExpProp.
              * is set to true in LevelItemManager.cs */
             list.Add(1060658, "Level\t{0}", m_Level);
-            if (1==1)
+            if (1 == 1)
                 list.Add(1060659, "Experience\t{0}", m_Experience);
         }
 

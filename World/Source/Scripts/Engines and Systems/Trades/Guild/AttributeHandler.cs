@@ -29,7 +29,7 @@ namespace Server.Items
         public bool AllowJewelry = false;
         public bool AllowSpellbook = false;
         public bool AllowShield = false;
-        public bool AllowClothing= false;
+        public bool AllowClothing = false;
 
         #region Attribute Definitions
         public static List<AttributeHandler> Definitions = new List<AttributeHandler>();
@@ -44,119 +44,119 @@ namespace Server.Items
             bool clothing = true;
 
             // Define Definitions
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "SpellChanneling", "Spell Channeling", 					1, 1, 200,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "SpellChanneling", "Spell Channeling", 1, 1, 200,
                 !armor, weapon, !jewelry, !spellbook, shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "DefendChance", "Defense Chance Increase", 				15, 1, 10,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "DefendChance", "Defense Chance Increase", 15, 1, 10,
                 armor, weapon, jewelry, !spellbook, shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "ReflectPhysical", "Reflect Physical Damage", 			50, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "ReflectPhysical", "Reflect Physical Damage", 50, 1, 2,
                 armor, !weapon, !jewelry, !spellbook, shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "AttackChance", "Hit Chance Increase", 					15, 1, 10,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "AttackChance", "Hit Chance Increase", 15, 1, 10,
                 armor, weapon, jewelry, !spellbook, shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosArmorAttribute, "LowerStatReq", "Lower Requirements", 				100, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosArmorAttribute, "LowerStatReq", "Lower Requirements", 100, 1, 2,
                 armor, !weapon, !jewelry, !spellbook, shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "LowerStatReq", "Lower Requirements", 				100, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "LowerStatReq", "Lower Requirements", 100, 1, 2,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosArmorAttribute, "SelfRepair", "Self Repair", 						5, 1, 100,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosArmorAttribute, "SelfRepair", "Self Repair", 5, 1, 100,
                 armor, !weapon, !jewelry, !spellbook, shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosArmorAttribute, "MageArmor", "Mage Armor",							1, 1, 200,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosArmorAttribute, "MageArmor", "Mage Armor", 1, 1, 200,
                 armor, !weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "RegenHits", "Hit Point Regeneration", 					5, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "RegenHits", "Hit Point Regeneration", 5, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "RegenStam", "Stamina Regeneration", 					5, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "RegenStam", "Stamina Regeneration", 5, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "RegenMana", "Mana Regeneration", 						5, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "RegenMana", "Mana Regeneration", 5, 1, 5,
                 armor, !weapon, !jewelry, spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "NightSight", "Night Sight",								1, 1, 6,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "NightSight", "Night Sight", 1, 1, 6,
                 armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusHits", "Hit Point Increase", 						20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusHits", "Hit Point Increase", 20, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusStam", "Stamina Increase", 						20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusStam", "Stamina Increase", 20, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusMana", "Mana Increase", 							20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusMana", "Mana Increase", 20, 1, 5,
                 armor, !weapon, !jewelry, spellbook, !shield, clothing));
-			if ( MyServerSettings.LowerMana() > 0 )
-			{
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "LowerManaCost", "Lower Mana Cost", 						MyServerSettings.LowMana(), 1, 5,
-                armor, !weapon, jewelry, spellbook, !shield, clothing));
-			}
-			if ( MyServerSettings.LowerReg() > 0 )
-			{
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "LowerRegCost", "Lower Reagent Cost", 					MyServerSettings.LowReg(), 1, 5,
-                armor, !weapon, jewelry, spellbook, !shield, clothing));
-			}
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "Luck", "Luck", 											500, 1, 2,
+            if (MyServerSettings.LowerMana() > 0)
+            {
+                Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "LowerManaCost", "Lower Mana Cost", MyServerSettings.LowMana(), 1, 5,
+                    armor, !weapon, jewelry, spellbook, !shield, clothing));
+            }
+            if (MyServerSettings.LowerReg() > 0)
+            {
+                Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "LowerRegCost", "Lower Reagent Cost", MyServerSettings.LowReg(), 1, 5,
+                    armor, !weapon, jewelry, spellbook, !shield, clothing));
+            }
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "Luck", "Luck", 500, 1, 2,
                 armor, weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.Property, "PhysicalBonus", "Physical Resist", 							20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.Property, "PhysicalBonus", "Physical Resist", 20, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.Property, "FireBonus", "Fire Resist", 									20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.Property, "FireBonus", "Fire Resist", 20, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.Property, "ColdBonus", "Cold Resist", 									20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.Property, "ColdBonus", "Cold Resist", 20, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.Property, "PoisonBonus", "Poison Resist", 								20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.Property, "PoisonBonus", "Poison Resist", 20, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.Property, "EnergyBonus", "Energy Resist", 								20, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.Property, "EnergyBonus", "Energy Resist", 20, 1, 5,
                 armor, !weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitPhysicalArea", "Hit Physical Area", 			50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitPhysicalArea", "Hit Physical Area", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitFireArea", "Hit Fire Area", 					50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitFireArea", "Hit Fire Area", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitColdArea", "Hit Cold Area", 					50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitColdArea", "Hit Cold Area", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitPoisonArea", "Hit Poison Area",				50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitPoisonArea", "Hit Poison Area", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitEnergyArea", "Hit Energy Area", 				50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitEnergyArea", "Hit Energy Area", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitMagicArrow", "Hit Magic Arrow", 				50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitMagicArrow", "Hit Magic Arrow", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitHarm", "Hit Harm", 							50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitHarm", "Hit Harm", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitFireball", "Hit Fireball", 					50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitFireball", "Hit Fireball", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLightning", "Hit Lightning", 					50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLightning", "Hit Lightning", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "UseBestSkill", "Use Best Weapon Skill", 			1, 1, 10,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "UseBestSkill", "Use Best Weapon Skill", 1, 1, 10,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "MageWeapon", "Mage Weapon", 						1, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "MageWeapon", "Mage Weapon", 1, 1, 5,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "WeaponDamage", "Damage Increase", 						50, 1, 5,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "WeaponDamage", "Damage Increase", 50, 1, 5,
                 !armor, weapon, jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "WeaponSpeed", "Swing Speed Inrease", 					40, 1, 6,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "WeaponSpeed", "Swing Speed Inrease", 40, 1, 6,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitDispel", "Hit Dispel", 						50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitDispel", "Hit Dispel", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLeechHits", "Hit Life Leech", 					50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLeechHits", "Hit Life Leech", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLowerAttack", "Hit Lower Attack", 				50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLowerAttack", "Hit Lower Attack", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLowerDefend", "Hit Lower Defense", 			50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLowerDefend", "Hit Lower Defense", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLeechMana", "Hit Mana Leech", 					50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLeechMana", "Hit Mana Leech", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLeechStam", "Hit Stamina Leech", 				50, 1, 3,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosWeaponAttribute, "HitLeechStam", "Hit Stamina Leech", 50, 1, 3,
                 !armor, weapon, !jewelry, !spellbook, !shield, !clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Physical", "Physical Resist", 					20, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Physical", "Physical Resist", 20, 1, 2,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Fire", "Fire Resist", 							20, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Fire", "Fire Resist", 20, 1, 2,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Cold", "Cold Resist", 							20, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Cold", "Cold Resist", 20, 1, 2,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Poison", "Poison Resist", 						20, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Poison", "Poison Resist", 20, 1, 2,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Energy", "Energy Resist", 						20, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosElementAttribute, "Energy", "Energy Resist", 20, 1, 2,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusStr", "Strength Bonus", 							10, 1, 10,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusStr", "Strength Bonus", 10, 1, 10,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusDex", "Dexterity Bonus", 							10, 1, 10,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusDex", "Dexterity Bonus", 10, 1, 10,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusInt", "Intelligence Bonus", 						10, 1, 10,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "BonusInt", "Intelligence Bonus", 10, 1, 10,
                 !armor, !weapon, jewelry, spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "EnhancePotions", "Enhance Potions", 					25, 1, 2,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "EnhancePotions", "Enhance Potions", 25, 1, 2,
                 !armor, !weapon, jewelry, !spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "CastSpeed", "Faster Casting", 							20, 1, 4,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "CastSpeed", "Faster Casting", 20, 1, 4,
                 !armor, !weapon, jewelry, spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "CastRecovery", "Faster Cast Recovery", 					20, 1, 4,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "CastRecovery", "Faster Cast Recovery", 20, 1, 4,
                 !armor, !weapon, jewelry, spellbook, !shield, clothing));
-            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "SpellDamage", "Spell Damage Increase", 					24, 1, 4,
+            Definitions.Add(new AttributeHandler(EnhanceType.AosAttribute, "SpellDamage", "Spell Damage Increase", 24, 1, 4,
                 !armor, !weapon, jewelry, spellbook, !shield, clothing));
 
         }
@@ -169,7 +169,7 @@ namespace Server.Items
             Description = description;
             MaxValue = maxValue;
             IncrementValue = incrementValue;
-			Cost = cost;
+            Cost = cost;
             AllowArmor = armor;
             AllowWeapon = weapon;
             AllowJewelry = jewelry;
@@ -183,25 +183,25 @@ namespace Server.Items
         {
             bool allowed = false;
 
-			if ( itemToTest is BaseShield || itemToTest is BaseArmor || itemToTest is BaseTrinket || itemToTest is Spellbook || itemToTest is BaseClothing || itemToTest is BaseWeapon )
-				allowed = true;
+            if (itemToTest is BaseShield || itemToTest is BaseArmor || itemToTest is BaseTrinket || itemToTest is Spellbook || itemToTest is BaseClothing || itemToTest is BaseWeapon)
+                allowed = true;
 
-			if ( itemToTest.Resource == CraftResource.None )
-				allowed = false;
-			else if ( itemToTest.ArtifactLevel > 0 )
-				allowed = false;
-			else if ( itemToTest.NotModAble )
-				allowed = false;
-			else if ( itemToTest is BaseShield && !AllowShield )
-				allowed = false;
-			else if ( itemToTest is BaseArmor && !AllowArmor )
-				allowed = false;
-			else if ( itemToTest is BaseTrinket && !AllowJewelry )
-				allowed = false;
-			else if ( itemToTest is Spellbook && !AllowSpellbook )
-				allowed = false;
-			else if ( itemToTest is BaseClothing && !AllowClothing )
-				allowed = false;
+            if (itemToTest.Resource == CraftResource.None)
+                allowed = false;
+            else if (itemToTest.ArtifactLevel > 0)
+                allowed = false;
+            else if (itemToTest.NotModAble)
+                allowed = false;
+            else if (itemToTest is BaseShield && !AllowShield)
+                allowed = false;
+            else if (itemToTest is BaseArmor && !AllowArmor)
+                allowed = false;
+            else if (itemToTest is BaseTrinket && !AllowJewelry)
+                allowed = false;
+            else if (itemToTest is Spellbook && !AllowSpellbook)
+                allowed = false;
+            else if (itemToTest is BaseClothing && !AllowClothing)
+                allowed = false;
             else if (itemToTest is BaseWeapon)
             {
                 BaseWeapon weapon = (BaseWeapon)itemToTest;
@@ -239,15 +239,15 @@ namespace Server.Items
                 if (Name == "HitLightning" && (weapon.WeaponAttributes.HitHarm > 0 || weapon.WeaponAttributes.HitFireball > 0 || weapon.WeaponAttributes.HitMagicArrow > 0))
                     allowed = false;
 
-                if ( !AllowWeapon )
+                if (!AllowWeapon)
                     allowed = false;
             }
 
             if (allowed)
             {
-                int currentValue = Upgrade( itemToTest, true );
+                int currentValue = Upgrade(itemToTest, true);
 
-                if  (currentValue == MaxValue )
+                if (currentValue == MaxValue)
                     allowed = false;
             }
 

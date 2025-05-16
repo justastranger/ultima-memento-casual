@@ -23,11 +23,11 @@ namespace Server.Items
         public LawnStair(Mobile placer, int defaultID, Point3D loc, int price, string title, BaseHouse house) : base(defaultID, placer, "Stairs", loc, price, "stairs", house)
         {
             DefaultID = defaultID;
-			Name = title;
-			if ( defaultID > 40000 ){ ItemID = defaultID = defaultID - Remodeling.GroundID( title ); }
+            Name = title;
+            if (defaultID > 40000) { ItemID = defaultID = defaultID - Remodeling.GroundID(title); }
         }
 
-        public LawnStair(Serial serial): base(serial)
+        public LawnStair(Serial serial) : base(serial)
         {
         }
         #endregion
@@ -52,7 +52,7 @@ namespace Server.Items
         public override void GetContextMenuEntries(Mobile from, System.Collections.Generic.List<ContextMenuEntry> list)
         {
             base.GetContextMenuEntries(from, list);
-            if ( House.IsCoOwner( from ) || House.IsOwner( from ) || from.AccessLevel >= AccessLevel.GameMaster )
+            if (House.IsCoOwner(from) || House.IsOwner(from) || from.AccessLevel >= AccessLevel.GameMaster)
             {
                 list.Add(new StairRefundEntry(from, this, Price));
             }
@@ -62,7 +62,7 @@ namespace Server.Items
         {
             if (from.InRange(this.GetWorldLocation(), 10))
             {
-                if ( House.IsCoOwner( from ) || House.IsOwner( from ) || from.AccessLevel >= AccessLevel.GameMaster )
+                if (House.IsCoOwner(from) || House.IsOwner(from) || from.AccessLevel >= AccessLevel.GameMaster)
                 {
                     if (LawnRegistry.LawnStairIDGroups.ContainsKey(DefaultID) && LawnRegistry.LawnStairIDGroups[DefaultID] != null && LawnRegistry.LawnStairIDGroups[DefaultID].Length > 0)
                     {
@@ -74,7 +74,7 @@ namespace Server.Items
                                 break;
                             }
                         }
-                        ItemID = (index == LawnRegistry.LawnStairIDGroups[DefaultID].Length - 1 ? LawnRegistry.LawnStairIDGroups[DefaultID][0] : LawnRegistry.LawnStairIDGroups[DefaultID][index+1]);
+                        ItemID = (index == LawnRegistry.LawnStairIDGroups[DefaultID].Length - 1 ? LawnRegistry.LawnStairIDGroups[DefaultID][0] : LawnRegistry.LawnStairIDGroups[DefaultID][index + 1]);
                     }
                 }
             }

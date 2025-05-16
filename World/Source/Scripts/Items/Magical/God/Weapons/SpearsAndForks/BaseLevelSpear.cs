@@ -22,15 +22,15 @@ namespace Server.Items
             : base(itemID)
         {
             MaxLevel = LevelItems.DefaultMaxLevel;
-			LootType = LootType.Blessed;
+            LootType = LootType.Blessed;
 
             /* Invalidate the level and refresh the item props
              * Extremely important to call this method */
             LevelItemManager.InvalidateLevel(this);
-			ArtifactLevel = 3;
+            ArtifactLevel = 3;
         }
 
-		public override bool DisplayLootType{ get{ return false; } }
+        public override bool DisplayLootType { get { return false; } }
 
         public BaseLevelSpear(Serial serial)
             : base(serial)
@@ -77,7 +77,7 @@ namespace Server.Items
                         break;
                     }
             }
-			ArtifactLevel = 3;
+            ArtifactLevel = 3;
         }
 
         public override void GetProperties(ObjectPropertyList list)

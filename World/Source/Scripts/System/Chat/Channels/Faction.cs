@@ -18,8 +18,8 @@ namespace Knives.Chat3
 
         public override bool CanChat(Mobile m, bool say)
         {
-			if (say) m.SendMessage(Data.GetData(m).SystemC, General.Local(37));
-				return false;
+            if (say) m.SendMessage(Data.GetData(m).SystemC, General.Local(37));
+            return false;
         }
 
         protected override void Broadcast(Mobile m, string msg)
@@ -27,7 +27,7 @@ namespace Knives.Chat3
             foreach (Data data in Data.Datas.Values)
             {
                 if (IsIn(data.Mobile) && !data.Ignores.Contains(m) && General.FactionName(data.Mobile) == General.FactionName(m))
-                    data.Mobile.SendMessage(m.AccessLevel == AccessLevel.Player ? ColorFor(data.Mobile) : Data.GetData(m).StaffC, String.Format("<{0}{1}> {2}: {3}", NameFor(m), (Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) : ""), m.RawName, msg));
+                    data.Mobile.SendMessage(m.AccessLevel == AccessLevel.Player ? ColorFor(data.Mobile) : Data.GetData(m).StaffC, String.Format("<{0}{1}> {2}: {3}", NameFor(m), (Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName(m.Map, m.Location) : ""), m.RawName, msg));
                 else if (data.Mobile.AccessLevel >= m.AccessLevel && ((data.GlobalF && !data.GIgnores.Contains(m)) || data.GListens.Contains(m)))
                     data.Mobile.SendMessage(data.GlobalFC, String.Format("(Global) <{0}> {1}: {2}", NameFor(m), m.RawName, msg));
             }

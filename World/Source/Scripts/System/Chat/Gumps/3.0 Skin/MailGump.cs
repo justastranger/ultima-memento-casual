@@ -58,10 +58,10 @@ namespace Knives.Chat3
             if (Data.GetData(Current).MsgSound)
             {
                 AddHtml(0, y += 30, width, "<CENTER>" + General.Local(28));
-                AddTextField(width/2-25, y, 50, 21, 0x480, 0xBBA, "Sound", Data.GetData(Current).DefaultSound.ToString());
-                AddButton(width/2+30, y + 3, 0x15E1, 0x15E5, "Play Sound", new GumpCallback(PlaySound));
-                AddButton(width/2-40, y, 0x983, "Sound Up", new GumpCallback(SoundUp));
-                AddButton(width/2-40, y + 10, 0x985, "Sound Down", new GumpCallback(SoundDown));
+                AddTextField(width / 2 - 25, y, 50, 21, 0x480, 0xBBA, "Sound", Data.GetData(Current).DefaultSound.ToString());
+                AddButton(width / 2 + 30, y + 3, 0x15E1, 0x15E5, "Play Sound", new GumpCallback(PlaySound));
+                AddButton(width / 2 - 40, y, 0x983, "Sound Up", new GumpCallback(SoundUp));
+                AddButton(width / 2 - 40, y + 10, 0x985, "Sound Down", new GumpCallback(SoundDown));
             }
 
             AddBackgroundZero(0, 0, width, y + 40, Data.GetData(Current).DefaultBack);

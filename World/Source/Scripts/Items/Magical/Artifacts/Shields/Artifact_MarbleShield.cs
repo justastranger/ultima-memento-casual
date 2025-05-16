@@ -1,15 +1,15 @@
 namespace Server.Items
 {
     public class Artifact_MarbleShield : GiftHeaterShield
-	{
-		public override int InitMinHits{ get{ return 80; } }
-		public override int InitMaxHits{ get{ return 160; } }
+    {
+        public override int InitMinHits { get { return 80; } }
+        public override int InitMaxHits { get { return 160; } }
 
-        public override int BasePhysicalResistance{ get{ return 12; } }
-        public override int BaseColdResistance{ get{ return 4; } }
-        public override int BaseFireResistance{ get{ return 17; } }
-        public override int BaseEnergyResistance{ get{ return 13; } }
-        public override int BasePoisonResistance{ get{ return 6; } }
+        public override int BasePhysicalResistance { get { return 12; } }
+        public override int BaseColdResistance { get { return 4; } }
+        public override int BaseFireResistance { get { return 17; } }
+        public override int BaseEnergyResistance { get { return 13; } }
+        public override int BasePoisonResistance { get { return 6; } }
 
         [Constructable]
         public Artifact_MarbleShield()
@@ -24,24 +24,24 @@ namespace Server.Items
             Attributes.CastSpeed = 1;
             Attributes.CastRecovery = 1;
             Attributes.SpellChanneling = 1;
-			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 11, "" );
-		}
+            ArtifactLevel = 2;
+            Server.Misc.Arty.ArtySetup(this, 11, "");
+        }
 
-        public Artifact_MarbleShield(Serial serial) : base( serial )
+        public Artifact_MarbleShield(Serial serial) : base(serial)
         {
         }
 
-        public override void Serialize( GenericWriter writer )
+        public override void Serialize(GenericWriter writer)
         {
-            base.Serialize( writer );
-            writer.Write( (int) 1 );
+            base.Serialize(writer);
+            writer.Write((int)1);
         }
 
         public override void Deserialize(GenericReader reader)
         {
-            base.Deserialize( reader );
-			ArtifactLevel = 2;
+            base.Deserialize(reader);
+            ArtifactLevel = 2;
             int version = reader.ReadInt();
             if (version < 1)
             {

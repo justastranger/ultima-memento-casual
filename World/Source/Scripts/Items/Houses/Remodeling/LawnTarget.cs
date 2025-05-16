@@ -24,7 +24,7 @@ namespace Server.Misc
         private string m_Category;
         private int m_Page;
 
-        public LawnTarget(LawnTools tools, Mobile from, int itemID, int price, string title, string category, int page): base(-1, true, TargetFlags.None)
+        public LawnTarget(LawnTools tools, Mobile from, int itemID, int price, string title, string category, int page) : base(-1, true, TargetFlags.None)
         {
             m_LawnTools = tools;
             m_From = from;
@@ -43,27 +43,27 @@ namespace Server.Misc
             IPoint3D t = targeted as IPoint3D;
             if (t == null)
                 return;
-            
+
             Point3D loc = new Point3D(t);
-            if ( t is StaticTarget )
-			{
+            if (t is StaticTarget)
+            {
                 loc.Z -= TileData.ItemTable[((StaticTarget)t).ItemID & 0x3FFF].CalcHeight;
             }
-			else if ( targeted is Item )
-			{
-				Item item = (Item)targeted;
-				ItemData id = item.ItemData;
-				int checkZ = item.Z;
-				int checkTop = checkZ + id.Height;
-				if ( id.Foliage ){ loc.Z = checkZ; }
-				else { loc.Z = checkTop; }
-			}
-
-			if ( Region.Find( loc, from.Map ) is HouseRegion )
+            else if (targeted is Item)
             {
-				m_From.SendMessage("You cannot place that in your home!");
-				GumpUp();
-				return;
+                Item item = (Item)targeted;
+                ItemData id = item.ItemData;
+                int checkZ = item.Z;
+                int checkTop = checkZ + id.Height;
+                if (id.Foliage) { loc.Z = checkZ; }
+                else { loc.Z = checkTop; }
+            }
+
+            if (Region.Find(loc, from.Map) is HouseRegion)
+            {
+                m_From.SendMessage("You cannot place that in your home!");
+                GumpUp();
+                return;
             }
 
             if (ValidatePlacement(loc))
@@ -78,37 +78,37 @@ namespace Server.Misc
             if (map == null)
                 return false;
 
-			bool regionCheck = false;
+            bool regionCheck = false;
 
-			Region reg = Region.Find( loc, map );
+            Region reg = Region.Find(loc, map);
             m_House = BaseHouse.FindHouseAt(m_From.Location, map, 20);
 
-			if ( reg.IsDefault || reg.Name == null || reg.Name == "" )
+            if (reg.IsDefault || reg.Name == null || reg.Name == "")
                 regionCheck = true;
-			else if ( reg.Name != null && reg.Name != "" && reg.AllowHousing( m_From, loc ) )
+            else if (reg.Name != null && reg.Name != "" && reg.AllowHousing(m_From, loc))
                 regionCheck = true;
 
-            if ( m_House == null || !m_House.IsOwner(m_From) )
+            if (m_House == null || !m_House.IsOwner(m_From))
             {
                 m_From.SendMessage("You must be standing in your house to place this!");
                 return false;
             }
-            else if ( map == Map.Underworld && m_From.X > 1625 && m_From.Y > 0 )
+            else if (map == Map.Underworld && m_From.X > 1625 && m_From.Y > 0)
             {
                 m_From.SendMessage("Dungeons do not have a lawn!");
                 return false;
             }
-            else if ( loc.Y > m_From.Location.Y + Remodeling.Front || loc.Y < m_From.Location.Y - Remodeling.Back )
+            else if (loc.Y > m_From.Location.Y + Remodeling.Front || loc.Y < m_From.Location.Y - Remodeling.Back)
             {
                 m_From.SendMessage("You will have to get closer and place within your land!");
                 return false;
             }
-            else if ( loc.X > m_From.Location.X + Remodeling.Right || loc.X < m_From.Location.X - Remodeling.Left )
+            else if (loc.X > m_From.Location.X + Remodeling.Right || loc.X < m_From.Location.X - Remodeling.Left)
             {
                 m_From.SendMessage("You will have to get closer and place within your land!");
                 return false;
             }
-            else if ( !regionCheck )
+            else if (!regionCheck)
             {
                 m_From.SendMessage("You will have to get closer and place within your land!");
                 return false;
@@ -131,9 +131,9 @@ namespace Server.Misc
 
             if (Paid)
             {
-				Remodeling.EndPut( m_SelectedID, m_From, m_Price, m_Title, m_House, loc );
-				m_From.Target = new LawnTarget(m_LawnTools, m_From, m_SelectedID, m_Price, m_Title, m_Category, m_Page);
-				m_From.PlaySound( Utility.RandomList( 0x13E, 0x23D, 0x125, 0x126, 0x55, 0x541 ) );
+                Remodeling.EndPut(m_SelectedID, m_From, m_Price, m_Title, m_House, loc);
+                m_From.Target = new LawnTarget(m_LawnTools, m_From, m_SelectedID, m_Price, m_Title, m_Category, m_Page);
+                m_From.PlaySound(Utility.RandomList(0x13E, 0x23D, 0x125, 0x126, 0x55, 0x541));
                 GumpUp();
             }
             else
@@ -145,7 +145,7 @@ namespace Server.Misc
 
         public void GumpUp()
         {
-			m_From.CloseGump( typeof( LawnGump ) );
+            m_From.CloseGump(typeof(LawnGump));
             m_From.SendGump(new LawnGump(m_From, m_LawnTools, m_Category, m_Page, m_SelectedID, m_Price, m_Title));
         }
     }

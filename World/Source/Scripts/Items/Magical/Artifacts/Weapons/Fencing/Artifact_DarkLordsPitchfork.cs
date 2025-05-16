@@ -4,9 +4,9 @@ using Server;
 namespace Server.Items
 {
     public class Artifact_DarkLordsPitchfork : GiftPitchfork
-	{
-		public override int InitMinHits{ get{ return 80; } }
-		public override int InitMaxHits{ get{ return 160; } }
+    {
+        public override int InitMinHits { get { return 80; } }
+        public override int InitMaxHits { get { return 160; } }
 
         [Constructable]
         public Artifact_DarkLordsPitchfork()
@@ -18,11 +18,11 @@ namespace Server.Items
             WeaponAttributes.HitFireball = 50;
             WeaponAttributes.ResistFireBonus = 5;
             Attributes.SpellChanneling = 1;
-			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 8, "" );
-		}
+            ArtifactLevel = 2;
+            Server.Misc.Arty.ArtySetup(this, 8, "");
+        }
 
-        public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
+        public override void GetDamageTypes(Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct)
         {
             phys = 0;
             cold = 0;
@@ -32,19 +32,19 @@ namespace Server.Items
             chaos = 0;
             direct = 0;
         }
-        public Artifact_DarkLordsPitchfork( Serial serial )
-            : base( serial )
+        public Artifact_DarkLordsPitchfork(Serial serial)
+            : base(serial)
         {
         }
-        public override void Serialize( GenericWriter writer )
+        public override void Serialize(GenericWriter writer)
         {
-            base.Serialize( writer );
-            writer.Write( (int)0 );
+            base.Serialize(writer);
+            writer.Write((int)0);
         }
-        public override void Deserialize( GenericReader reader )
+        public override void Deserialize(GenericReader reader)
         {
-            base.Deserialize( reader );
-			ArtifactLevel = 2;
+            base.Deserialize(reader);
+            ArtifactLevel = 2;
             int version = reader.ReadInt();
         }
     }

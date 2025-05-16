@@ -34,9 +34,9 @@ namespace Knives.Chat3
         #region Statics
 
         private static ArrayList s_Channels = new ArrayList();
-        
-        public static ArrayList Channels { get{ return s_Channels; } }
-        
+
+        public static ArrayList Channels { get { return s_Channels; } }
+
         public static void Register(Channel c)
         {
             foreach (string str in c.Commands)
@@ -156,7 +156,7 @@ namespace Knives.Chat3
 
                 PredefinedChannels();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Errors.Report(General.Local(186));
                 Console.WriteLine(e.Message);
@@ -222,7 +222,7 @@ namespace Knives.Chat3
 
         #region Constructors
 
-        public Channel( string name )
+        public Channel(string name)
         {
             c_Name = name;
 
@@ -287,8 +287,8 @@ namespace Knives.Chat3
 
         public virtual string NameFor(Mobile m)
         {
-            if (c_Style == ChatStyle.Regional && m.Region != null && Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) != "")
-                return c_Name + " (" + Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) + ")";
+            if (c_Style == ChatStyle.Regional && m.Region != null && Server.Misc.Worlds.GetRegionName(m.Map, m.Location) != "")
+                return c_Name + " (" + Server.Misc.Worlds.GetRegionName(m.Map, m.Location) + ")";
 
             return c_Name;
         }
@@ -313,7 +313,7 @@ namespace Knives.Chat3
                 return false;
             }
 
-            if (c_Style == ChatStyle.Regional && (m.Region == null || Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) == ""))
+            if (c_Style == ChatStyle.Regional && (m.Region == null || Server.Misc.Worlds.GetRegionName(m.Map, m.Location) == ""))
             {
                 if (say) m.SendMessage(Data.GetData(m).SystemC, General.Local(35));
                 return false;
@@ -360,7 +360,7 @@ namespace Knives.Chat3
             if (!CanChat(m, true))
                 return;
 
-            if(c_Filter)
+            if (c_Filter)
                 msg = Chat3.Filter.FilterText(m, msg);
 
             if (!CanChat(m, false))
@@ -384,7 +384,7 @@ namespace Knives.Chat3
             Events.InvokeChat(new ChatEventArgs(m, this, msg));
 
             if (Data.LogChat)
-                Logging.LogChat(String.Format(DateTime.Now + " <{0}{1}> {2}: {3}", c_Name, (c_Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) : ""), m.RawName, msg));
+                Logging.LogChat(String.Format(DateTime.Now + " <{0}{1}> {2}: {3}", c_Name, (c_Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName(m.Map, m.Location) : ""), m.RawName, msg));
 
             Data.TotalChats++;
             Data.GetData(m).Karma++;
@@ -404,10 +404,10 @@ namespace Knives.Chat3
                     if (c_Style == ChatStyle.Regional && data.Mobile.Region != m.Region)
                         continue;
 
-                    data.Mobile.SendMessage(m.AccessLevel == AccessLevel.Player ? ColorFor(data.Mobile) : Data.GetData(m).StaffC, String.Format("<{0}{1}> {2}: {3}", NameFor(m), (c_Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) : ""), m.RawName, msg));
+                    data.Mobile.SendMessage(m.AccessLevel == AccessLevel.Player ? ColorFor(data.Mobile) : Data.GetData(m).StaffC, String.Format("<{0}{1}> {2}: {3}", NameFor(m), (c_Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName(m.Map, m.Location) : ""), m.RawName, msg));
                 }
                 else if (data.Mobile.AccessLevel >= m.AccessLevel && ((data.GlobalC && !data.GIgnores.Contains(m)) || data.GListens.Contains(m)))
-                    data.Mobile.SendMessage(data.GlobalCC, String.Format("(Global) <{0}{1}> {2}: {3}", c_Name, (c_Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) : ""), m.RawName, msg ));
+                    data.Mobile.SendMessage(data.GlobalCC, String.Format("(Global) <{0}{1}> {2}: {3}", c_Name, (c_Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName(m.Map, m.Location) : ""), m.RawName, msg));
             }
         }
 
@@ -457,7 +457,7 @@ namespace Knives.Chat3
             writer.Write(c_Enabled);
 
             writer.Write(c_Colors.Count);
-            foreach(Mobile m in c_Colors.Keys)
+            foreach (Mobile m in c_Colors.Keys)
             {
                 writer.Write(m);
                 writer.Write((int)c_Colors[m]);
@@ -502,7 +502,7 @@ namespace Knives.Chat3
                 AddCommand(str);
 
             ArrayList list = new ArrayList();
-            foreach(Mobile mob in c_Mobiles)
+            foreach (Mobile mob in c_Mobiles)
                 if (!list.Contains(mob))
                     list.Add(mob);
 

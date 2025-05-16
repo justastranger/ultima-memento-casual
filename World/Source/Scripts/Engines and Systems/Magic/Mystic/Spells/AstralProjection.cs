@@ -7,19 +7,19 @@ using Server.Spells;
 
 namespace Server.Spells.Mystic
 {
-	public class AstralProjection : MysticSpell
-	{
-		private static SpellInfo m_Info = new SpellInfo(
-				"Astral Projection", "Beh Cah Summ Om",
-				269,
-				0
-			);
+    public class AstralProjection : MysticSpell
+    {
+        private static SpellInfo m_Info = new SpellInfo(
+                "Astral Projection", "Beh Cah Summ Om",
+                269,
+                0
+            );
 
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
-		public override int RequiredTithing{ get{ return 300; } }
-		public override double RequiredSkill{ get{ return 80.0; } }
-		public override int RequiredMana{ get{ return 55; } }
-		public override int MysticSpellCircle{ get{ return 8; } }
+        public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds(3); } }
+        public override int RequiredTithing { get { return 300; } }
+        public override double RequiredSkill { get { return 80.0; } }
+        public override int RequiredMana { get { return 55; } }
+        public override int MysticSpellCircle { get { return 8; } }
 
         private int m_NewBody;
         private int m_OldBody;
@@ -42,8 +42,8 @@ namespace Server.Spells.Mystic
                 Caster.SendMessage("You cannot enter the astral plane while in that form.");
                 return false;
             }
-			else if ( DisguiseTimers.IsDisguised( Caster ) )
-			{
+            else if (DisguiseTimers.IsDisguised(Caster))
+            {
                 Caster.SendMessage("You cannot enter the astral plane while disguised.");
                 return false;
             }
@@ -54,8 +54,8 @@ namespace Server.Spells.Mystic
             }
             else
             {
-				m_NewBody = 970;
-				m_NewHue = 0x4001;
+                m_NewBody = 970;
+                m_NewHue = 0x4001;
             }
             m_OldBody = Caster.Body;
             m_OldHue = Caster.Hue;
@@ -76,11 +76,11 @@ namespace Server.Spells.Mystic
             {
                 Caster.SendMessage("You cannot enter the astral plane while in that form.");
             }
-			else if ( DisguiseTimers.IsDisguised( Caster ) )
-			{
+            else if (DisguiseTimers.IsDisguised(Caster))
+            {
                 Caster.SendMessage("You cannot enter the astral plane while disguised.");
             }
-            else if (!Caster.CanBeginAction(typeof(Server.Spells.Shinobi.Deception)) || !Caster.CanBeginAction(typeof(Server.Spells.Fifth.IncognitoSpell)) || (Caster.IsBodyMod && Caster.RaceID != Caster.BodyMod) )
+            else if (!Caster.CanBeginAction(typeof(Server.Spells.Shinobi.Deception)) || !Caster.CanBeginAction(typeof(Server.Spells.Fifth.IncognitoSpell)) || (Caster.IsBodyMod && Caster.RaceID != Caster.BodyMod))
             {
                 DoFizzle();
             }
@@ -144,7 +144,7 @@ namespace Server.Spells.Mystic
                 m_OldBody = body;
                 m_OldHue = hue;
 
-                int val = (int)( owner.Skills[SkillName.FistFighting].Value );
+                int val = (int)(owner.Skills[SkillName.FistFighting].Value);
 
                 if (val > 100)
                     val = 100;
@@ -152,8 +152,8 @@ namespace Server.Spells.Mystic
                 Delay = TimeSpan.FromSeconds(val);
                 Priority = TimerPriority.TwoFiftyMS;
 
-				BuffInfo.RemoveBuff( owner, BuffIcon.AstralProjection );
-				BuffInfo.AddBuff( owner, new BuffInfo( BuffIcon.AstralProjection, 1063512, Delay, owner ) );
+                BuffInfo.RemoveBuff(owner, BuffIcon.AstralProjection);
+                BuffInfo.AddBuff(owner, new BuffInfo(BuffIcon.AstralProjection, 1063512, Delay, owner));
             }
 
             protected override void OnTick()
@@ -162,9 +162,9 @@ namespace Server.Spells.Mystic
                 {
                     m_Owner.BodyValue = m_OldBody;
                     m_Owner.Hue = m_OldHue;
-					m_Owner.Blessed = false;
+                    m_Owner.Blessed = false;
                     m_Owner.EndAction(typeof(AstralProjection));
-					BuffInfo.RemoveBuff( m_Owner, BuffIcon.AstralProjection );
+                    BuffInfo.RemoveBuff(m_Owner, BuffIcon.AstralProjection);
                 }
             }
         }

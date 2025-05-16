@@ -71,10 +71,10 @@ namespace Server.Items
         #endregion
 
         #region Constructors
-        public ShantyItem(int itemID, Mobile from, string itemName, Point3D location, int price, string title, BaseHouse house): base(itemID, itemName)
+        public ShantyItem(int itemID, Mobile from, string itemName, Point3D location, int price, string title, BaseHouse house) : base(itemID, itemName)
         {
             Price = price;
-			Title = title;
+            Title = title;
             Placer = from;
 
             Movable = false;
@@ -93,7 +93,7 @@ namespace Server.Items
             Pieces = new List<ShantyPiece>();
             ParentShantyItem = this;
             Pieces.Add(this);
-			Remodeling.SetID( itemID, this, title );
+            Remodeling.SetID(itemID, this, title);
 
             if (ShantyRegistry.ShantyMultiIDs.ContainsKey(ItemID) && ShantyRegistry.ShantyMultiIDs[ItemID] != null)
             {
@@ -114,11 +114,11 @@ namespace Server.Items
             {
                 Pieces[i].HasMoved = false;
             }
-			Name = title;
-			Hue = Remodeling.ItemColor( Name, ItemID );
+            Name = title;
+            Hue = Remodeling.ItemColor(Name, ItemID);
         }
 
-        public ShantyItem(Serial serial): base(serial)
+        public ShantyItem(Serial serial) : base(serial)
         {
         }
         #endregion
@@ -128,7 +128,7 @@ namespace Server.Items
         {
             for (int i = 0; i < Pieces.Count; ++i)
             {
-				ShantySystem.RemoveVisitors( Pieces[i] );
+                ShantySystem.RemoveVisitors(Pieces[i]);
                 Pieces[i].Delete();
             }
         }
@@ -137,9 +137,9 @@ namespace Server.Items
         {
             if (from.InRange(this.GetWorldLocation(), 10))
             {
-                if ( House.IsCoOwner( from ) || House.IsOwner( from ) || from.AccessLevel >= AccessLevel.GameMaster )
+                if (House.IsCoOwner(from) || House.IsOwner(from) || from.AccessLevel >= AccessLevel.GameMaster)
                 {
-                    Refund( from );
+                    Refund(from);
                 }
             }
             else
@@ -154,7 +154,7 @@ namespace Server.Items
             writer.Write((int)1); // version
 
             //Version 1
-            if ( House == null || House.Deleted || !MySettings.S_ShantysAllowed )
+            if (House == null || House.Deleted || !MySettings.S_ShantysAllowed)
             {
                 writer.Write(false);
                 ShantySystem.AddOrphanedItem(this);
@@ -205,33 +205,33 @@ namespace Server.Items
             if (House == null)
             {
                 FindHouseOfPlacer();
-                if ( House == null || !MySettings.S_ShantysAllowed )
+                if (House == null || !MySettings.S_ShantysAllowed)
                 {
-                    Refund( Placer );                    
+                    Refund(Placer);
                 }
             }
         }
         #endregion
 
         #region Methods
-        public void Refund( Mobile from )
+        public void Refund(Mobile from)
         {
-			if ( from != null )
-			{
-				Gold toGive = new Gold(Price);
-				if (from.BankBox.TryDropItem(from, toGive, false))
-				{
-					ShantySystem.RemoveVisitors( this );
-					Delete();
-					from.SendLocalizedMessage(1060397, toGive.Amount.ToString()); // ~1_AMOUNT~ gold has been deposited into your bank box.
-				}
-				else
-				{
-					toGive.Delete();
-					from.SendMessage("Your bankbox is full!");
-				}
-			}
-			else { Delete(); }
+            if (from != null)
+            {
+                Gold toGive = new Gold(Price);
+                if (from.BankBox.TryDropItem(from, toGive, false))
+                {
+                    ShantySystem.RemoveVisitors(this);
+                    Delete();
+                    from.SendLocalizedMessage(1060397, toGive.Amount.ToString()); // ~1_AMOUNT~ gold has been deposited into your bank box.
+                }
+                else
+                {
+                    toGive.Delete();
+                    from.SendMessage("Your bankbox is full!");
+                }
+            }
+            else { Delete(); }
         }
 
         public void FindHouseOfPlacer()
@@ -274,26 +274,26 @@ namespace Server.Items
             set { m_HasMoved = value; }
         }
 
-        public ShantyPiece(int itemID, string name): this(itemID, name, null)
+        public ShantyPiece(int itemID, string name) : this(itemID, name, null)
         {
         }
 
-        public ShantyPiece(int itemID, string name, ShantyItem multiParent): base(itemID)
+        public ShantyPiece(int itemID, string name, ShantyItem multiParent) : base(itemID)
         {
             Movable = false;
             Name = name;
-			if ( itemID > 40000 ){ ItemID = itemID = itemID - Remodeling.GroundID( name ); }
+            if (itemID > 40000) { ItemID = itemID = itemID - Remodeling.GroundID(name); }
             ItemID = itemID;
 
             if (multiParent != null)
             {
                 ParentShantyItem = multiParent;
             }
-			if ( ItemID == 0x373A || ItemID == 0x3039 || ItemID == 0x374A || ItemID == 0x375A || ItemID == 0x376A || ItemID == 0x5469 || ItemID == 0x54E1 || ItemID == 0x17F3 ){ Light = LightType.Circle225; }
-			else if ( ItemID == 6864 ){ Light = LightType.Circle300; }
+            if (ItemID == 0x373A || ItemID == 0x3039 || ItemID == 0x374A || ItemID == 0x375A || ItemID == 0x376A || ItemID == 0x5469 || ItemID == 0x54E1 || ItemID == 0x17F3) { Light = LightType.Circle225; }
+            else if (ItemID == 6864) { Light = LightType.Circle300; }
         }
 
-        public ShantyPiece(Serial serial): base(serial)
+        public ShantyPiece(Serial serial) : base(serial)
         {
         }
 

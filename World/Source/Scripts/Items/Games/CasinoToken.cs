@@ -1,4 +1,4 @@
-using System; 
+using System;
 using Server;
 using Server.Items;
 
@@ -35,7 +35,7 @@ namespace Server.Items
                 list.Add(this.LabelNumber);
             else
                 list.Add(this.Name);
-            list.Add( 1060584, "{0}\t{1}", this.Amount.ToString(), "Uses" );
+            list.Add(1060584, "{0}\t{1}", this.Amount.ToString(), "Uses");
         }
 
         public override void Serialize(GenericWriter writer)

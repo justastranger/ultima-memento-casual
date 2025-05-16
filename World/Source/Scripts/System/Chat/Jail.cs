@@ -16,9 +16,9 @@ namespace Knives.Chat3
     {
         public static void SendToJail(Mobile m)
         {
-            #if (Use_Xanthos)
+#if (Use_Xanthos)
                 Xanthos.JailSystem.Jail.JailThem((Server.Mobiles.PlayerMobile)m, Xanthos.JailSystem.Jail.JailOption.None);
-            #endif
+#endif
         }
     }
 }

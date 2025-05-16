@@ -17,7 +17,7 @@
             var delta = (int)(value - bc.HitsMaxSeed);
 
             bc.HitsMaxSeed = (int)value;
-            
+
             if (0 < delta)
                 bc.Heal(delta);
         }

@@ -39,30 +39,30 @@ namespace Server.Items
         }
 
         [Constructable]
-        public LawnTools(): base(0x63E6)
+        public LawnTools() : base(0x63E6)
         {
             Movable = true;
-			Weight = 5.0;
+            Weight = 5.0;
             Name = "lawn tools";
             Category = "";
             Page = 0;
-			ItemID = Utility.RandomList( 0x63E6, 0x63E7 );
+            ItemID = Utility.RandomList(0x63E6, 0x63E7);
         }
 
-        public LawnTools(Serial serial): base(serial)
+        public LawnTools(Serial serial) : base(serial)
         {
         }
 
         public override void OnDoubleClick(Mobile from)
         {
-			if ( !Server.Items.InteriorDecorator.InHouse( from ) )
-			{
-				from.SendLocalizedMessage( 502092 ); // You must be in your house to do this.
-				return;
-			}
+            if (!Server.Items.InteriorDecorator.InHouse(from))
+            {
+                from.SendLocalizedMessage(502092); // You must be in your house to do this.
+                return;
+            }
 
             LawnTarget yt;
-            
+
             if (m_Category != null)
             {
                 yt = new LawnTarget(this, from, 0, 0, Category, Title, Page);
@@ -73,7 +73,7 @@ namespace Server.Items
             }
 
             yt.GumpUp();
-			from.SendSound( 0x4A ); 
+            from.SendSound(0x4A);
         }
 
         public override void Serialize(GenericWriter writer)
@@ -97,23 +97,23 @@ namespace Server.Items
                         break;
                     }
             }
-			if ( !MySettings.S_LawnsAllowed ){ this.Delete(); }
+            if (!MySettings.S_LawnsAllowed) { this.Delete(); }
         }
 
-		public static bool InHouse( Mobile from )
-		{
-			BaseHouse house = BaseHouse.FindHouseAt( from );
-			return ( house != null && house.IsCoOwner( from ) );
-		}
+        public static bool InHouse(Mobile from)
+        {
+            BaseHouse house = BaseHouse.FindHouseAt(from);
+            return (house != null && house.IsCoOwner(from));
+        }
 
-		public static bool CheckUse( Mobile from )
-		{
-			if ( !InHouse( from ) )
-				from.SendLocalizedMessage( 502092 ); // You must be in your house to do this.
-			else
-				return true;
+        public static bool CheckUse(Mobile from)
+        {
+            if (!InHouse(from))
+                from.SendLocalizedMessage(502092); // You must be in your house to do this.
+            else
+                return true;
 
-			return false;
-		}
+            return false;
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace Server.Items
                     m_Owner.CantWalk = true;
                     m_Owner.Direction = m_Owner.GetDirectionTo(m_bob);
                     m_Owner.Animate(32, 5, 1, true, true, 0);
- 
+
                     if (m_Owner != null)
                         m_Owner.PlaySound(37);
                 }
@@ -86,9 +86,9 @@ namespace Server.Items
             base.Deserialize(reader);
             int version = reader.ReadInt();
             Name = "apple bobbing barrel";
-			Hue = 0;
-			Weight = 100;
-			ItemID = 0x0F33;
+            Hue = 0;
+            Weight = 100;
+            ItemID = 0x0F33;
         }
     }
 }

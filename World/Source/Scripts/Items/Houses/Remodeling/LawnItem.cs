@@ -71,10 +71,10 @@ namespace Server.Items
         #endregion
 
         #region Constructors
-        public LawnItem(int itemID, Mobile from, string itemName, Point3D location, int price, string title, BaseHouse house): base(itemID, itemName)
+        public LawnItem(int itemID, Mobile from, string itemName, Point3D location, int price, string title, BaseHouse house) : base(itemID, itemName)
         {
             Price = price;
-			Title = title;
+            Title = title;
             Placer = from;
 
             Movable = false;
@@ -93,7 +93,7 @@ namespace Server.Items
             Pieces = new List<LawnPiece>();
             ParentLawnItem = this;
             Pieces.Add(this);
-			Remodeling.SetID( itemID, this, title );
+            Remodeling.SetID(itemID, this, title);
 
             if (LawnRegistry.LawnMultiIDs.ContainsKey(ItemID) && LawnRegistry.LawnMultiIDs[ItemID] != null)
             {
@@ -114,11 +114,11 @@ namespace Server.Items
             {
                 Pieces[i].HasMoved = false;
             }
-			Name = title;
-			Hue = Remodeling.ItemColor( Name, ItemID );
+            Name = title;
+            Hue = Remodeling.ItemColor(Name, ItemID);
         }
 
-        public LawnItem(Serial serial): base(serial)
+        public LawnItem(Serial serial) : base(serial)
         {
         }
         #endregion
@@ -128,7 +128,7 @@ namespace Server.Items
         {
             for (int i = 0; i < Pieces.Count; ++i)
             {
-				LawnSystem.RemoveVisitors( Pieces[i] );
+                LawnSystem.RemoveVisitors(Pieces[i]);
                 Pieces[i].Delete();
             }
         }
@@ -137,9 +137,9 @@ namespace Server.Items
         {
             if (from.InRange(this.GetWorldLocation(), 10))
             {
-                if ( House.IsCoOwner( from ) || House.IsOwner( from ) || from.AccessLevel >= AccessLevel.GameMaster )
+                if (House.IsCoOwner(from) || House.IsOwner(from) || from.AccessLevel >= AccessLevel.GameMaster)
                 {
-                    Refund( from );
+                    Refund(from);
                 }
             }
             else
@@ -154,7 +154,7 @@ namespace Server.Items
             writer.Write((int)1); // version
 
             //Version 1
-            if ( House == null || House.Deleted || !MySettings.S_LawnsAllowed )
+            if (House == null || House.Deleted || !MySettings.S_LawnsAllowed)
             {
                 writer.Write(false);
                 LawnSystem.AddOrphanedItem(this);
@@ -205,33 +205,33 @@ namespace Server.Items
             if (House == null)
             {
                 FindHouseOfPlacer();
-                if ( House == null || !MySettings.S_LawnsAllowed )
+                if (House == null || !MySettings.S_LawnsAllowed)
                 {
-                    Refund( Placer );                    
+                    Refund(Placer);
                 }
             }
         }
         #endregion
 
         #region Methods
-        public void Refund( Mobile from )
+        public void Refund(Mobile from)
         {
-			if ( from != null )
-			{
-				Gold toGive = new Gold(Price);
-				if (from.BankBox.TryDropItem(from, toGive, false))
-				{
-					LawnSystem.RemoveVisitors( this );
-					Delete();
-					from.SendLocalizedMessage(1060397, toGive.Amount.ToString()); // ~1_AMOUNT~ gold has been deposited into your bank box.
-				}
-				else
-				{
-					toGive.Delete();
-					from.SendMessage("Your bankbox is full!");
-				}
-			}
-			else { Delete(); }
+            if (from != null)
+            {
+                Gold toGive = new Gold(Price);
+                if (from.BankBox.TryDropItem(from, toGive, false))
+                {
+                    LawnSystem.RemoveVisitors(this);
+                    Delete();
+                    from.SendLocalizedMessage(1060397, toGive.Amount.ToString()); // ~1_AMOUNT~ gold has been deposited into your bank box.
+                }
+                else
+                {
+                    toGive.Delete();
+                    from.SendMessage("Your bankbox is full!");
+                }
+            }
+            else { Delete(); }
         }
 
         public void FindHouseOfPlacer()
@@ -274,26 +274,26 @@ namespace Server.Items
             set { m_HasMoved = value; }
         }
 
-        public LawnPiece(int itemID, string name): this(itemID, name, null)
+        public LawnPiece(int itemID, string name) : this(itemID, name, null)
         {
         }
 
-        public LawnPiece(int itemID, string name, LawnItem multiParent): base(itemID)
+        public LawnPiece(int itemID, string name, LawnItem multiParent) : base(itemID)
         {
             Movable = false;
             Name = name;
-			if ( itemID > 40000 ){ ItemID = itemID = itemID - Remodeling.GroundID( name ); }
+            if (itemID > 40000) { ItemID = itemID = itemID - Remodeling.GroundID(name); }
             ItemID = itemID;
 
             if (multiParent != null)
             {
                 ParentLawnItem = multiParent;
             }
-			if ( ItemID == 0x373A || ItemID == 0x3039 || ItemID == 0x374A || ItemID == 0x375A || ItemID == 0x376A || ItemID == 0x5469 || ItemID == 0x54E1 || ItemID == 0x17F3 ){ Light = LightType.Circle225; }
-			else if ( ItemID == 6864 ){ Light = LightType.Circle300; }
+            if (ItemID == 0x373A || ItemID == 0x3039 || ItemID == 0x374A || ItemID == 0x375A || ItemID == 0x376A || ItemID == 0x5469 || ItemID == 0x54E1 || ItemID == 0x17F3) { Light = LightType.Circle225; }
+            else if (ItemID == 6864) { Light = LightType.Circle300; }
         }
 
-        public LawnPiece(Serial serial): base(serial)
+        public LawnPiece(Serial serial) : base(serial)
         {
         }
 

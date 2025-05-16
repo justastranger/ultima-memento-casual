@@ -4,9 +4,9 @@ using Server;
 namespace Server.Items
 {
     public class Artifact_NoxBow : GiftHeavyCrossbow
-	{
-		public override int InitMinHits{ get{ return 80; } }
-		public override int InitMaxHits{ get{ return 160; } }
+    {
+        public override int InitMinHits { get { return 80; } }
+        public override int InitMaxHits { get { return 160; } }
 
         [Constructable]
         public Artifact_NoxBow()
@@ -14,7 +14,7 @@ namespace Server.Items
             Name = "Nox Bow";
             Attributes.WeaponDamage = 45;
             Hue = 267;
-			ItemID = 0x13FD;
+            ItemID = 0x13FD;
             WeaponAttributes.HitLeechHits = 20;
             WeaponAttributes.HitLeechMana = 20;
             WeaponAttributes.HitLeechStam = 20;
@@ -27,11 +27,11 @@ namespace Server.Items
             Attributes.SpellChanneling = 1;
             Attributes.SpellDamage = 10;
             Attributes.WeaponSpeed = 40;
-			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 14, "" );
-		}
+            ArtifactLevel = 2;
+            Server.Misc.Arty.ArtySetup(this, 14, "");
+        }
 
-        public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
+        public override void GetDamageTypes(Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct)
         {
             phys = 100;
             cold = 0;
@@ -41,19 +41,19 @@ namespace Server.Items
             chaos = 0;
             direct = 0;
         }
-        public Artifact_NoxBow( Serial serial )
-            : base( serial )
+        public Artifact_NoxBow(Serial serial)
+            : base(serial)
         {
         }
-        public override void Serialize( GenericWriter writer )
+        public override void Serialize(GenericWriter writer)
         {
-            base.Serialize( writer );
-            writer.Write( (int)0 );
+            base.Serialize(writer);
+            writer.Write((int)0);
         }
-        public override void Deserialize( GenericReader reader )
+        public override void Deserialize(GenericReader reader)
         {
-            base.Deserialize( reader );
-			ArtifactLevel = 2;
+            base.Deserialize(reader);
+            ArtifactLevel = 2;
             int version = reader.ReadInt();
         }
     }

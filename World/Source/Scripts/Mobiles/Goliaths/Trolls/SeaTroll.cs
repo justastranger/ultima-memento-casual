@@ -5,73 +5,73 @@ using Server.Targeting;
 
 namespace Server.Mobiles
 {
-	[CorpseName( "a troll corpse" )]
-	public class SeaTroll : BaseCreature
-	{
-		[Constructable]
-		public SeaTroll () : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
-		{
-			Name = "a sea troll";
-			Body = 329;
-			BaseSoundID = 461;
-			Hue = 678;
+    [CorpseName("a troll corpse")]
+    public class SeaTroll : BaseCreature
+    {
+        [Constructable]
+        public SeaTroll() : base(AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4)
+        {
+            Name = "a sea troll";
+            Body = 329;
+            BaseSoundID = 461;
+            Hue = 678;
 
-			CanSwim = true;
+            CanSwim = true;
 
-			SetStr( 176, 205 );
-			SetDex( 46, 65 );
-			SetInt( 46, 70 );
+            SetStr(176, 205);
+            SetDex(46, 65);
+            SetInt(46, 70);
 
-			SetHits( 106, 123 );
+            SetHits(106, 123);
 
-			SetDamage( 8, 14 );
+            SetDamage(8, 14);
 
-			SetDamageType( ResistanceType.Physical, 100 );
+            SetDamageType(ResistanceType.Physical, 100);
 
-			SetResistance( ResistanceType.Physical, 35, 45 );
-			SetResistance( ResistanceType.Fire, 25, 35 );
-			SetResistance( ResistanceType.Cold, 15, 25 );
-			SetResistance( ResistanceType.Poison, 5, 15 );
-			SetResistance( ResistanceType.Energy, 5, 15 );
+            SetResistance(ResistanceType.Physical, 35, 45);
+            SetResistance(ResistanceType.Fire, 25, 35);
+            SetResistance(ResistanceType.Cold, 15, 25);
+            SetResistance(ResistanceType.Poison, 5, 15);
+            SetResistance(ResistanceType.Energy, 5, 15);
 
-			SetSkill( SkillName.MagicResist, 45.1, 60.0 );
-			SetSkill( SkillName.Tactics, 50.1, 70.0 );
-			SetSkill( SkillName.FistFighting, 50.1, 70.0 );
+            SetSkill(SkillName.MagicResist, 45.1, 60.0);
+            SetSkill(SkillName.Tactics, 50.1, 70.0);
+            SetSkill(SkillName.FistFighting, 50.1, 70.0);
 
-			Fame = 3500;
-			Karma = -3500;
+            Fame = 3500;
+            Karma = -3500;
 
-			VirtualArmor = 40;
-		}
+            VirtualArmor = 40;
+        }
 
-		public override void GenerateLoot()
-		{
-			AddLoot( LootPack.Average );
-		}
+        public override void GenerateLoot()
+        {
+            AddLoot(LootPack.Average);
+        }
 
-		public override bool CanRummageCorpses{ get{ return true; } }
-		public override int TreasureMapLevel{ get{ return 1; } }
-		public override int Meat{ get{ return 2; } }
-		public override bool BleedImmune{ get{ return true; } }
-		public override int Skin{ get{ return Utility.Random(3); } }
-		public override SkinType SkinType{ get{ return SkinType.Troll; } }
-		public override int Skeletal{ get{ return Utility.Random(3); } }
-		public override SkeletalType SkeletalType{ get{ return SkeletalType.Troll; } }
+        public override bool CanRummageCorpses { get { return true; } }
+        public override int TreasureMapLevel { get { return 1; } }
+        public override int Meat { get { return 2; } }
+        public override bool BleedImmune { get { return true; } }
+        public override int Skin { get { return Utility.Random(3); } }
+        public override SkinType SkinType { get { return SkinType.Troll; } }
+        public override int Skeletal { get { return Utility.Random(3); } }
+        public override SkeletalType SkeletalType { get { return SkeletalType.Troll; } }
 
-		public SeaTroll( Serial serial ) : base( serial )
-		{
-		}
+        public SeaTroll(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( (int) 0 );
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0);
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

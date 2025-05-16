@@ -9,45 +9,45 @@ using Server.Network;
 
 namespace Knives.Chat3
 {
-	public enum IrcColor
-	{
-		White = 0,
-		Black = 1,
-		Blue = 2,
-		Green = 3,
-		LightRed = 4,
-		Brown = 5,
-		Purple = 6,
-		Orange = 7,
-		Yellow = 8,
-		LightGreen = 9,
-		Cyan = 10,
-		LightCyan = 11,
-		LightBlue = 12,
-		Pink = 13,
-		Grey = 14,
-		LightGrey = 15,
-	};
+    public enum IrcColor
+    {
+        White = 0,
+        Black = 1,
+        Blue = 2,
+        Green = 3,
+        LightRed = 4,
+        Brown = 5,
+        Purple = 6,
+        Orange = 7,
+        Yellow = 8,
+        LightGreen = 9,
+        Cyan = 10,
+        LightCyan = 11,
+        LightBlue = 12,
+        Pink = 13,
+        Grey = 14,
+        LightGrey = 15,
+    };
 
-	public class IrcConnection
-	{
-		private static IrcConnection s_Connection = new IrcConnection();
+    public class IrcConnection
+    {
+        private static IrcConnection s_Connection = new IrcConnection();
 
-		public static IrcConnection Connection{ get{ return s_Connection; } }
+        public static IrcConnection Connection { get { return s_Connection; } }
 
-		private TcpClient c_Tcp;
-		private Thread c_Thread;
-		private StreamReader c_Reader;
-		private StreamWriter c_Writer;
-		private bool c_Connecting, c_Connected;
-		private int c_Attempts;
-		private DateTime c_LastPong;
+        private TcpClient c_Tcp;
+        private Thread c_Thread;
+        private StreamReader c_Reader;
+        private StreamWriter c_Writer;
+        private bool c_Connecting, c_Connected;
+        private int c_Attempts;
+        private DateTime c_LastPong;
         private DateTime c_NextStatus = DateTime.Now;
         private Server.Timer c_ConnectTimer;
 
-		public bool Connecting{ get{ return c_Connecting; } }
-		public bool Connected{ get{ return c_Connected; } }
-		public bool HasMoreAttempts{ get{ return c_Attempts <= Data.IrcMaxAttempts; } }
+        public bool Connecting { get { return c_Connecting; } }
+        public bool Connected { get { return c_Connected; } }
+        public bool HasMoreAttempts { get { return c_Attempts <= Data.IrcMaxAttempts; } }
 
         public string Status
         {
@@ -57,72 +57,72 @@ namespace Knives.Chat3
             }
         }
 
-		public IrcConnection()
-		{
-		}
+        public IrcConnection()
+        {
+        }
 
-		public void Connect( Mobile m )
-		{
-			Data data = Data.GetData( m );
+        public void Connect(Mobile m)
+        {
+            Data data = Data.GetData(m);
 
-			if ( c_Connecting )
-			{
-				m.SendMessage( data.SystemC, General.Local(102) );
-				return;
-			}
+            if (c_Connecting)
+            {
+                m.SendMessage(data.SystemC, General.Local(102));
+                return;
+            }
 
-			if ( c_Connected )
-			{
-				m.SendMessage( data.SystemC, General.Local(103) );
-				return;
-			}
+            if (c_Connected)
+            {
+                m.SendMessage(data.SystemC, General.Local(103));
+                return;
+            }
 
-			Connect();
-		}
+            Connect();
+        }
 
-		public void Connect()
-		{
-			new Thread( new ThreadStart( ConnectTcp ) ).Start();
-		}
+        public void Connect()
+        {
+            new Thread(new ThreadStart(ConnectTcp)).Start();
+        }
 
-		public void CancelConnect()
-		{
-			c_Attempts = Data.IrcMaxAttempts;
-		}
+        public void CancelConnect()
+        {
+            c_Attempts = Data.IrcMaxAttempts;
+        }
 
-		private void Reconnect()
-		{
-			c_Attempts++;
+        private void Reconnect()
+        {
+            c_Attempts++;
 
-			if ( !HasMoreAttempts )
-			{
-				c_Attempts = 1;
-				BroadcastSystem( General.Local(104) );
-				return;
-			}
+            if (!HasMoreAttempts)
+            {
+                c_Attempts = 1;
+                BroadcastSystem(General.Local(104));
+                return;
+            }
 
-			BroadcastSystem( General.Local(105) + c_Attempts );
+            BroadcastSystem(General.Local(105) + c_Attempts);
 
-			Connect();
-		}
+            Connect();
+        }
 
-		private void ConnectTcp()
-		{
-			try{ c_Tcp = new TcpClient( Data.IrcServer, Data.IrcPort ); }
-			catch
-			{
-				BroadcastSystem( General.Local(106) );
+        private void ConnectTcp()
+        {
+            try { c_Tcp = new TcpClient(Data.IrcServer, Data.IrcPort); }
+            catch
+            {
+                BroadcastSystem(General.Local(106));
 
-				Reconnect();
+                Reconnect();
 
-				return;
-			}
+                return;
+            }
 
-			ConnectStream();
-		}
+            ConnectStream();
+        }
 
-		private void ConnectStream()
-		{
+        private void ConnectStream()
+        {
             try
             {
                 c_Connecting = true;
@@ -147,8 +147,8 @@ namespace Knives.Chat3
                         GumpPlus.RefreshGump(data.Mobile, typeof(IrcGump));
 
             }
-            catch(Exception e)
-            { 
+            catch (Exception e)
+            {
                 Errors.Report(General.Local(266), e);
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.Source);
@@ -187,11 +187,11 @@ namespace Knives.Chat3
             else
                 return;
 
-            Server.Timer.DelayCall( TimeSpan.FromSeconds( 15.0 ), new Server.TimerCallback( Names ) );
+            Server.Timer.DelayCall(TimeSpan.FromSeconds(15.0), new Server.TimerCallback(Names));
         }
 
-		private void PingPong(string str)
-		{
+        private void PingPong(string str)
+        {
             if (!c_Connecting && !c_Connected)
                 return;
 
@@ -199,29 +199,31 @@ namespace Knives.Chat3
                 str = str.Replace("PING", "PONG");
             else
                 str = str.Replace("PONG", "PING");
-            
-			SendMessage( str );
-		}
 
-		public void SendMessage( string msg )
-		{
-			try{
+            SendMessage(str);
+        }
 
-			BroadcastRaw( msg );
+        public void SendMessage(string msg)
+        {
+            try
+            {
 
-			c_Writer.WriteLine( msg );
-			c_Writer.Flush();
+                BroadcastRaw(msg);
 
-			}catch{ Disconnect(); }
-		}
+                c_Writer.WriteLine(msg);
+                c_Writer.Flush();
 
-		public void SendUserMessage( Mobile m, string msg )
-		{
-			if ( !Connected )
-				return;
+            }
+            catch { Disconnect(); }
+        }
+
+        public void SendUserMessage(Mobile m, string msg)
+        {
+            if (!Connected)
+                return;
 
             msg = OutParse(m, m.RawName + ": " + msg);
-			s_Connection.SendMessage( String.Format( "PRIVMSG {0} : {1}", Data.IrcRoom, msg  ));
+            s_Connection.SendMessage(String.Format("PRIVMSG {0} : {1}", Data.IrcRoom, msg));
 
             if (msg.ToLower().IndexOf("!status") != -1 && c_NextStatus < DateTime.Now)
             {
@@ -231,45 +233,45 @@ namespace Knives.Chat3
             }
 
             BroadcastRaw(String.Format("PRIVMSG {0} : {1}", Data.IrcRoom, msg));
-		}
+        }
 
-		private string OutParse( Mobile m, string str )
-		{
-			if ( m.AccessLevel != AccessLevel.Player )
-				return str = '\x0003' + ((int)Data.IrcStaffColor).ToString() + str;
+        private string OutParse(Mobile m, string str)
+        {
+            if (m.AccessLevel != AccessLevel.Player)
+                return str = '\x0003' + ((int)Data.IrcStaffColor).ToString() + str;
 
-			return str;
-		}
+            return str;
+        }
 
-		private void BroadcastSystem( string msg )
-		{
+        private void BroadcastSystem(string msg)
+        {
             if (Channel.GetByType(typeof(Irc)) == null)
                 return;
 
             Channel.GetByType(typeof(Irc)).BroadcastSystem(msg);
-		}
+        }
 
-		private void Broadcast( string name, string msg )
-		{
+        private void Broadcast(string name, string msg)
+        {
             if (Channel.GetByType(typeof(Irc)) == null)
                 return;
 
             ((Irc)Channel.GetByType(typeof(Irc))).Broadcast(name, msg);
-		}
+        }
 
-		private void Broadcast( Mobile m, string msg )
-		{
-		}
+        private void Broadcast(Mobile m, string msg)
+        {
+        }
 
-		private void BroadcastRaw( string msg )
-		{
-			foreach( Data data in Data.Datas.Values )
-				if ( data.IrcRaw )
-					data.Mobile.SendMessage( data.SystemC, "RAW: " + msg );
-		}
+        private void BroadcastRaw(string msg)
+        {
+            foreach (Data data in Data.Datas.Values)
+                if (data.IrcRaw)
+                    data.Mobile.SendMessage(data.SystemC, "RAW: " + msg);
+        }
 
-		private void ReadStream()
-		{
+        private void ReadStream()
+        {
             try
             {
 
@@ -381,7 +383,7 @@ namespace Knives.Chat3
                 }
             }
             catch (Exception e)
-            { 
+            {
                 Errors.Report(General.Local(267), e);
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.Message);
@@ -389,10 +391,10 @@ namespace Knives.Chat3
             }
         }
 
-		public void Disconnect()
-		{
-			Disconnect( true );
-		}
+        public void Disconnect()
+        {
+            Disconnect(true);
+        }
 
         public void Disconnect(bool reconn)
         {

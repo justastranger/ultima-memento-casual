@@ -3,15 +3,15 @@ using Server;
 
 namespace Knives.Chat3
 {
-	public class PmNotifyGump20 : GumpPlus
-	{
-		public PmNotifyGump20( Mobile m ) : base( m, 200, 50 )
-		{
-			m.CloseGump( typeof( PmNotifyGump20 ) );
-		}
+    public class PmNotifyGump20 : GumpPlus
+    {
+        public PmNotifyGump20(Mobile m) : base(m, 200, 50)
+        {
+            m.CloseGump(typeof(PmNotifyGump20));
+        }
 
-		protected override void BuildGump()
-		{
+        protected override void BuildGump()
+        {
             if (Data.GetData(Owner).GetMsg() != null)
             {
                 AddButton(30, 10, 0x82E, "Message", new GumpCallback(Message));

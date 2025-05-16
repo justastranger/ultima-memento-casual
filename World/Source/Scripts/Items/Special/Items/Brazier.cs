@@ -5,218 +5,218 @@ using Server.Multis;
 using Server.Network;
 
 namespace Server.Items
-{	
-	public class RewardBrazier : Item
-	{
-		public override bool ForceShowProperties{ get{ return ObjectPropertyList.Enabled; } }
+{
+    public class RewardBrazier : Item
+    {
+        public override bool ForceShowProperties { get { return ObjectPropertyList.Enabled; } }
 
-		private bool m_IsRewardItem;
+        private bool m_IsRewardItem;
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsRewardItem
-		{
-			get{ return m_IsRewardItem; }
-			set{ m_IsRewardItem = value; InvalidateProperties(); }
-		}
+        [CommandProperty(AccessLevel.GameMaster)]
+        public bool IsRewardItem
+        {
+            get { return m_IsRewardItem; }
+            set { m_IsRewardItem = value; InvalidateProperties(); }
+        }
 
-		private Item m_Fire;
+        private Item m_Fire;
 
-		public override void OnDelete()
-		{
-			TurnOff();
+        public override void OnDelete()
+        {
+            TurnOff();
 
-			base.OnDelete();
-		}
+            base.OnDelete();
+        }
 
-		private static int[] m_Art = new int[]
-		{
-			0x19AA, 0x19BB
-		};
-		
-		[Constructable]
-		public RewardBrazier() : this( Utility.RandomList( m_Art ) )
-		{	
-		}
+        private static int[] m_Art = new int[]
+        {
+            0x19AA, 0x19BB
+        };
 
-		[Constructable]
-		public RewardBrazier( int itemID ) : base( itemID )
-		{
-			Weight = 10.0;
-		}
+        [Constructable]
+        public RewardBrazier() : this(Utility.RandomList(m_Art))
+        {
+        }
 
-		public RewardBrazier( Serial serial ) : base( serial )
-		{
-		}
+        [Constructable]
+        public RewardBrazier(int itemID) : base(itemID)
+        {
+            Weight = 10.0;
+        }
 
-		public void TurnOff()
-		{
-			if ( m_Fire != null )
-			{
-				m_Fire.Delete();
-				m_Fire = null;
-			}
-		}
+        public RewardBrazier(Serial serial) : base(serial)
+        {
+        }
 
-		public void TurnOn()
-		{
-			if ( m_Fire == null )
-				m_Fire = new Item();
- 
-			m_Fire.ItemID = 0x19AB;
-			m_Fire.Movable = false;
-			m_Fire.MoveToWorld( new Point3D( X, Y, Z + ItemData.Height + 2 ), Map );
-		}
+        public void TurnOff()
+        {
+            if (m_Fire != null)
+            {
+                m_Fire.Delete();
+                m_Fire = null;
+            }
+        }
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			if ( !from.InRange( this.GetWorldLocation(), 2 ) )
-			{
-				from.LocalOverheadMessage( MessageType.Regular, 0x3B2, 1019045 ); // I can't reach that.
-			}
-			else if ( IsLockedDown )
-			{
-				BaseHouse house = BaseHouse.FindHouseAt( from );
+        public void TurnOn()
+        {
+            if (m_Fire == null)
+                m_Fire = new Item();
 
-				if ( house != null && house.IsCoOwner( from ) )
-				{
-					if ( m_Fire != null )
-						TurnOff();
-					else
-						TurnOn();
-				}
-				else
-					from.SendLocalizedMessage( 502436 ); // That is not accessible.
-			}
-			else
-				from.SendLocalizedMessage( 502692 ); // This must be in a house and be locked down to work.
-		}
+            m_Fire.ItemID = 0x19AB;
+            m_Fire.Movable = false;
+            m_Fire.MoveToWorld(new Point3D(X, Y, Z + ItemData.Height + 2), Map);
+        }
 
-		public override void OnLocationChange( Point3D old )
-		{
-			if ( m_Fire != null )
-				m_Fire.MoveToWorld( new Point3D( X, Y, Z + ItemData.Height ), Map );
-		}
+        public override void OnDoubleClick(Mobile from)
+        {
+            if (!from.InRange(this.GetWorldLocation(), 2))
+            {
+                from.LocalOverheadMessage(MessageType.Regular, 0x3B2, 1019045); // I can't reach that.
+            }
+            else if (IsLockedDown)
+            {
+                BaseHouse house = BaseHouse.FindHouseAt(from);
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+                if (house != null && house.IsCoOwner(from))
+                {
+                    if (m_Fire != null)
+                        TurnOff();
+                    else
+                        TurnOn();
+                }
+                else
+                    from.SendLocalizedMessage(502436); // That is not accessible.
+            }
+            else
+                from.SendLocalizedMessage(502692); // This must be in a house and be locked down to work.
+        }
 
-			writer.WriteEncodedInt( 0 ); // version
-			
-			writer.Write( (bool) m_IsRewardItem );
-			writer.Write( (Item) m_Fire );
-		}
+        public override void OnLocationChange(Point3D old)
+        {
+            if (m_Fire != null)
+                m_Fire.MoveToWorld(new Point3D(X, Y, Z + ItemData.Height), Map);
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			int version = reader.ReadEncodedInt();
-			
-			m_IsRewardItem = reader.ReadBool();
-			m_Fire = reader.ReadItem();
-		}
-	}	
-	
-	public class RewardBrazierDeed : Item
-	{
-		public override int LabelNumber{ get{ return 1080527; } } // Brazier Deed
+            writer.WriteEncodedInt(0); // version
 
-		private bool m_IsRewardItem;
+            writer.Write((bool)m_IsRewardItem);
+            writer.Write((Item)m_Fire);
+        }
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsRewardItem
-		{
-			get{ return m_IsRewardItem; }
-			set{ m_IsRewardItem = value; InvalidateProperties(); }
-		}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-		[Constructable]
-		public RewardBrazierDeed() : base( 0x14F0 )
-		{
-			Weight = 1.0;
-		}
+            int version = reader.ReadEncodedInt();
 
-		public RewardBrazierDeed( Serial serial ) : base( serial )
-		{
-		}
-		
-		public override void OnDoubleClick( Mobile from )
-		{
-			if ( IsChildOf( from.Backpack ) )
-			{
-				from.CloseGump( typeof( InternalGump ) );
-				from.SendGump( new InternalGump( this ) );
-			}
-			else
-				from.SendLocalizedMessage( 1042038 ); // You must have the object in your backpack to use it.
-		}
+            m_IsRewardItem = reader.ReadBool();
+            m_Fire = reader.ReadItem();
+        }
+    }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+    public class RewardBrazierDeed : Item
+    {
+        public override int LabelNumber { get { return 1080527; } } // Brazier Deed
 
-			writer.WriteEncodedInt( 0 ); // version
+        private bool m_IsRewardItem;
 
-			writer.Write( (bool) m_IsRewardItem );
-		}
+        [CommandProperty(AccessLevel.GameMaster)]
+        public bool IsRewardItem
+        {
+            get { return m_IsRewardItem; }
+            set { m_IsRewardItem = value; InvalidateProperties(); }
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        [Constructable]
+        public RewardBrazierDeed() : base(0x14F0)
+        {
+            Weight = 1.0;
+        }
 
-			int version = reader.ReadEncodedInt();
-			
-			m_IsRewardItem = reader.ReadBool();
-		}
+        public RewardBrazierDeed(Serial serial) : base(serial)
+        {
+        }
 
-		private class InternalGump : Gump
-		{
-			private RewardBrazierDeed m_Brazier;
+        public override void OnDoubleClick(Mobile from)
+        {
+            if (IsChildOf(from.Backpack))
+            {
+                from.CloseGump(typeof(InternalGump));
+                from.SendGump(new InternalGump(this));
+            }
+            else
+                from.SendLocalizedMessage(1042038); // You must have the object in your backpack to use it.
+        }
 
-			public InternalGump( RewardBrazierDeed brazier ) : base( 100, 200 )
-			{
-				m_Brazier = brazier;
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-				Closable = true;
-				Disposable = true;
-				Dragable = true;
-				Resizable = false;
+            writer.WriteEncodedInt(0); // version
 
-				AddPage( 0 );
-				AddBackground( 0, 0, 200, 200, 2600 );
+            writer.Write((bool)m_IsRewardItem);
+        }
 
-				AddPage( 1 );
-				AddLabel( 45, 15, 0, "Choose a Brazier:" );
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-				AddItem( 40, 75, 0x19AA );
-				AddButton( 55, 50, 0x845, 0x846, 0x19AA, GumpButtonType.Reply, 0 );
+            int version = reader.ReadEncodedInt();
 
-				AddItem( 100, 75, 0x19BB );
-				AddButton( 115, 50, 0x845, 0x846, 0x19BB, GumpButtonType.Reply, 0 );
-			}
+            m_IsRewardItem = reader.ReadBool();
+        }
 
-			public override void OnResponse( NetState sender, RelayInfo info )
-			{
-				if ( m_Brazier == null | m_Brazier.Deleted )
-					return;
+        private class InternalGump : Gump
+        {
+            private RewardBrazierDeed m_Brazier;
 
-				Mobile m = sender.Mobile;
+            public InternalGump(RewardBrazierDeed brazier) : base(100, 200)
+            {
+                m_Brazier = brazier;
 
-				if ( info.ButtonID == 0x19AA || info.ButtonID == 0x19BB )
-				{
-					RewardBrazier brazier = new RewardBrazier( info.ButtonID );
-					brazier.IsRewardItem = m_Brazier.IsRewardItem;
+                Closable = true;
+                Disposable = true;
+                Dragable = true;
+                Resizable = false;
 
-					if ( !m.PlaceInBackpack( brazier ) )
-					{
-						brazier.Delete();
-						m.SendLocalizedMessage( 1078837 ); // Your backpack is full! Please make room and try again.
-					}
-					else
-						m_Brazier.Delete();
-				}
-			}
-		}
-	}
+                AddPage(0);
+                AddBackground(0, 0, 200, 200, 2600);
+
+                AddPage(1);
+                AddLabel(45, 15, 0, "Choose a Brazier:");
+
+                AddItem(40, 75, 0x19AA);
+                AddButton(55, 50, 0x845, 0x846, 0x19AA, GumpButtonType.Reply, 0);
+
+                AddItem(100, 75, 0x19BB);
+                AddButton(115, 50, 0x845, 0x846, 0x19BB, GumpButtonType.Reply, 0);
+            }
+
+            public override void OnResponse(NetState sender, RelayInfo info)
+            {
+                if (m_Brazier == null | m_Brazier.Deleted)
+                    return;
+
+                Mobile m = sender.Mobile;
+
+                if (info.ButtonID == 0x19AA || info.ButtonID == 0x19BB)
+                {
+                    RewardBrazier brazier = new RewardBrazier(info.ButtonID);
+                    brazier.IsRewardItem = m_Brazier.IsRewardItem;
+
+                    if (!m.PlaceInBackpack(brazier))
+                    {
+                        brazier.Delete();
+                        m.SendLocalizedMessage(1078837); // Your backpack is full! Please make room and try again.
+                    }
+                    else
+                        m_Brazier.Delete();
+                }
+            }
+        }
+    }
 }

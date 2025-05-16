@@ -10,8 +10,8 @@ using Server.Targets;
 
 namespace Server.Items
 {
-	public class LevelUpScroll : Item
-	{
+    public class LevelUpScroll : Item
+    {
         private int m_Value;
         private bool m_BlacksmithValidated;
 
@@ -31,13 +31,13 @@ namespace Server.Items
             set { m_BlacksmithValidated = value; InvalidateProperties(); }
         }
 
-		[Constructable]
-        public LevelUpScroll( int value ): base(0x573C)
-		{
-			Weight = 1.0;
-			Name = "Enhancement Rune";
+        [Constructable]
+        public LevelUpScroll(int value) : base(0x573C)
+        {
+            Weight = 1.0;
+            Name = "Enhancement Rune";
             m_Value = value;
-		}
+        }
 
         public override void AddNameProperty(ObjectPropertyList list)
         {
@@ -67,12 +67,12 @@ namespace Server.Items
                 base.LabelTo(from, "a rune of enhancing (+{0} max levels)", m_Value);
         }
 
-		public override void AddNameProperties( ObjectPropertyList list )
-		{
+        public override void AddNameProperties(ObjectPropertyList list)
+        {
             string BlacksmithMsg;
             bool IsBlacksmithOnly;
 
-			base.AddNameProperties( list );
+            base.AddNameProperties(list);
 
             IsBlacksmithOnly = LevelItems.BlacksmithOnly;
 
@@ -87,28 +87,28 @@ namespace Server.Items
                 BlacksmithMsg = "";
 
             list.Add(1060847, "Legendary Artefacts Only\t {0}", BlacksmithMsg);
-		}
+        }
 
-		public LevelUpScroll( Serial serial ) : base( serial )
-		{
-		}
+        public LevelUpScroll(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			writer.Write( (int) 0 ); // version
+            writer.Write((int)0); // version
 
             //Version 0
             writer.Write(m_BlacksmithValidated);
             writer.Write((int)m_Value);
-		}
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-			int version = reader.ReadInt();
+            int version = reader.ReadInt();
 
             switch (version)
             {
@@ -119,21 +119,21 @@ namespace Server.Items
                         break;
                     }
             }
-		}
+        }
 
-		public override void OnDoubleClick( Mobile from )
-		{
+        public override void OnDoubleClick(Mobile from)
+        {
             bool IsBlacksmithOnly;
 
             IsBlacksmithOnly = LevelItems.BlacksmithOnly;
 
-			if ( !IsChildOf( from.Backpack ) )
-			{
-				from.SendLocalizedMessage( 1042001 ); // That must be in your pack for you to use it.
-				return;
-			}
-			else
-			{
+            if (!IsChildOf(from.Backpack))
+            {
+                from.SendLocalizedMessage(1042001); // That must be in your pack for you to use it.
+                return;
+            }
+            else
+            {
                 if (IsBlacksmithOnly)
                 {
                     if (m_BlacksmithValidated || (from.Skills[SkillName.Blacksmith].Value >= LevelItems.BlacksmithSkillRequired))
@@ -149,27 +149,27 @@ namespace Server.Items
                 }
                 else
                 {
-				    from.SendMessage( "Which legendary artefact would you like to enhance?" );
-				    from.Target = new LevelItemTarget( this ); // Call our target
+                    from.SendMessage("Which legendary artefact would you like to enhance?");
+                    from.Target = new LevelItemTarget(this); // Call our target
                 }
-			}
-		}
+            }
+        }
 
-		public class LevelItemTarget : Target
-		{
-			private LevelUpScroll m_Scroll;
+        public class LevelItemTarget : Target
+        {
+            private LevelUpScroll m_Scroll;
 
-            public LevelItemTarget(LevelUpScroll scroll): base(-1, false, TargetFlags.None)
-			{
-				this.m_Scroll = scroll;
-			}
+            public LevelItemTarget(LevelUpScroll scroll) : base(-1, false, TargetFlags.None)
+            {
+                this.m_Scroll = scroll;
+            }
 
-			protected override void OnTarget( Mobile from, object target )
-			{
-				if ( target is Mobile )
-				{
-					from.SendMessage( "This rune cannot enhance that!" );
-				}
+            protected override void OnTarget(Mobile from, object target)
+            {
+                if (target is Mobile)
+                {
+                    from.SendMessage("This rune cannot enhance that!");
+                }
                 else if (target is Item)
                 {
                     Item item = (Item)target;
@@ -206,8 +206,8 @@ namespace Server.Items
                 {
                     from.SendMessage("This rune cannot enhance that!");
                 }
-			}
-		}
+            }
+        }
 
         private class BlacksmithTarget : Target
         {
@@ -232,7 +232,7 @@ namespace Server.Items
                     {
                         from.SendMessage("This one is a skilled blacksmith.");
                         from.SendGump(new AwaitingSmithApprovalGump(m_Scroll, from));
-                        smith.SendGump(new LevelUpAcceptGump(m_Scroll, from));	
+                        smith.SendGump(new LevelUpAcceptGump(m_Scroll, from));
                     }
                 }
                 else
@@ -241,5 +241,5 @@ namespace Server.Items
                 }
             }
         }
-	}
+    }
 }

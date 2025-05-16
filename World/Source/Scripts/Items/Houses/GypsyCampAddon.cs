@@ -4,10 +4,10 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class GypsyCampAddon : BaseAddon
-	{
+    public class GypsyCampAddon : BaseAddon
+    {
         private static int[,] m_AddOnSimpleComponents = new int[,] {
-			  {5717, -2, 3, 2}, {5717, -2, 2, 2}, {5710, -2, 1, 2}// 1	2	3	
+              {5717, -2, 3, 2}, {5717, -2, 2, 2}, {5710, -2, 1, 2}// 1	2	3	
 			, {5717, -2, -1, 2}, {5717, -2, -2, 2}, {5710, -2, -3, 2}// 4	5	6	
 			, {1997, -2, 4, 8}, {1997, -5, -3, 8}, {1997, -5, -2, 8}// 7	8	9	
 			, {1997, -5, -1, 8}, {1997, -5, 0, 8}, {1997, -5, 1, 8}// 10	11	12	
@@ -79,62 +79,62 @@ namespace Server.Items
 			, {3120, 4, 5, 5}// 240	
 		};
 
- 
-            
-		public override BaseAddonDeed Deed
-		{
-			get
-			{
-				return new GypsyCampAddonDeed();
-			}
-		}
 
-		[ Constructable ]
-		public GypsyCampAddon()
-		{
+
+        public override BaseAddonDeed Deed
+        {
+            get
+            {
+                return new GypsyCampAddonDeed();
+            }
+        }
+
+        [Constructable]
+        public GypsyCampAddon()
+        {
 
             for (int i = 0; i < m_AddOnSimpleComponents.Length / 4; i++)
-                AddComponent( new AddonComponent( m_AddOnSimpleComponents[i,0] ), m_AddOnSimpleComponents[i,1], m_AddOnSimpleComponents[i,2], m_AddOnSimpleComponents[i,3] );
+                AddComponent(new AddonComponent(m_AddOnSimpleComponents[i, 0]), m_AddOnSimpleComponents[i, 1], m_AddOnSimpleComponents[i, 2], m_AddOnSimpleComponents[i, 3]);
 
 
-			AddComplexComponent( (BaseAddon) this, 2594, -5, -3, 17, 0, 29, "", 1);// 67
-			AddComplexComponent( (BaseAddon) this, 2459, -4, -2, 23, 677, -1, "Elixir", 1);// 68
-			AddComplexComponent( (BaseAddon) this, 18058, -5, 0, 15, 0, -1, "Crystal Ball", 1);// 86
-			AddComplexComponent( (BaseAddon) this, 4081, -4, -3, 15, 0, -1, "Sosaria & Lodor: A study of the moons", 1);// 89
-			AddComplexComponent( (BaseAddon) this, 6951, 3, 6, 2, 1518, -1, "", 1);// 196
-			AddComplexComponent( (BaseAddon) this, 6952, 5, 4, 2, 1518, -1, "", 1);// 197
-			AddComplexComponent( (BaseAddon) this, 6953, 2, 5, 2, 1518, -1, "", 1);// 198
-			AddComplexComponent( (BaseAddon) this, 6954, 4, 3, 2, 1518, -1, "", 1);// 199
-			AddComplexComponent( (BaseAddon) this, 6959, 5, 6, 2, 1518, -1, "", 1);// 200
-			AddComplexComponent( (BaseAddon) this, 6961, 2, 6, 2, 1518, -1, "", 1);// 201
-			AddComplexComponent( (BaseAddon) this, 6962, 5, 3, 2, 1518, -1, "", 1);// 202
-			AddComplexComponent( (BaseAddon) this, 6965, 2, 3, 2, 1518, -1, "", 1);// 203
-			AddComplexComponent( (BaseAddon) this, 12790, 3, 5, 2, 1518, -1, "", 1);// 204
-			AddComplexComponent( (BaseAddon) this, 12790, 3, 4, 2, 1518, -1, "", 1);// 205
-			AddComplexComponent( (BaseAddon) this, 12790, 4, 4, 2, 1518, -1, "", 1);// 206
-			AddComplexComponent( (BaseAddon) this, 12790, 4, 5, 2, 1518, -1, "", 1);// 207
-			AddComplexComponent( (BaseAddon) this, 6951, 4, 6, 2, 1518, -1, "", 1);// 208
-			AddComplexComponent( (BaseAddon) this, 6952, 5, 5, 2, 1518, -1, "", 1);// 209
-			AddComplexComponent( (BaseAddon) this, 6953, 2, 4, 2, 1518, -1, "", 1);// 210
-			AddComplexComponent( (BaseAddon) this, 6954, 3, 3, 2, 1518, -1, "", 1);// 211
-			AddComplexComponent( (BaseAddon) this, 3555, 3, 5, 7, 0, 1, "", 1);// 223
-			AddComplexComponent( (BaseAddon) this, 3555, 4, 5, 6, 0, 1, "", 1);// 224
-			AddComplexComponent( (BaseAddon) this, 3555, 3, 4, 6, 0, 1, "", 1);// 225
-			AddComplexComponent( (BaseAddon) this, 3561, 4, 5, 2, 0, 1, "", 1);// 227
-			AddComplexComponent( (BaseAddon) this, 3561, 4, 5, 2, 0, 1, "", 1);// 228
-			AddComplexComponent( (BaseAddon) this, 3561, 3, 5, 2, 0, 1, "", 1);// 229
-			AddComplexComponent( (BaseAddon) this, 3561, 4, 4, 7, 0, 1, "", 1);// 230
-			AddComplexComponent( (BaseAddon) this, 3561, 4, 5, 2, 0, 1, "", 1);// 231
-			AddComplexComponent( (BaseAddon) this, 3561, 3, 4, 4, 0, 1, "", 1);// 232
-			AddComplexComponent( (BaseAddon) this, 6571, 3, 5, 2, 0, 1, "", 1);// 234
-			AddComplexComponent( (BaseAddon) this, 6571, 4, 4, 2, 0, 1, "", 1);// 235
-			AddComplexComponent( (BaseAddon) this, 6571, 3, 4, 2, 0, 1, "", 1);// 236
+            AddComplexComponent((BaseAddon)this, 2594, -5, -3, 17, 0, 29, "", 1);// 67
+            AddComplexComponent((BaseAddon)this, 2459, -4, -2, 23, 677, -1, "Elixir", 1);// 68
+            AddComplexComponent((BaseAddon)this, 18058, -5, 0, 15, 0, -1, "Crystal Ball", 1);// 86
+            AddComplexComponent((BaseAddon)this, 4081, -4, -3, 15, 0, -1, "Sosaria & Lodor: A study of the moons", 1);// 89
+            AddComplexComponent((BaseAddon)this, 6951, 3, 6, 2, 1518, -1, "", 1);// 196
+            AddComplexComponent((BaseAddon)this, 6952, 5, 4, 2, 1518, -1, "", 1);// 197
+            AddComplexComponent((BaseAddon)this, 6953, 2, 5, 2, 1518, -1, "", 1);// 198
+            AddComplexComponent((BaseAddon)this, 6954, 4, 3, 2, 1518, -1, "", 1);// 199
+            AddComplexComponent((BaseAddon)this, 6959, 5, 6, 2, 1518, -1, "", 1);// 200
+            AddComplexComponent((BaseAddon)this, 6961, 2, 6, 2, 1518, -1, "", 1);// 201
+            AddComplexComponent((BaseAddon)this, 6962, 5, 3, 2, 1518, -1, "", 1);// 202
+            AddComplexComponent((BaseAddon)this, 6965, 2, 3, 2, 1518, -1, "", 1);// 203
+            AddComplexComponent((BaseAddon)this, 12790, 3, 5, 2, 1518, -1, "", 1);// 204
+            AddComplexComponent((BaseAddon)this, 12790, 3, 4, 2, 1518, -1, "", 1);// 205
+            AddComplexComponent((BaseAddon)this, 12790, 4, 4, 2, 1518, -1, "", 1);// 206
+            AddComplexComponent((BaseAddon)this, 12790, 4, 5, 2, 1518, -1, "", 1);// 207
+            AddComplexComponent((BaseAddon)this, 6951, 4, 6, 2, 1518, -1, "", 1);// 208
+            AddComplexComponent((BaseAddon)this, 6952, 5, 5, 2, 1518, -1, "", 1);// 209
+            AddComplexComponent((BaseAddon)this, 6953, 2, 4, 2, 1518, -1, "", 1);// 210
+            AddComplexComponent((BaseAddon)this, 6954, 3, 3, 2, 1518, -1, "", 1);// 211
+            AddComplexComponent((BaseAddon)this, 3555, 3, 5, 7, 0, 1, "", 1);// 223
+            AddComplexComponent((BaseAddon)this, 3555, 4, 5, 6, 0, 1, "", 1);// 224
+            AddComplexComponent((BaseAddon)this, 3555, 3, 4, 6, 0, 1, "", 1);// 225
+            AddComplexComponent((BaseAddon)this, 3561, 4, 5, 2, 0, 1, "", 1);// 227
+            AddComplexComponent((BaseAddon)this, 3561, 4, 5, 2, 0, 1, "", 1);// 228
+            AddComplexComponent((BaseAddon)this, 3561, 3, 5, 2, 0, 1, "", 1);// 229
+            AddComplexComponent((BaseAddon)this, 3561, 4, 4, 7, 0, 1, "", 1);// 230
+            AddComplexComponent((BaseAddon)this, 3561, 4, 5, 2, 0, 1, "", 1);// 231
+            AddComplexComponent((BaseAddon)this, 3561, 3, 4, 4, 0, 1, "", 1);// 232
+            AddComplexComponent((BaseAddon)this, 6571, 3, 5, 2, 0, 1, "", 1);// 234
+            AddComplexComponent((BaseAddon)this, 6571, 4, 4, 2, 0, 1, "", 1);// 235
+            AddComplexComponent((BaseAddon)this, 6571, 3, 4, 2, 0, 1, "", 1);// 236
 
-		}
+        }
 
-		public GypsyCampAddon( Serial serial ) : base( serial )
-		{
-		}
+        public GypsyCampAddon(Serial serial) : base(serial)
+        {
+        }
 
         private static void AddComplexComponent(BaseAddon addon, int item, int xoffset, int yoffset, int zoffset, int hue, int lightsource)
         {
@@ -155,53 +155,53 @@ namespace Server.Items
                 ac.Amount = amount;
             }
             if (lightsource != -1)
-                ac.Light = (LightType) lightsource;
+                ac.Light = (LightType)lightsource;
             addon.AddComponent(ac, xoffset, yoffset, zoffset);
         }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 
-	public class GypsyCampAddonDeed : BaseAddonDeed
-	{
-		public override BaseAddon Addon
-		{
-			get
-			{
-				return new GypsyCampAddon();
-			}
-		}
+    public class GypsyCampAddonDeed : BaseAddonDeed
+    {
+        public override BaseAddon Addon
+        {
+            get
+            {
+                return new GypsyCampAddon();
+            }
+        }
 
-		[Constructable]
-		public GypsyCampAddonDeed()
-		{
-			Name = "GypsyCamp";
-		}
+        [Constructable]
+        public GypsyCampAddonDeed()
+        {
+            Name = "GypsyCamp";
+        }
 
-		public GypsyCampAddonDeed( Serial serial ) : base( serial )
-		{
-		}
+        public GypsyCampAddonDeed(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void	Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

@@ -36,9 +36,9 @@ namespace Knives.Chat3
                 AddHtml(0, y += 25, width, "<CENTER>" + General.Local(224) + " " + c_Target.RawName);
 
             foreach (Channel c in Channel.Channels)
-                if(c.CanChat(Current, false))
+                if (c.CanChat(Current, false))
                 {
-                    AddHtml(0, y+=25, width, "<CENTER>" + c.NameFor(Current));
+                    AddHtml(0, y += 25, width, "<CENTER>" + c.NameFor(Current));
                     AddImage(width / 2 - 70, y, 0x2342, c.ColorFor(Current));
                     AddButton(width / 2 - 66, y + 4, 0x2716, "Channel Color", new GumpStateCallback(ChannelColor), c);
                     AddImage(width / 2 + 50, y, 0x2342, c.ColorFor(Current));
@@ -95,7 +95,7 @@ namespace Knives.Chat3
                 AddButton(width / 2 + 55, y + 4, 0x2716, "Colors", new GumpStateCallback(Colors), 6);
             }
 
-            AddBackgroundZero(0, 0, width, y+40, Data.GetData(Current).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 40, Data.GetData(Current).DefaultBack);
         }
 
         private void ChannelColor(object o)

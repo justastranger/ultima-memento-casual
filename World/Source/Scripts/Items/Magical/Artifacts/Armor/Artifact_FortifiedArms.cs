@@ -5,15 +5,15 @@ using Server.Items;
 namespace Server.Items
 {
     public class Artifact_Fortifiedarms : GiftBoneArms
-	{
-		public override int InitMinHits{ get{ return 80; } }
-		public override int InitMaxHits{ get{ return 160; } }
+    {
+        public override int InitMinHits { get { return 80; } }
+        public override int InitMaxHits { get { return 160; } }
 
         [Constructable]
         public Artifact_Fortifiedarms()
         {
-			Hue = 1165;
-			Name = "Fortified Arms";
+            Hue = 1165;
+            Name = "Fortified Arms";
 
             Attributes.AttackChance = 5;
             Attributes.BonusDex = 5;
@@ -28,24 +28,24 @@ namespace Server.Items
             PhysicalBonus = 9;
             PoisonBonus = 5;
             StrBonus = 10;
-			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 14, "" );
-		}
+            ArtifactLevel = 2;
+            Server.Misc.Arty.ArtySetup(this, 14, "");
+        }
 
-        public Artifact_Fortifiedarms( Serial serial ) : base( serial )
+        public Artifact_Fortifiedarms(Serial serial) : base(serial)
         {
         }
-        
-        public override void Serialize( GenericWriter writer )
+
+        public override void Serialize(GenericWriter writer)
         {
-            base.Serialize( writer );
-            writer.Write( (int) 0 );
+            base.Serialize(writer);
+            writer.Write((int)0);
         }
-              
+
         public override void Deserialize(GenericReader reader)
         {
-            base.Deserialize( reader );
-			ArtifactLevel = 2;
+            base.Deserialize(reader);
+            ArtifactLevel = 2;
             int version = reader.ReadInt();
         }
     }

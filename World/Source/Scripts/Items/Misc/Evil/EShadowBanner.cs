@@ -45,83 +45,83 @@ namespace Server.Items
     }
 
     public class EShadowBannerAddon : BaseAddon
-	{
+    {
         public override BaseAddonDeed Deed { get { return new EShadowBannerDeed(); } }
 
-		[Constructable]
-		public EShadowBannerAddon( bool east )
-		{
-			if ( east )
-			{
+        [Constructable]
+        public EShadowBannerAddon(bool east)
+        {
+            if (east)
+            {
                 AddComponent(new EShadowBannerComponent(0x365F), 0, 0, 0);
                 AddComponent(new EShadowBannerComponent(0x365E), 0, -1, 0);
-			}
-			else
-			{
+            }
+            else
+            {
                 AddComponent(new EShadowBannerComponent(0x365D), 0, 0, 0);
                 AddComponent(new EShadowBannerComponent(0x365C), 1, 0, 0);
-			}
-		}
+            }
+        }
 
-		public EShadowBannerAddon( Serial serial ) : base( serial )
-		{
-		}
+        public EShadowBannerAddon(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			writer.WriteEncodedInt( (int) 0 ); // version
-		}
+            writer.WriteEncodedInt((int)0); // version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-			int version = reader.ReadEncodedInt();
-		}
-	}
+            int version = reader.ReadEncodedInt();
+        }
+    }
 
-	public class EShadowBannerDeed : BaseAddonDeed
-	{
-		private bool m_East;
+    public class EShadowBannerDeed : BaseAddonDeed
+    {
+        private bool m_East;
 
         public override BaseAddon Addon { get { return new EShadowBannerAddon(m_East); } }
 
-		[Constructable]
-		public EShadowBannerDeed()
-		{
-			Name = "box containing a shadow banner";
-            ItemID = Utility.RandomList( 0x3420, 0x3425 );
+        [Constructable]
+        public EShadowBannerDeed()
+        {
+            Name = "box containing a shadow banner";
+            ItemID = Utility.RandomList(0x3420, 0x3425);
             Hue = Utility.RandomEvilHue();
             Weight = 5.0;
-		}
+        }
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			if ( IsChildOf( from.Backpack ) )
-			{
-				from.CloseGump( typeof( InternalGump ) );
-				from.SendGump( new InternalGump( this ) );
-			}
-			else
-			{
-				from.SendLocalizedMessage( 1042001 ); // That must be in your pack for you to use it.
-			}
-		}
+        public override void OnDoubleClick(Mobile from)
+        {
+            if (IsChildOf(from.Backpack))
+            {
+                from.CloseGump(typeof(InternalGump));
+                from.SendGump(new InternalGump(this));
+            }
+            else
+            {
+                from.SendLocalizedMessage(1042001); // That must be in your pack for you to use it.
+            }
+        }
 
-		private void SendTarget( Mobile m )
-		{
-			base.OnDoubleClick( m );
-		}
+        private void SendTarget(Mobile m)
+        {
+            base.OnDoubleClick(m);
+        }
 
-		private class InternalGump : Gump
-		{
-			private EShadowBannerDeed m_Deed;
+        private class InternalGump : Gump
+        {
+            private EShadowBannerDeed m_Deed;
 
-			public InternalGump( EShadowBannerDeed deed ) : base( 60, 35 )
-			{
-				m_Deed = deed;
+            public InternalGump(EShadowBannerDeed deed) : base(60, 35)
+            {
+                m_Deed = deed;
 
                 AddBackground(0, 0, 270, 330, 0x1453);
 
@@ -132,8 +132,8 @@ namespace Server.Items
                 AddAlphaRegion(10, 10, 250, 310);
 
                 AddHtmlLocalized(13, 12, 250, 20, 1076728, 0x7FFF, false, false); //Position
-               
-				AddButton(15, 48, 0x4B9, 0x4BA, 1, GumpButtonType.Reply, 0); // South
+
+                AddButton(15, 48, 0x4B9, 0x4BA, 1, GumpButtonType.Reply, 0); // South
                 AddHtmlLocalized(38, 46, 340, 20, 1075386, 0x7FFF, false, false); // South
 
                 AddButton(15, 70, 0x4B9, 0x4BA, 2, GumpButtonType.Reply, 0); // East
@@ -141,7 +141,7 @@ namespace Server.Items
 
                 AddButton(10, 300, 0xFB1, 0xFB2, 0, GumpButtonType.Reply, 0);
                 AddHtmlLocalized(45, 302, 340, 20, 1060051, 0x7FFF, false, false); // CANCEL
-			}
+            }
 
             public void AddBlackAlpha(int x, int y, int width, int height)
             {
@@ -149,34 +149,34 @@ namespace Server.Items
                 AddAlphaRegion(x, y, width, height);
             }
 
-			public override void OnResponse( NetState sender, RelayInfo info )
-			{
-				if ( m_Deed.Deleted || info.ButtonID == 0 )
-					return;
+            public override void OnResponse(NetState sender, RelayInfo info)
+            {
+                if (m_Deed.Deleted || info.ButtonID == 0)
+                    return;
 
-				m_Deed.m_East = (info.ButtonID != 1);
-				m_Deed.SendTarget( sender.Mobile );
-			}
-		}
+                m_Deed.m_East = (info.ButtonID != 1);
+                m_Deed.SendTarget(sender.Mobile);
+            }
+        }
 
-		public EShadowBannerDeed( Serial serial ) : base( serial )
-		{
-		}
+        public EShadowBannerDeed(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			writer.WriteEncodedInt( (int) 0 ); // version
-		}
+            writer.WriteEncodedInt((int)0); // version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-			int version = reader.ReadEncodedInt();
+            int version = reader.ReadEncodedInt();
 
-			if ( ItemID != 0x3420 && ItemID != 0x3425 ){ ItemID = 0x3425; }
-		}
-	}
+            if (ItemID != 0x3420 && ItemID != 0x3425) { ItemID = 0x3425; }
+        }
+    }
 }

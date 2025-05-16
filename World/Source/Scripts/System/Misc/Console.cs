@@ -23,33 +23,33 @@ namespace Server.Misc
         public static bool paging;
         public static void Initialize()
         {
-			EventSink.ServerStarted += new ServerStartedEventHandler(EventSink_ServerStarted);
-             if ( MySettings.S_EnableConsole ){ EventSink.Speech += new SpeechEventHandler(OnSpeech); }
+            EventSink.ServerStarted += new ServerStartedEventHandler(EventSink_ServerStarted);
+            if (MySettings.S_EnableConsole) { EventSink.Speech += new SpeechEventHandler(OnSpeech); }
         }
         public static void EventSink_ServerStarted()
         {
-			if ( MySettings.S_EnableConsole )
-			{ 
-				ThreadPool.QueueUserWorkItem(new WaitCallback(ConsoleListen));
-				Console.WriteLine("");
-				Console.WriteLine("Console ready. Type 'help' for command options.");
-			}
-			Console.WriteLine("");
+            if (MySettings.S_EnableConsole)
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(ConsoleListen));
+                Console.WriteLine("");
+                Console.WriteLine("Console ready. Type 'help' for command options.");
+            }
+            Console.WriteLine("");
 
-			if ( !MySettings.S_Reviewed )
-			{
-				Console.WriteLine("WARNING: You have not reviewed your game settings!");
-				Console.WriteLine("WARNING: Review your SETTINGS.CS file in the INFO/SCRIPTS directory.");
-				Console.WriteLine("");
-			}
+            if (!MySettings.S_Reviewed)
+            {
+                Console.WriteLine("WARNING: You have not reviewed your game settings!");
+                Console.WriteLine("WARNING: Review your SETTINGS.CS file in the INFO/SCRIPTS directory.");
+                Console.WriteLine("");
+            }
 
-			if ( !MySettings.S_RunRoutinesAtStartup )
-				Console.WriteLine("You may now play " + MySettings.S_ServerName + "!");
-			else if ( File.Exists( "Data/Data.ref" ) )
-				Console.WriteLine("Rebuilding the world. Please wait...");
-			else
-				Console.WriteLine("Running startup routines. Please wait...");
-			Console.WriteLine("");
+            if (!MySettings.S_RunRoutinesAtStartup)
+                Console.WriteLine("You may now play " + MySettings.S_ServerName + "!");
+            else if (File.Exists("Data/Data.ref"))
+                Console.WriteLine("Rebuilding the world. Please wait...");
+            else
+                Console.WriteLine("Running startup routines. Please wait...");
+            Console.WriteLine("");
         }
         private static void OnSpeech(SpeechEventArgs args)
         {
@@ -57,15 +57,15 @@ namespace Server.Misc
             {
                 try
                 {
-                    if ((Server.Misc.Worlds.GetRegionName( args.Mobile.Map, args.Mobile.Location )).Length > 0)
-                        Console.WriteLine("" + args.Mobile.Name + " (" + Server.Misc.Worlds.GetRegionName( args.Mobile.Map, args.Mobile.Location ) + "): " + args.Speech + "");
+                    if ((Server.Misc.Worlds.GetRegionName(args.Mobile.Map, args.Mobile.Location)).Length > 0)
+                        Console.WriteLine("" + args.Mobile.Name + " (" + Server.Misc.Worlds.GetRegionName(args.Mobile.Map, args.Mobile.Location) + "): " + args.Speech + "");
                     else
                         Console.WriteLine("" + args.Mobile.Name + ": " + args.Speech + "");
                 }
                 catch (Exception e)
-				{
-					Console.WriteLine(e.Message);
-				}
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
         public static void ConsoleListen(Object stateInfo)
@@ -249,7 +249,7 @@ namespace Server.Misc
                             paging = true;
                             ArrayList list = PageQueue.List;
                             PageEntry e;
-                            for (int i = 0; i < list.Count; )
+                            for (int i = 0; i < list.Count;)
                             {
                                 e = (PageEntry)list[i];
                                 if (e.Sender.Deleted || e.Sender.NetState == null)

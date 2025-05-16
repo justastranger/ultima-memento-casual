@@ -4,12 +4,12 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class WagonAddon : BaseAddon
-	{
-		public override string AddonName{ get{ return "wagon"; } }
+    public class WagonAddon : BaseAddon
+    {
+        public override string AddonName { get { return "wagon"; } }
 
         private static int[,] m_AddOnSimpleComponents = new int[,] {
-			  {9, -5, -7, 5}, {7, -4, -7, 5}, {22, -4, -7, 25}// 1	2	3	
+              {9, -5, -7, 5}, {7, -4, -7, 5}, {22, -4, -7, 25}// 1	2	3	
 			, {7, -3, -7, 5}, {18, -3, -7, 25}, {12, -2, -7, 5}// 4	5	6	
 			, {18, -2, -7, 25}, {7, -1, -7, 5}, {18, -1, -7, 25}// 7	8	9	
 			, {22, -1, -7, 35}, {19484, -5, -6, 0}, {8, -5, -6, 5}// 10	11	12	
@@ -152,7 +152,7 @@ namespace Server.Items
 			, {1192, 0, 2, 25}, {1476, 0, 2, 40}, {1848, 0, 3, 0}// 429	430	431	
 			, {1193, 0, 3, 5}, {1191, 0, 3, 25}, {1476, 0, 3, 41}// 432	433	434	
 			, {1848, 0, 4, 0}, {1190, 0, 4, 5}
-			, {1192, 0, 4, 25}, {18, 0, 4, 25}, {22, 0, 4, 35}// 438	439	440	
+            , {1192, 0, 4, 25}, {18, 0, 4, 25}, {22, 0, 4, 35}// 438	439	440	
 			, {1476, 0, 4, 42}, {1848, 0, 5, 0}, {1195, 0, 5, 5}// 441	442	443	
 			, {1476, 0, 5, 43}, {1848, 0, 6, 0}, {1194, 0, 6, 5}// 444	445	446	
 			, {15796, 0, 7, 0}, {1848, 1, 2, 0}, {1193, 1, 2, 5}// 447	448	449	
@@ -181,42 +181,42 @@ namespace Server.Items
 			, {1193, 4, 4, 5}, {6, 4, 4, 5}, {1192, 4, 4, 25}// 519	520	521	
 			, {22, 4, 4, 25}, {1475, 4, 4, 30}, {1848, 4, 5, 0}// 522	523	524	
 			, {1195, 4, 5, 5}
-			, {2182, 4, 5, 5}, {1475, 4, 5, 31}, {1848, 4, 6, 0}// 528	529	530	
+            , {2182, 4, 5, 5}, {1475, 4, 5, 31}, {1848, 4, 6, 0}// 528	529	530	
 			, {1195, 4, 6, 5}, {2182, 4, 6, 5}, {2176, 4, 6, 5}// 531	532	533	
 			, {1475, 5, 2, 24}, {1475, 5, 3, 25}, {1475, 5, 4, 26}// 534	535	536	
 			, {1475, 5, 5, 27}// 537	
 		};
 
-		public override BaseAddonDeed Deed
-		{
-			get
-			{
-				return new WagonAddonDeed();
-			}
-		}
+        public override BaseAddonDeed Deed
+        {
+            get
+            {
+                return new WagonAddonDeed();
+            }
+        }
 
-		[ Constructable ]
-		public WagonAddon()
-		{
+        [Constructable]
+        public WagonAddon()
+        {
             for (int i = 0; i < m_AddOnSimpleComponents.Length / 4; i++)
-                AddComponent( new AddonComponent( m_AddOnSimpleComponents[i,0] ), m_AddOnSimpleComponents[i,1], m_AddOnSimpleComponents[i,2], m_AddOnSimpleComponents[i,3] );
+                AddComponent(new AddonComponent(m_AddOnSimpleComponents[i, 0]), m_AddOnSimpleComponents[i, 1], m_AddOnSimpleComponents[i, 2], m_AddOnSimpleComponents[i, 3]);
 
-			AddComplexComponent( (BaseAddon) this, 15, -5, -2, 5, 0, 0, "", 1);// 20
-			AddComplexComponent( (BaseAddon) this, 15, -5, -1, 5, 0, 0, "", 1);// 21
-			AddComplexComponent( (BaseAddon) this, 15, -5, 2, 5, 0, 0, "", 1);// 151
-			AddComplexComponent( (BaseAddon) this, 15, -5, 3, 5, 0, 0, "", 1);// 153
-			AddComplexComponent( (BaseAddon) this, 14, -2, 4, 5, 0, 0, "", 1);// 209
-			AddComplexComponent( (BaseAddon) this, 14, 0, -7, 5, 0, 0, "", 1);// 239
-			AddComplexComponent( (BaseAddon) this, 15, 4, -2, 5, 0, 0, "", 1);// 401
-			AddComplexComponent( (BaseAddon) this, 15, 4, -1, 5, 0, 0, "", 1);// 406
-			AddComplexComponent( (BaseAddon) this, 14, 2, 4, 5, 0, 0, "", 1);// 478
-			AddComplexComponent( (BaseAddon) this, 15, 4, 2, 5, 0, 0, "", 1);// 510
-			AddComplexComponent( (BaseAddon) this, 15, 4, 3, 5, 0, 0, "", 1);// 515
-		}
+            AddComplexComponent((BaseAddon)this, 15, -5, -2, 5, 0, 0, "", 1);// 20
+            AddComplexComponent((BaseAddon)this, 15, -5, -1, 5, 0, 0, "", 1);// 21
+            AddComplexComponent((BaseAddon)this, 15, -5, 2, 5, 0, 0, "", 1);// 151
+            AddComplexComponent((BaseAddon)this, 15, -5, 3, 5, 0, 0, "", 1);// 153
+            AddComplexComponent((BaseAddon)this, 14, -2, 4, 5, 0, 0, "", 1);// 209
+            AddComplexComponent((BaseAddon)this, 14, 0, -7, 5, 0, 0, "", 1);// 239
+            AddComplexComponent((BaseAddon)this, 15, 4, -2, 5, 0, 0, "", 1);// 401
+            AddComplexComponent((BaseAddon)this, 15, 4, -1, 5, 0, 0, "", 1);// 406
+            AddComplexComponent((BaseAddon)this, 14, 2, 4, 5, 0, 0, "", 1);// 478
+            AddComplexComponent((BaseAddon)this, 15, 4, 2, 5, 0, 0, "", 1);// 510
+            AddComplexComponent((BaseAddon)this, 15, 4, 3, 5, 0, 0, "", 1);// 515
+        }
 
-		public WagonAddon( Serial serial ) : base( serial )
-		{
-		}
+        public WagonAddon(Serial serial) : base(serial)
+        {
+        }
 
         private static void AddComplexComponent(BaseAddon addon, int item, int xoffset, int yoffset, int zoffset, int hue, int lightsource)
         {
@@ -237,53 +237,53 @@ namespace Server.Items
                 ac.Amount = amount;
             }
             if (lightsource != -1)
-                ac.Light = (LightType) lightsource;
+                ac.Light = (LightType)lightsource;
             addon.AddComponent(ac, xoffset, yoffset, zoffset);
         }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 
-	public class WagonAddonDeed : BaseAddonDeed
-	{
-		public override BaseAddon Addon
-		{
-			get
-			{
-				return new WagonAddon();
-			}
-		}
+    public class WagonAddonDeed : BaseAddonDeed
+    {
+        public override BaseAddon Addon
+        {
+            get
+            {
+                return new WagonAddon();
+            }
+        }
 
-		[Constructable]
-		public WagonAddonDeed()
-		{
-			Name = "wagon deed";
-		}
+        [Constructable]
+        public WagonAddonDeed()
+        {
+            Name = "wagon deed";
+        }
 
-		public WagonAddonDeed( Serial serial ) : base( serial )
-		{
-		}
+        public WagonAddonDeed(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void	Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

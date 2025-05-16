@@ -48,9 +48,9 @@ namespace Knives.Chat3
                     continue;
 
                 if (data.Mobile.AccessLevel >= m.AccessLevel && ((data.GlobalG && !data.GIgnores.Contains(m)) || data.GListens.Contains(m)))
-                    data.Mobile.SendMessage(data.GlobalGC, String.Format("(Alliance) <{0}> {1}: {2}", NameFor(m), m.RawName, msg ));
+                    data.Mobile.SendMessage(data.GlobalGC, String.Format("(Alliance) <{0}> {1}: {2}", NameFor(m), m.RawName, msg));
                 else if (IsIn(data.Mobile) && !data.Ignores.Contains(m) && (data.Mobile.Guild == m.Guild || ((Server.Guilds.Guild)data.Mobile.Guild).Allies.Contains((Server.Guilds.Guild)m.Guild)))
-                    data.Mobile.SendMessage(m.AccessLevel == AccessLevel.Player ? ColorFor(data.Mobile) : Data.GetData(m).StaffC, String.Format("<{0}{1}> {2}: {3}", NameFor(m), (Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName( m.Map, m.Location ) : ""), m.RawName, msg));
+                    data.Mobile.SendMessage(m.AccessLevel == AccessLevel.Player ? ColorFor(data.Mobile) : Data.GetData(m).StaffC, String.Format("<{0}{1}> {2}: {3}", NameFor(m), (Style == ChatStyle.Regional && m.Region != null ? "-" + Server.Misc.Worlds.GetRegionName(m.Map, m.Location) : ""), m.RawName, msg));
             }
         }
 

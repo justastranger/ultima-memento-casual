@@ -59,7 +59,7 @@ namespace Knives.Chat3
                 c_Connecting = false;
                 c_Connected = true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 c_Server = false;
@@ -97,7 +97,7 @@ namespace Knives.Chat3
                 c_Slave = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
                 c_Slave.Connect(new System.Net.IPEndPoint(System.Net.IPAddress.Parse(Data.MultiServer), Data.MultiPort));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 BroadcastSystem(General.Local(288));
                 Console.WriteLine(e.Message);
@@ -127,7 +127,7 @@ namespace Knives.Chat3
                     if (data.Mobile.HasGump(typeof(MultiGump)))
                         GumpPlus.RefreshGump(data.Mobile, typeof(MultiGump));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Errors.Report("Error opening stream for slave.");
@@ -156,7 +156,7 @@ namespace Knives.Chat3
                     if (data.Mobile.HasGump(typeof(MultiGump)))
                         GumpPlus.RefreshGump(data.Mobile, typeof(MultiGump));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Errors.Report("Error disconnecting slave.");
@@ -171,7 +171,7 @@ namespace Knives.Chat3
                 c_Clients.Add(sok);
                 WaitForData(sok);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -185,12 +185,12 @@ namespace Knives.Chat3
                 pak.Socket = sok;
                 sok.BeginReceive(pak.Buffer, 0, pak.Buffer.Length, SocketFlags.None, new AsyncCallback(OnDataReceived), pak);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 if (c_Server)
                 {
-                    if(c_Names[sok] != null)
+                    if (c_Names[sok] != null)
                         BroadcastSystem(c_Names[sok].ToString() + General.Local(291));
                     c_Clients.Remove(sok);
                     c_Names.Remove(sok);
@@ -235,7 +235,7 @@ namespace Knives.Chat3
 
                 WaitForData(pak.Socket);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 if (c_Server)
@@ -257,7 +257,7 @@ namespace Knives.Chat3
         {
             if (!c_Server || c_Master == null)
                 return;
-                
+
             try
             {
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes("   " + str);
@@ -281,7 +281,7 @@ namespace Knives.Chat3
 
         public void SendMessage(Mobile m, string str)
         {
-            if(c_Server)
+            if (c_Server)
             {
                 SendMaster("<" + MySettings.S_ServerName + "> " + m.RawName + ": " + str);
                 Broadcast("<" + MySettings.S_ServerName + "> " + m.RawName + ": " + str);

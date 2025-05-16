@@ -9,9 +9,9 @@ using Server.Engines.Craft;
 
 namespace Server.Items
 {
-	[Flipable( 0x14EB, 0x14EC )]
-	public class MapItem : Item, ICraftable
-	{
+    [Flipable(0x14EB, 0x14EC)]
+    public class MapItem : Item, ICraftable
+    {
         public static Map GetRandomFacet()
         {
             int RndF = Utility.Random(6);
@@ -25,138 +25,138 @@ namespace Server.Items
             return Map.Sosaria;
         }
 
-		private Rectangle2D m_Bounds;
+        private Rectangle2D m_Bounds;
 
-		private int m_Width, m_Height;
+        private int m_Width, m_Height;
 
-		private bool m_Protected;
-		private bool m_Editable;
+        private bool m_Protected;
+        private bool m_Editable;
 
-		private List<Point2D> m_Pins = new List<Point2D>();
+        private List<Point2D> m_Pins = new List<Point2D>();
 
-		private const int MaxUserPins = 50;
+        private const int MaxUserPins = 50;
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool Protected
-		{
-			get { return m_Protected; }
-			set { m_Protected = value; }
-		}
+        [CommandProperty(AccessLevel.GameMaster)]
+        public bool Protected
+        {
+            get { return m_Protected; }
+            set { m_Protected = value; }
+        }
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public Rectangle2D Bounds
-		{
-			get { return m_Bounds; }
-			set { m_Bounds = value; }
-		}
+        [CommandProperty(AccessLevel.GameMaster)]
+        public Rectangle2D Bounds
+        {
+            get { return m_Bounds; }
+            set { m_Bounds = value; }
+        }
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int Width
-		{
-			get { return m_Width; }
-			set { m_Width = value; }
-		}
+        [CommandProperty(AccessLevel.GameMaster)]
+        public int Width
+        {
+            get { return m_Width; }
+            set { m_Width = value; }
+        }
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int Height
-		{
-			get { return m_Height; }
-			set { m_Height = value; }
-		}
+        [CommandProperty(AccessLevel.GameMaster)]
+        public int Height
+        {
+            get { return m_Height; }
+            set { m_Height = value; }
+        }
 
-		#region SA
-		private Map m_DisplayMap;
+        #region SA
+        private Map m_DisplayMap;
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public Map DisplayMap
-		{
-			get { return m_DisplayMap; }
-			set { m_DisplayMap = value; }
-		}
-		#endregion
+        [CommandProperty(AccessLevel.GameMaster)]
+        public Map DisplayMap
+        {
+            get { return m_DisplayMap; }
+            set { m_DisplayMap = value; }
+        }
+        #endregion
 
-		public List<Point2D> Pins
-		{
-			get { return m_Pins; }
-		}
+        public List<Point2D> Pins
+        {
+            get { return m_Pins; }
+        }
 
-		[Constructable]
-		public MapItem() : base( 0x14EC )
-		{
-			Weight = 1.0;
+        [Constructable]
+        public MapItem() : base(0x14EC)
+        {
+            Weight = 1.0;
 
-			m_Width = 200;
-			m_Height = 200;
-			m_DisplayMap = Map.Sosaria;
-		}
+            m_Width = 200;
+            m_Height = 200;
+            m_DisplayMap = Map.Sosaria;
+        }
 
-		public virtual void CraftInit( Mobile from )
-		{
-		}
+        public virtual void CraftInit(Mobile from)
+        {
+        }
 
-		public void SetDisplay( int x1, int y1, int x2, int y2, int w, int h )
-		{
-			int pX = 0;
-			int pY = 0;
+        public void SetDisplay(int x1, int y1, int x2, int y2, int w, int h)
+        {
+            int pX = 0;
+            int pY = 0;
             SetDisplay(x1, y1, x2, y2, w, h, m_DisplayMap, pX, pY);
-		}
+        }
 
-		public void SetDisplay( int x1, int y1, int x2, int y2, int w, int h, Map map, int pX, int pY )
-		{
-			Point3D location = new Point3D( pX, pY, 0 );
-			Land land = Server.Lands.GetLand( map, location, pX, pY );
+        public void SetDisplay(int x1, int y1, int x2, int y2, int w, int h, Map map, int pX, int pY)
+        {
+            Point3D location = new Point3D(pX, pY, 0);
+            Land land = Server.Lands.GetLand(map, location, pX, pY);
 
-			Width = w;
-			Height = h;
-			DisplayMap = map;
+            Width = w;
+            Height = h;
+            DisplayMap = map;
 
-			if ( x1 < 0 ){ x1 = 0; }
-			if ( y1 < 0 ){ y1 = 0; }
+            if (x1 < 0) { x1 = 0; }
+            if (y1 < 0) { y1 = 0; }
 
-			if ( land == Land.Ambrosia ){ if (x1 < 5122) { x1 = 5122; } if (y1 < 3036) { y1 = 3036; } }
-			else if ( land == Land.UmberVeil ){ if (x1 < 699) { x1 = 699; } if (y1 < 3129) { y1 = 3129; } }
-			else if ( land == Land.Kuldar ){ if (x1 < 6127) { x1 = 6127; } if (y1 < 828) { y1 = 828; } }
-			else if ( land == Land.Savaged ){ if (x1 < 136) { x1 = 136; } if (y1 < 8) { y1 = 8; } }
+            if (land == Land.Ambrosia) { if (x1 < 5122) { x1 = 5122; } if (y1 < 3036) { y1 = 3036; } }
+            else if (land == Land.UmberVeil) { if (x1 < 699) { x1 = 699; } if (y1 < 3129) { y1 = 3129; } }
+            else if (land == Land.Kuldar) { if (x1 < 6127) { x1 = 6127; } if (y1 < 828) { y1 = 828; } }
+            else if (land == Land.Savaged) { if (x1 < 136) { x1 = 136; } if (y1 < 8) { y1 = 8; } }
 
-			#region SA
-			if ( x2 > Map.Maps[map.MapID].Width )
-				x2 = Map.Maps[map.MapID].Width;
+            #region SA
+            if (x2 > Map.Maps[map.MapID].Width)
+                x2 = Map.Maps[map.MapID].Width;
 
-			if ( y2 > Map.Maps[map.MapID].Height )
-				y2 = Map.Maps[map.MapID].Height;
+            if (y2 > Map.Maps[map.MapID].Height)
+                y2 = Map.Maps[map.MapID].Height;
 
-			if ( land == Land.Ambrosia ){ if (x2 >= 6126) { x2 = 6126; } if (y2 >= 4095) { y2 = 4095; } }
-			else if ( land == Land.UmberVeil ){ if (x2 >= 2272) { x2 = 2272; } if (y2 >= 4095) { y2 = 4095; } }
-			else if ( land == Land.Kuldar ){ if (x2 >= 7167) { x2 = 7167; } if (y2 >= 2742) { y2 = 2742; } }
-			else if ( land == Land.Lodoria ){ if (x2 >= 5120) { x2 = 5119; } if (y2 >= 4096) { y2 = 4095; } }
-			else if ( land == Land.Sosaria ){ if (x2 >= 5119) { x2 = 5118; } if (y2 >= 3127) { y2 = 3126; } }
-			else if ( land == Land.Underworld ){ if (x2 >= 1581) { x2 = 1581; } if (y2 >= 1599) { y2 = 1599; } }
-			else if ( land == Land.Serpent ){ if (x2 >= 1870) { x2 = 1869; } if (y2 >= 2047) { y2 = 2046; } }
-			else if ( land == Land.IslesDread ){ if (x2 >= 1447) { x2 = 1446; } if (y2 >= 1447) { y2 = 1446; } }
-			else if ( land == Land.Savaged ){ if (x2 >= 1160) { x2 = 1159; } if (y2 >= 1792) { y2 = 1791; } }
+            if (land == Land.Ambrosia) { if (x2 >= 6126) { x2 = 6126; } if (y2 >= 4095) { y2 = 4095; } }
+            else if (land == Land.UmberVeil) { if (x2 >= 2272) { x2 = 2272; } if (y2 >= 4095) { y2 = 4095; } }
+            else if (land == Land.Kuldar) { if (x2 >= 7167) { x2 = 7167; } if (y2 >= 2742) { y2 = 2742; } }
+            else if (land == Land.Lodoria) { if (x2 >= 5120) { x2 = 5119; } if (y2 >= 4096) { y2 = 4095; } }
+            else if (land == Land.Sosaria) { if (x2 >= 5119) { x2 = 5118; } if (y2 >= 3127) { y2 = 3126; } }
+            else if (land == Land.Underworld) { if (x2 >= 1581) { x2 = 1581; } if (y2 >= 1599) { y2 = 1599; } }
+            else if (land == Land.Serpent) { if (x2 >= 1870) { x2 = 1869; } if (y2 >= 2047) { y2 = 2046; } }
+            else if (land == Land.IslesDread) { if (x2 >= 1447) { x2 = 1446; } if (y2 >= 1447) { y2 = 1446; } }
+            else if (land == Land.Savaged) { if (x2 >= 1160) { x2 = 1159; } if (y2 >= 1792) { y2 = 1791; } }
 
-			int x3 = x2-x1;
-			int y3 = y2-y1;
+            int x3 = x2 - x1;
+            int y3 = y2 - y1;
 
-			if ( x3 > y3 ){ x3 = y3; }
-			if ( y3 > x3 ){ y3 = x3; }
+            if (x3 > y3) { x3 = y3; }
+            if (y3 > x3) { y3 = x3; }
 
-			#endregion
+            #endregion
 
-			Bounds = new Rectangle2D( x1, y1, x3, y3 );
-		}
+            Bounds = new Rectangle2D(x1, y1, x3, y3);
+        }
 
-		public MapItem( Serial serial ) : base( serial )
-		{
-		}
+        public MapItem(Serial serial) : base(serial)
+        {
+        }
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			if ( from.InRange( GetWorldLocation(), 2 ) )
-				DisplayTo( from );
-			else
-				from.SendLocalizedMessage( 500446 ); // That is too far away.
-		}
+        public override void OnDoubleClick(Mobile from)
+        {
+            if (from.InRange(GetWorldLocation(), 2))
+                DisplayTo(from);
+            else
+                from.SendLocalizedMessage(500446); // That is too far away.
+        }
 
         public virtual void DisplayTo(Mobile from)
         {
@@ -175,306 +175,306 @@ namespace Server.Items
             from.Send(new MapSetEditable(this, ValidateEdit(from)));
         }
 
-		public virtual void OnAddPin( Mobile from, int x, int y )
-		{
-			if ( !ValidateEdit( from ) )
-				return;
-			else if ( m_Pins.Count >= MaxUserPins )
-				return;
+        public virtual void OnAddPin(Mobile from, int x, int y)
+        {
+            if (!ValidateEdit(from))
+                return;
+            else if (m_Pins.Count >= MaxUserPins)
+                return;
 
-			Validate( ref x, ref y );
-			AddPin( x, y );
-		}
+            Validate(ref x, ref y);
+            AddPin(x, y);
+        }
 
-		public virtual void OnRemovePin( Mobile from, int number )
-		{
-			if ( !ValidateEdit( from ) )
-				return;
+        public virtual void OnRemovePin(Mobile from, int number)
+        {
+            if (!ValidateEdit(from))
+                return;
 
-			RemovePin( number );
-		}
+            RemovePin(number);
+        }
 
-		public virtual void OnChangePin( Mobile from, int number, int x, int y )
-		{
-			if ( !ValidateEdit( from ) )
-				return;
+        public virtual void OnChangePin(Mobile from, int number, int x, int y)
+        {
+            if (!ValidateEdit(from))
+                return;
 
-			Validate( ref x, ref y );
-			ChangePin( number, x, y );
-		}
+            Validate(ref x, ref y);
+            ChangePin(number, x, y);
+        }
 
-		public virtual void OnInsertPin( Mobile from, int number, int x, int y )
-		{
-			if ( !ValidateEdit( from ) )
-				return;
-			else if ( m_Pins.Count >= MaxUserPins )
-				return;
+        public virtual void OnInsertPin(Mobile from, int number, int x, int y)
+        {
+            if (!ValidateEdit(from))
+                return;
+            else if (m_Pins.Count >= MaxUserPins)
+                return;
 
-			Validate( ref x, ref y );
-			InsertPin( number, x, y );
-		}
+            Validate(ref x, ref y);
+            InsertPin(number, x, y);
+        }
 
-		public virtual void OnClearPins( Mobile from )
-		{
-			if ( !ValidateEdit( from ) )
-				return;
+        public virtual void OnClearPins(Mobile from)
+        {
+            if (!ValidateEdit(from))
+                return;
 
-			ClearPins();
-		}
+            ClearPins();
+        }
 
-		public virtual void OnToggleEditable( Mobile from )
-		{
-			if ( Validate( from ) )
-				m_Editable = !m_Editable;
+        public virtual void OnToggleEditable(Mobile from)
+        {
+            if (Validate(from))
+                m_Editable = !m_Editable;
 
-			from.Send( new MapSetEditable( this, Validate( from ) && m_Editable ) );
-		}
+            from.Send(new MapSetEditable(this, Validate(from) && m_Editable));
+        }
 
-		public virtual void Validate( ref int x, ref int y )
-		{
-			if ( x < 0 )
-				x = 0;
-			else if ( x >= m_Width )
-				x = m_Width - 1;
+        public virtual void Validate(ref int x, ref int y)
+        {
+            if (x < 0)
+                x = 0;
+            else if (x >= m_Width)
+                x = m_Width - 1;
 
-			if ( y < 0 )
-				y = 0;
-			else if ( y >= m_Height )
-				y = m_Height - 1;
-		}
+            if (y < 0)
+                y = 0;
+            else if (y >= m_Height)
+                y = m_Height - 1;
+        }
 
-		public virtual bool ValidateEdit( Mobile from )
-		{
-			return m_Editable && Validate( from );
-		}
+        public virtual bool ValidateEdit(Mobile from)
+        {
+            return m_Editable && Validate(from);
+        }
 
-		public virtual bool Validate( Mobile from )
-		{
-			if ( !from.CanSee( this ) || from.Map != this.Map || !from.Alive || InSecureTrade )
-				return false;
-			else if ( from.AccessLevel >= AccessLevel.GameMaster )
-				return true;
-			else if ( !Movable || m_Protected || !from.InRange( GetWorldLocation(), 2 ) )
-				return false;
+        public virtual bool Validate(Mobile from)
+        {
+            if (!from.CanSee(this) || from.Map != this.Map || !from.Alive || InSecureTrade)
+                return false;
+            else if (from.AccessLevel >= AccessLevel.GameMaster)
+                return true;
+            else if (!Movable || m_Protected || !from.InRange(GetWorldLocation(), 2))
+                return false;
 
-			object root = RootParent;
+            object root = RootParent;
 
-			if ( root is Mobile && root != from )
-				return false;
+            if (root is Mobile && root != from)
+                return false;
 
-			return true;
-		}
+            return true;
+        }
 
-		public void ConvertToWorld( int x, int y, out int worldX, out int worldY )
-		{
-			worldX = ( ( m_Bounds.Width * x ) / Width ) + m_Bounds.X;
-			worldY = ( ( m_Bounds.Height * y ) / Height ) + m_Bounds.Y;
-		}
+        public void ConvertToWorld(int x, int y, out int worldX, out int worldY)
+        {
+            worldX = ((m_Bounds.Width * x) / Width) + m_Bounds.X;
+            worldY = ((m_Bounds.Height * y) / Height) + m_Bounds.Y;
+        }
 
-		public void ConvertToMap( int x, int y, out int mapX, out int mapY )
-		{
-			mapX = ( ( x - m_Bounds.X ) * Width ) / m_Bounds.Width;
-			mapY = ( ( y - m_Bounds.Y ) * Width ) / m_Bounds.Height;
-		}
+        public void ConvertToMap(int x, int y, out int mapX, out int mapY)
+        {
+            mapX = ((x - m_Bounds.X) * Width) / m_Bounds.Width;
+            mapY = ((y - m_Bounds.Y) * Width) / m_Bounds.Height;
+        }
 
-		public virtual void AddWorldPin( int x, int y )
-		{
-			int mapX, mapY;
-			ConvertToMap( x, y, out mapX, out mapY );
+        public virtual void AddWorldPin(int x, int y)
+        {
+            int mapX, mapY;
+            ConvertToMap(x, y, out mapX, out mapY);
 
-			AddPin( mapX, mapY );
-		}
+            AddPin(mapX, mapY);
+        }
 
-		public virtual void AddPin( int x, int y )
-		{
-			m_Pins.Add( new Point2D( x, y ) );
-		}
+        public virtual void AddPin(int x, int y)
+        {
+            m_Pins.Add(new Point2D(x, y));
+        }
 
-		public virtual void RemovePin( int index )
-		{
-			if ( index > 0 && index < m_Pins.Count )
-				m_Pins.RemoveAt( index );
-		}
+        public virtual void RemovePin(int index)
+        {
+            if (index > 0 && index < m_Pins.Count)
+                m_Pins.RemoveAt(index);
+        }
 
-		public virtual void InsertPin( int index, int x, int y )
-		{
-			if ( index < 0 || index >= m_Pins.Count )
-				m_Pins.Add( new Point2D( x, y ) );
-			else
-				m_Pins.Insert( index, new Point2D( x, y ) );
-		}
+        public virtual void InsertPin(int index, int x, int y)
+        {
+            if (index < 0 || index >= m_Pins.Count)
+                m_Pins.Add(new Point2D(x, y));
+            else
+                m_Pins.Insert(index, new Point2D(x, y));
+        }
 
-		public virtual void ChangePin( int index, int x, int y )
-		{
-			if ( index >= 0 && index < m_Pins.Count )
-				m_Pins[index] = new Point2D( x, y );
-		}
+        public virtual void ChangePin(int index, int x, int y)
+        {
+            if (index >= 0 && index < m_Pins.Count)
+                m_Pins[index] = new Point2D(x, y);
+        }
 
-		public virtual void ClearPins()
-		{
-			m_Pins.Clear();
-		}
+        public virtual void ClearPins()
+        {
+            m_Pins.Clear();
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			writer.Write( (int) 1 );
+            writer.Write((int)1);
 
-			// version 1
-			writer.Write( m_DisplayMap );
+            // version 1
+            writer.Write(m_DisplayMap);
 
-			// version 0
-			writer.Write( m_Bounds );
+            // version 0
+            writer.Write(m_Bounds);
 
-			writer.Write( m_Width );
-			writer.Write( m_Height );
+            writer.Write(m_Width);
+            writer.Write(m_Height);
 
-			writer.Write( m_Protected );
-			
-			writer.Write( m_Pins.Count );
-			for ( int i = 0; i < m_Pins.Count; ++i )
-				writer.Write( m_Pins[i] );
-		}
+            writer.Write(m_Protected);
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+            writer.Write(m_Pins.Count);
+            for (int i = 0; i < m_Pins.Count; ++i)
+                writer.Write(m_Pins[i]);
+        }
 
-			int version = reader.ReadInt();
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-			switch ( version )
-			{
-				case 1:
-				{
-					m_DisplayMap = reader.ReadMap();
+            int version = reader.ReadInt();
 
-					if ( m_DisplayMap == null )
-						m_DisplayMap = Map.Sosaria;
+            switch (version)
+            {
+                case 1:
+                    {
+                        m_DisplayMap = reader.ReadMap();
 
-					goto case 0;
-				}
-				case 0:
-				{
-					m_Bounds = reader.ReadRect2D();
+                        if (m_DisplayMap == null)
+                            m_DisplayMap = Map.Sosaria;
 
-					m_Width = reader.ReadInt();
-					m_Height = reader.ReadInt();
+                        goto case 0;
+                    }
+                case 0:
+                    {
+                        m_Bounds = reader.ReadRect2D();
 
-					m_Protected = reader.ReadBool();
+                        m_Width = reader.ReadInt();
+                        m_Height = reader.ReadInt();
 
-					int count = reader.ReadInt();
-					for ( int i = 0; i < count; i++ )
-						m_Pins.Add( reader.ReadPoint2D() );
+                        m_Protected = reader.ReadBool();
 
-					break;
-				}
-			}
-		}
+                        int count = reader.ReadInt();
+                        for (int i = 0; i < count; i++)
+                            m_Pins.Add(reader.ReadPoint2D());
 
-		public static void Initialize()
-		{
-			PacketHandlers.Register( 0x56, 11, true, new OnPacketReceive( OnMapCommand ) );
-		}
+                        break;
+                    }
+            }
+        }
 
-		private static void OnMapCommand( NetState state, PacketReader pvSrc )
-		{
-			Mobile from = state.Mobile;
-			MapItem map = World.FindItem( pvSrc.ReadInt32() ) as MapItem;
+        public static void Initialize()
+        {
+            PacketHandlers.Register(0x56, 11, true, new OnPacketReceive(OnMapCommand));
+        }
 
-			if ( map == null )
-				return;
+        private static void OnMapCommand(NetState state, PacketReader pvSrc)
+        {
+            Mobile from = state.Mobile;
+            MapItem map = World.FindItem(pvSrc.ReadInt32()) as MapItem;
 
-			int command = pvSrc.ReadByte();
-			int number = pvSrc.ReadByte();
+            if (map == null)
+                return;
 
-			int x = pvSrc.ReadInt16();
-			int y = pvSrc.ReadInt16();
+            int command = pvSrc.ReadByte();
+            int number = pvSrc.ReadByte();
 
-			switch ( command )
-			{
-				case 1: map.OnAddPin( from, x, y ); break;
-				case 2: map.OnInsertPin( from, number, x, y ); break;
-				case 3: map.OnChangePin( from, number, x, y ); break;
-				case 4: map.OnRemovePin( from, number ); break;
-				case 5: map.OnClearPins( from ); break;
-				case 6: map.OnToggleEditable( from ); break;
-			}
-		}
+            int x = pvSrc.ReadInt16();
+            int y = pvSrc.ReadInt16();
 
-		private sealed class MapDetails : Packet
-		{
-			public MapDetails( MapItem map ) : base ( 0x90, 19 )
-			{
-				m_Stream.Write( (int) map.Serial );
-				m_Stream.Write( (short) 0x139D );
-				m_Stream.Write( (short) map.Bounds.Start.X );
-				m_Stream.Write( (short) map.Bounds.Start.Y );
-				m_Stream.Write( (short) map.Bounds.End.X );
-				m_Stream.Write( (short) map.Bounds.End.Y );
-				m_Stream.Write( (short) map.Width );
-				m_Stream.Write( (short) map.Height );
-			}
-		}
+            switch (command)
+            {
+                case 1: map.OnAddPin(from, x, y); break;
+                case 2: map.OnInsertPin(from, number, x, y); break;
+                case 3: map.OnChangePin(from, number, x, y); break;
+                case 4: map.OnRemovePin(from, number); break;
+                case 5: map.OnClearPins(from); break;
+                case 6: map.OnToggleEditable(from); break;
+            }
+        }
 
-		#region SA
-		private sealed class NewMapDetails : Packet
-		{
-			public NewMapDetails( MapItem map ) : base ( 0xF5, 21 )
-			{
-				m_Stream.Write( (int) map.Serial );
-				m_Stream.Write( (short) 0x139D );
-				m_Stream.Write( (short) map.Bounds.Start.X );
-				m_Stream.Write( (short) map.Bounds.Start.Y );
-				m_Stream.Write( (short) map.Bounds.End.X );
-				m_Stream.Write( (short) map.Bounds.End.Y );
-				m_Stream.Write( (short) map.Width );
-				m_Stream.Write( (short) map.Height );
-				m_Stream.Write( (short) map.DisplayMap.MapID );
-			}
-		}
-		#endregion
+        private sealed class MapDetails : Packet
+        {
+            public MapDetails(MapItem map) : base(0x90, 19)
+            {
+                m_Stream.Write((int)map.Serial);
+                m_Stream.Write((short)0x139D);
+                m_Stream.Write((short)map.Bounds.Start.X);
+                m_Stream.Write((short)map.Bounds.Start.Y);
+                m_Stream.Write((short)map.Bounds.End.X);
+                m_Stream.Write((short)map.Bounds.End.Y);
+                m_Stream.Write((short)map.Width);
+                m_Stream.Write((short)map.Height);
+            }
+        }
 
-		private abstract class MapCommand : Packet
-		{
-			public MapCommand( MapItem map, int command, int number, int x, int y ) : base ( 0x56, 11 )
-			{
-				m_Stream.Write( (int) map.Serial );
-				m_Stream.Write( (byte) command );
-				m_Stream.Write( (byte) number );
-				m_Stream.Write( (short) x );
-				m_Stream.Write( (short) y ); 
-			}
-		}
+        #region SA
+        private sealed class NewMapDetails : Packet
+        {
+            public NewMapDetails(MapItem map) : base(0xF5, 21)
+            {
+                m_Stream.Write((int)map.Serial);
+                m_Stream.Write((short)0x139D);
+                m_Stream.Write((short)map.Bounds.Start.X);
+                m_Stream.Write((short)map.Bounds.Start.Y);
+                m_Stream.Write((short)map.Bounds.End.X);
+                m_Stream.Write((short)map.Bounds.End.Y);
+                m_Stream.Write((short)map.Width);
+                m_Stream.Write((short)map.Height);
+                m_Stream.Write((short)map.DisplayMap.MapID);
+            }
+        }
+        #endregion
 
-		private sealed class MapDisplay : MapCommand
-		{
-			public MapDisplay( MapItem map ) : base( map, 5, 0, 0, 0 )
-			{
-			}
-		}
+        private abstract class MapCommand : Packet
+        {
+            public MapCommand(MapItem map, int command, int number, int x, int y) : base(0x56, 11)
+            {
+                m_Stream.Write((int)map.Serial);
+                m_Stream.Write((byte)command);
+                m_Stream.Write((byte)number);
+                m_Stream.Write((short)x);
+                m_Stream.Write((short)y);
+            }
+        }
 
-		private sealed class MapAddPin : MapCommand
-		{
-			public MapAddPin( MapItem map, Point2D point ) : base( map, 1, 0, point.X, point.Y )
-			{
-			}
-		}
+        private sealed class MapDisplay : MapCommand
+        {
+            public MapDisplay(MapItem map) : base(map, 5, 0, 0, 0)
+            {
+            }
+        }
 
-		private sealed class MapSetEditable : MapCommand
-		{
-			public MapSetEditable( MapItem map, bool editable ) : base( map, 7, editable ? 1 : 0, 0, 0 )
-			{
-			}
-		}
-		#region ICraftable Members
+        private sealed class MapAddPin : MapCommand
+        {
+            public MapAddPin(MapItem map, Point2D point) : base(map, 1, 0, point.X, point.Y)
+            {
+            }
+        }
 
-		public int OnCraft( int quality, Mobile from, CraftSystem craftSystem, Type typeRes, BaseTool tool, CraftItem craftItem, int resHue )
-		{
-			CraftInit( from );
-			return 1;
-		}
+        private sealed class MapSetEditable : MapCommand
+        {
+            public MapSetEditable(MapItem map, bool editable) : base(map, 7, editable ? 1 : 0, 0, 0)
+            {
+            }
+        }
+        #region ICraftable Members
 
-		#endregion
-	}
+        public int OnCraft(int quality, Mobile from, CraftSystem craftSystem, Type typeRes, BaseTool tool, CraftItem craftItem, int resHue)
+        {
+            CraftInit(from);
+            return 1;
+        }
+
+        #endregion
+    }
 }

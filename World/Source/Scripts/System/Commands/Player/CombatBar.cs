@@ -12,18 +12,18 @@ namespace Server.Gumps
         const int LABEL_AMOUNT_OFFSET_X = 60;
 
         public static void Initialize()
-		{
-            CommandSystem.Register( "combatbar", AccessLevel.Player, new CommandEventHandler( ToolBar_OnCommand ) );
-		}
+        {
+            CommandSystem.Register("combatbar", AccessLevel.Player, new CommandEventHandler(ToolBar_OnCommand));
+        }
 
-		public static void Register( string command, AccessLevel access, CommandEventHandler handler )
-		{
+        public static void Register(string command, AccessLevel access, CommandEventHandler handler)
+        {
             CommandSystem.Register(command, access, handler);
-		}
+        }
 
-		[Usage( "combatbar" )]
-		[Description( "Opens the Combat Bar." )]
-		public static void ToolBar_OnCommand( CommandEventArgs e )
+        [Usage("combatbar")]
+        [Description("Opens the Combat Bar.")]
+        public static void ToolBar_OnCommand(CommandEventArgs e)
         {
             Refresh(e.Mobile as PlayerMobile, true);
         }
@@ -42,12 +42,12 @@ namespace Server.Gumps
 
         public class CombatBarGump : Gump
         {
-            public CombatBarGump ( PlayerMobile player ) : base ( 25, 25 )
+            public CombatBarGump(PlayerMobile player) : base(25, 25)
             {
-                this.Closable=true;
-                this.Disposable=true;
-                this.Dragable=true;
-                this.Resizable=false;
+                this.Closable = true;
+                this.Disposable = true;
+                this.Dragable = true;
+                this.Resizable = false;
 
                 const int GAP_SMALL = 10;
                 const int GAP_MEDIUM = 20;

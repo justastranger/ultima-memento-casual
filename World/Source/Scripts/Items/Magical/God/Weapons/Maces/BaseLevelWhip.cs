@@ -17,21 +17,21 @@ namespace Server.Items
         private int m_Points;
         private int m_MaxLevel;
 
-        public BaseLevelWhip(int itemID): base(itemID)
+        public BaseLevelWhip(int itemID) : base(itemID)
         {
             MaxLevel = LevelItems.DefaultMaxLevel;
-			LootType = LootType.Blessed;
+            LootType = LootType.Blessed;
             LevelItemManager.InvalidateLevel(this);
-			Weight = 6.0;
-			Name = "whip";
-			Resource = CraftResource.RegularLeather;
-			ResourceMods.DefaultItemHue( this );
-			ArtifactLevel = 3;
+            Weight = 6.0;
+            Name = "whip";
+            Resource = CraftResource.RegularLeather;
+            ResourceMods.DefaultItemHue(this);
+            ArtifactLevel = 3;
         }
 
-		public override bool DisplayLootType{ get{ return false; } }
+        public override bool DisplayLootType { get { return false; } }
 
-        public BaseLevelWhip(Serial serial): base(serial)
+        public BaseLevelWhip(Serial serial) : base(serial)
         {
         }
 
@@ -75,7 +75,7 @@ namespace Server.Items
                         break;
                     }
             }
-			ArtifactLevel = 3;
+            ArtifactLevel = 3;
         }
 
         public override void GetProperties(ObjectPropertyList list)
@@ -86,7 +86,7 @@ namespace Server.Items
              * Will display experience as well, if DisplayExpProp.
              * is set to true in LevelItemManager.cs */
             list.Add(1060658, "Level\t{0}", m_Level);
-            if (1==1)
+            if (1 == 1)
                 list.Add(1060659, "Experience\t{0}", m_Experience);
         }
 

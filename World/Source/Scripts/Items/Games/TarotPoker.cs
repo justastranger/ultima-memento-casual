@@ -5,7 +5,7 @@ using Server.Gumps;
 
 namespace Server.Items
 {
-	[Flipable( 0x12AB, 0x12AC )]
+    [Flipable(0x12AB, 0x12AC)]
     public class tarotpoker : Item
     {
         private bool m_IsNoisy;
@@ -39,56 +39,56 @@ namespace Server.Items
                     default:
                     case 0:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x454 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x454));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Fool'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 10."));
                             break;
                         }
                     case 1:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x45C ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x45C));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Magician'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 100."));
                             break;
                         }
                     case 2:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x458 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x458));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The High Priestess'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 70."));
                             break;
                         }
                     case 3:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x453 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x453));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Empress'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Bet 50."));
                             break;
                         }
                     case 4:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x452 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x452));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Emperor'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Bet 100 gp."));
                             break;
                         }
                     case 5:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x457 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x457));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Hierophant'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Bet 10 gp."));
                             break;
                         }
                     case 6:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x45B ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x45B));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(from.Female ? 811 : 1085);//Ooo
@@ -99,8 +99,8 @@ namespace Server.Items
                         }
                     case 7:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x461 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x461));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(from.Female ? 0x338 : 0x44A);//disgusted noise
@@ -111,8 +111,8 @@ namespace Server.Items
                         }
                     case 8:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x45A ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x45A));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(from.Female ? 816 : 1090); //sigh...
@@ -123,16 +123,16 @@ namespace Server.Items
                         }
                     case 9:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x456 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x456));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Hermit'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Bet 5 Gp."));
                             break;
                         }
                     case 10:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x463 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x463));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(from.Female ? 778 : 1049); //ah!
@@ -143,8 +143,8 @@ namespace Server.Items
                         }
                     case 11:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x45F ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x45F));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(from.Female ? 794 : 1066); //giggle
@@ -155,16 +155,16 @@ namespace Server.Items
                         }
                     case 12:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x44F ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x44F));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Chariot'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Put in double the amount of the last bet!"));
                             break;
                         }
                     case 13:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x450 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x450));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(Utility.Random(from.Female ? 0x314 : 0x423, from.Female ? 4 : 5)); //death sounds
@@ -175,8 +175,8 @@ namespace Server.Items
                         }
                     case 14:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x455 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x455));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(from.Female ? 793 : 1065); //gasp!
@@ -187,48 +187,48 @@ namespace Server.Items
                         }
                     case 15:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x451 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x451));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Devil'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 100."));
                             break;
                         }
                     case 16:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x462 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x462));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Tower'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("The player across from {0} must bet 50.", from.Name));
                             break;
                         }
                     case 17:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x45E ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x45E));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Star'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 40."));
                             break;
                         }
                     case 18:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x45D ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x45D));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Moon'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 30."));
                             break;
                         }
                     case 19:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x460 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x460));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The Sun'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 50."));
                             break;
                         }
                     case 20:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x459 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x459));
                             if (m_IsNoisy)
                             {
                                 from.PlaySound(from.Female ? 783 : 1054);// Woo-hoo!
@@ -239,8 +239,8 @@ namespace Server.Items
                         }
                     case 21:
                         {
-                            from.CloseGump( typeof( TarotGump ) );
-                            from.SendGump( new TarotGump( 0x464 ) );
+                            from.CloseGump(typeof(TarotGump));
+                            from.SendGump(new TarotGump(0x464));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("{0} pulls 'The World'", from.Name));
                             this.PublicOverheadMessage(MessageType.Regular, 0, false, string.Format("Everyone bets 200."));
                             break;
@@ -250,14 +250,14 @@ namespace Server.Items
 
         private class TarotGump : Gump
         {
-            public TarotGump( int card ) : base(0, 0)
+            public TarotGump(int card) : base(0, 0)
             {
-				this.Closable=true;
-				this.Disposable=true;
-				this.Dragable=true;
-				this.Resizable=false;
-				AddPage(0);
-				AddImage(52, 52, card);
+                this.Closable = true;
+                this.Disposable = true;
+                this.Dragable = true;
+                this.Resizable = false;
+                AddPage(0);
+                AddImage(52, 52, card);
             }
         }
 
@@ -276,10 +276,10 @@ namespace Server.Items
             switch (version)
             {
                 case 0:
-				{
-					m_IsNoisy = reader.ReadBool();
-					break;
-				}
+                    {
+                        m_IsNoisy = reader.ReadBool();
+                        break;
+                    }
             }
         }
     }

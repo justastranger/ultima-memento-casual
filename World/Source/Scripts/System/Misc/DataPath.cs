@@ -5,11 +5,11 @@ using Server;
 
 namespace Server.Misc
 {
-	public class DataPath
-	{
-		private static string CustomPath = "Data/Files";
+    public class DataPath
+    {
+        private static string CustomPath = "Data/Files";
 
-		/* The following is a list of files which a required for proper execution:
+        /* The following is a list of files which a required for proper execution:
 			Cliloc.enu
 			map0.mul
 			map1.mul
@@ -34,18 +34,18 @@ namespace Server.Misc
 			tiledata.mul
 		*/
 
-		public static void Configure()
-		{
-			if ( CustomPath != null ) 
-				Core.DataDirectories.Add( CustomPath ); 
+        public static void Configure()
+        {
+            if (CustomPath != null)
+                Core.DataDirectories.Add(CustomPath);
 
-			if ( Core.DataDirectories.Count == 0 && !Core.Service )
-			{
-				Console.WriteLine( "Enter the " + MySettings.S_ServerName + " directory:" );
-				Console.Write( "> " );
+            if (Core.DataDirectories.Count == 0 && !Core.Service)
+            {
+                Console.WriteLine("Enter the " + MySettings.S_ServerName + " directory:");
+                Console.Write("> ");
 
-				Core.DataDirectories.Add( Console.ReadLine() );
-			}
-		}
-	}
+                Core.DataDirectories.Add(Console.ReadLine());
+            }
+        }
+    }
 }

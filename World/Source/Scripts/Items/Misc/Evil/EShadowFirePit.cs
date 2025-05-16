@@ -51,10 +51,10 @@ namespace Server.Items
         [Constructable]
         public EShadowFirePitAddon()
         {
-	    AddonComponent ac;
-	    ac = new AddonComponent( 0x3654 );
-	    ac.Light = LightType.Circle225;
-	    AddComponent( ac, 1, 0, 0 );
+            AddonComponent ac;
+            ac = new AddonComponent(0x3654);
+            ac.Light = LightType.Circle225;
+            AddComponent(ac, 1, 0, 0);
             AddComponent(new EShadowFirePitComponent(0x3655), 0, 0, 0);
             AddComponent(new EShadowFirePitComponent(0x3656), 1, -1, 0);
         }
@@ -86,8 +86,8 @@ namespace Server.Items
         [Constructable]
         public EShadowFirePitDeed()
         {
-			Name = "box containing a shadow fire pit";
-            ItemID = Utility.RandomList( 0x3420, 0x3425 );
+            Name = "box containing a shadow fire pit";
+            ItemID = Utility.RandomList(0x3420, 0x3425);
             Hue = Utility.RandomEvilHue();
             Weight = 5.0;
         }
@@ -110,7 +110,7 @@ namespace Server.Items
 
             int version = reader.ReadInt();
 
-			if ( ItemID != 0x3420 && ItemID != 0x3425 ){ ItemID = 0x3425; }
+            if (ItemID != 0x3420 && ItemID != 0x3425) { ItemID = 0x3425; }
         }
     }
 }

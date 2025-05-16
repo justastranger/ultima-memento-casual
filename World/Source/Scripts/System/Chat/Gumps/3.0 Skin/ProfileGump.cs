@@ -7,7 +7,7 @@ namespace Knives.Chat3
     public class ProfileGump : GumpPlus
     {
         private Mobile c_Target;
-        
+
         public ProfileGump(Mobile m, Mobile targ)
             : base(m, 100, 100)
         {
@@ -28,7 +28,7 @@ namespace Knives.Chat3
             else
                 AddItem(10 + av.X, y + av.Y, av.Id - 100000);
 
-            AddHtml(95, y, width-95, Server.Misc.Titles.ComputeTitle(Owner, c_Target));
+            AddHtml(95, y, width - 95, Server.Misc.Titles.ComputeTitle(Owner, c_Target));
 
             if (Owner.AccessLevel != AccessLevel.Player)
                 AddHtml(95, y += 20, width - 95, "Access: " + c_Target.AccessLevel);
@@ -49,12 +49,12 @@ namespace Knives.Chat3
                 AddButton(52, y, 0x2622, 0x2623, "Avatar Up", new GumpCallback(AvatarUp));
             }
 
-            AddHtml(0, y+=20, width, "<CENTER>" + General.Local(253) + " " + Data.GetData(c_Target).Karma);
+            AddHtml(0, y += 20, width, "<CENTER>" + General.Local(253) + " " + Data.GetData(c_Target).Karma);
 
             if (Owner == c_Target)
             {
                 AddHtml(20, y += 25, 100, General.Local(247));
-                AddTextField(20, y+=25, width - 40, 65, 0x480, 0xBBC, "Signature", Data.GetData(c_Target).Signature);
+                AddTextField(20, y += 25, width - 40, 65, 0x480, 0xBBC, "Signature", Data.GetData(c_Target).Signature);
                 AddHtml(width - 125, y += 65, 50, General.Local(244));
                 AddHtml(width - 65, y, 50, General.Local(245));
                 AddButton(width - 140, y + 3, 0x2716, "Clear Sig", new GumpCallback(ClearSig));
@@ -69,7 +69,7 @@ namespace Knives.Chat3
             if (Owner != c_Target)
                 ViewOptions(width);
 
-            AddBackgroundZero(0, 0, width, y+40, Data.GetData(c_Target).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 40, Data.GetData(c_Target).DefaultBack);
         }
 
         private void ViewOptions(int x)
@@ -189,7 +189,7 @@ namespace Knives.Chat3
                 Owner.SendMessage(Data.GetData(Owner).SystemC, General.Local(86) + " " + c_Target.Name);
 
                 NewGump();
-              
+
                 return;
             }
 

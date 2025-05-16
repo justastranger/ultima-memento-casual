@@ -124,23 +124,23 @@ namespace Server.Items
         {
         }
 
-        public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			writer.Write( (int) 1 ); // version
+            writer.Write((int)1); // version
 
-			writer.Write( (int) _uses );
-		}
+            writer.Write((int)_uses);
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-			int version = reader.ReadInt();
+            int version = reader.ReadInt();
 
-			_uses = reader.ReadInt();
-			if ( version == 0 ) { Serial sr_Owner = reader.ReadInt(); }
+            _uses = reader.ReadInt();
+            if (version == 0) { Serial sr_Owner = reader.ReadInt(); }
         }
 
         private class InternalTarget : Target

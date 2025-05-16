@@ -21,7 +21,7 @@ namespace Knives.Chat3
             int width = 300;
             int y = 10;
 
-            AddHtml(0, y, width, "<CENTER>" + c_Channel.NameFor(Owner) + " " +  General.Local(206));
+            AddHtml(0, y, width, "<CENTER>" + c_Channel.NameFor(Owner) + " " + General.Local(206));
             AddImage(width / 2 - 100, y + 2, 0x39);
             AddImage(width / 2 + 70, y + 2, 0x3B);
             AddButton(20, y + 3, 0x2716, "Refresh", new GumpCallback(Refresh));
@@ -29,14 +29,14 @@ namespace Knives.Chat3
             string txt = "";
             Channel.ChatHistory ch;
             ArrayList list = c_Channel.GetHistory(Owner);
-            for(int i = list.Count-1; i >= 0; --i)
+            for (int i = list.Count - 1; i >= 0; --i)
             {
                 ch = (Channel.ChatHistory)list[i];
 
                 txt += String.Format("    {0}: {1}<BR>", HTML.Yellow + ch.Mobile.RawName, ch.Txt);
             }
 
-            AddHtml(10, y+=25, width-20, 300, txt, false, true);
+            AddHtml(10, y += 25, width - 20, 300, txt, false, true);
 
             y += 300;
 

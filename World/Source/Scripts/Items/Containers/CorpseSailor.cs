@@ -10,93 +10,93 @@ using Server.Misc;
 
 namespace Server.Items
 {
-	public class CorpseSailor : LockableContainer
-	{
-		public override CraftResource DefaultResource{ get{ return CraftResource.BrittleSkeletal; } }
+    public class CorpseSailor : LockableContainer
+    {
+        public override CraftResource DefaultResource { get { return CraftResource.BrittleSkeletal; } }
 
-		[Constructable]
-		public CorpseSailor() : this( 0 )
-		{
-		}
-		
-		[Constructable]
-		public CorpseSailor( int level ) : base( 0xe40 )
-		{
-			Catalog = Catalogs.Body;
+        [Constructable]
+        public CorpseSailor() : this(0)
+        {
+        }
 
-			if ( level < 1 ){ level = Utility.RandomMinMax( 1, 4 ); }
-			
-			string sCorpse = ContainerFunctions.GetOwner( "BodySailor" );
-			Name = sCorpse;
-			Movable = true;
-			Weight = 11.0 + (double)level;
-			GumpID = 0x2A73;
-			DropSound = 0x48;
-			ItemID = 3786 + Utility.Random( 8 );
+        [Constructable]
+        public CorpseSailor(int level) : base(0xe40)
+        {
+            Catalog = Catalogs.Body;
 
-			TrapType = TrapType.None;
-			TrapPower = 0;
-			TrapLevel = 0;
-			Locked = false;
+            if (level < 1) { level = Utility.RandomMinMax(1, 4); }
+
+            string sCorpse = ContainerFunctions.GetOwner("BodySailor");
+            Name = sCorpse;
+            Movable = true;
+            Weight = 11.0 + (double)level;
+            GumpID = 0x2A73;
+            DropSound = 0x48;
+            ItemID = 3786 + Utility.Random(8);
+
+            TrapType = TrapType.None;
+            TrapPower = 0;
+            TrapLevel = 0;
+            Locked = false;
             LockLevel = 0;
-			MaxLockLevel = 0;
-			RequiredSkill = 0;
-			
-			Hue = Utility.RandomList( 0xB97, 0xB98, 0xB99, 0xB9A, 0xB88 );
-		}
+            MaxLockLevel = 0;
+            RequiredSkill = 0;
 
-		public override void Open( Mobile from )
-		{
-			if ( this.Weight > 10 )
-			{
-				Movable = true;
-				int FillMeUpLevel = (int)(this.Weight - 11);
-				this.Weight = 5.0;
+            Hue = Utility.RandomList(0xB97, 0xB98, 0xB99, 0xB9A, 0xB88);
+        }
 
-				if ( GetPlayerInfo.LuckyPlayer( from.Luck ) )
-				{
-					FillMeUpLevel = FillMeUpLevel + Utility.RandomMinMax( 1, 2 );
-				}
+        public override void Open(Mobile from)
+        {
+            if (this.Weight > 10)
+            {
+                Movable = true;
+                int FillMeUpLevel = (int)(this.Weight - 11);
+                this.Weight = 5.0;
 
-				ContainerFunctions.FillTheContainer( FillMeUpLevel, this, from );
-			}
+                if (GetPlayerInfo.LuckyPlayer(from.Luck))
+                {
+                    FillMeUpLevel = FillMeUpLevel + Utility.RandomMinMax(1, 2);
+                }
 
-			base.Open( from );
-		}
+                ContainerFunctions.FillTheContainer(FillMeUpLevel, this, from);
+            }
 
-		public override bool OnDragLift( Mobile from )
-		{
-			if ( this.Weight > 10 )
-			{
-				Movable = true;
-				int FillMeUpLevel = (int)(this.Weight - 11);
-				this.Weight = 5.0;
+            base.Open(from);
+        }
 
-				if ( GetPlayerInfo.LuckyPlayer( from.Luck ) )
-				{
-					FillMeUpLevel = FillMeUpLevel + Utility.RandomMinMax( 1, 2 );
-				}
+        public override bool OnDragLift(Mobile from)
+        {
+            if (this.Weight > 10)
+            {
+                Movable = true;
+                int FillMeUpLevel = (int)(this.Weight - 11);
+                this.Weight = 5.0;
 
-				ContainerFunctions.FillTheContainer( FillMeUpLevel, this, from );
-			}
+                if (GetPlayerInfo.LuckyPlayer(from.Luck))
+                {
+                    FillMeUpLevel = FillMeUpLevel + Utility.RandomMinMax(1, 2);
+                }
 
-			return true;
-		}
+                ContainerFunctions.FillTheContainer(FillMeUpLevel, this, from);
+            }
 
-		public CorpseSailor( Serial serial ) : base( serial )
-		{
-		}
+            return true;
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( (int) 0 ); // version
-		}
+        public CorpseSailor(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

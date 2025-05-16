@@ -80,7 +80,7 @@ namespace Knives.Chat3
                 if (!(o is Mobile))
                     return;
 
-                 new SendMessageGump(Owner, (Mobile)o, c_Text, null, MsgType.Normal);
+                new SendMessageGump(Owner, (Mobile)o, c_Text, null, MsgType.Normal);
             }
         }
     }

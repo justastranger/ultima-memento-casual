@@ -7,281 +7,281 @@ using Server.Spells;
 
 namespace Server.Mobiles
 {
-	[CorpseName( "a savage corpse" )]
-	public class SavageShaman : BaseCreature
-	{
-		[Constructable]
-		public SavageShaman() : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
-		{
-			Name = NameList.RandomName( "savage shaman" );
+    [CorpseName("a savage corpse")]
+    public class SavageShaman : BaseCreature
+    {
+        [Constructable]
+        public SavageShaman() : base(AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4)
+        {
+            Name = NameList.RandomName("savage shaman");
 
-			int dino = Utility.RandomList( 0x7D1, 0x7D2, 0x7D3, 0x7D4, 0x7D5, 0x7D6 );
+            int dino = Utility.RandomList(0x7D1, 0x7D2, 0x7D3, 0x7D4, 0x7D5, 0x7D6);
 
-			if ( Female = Utility.RandomBool() )
-			{
-				Body = 401;
-				Item cloth9 = new FemaleLeatherChest();
-					cloth9.Hue = dino;
-					cloth9.Name = "dracosaur tunic";
-					AddItem( cloth9 );
-			}
-			else
-			{
-				Body = 400;
-			}
+            if (Female = Utility.RandomBool())
+            {
+                Body = 401;
+                Item cloth9 = new FemaleLeatherChest();
+                cloth9.Hue = dino;
+                cloth9.Name = "dracosaur tunic";
+                AddItem(cloth9);
+            }
+            else
+            {
+                Body = 400;
+            }
 
-			Hue = 0;
+            Hue = 0;
 
-			SetStr( 126, 145 );
-			SetDex( 91, 110 );
-			SetInt( 161, 185 );
+            SetStr(126, 145);
+            SetDex(91, 110);
+            SetInt(161, 185);
 
-			SetDamage( 4, 10 );
+            SetDamage(4, 10);
 
-			SetDamageType( ResistanceType.Physical, 100 );
+            SetDamageType(ResistanceType.Physical, 100);
 
-			SetResistance( ResistanceType.Physical, 30, 40 );
-			SetResistance( ResistanceType.Fire, 20, 30 );
-			SetResistance( ResistanceType.Cold, 20, 30 );
-			SetResistance( ResistanceType.Poison, 20, 30 );
-			SetResistance( ResistanceType.Energy, 40, 50 );
+            SetResistance(ResistanceType.Physical, 30, 40);
+            SetResistance(ResistanceType.Fire, 20, 30);
+            SetResistance(ResistanceType.Cold, 20, 30);
+            SetResistance(ResistanceType.Poison, 20, 30);
+            SetResistance(ResistanceType.Energy, 40, 50);
 
-			SetSkill( SkillName.Psychology, 77.5, 100.0 );
-			SetSkill( SkillName.Fencing, 62.5, 85.0 );
-			SetSkill( SkillName.Bludgeoning, 62.5, 85.0 );
-			SetSkill( SkillName.Magery, 72.5, 95.0 );
-			SetSkill( SkillName.Meditation, 77.5, 100.0 );
-			SetSkill( SkillName.MagicResist, 77.5, 100.0 );
-			SetSkill( SkillName.Swords, 62.5, 85.0 );
-			SetSkill( SkillName.Tactics, 62.5, 85.0 );
-			SetSkill( SkillName.FistFighting, 62.5, 85.0 );
+            SetSkill(SkillName.Psychology, 77.5, 100.0);
+            SetSkill(SkillName.Fencing, 62.5, 85.0);
+            SetSkill(SkillName.Bludgeoning, 62.5, 85.0);
+            SetSkill(SkillName.Magery, 72.5, 95.0);
+            SetSkill(SkillName.Meditation, 77.5, 100.0);
+            SetSkill(SkillName.MagicResist, 77.5, 100.0);
+            SetSkill(SkillName.Swords, 62.5, 85.0);
+            SetSkill(SkillName.Tactics, 62.5, 85.0);
+            SetSkill(SkillName.FistFighting, 62.5, 85.0);
 
-			Fame = 1000;
-			Karma = -1000;
-			
-			PackReg( 10, 15 );
-			PackItem( new Bandage( Utility.RandomMinMax( 1, 15 ) ) );
+            Fame = 1000;
+            Karma = -1000;
 
-			Item cloth1 = new SavageArms();
-			  	cloth1.Hue = dino;
-				cloth1.Name = "dracosaur gauntlets";
-			  	AddItem( cloth1 );
-			Item cloth2 = new SavageLegs();
-			  	cloth2.Hue = dino;
-				cloth2.Name = "dracosaur leggings";
-			  	AddItem( cloth2 );
-			Item cloth3 = new HornedTribalMask();
-			  	cloth3.Hue = dino;
-				cloth3.Name = "savage tribal mask";
-			  	AddItem( cloth3 );
-			Item cloth4 = new LeatherSkirt();
-			  	cloth4.Hue = dino;
-				cloth4.Name = "dracosaur skirt";
-			  	cloth4.Layer = Layer.Waist;
-			  	AddItem( cloth4 );
-		}
+            PackReg(10, 15);
+            PackItem(new Bandage(Utility.RandomMinMax(1, 15)));
 
-		public override void GenerateLoot()
-		{
-			AddLoot( LootPack.Average );
+            Item cloth1 = new SavageArms();
+            cloth1.Hue = dino;
+            cloth1.Name = "dracosaur gauntlets";
+            AddItem(cloth1);
+            Item cloth2 = new SavageLegs();
+            cloth2.Hue = dino;
+            cloth2.Name = "dracosaur leggings";
+            AddItem(cloth2);
+            Item cloth3 = new HornedTribalMask();
+            cloth3.Hue = dino;
+            cloth3.Name = "savage tribal mask";
+            AddItem(cloth3);
+            Item cloth4 = new LeatherSkirt();
+            cloth4.Hue = dino;
+            cloth4.Name = "dracosaur skirt";
+            cloth4.Layer = Layer.Waist;
+            AddItem(cloth4);
+        }
 
-		}
+        public override void GenerateLoot()
+        {
+            AddLoot(LootPack.Average);
 
-		public override bool OnBeforeDeath()
-		{
-			if ( Server.Misc.IntelligentAction.HealThySelf( this ) ){ return false; }
-			return base.OnBeforeDeath();
-		}
+        }
 
-		public override int Meat{ get{ return 1; } }
-		public override bool ClickTitle{ get{ return false; } }
-		public override bool ShowFameTitle{ get{ return false; } }
-		public override bool AlwaysAttackable{ get{ return true; } }
-		public override bool CanRummageCorpses{ get{ return true; } }
-		public override int Skeletal{ get{ return Utility.Random(3); } }
-		public override SkeletalType SkeletalType{ get{ return SkeletalType.Brittle; } }
+        public override bool OnBeforeDeath()
+        {
+            if (Server.Misc.IntelligentAction.HealThySelf(this)) { return false; }
+            return base.OnBeforeDeath();
+        }
 
-		public override void OnGotMeleeAttack( Mobile attacker )
-		{
-			base.OnGotMeleeAttack( attacker );
+        public override int Meat { get { return 1; } }
+        public override bool ClickTitle { get { return false; } }
+        public override bool ShowFameTitle { get { return false; } }
+        public override bool AlwaysAttackable { get { return true; } }
+        public override bool CanRummageCorpses { get { return true; } }
+        public override int Skeletal { get { return Utility.Random(3); } }
+        public override SkeletalType SkeletalType { get { return SkeletalType.Brittle; } }
 
-			if ( 0.1 > Utility.RandomDouble() )
-				BeginSavageDance();
-		}
+        public override void OnGotMeleeAttack(Mobile attacker)
+        {
+            base.OnGotMeleeAttack(attacker);
 
-		public void BeginSavageDance()
-		{
-			if( this.Map == null )
-				return;
+            if (0.1 > Utility.RandomDouble())
+                BeginSavageDance();
+        }
 
-			ArrayList list = new ArrayList();
+        public void BeginSavageDance()
+        {
+            if (this.Map == null)
+                return;
 
-			foreach ( Mobile m in this.GetMobilesInRange( 8 ) )
-			{
-				if ( m != this && m is SavageShaman )
-					list.Add( m );
-			}
+            ArrayList list = new ArrayList();
 
-			Animate( 111, 5, 1, true, false, 0 ); // Do a little dance...
+            foreach (Mobile m in this.GetMobilesInRange(8))
+            {
+                if (m != this && m is SavageShaman)
+                    list.Add(m);
+            }
 
-			if ( AIObject != null )
-				AIObject.NextMove = DateTime.Now + TimeSpan.FromSeconds( 1.0 );
+            Animate(111, 5, 1, true, false, 0); // Do a little dance...
 
-			if ( list.Count >= 3 )
-			{
-				for ( int i = 0; i < list.Count; ++i )
-				{
-					SavageShaman dancer = (SavageShaman)list[i];
+            if (AIObject != null)
+                AIObject.NextMove = DateTime.Now + TimeSpan.FromSeconds(1.0);
 
-					dancer.Animate( 111, 5, 1, true, false, 0 ); // Get down tonight...
+            if (list.Count >= 3)
+            {
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    SavageShaman dancer = (SavageShaman)list[i];
 
-					if ( dancer.AIObject != null )
-						dancer.AIObject.NextMove = DateTime.Now + TimeSpan.FromSeconds( 1.0 );
-				}
+                    dancer.Animate(111, 5, 1, true, false, 0); // Get down tonight...
 
-				Timer.DelayCall( TimeSpan.FromSeconds( 1.0 ), new TimerCallback( EndSavageDance ) );
-			}
-		}
+                    if (dancer.AIObject != null)
+                        dancer.AIObject.NextMove = DateTime.Now + TimeSpan.FromSeconds(1.0);
+                }
 
-		public void EndSavageDance()
-		{
-			if ( Deleted )
-				return;
+                Timer.DelayCall(TimeSpan.FromSeconds(1.0), new TimerCallback(EndSavageDance));
+            }
+        }
 
-			ArrayList list = new ArrayList();
+        public void EndSavageDance()
+        {
+            if (Deleted)
+                return;
 
-			foreach ( Mobile m in this.GetMobilesInRange( 8 ) )
-				list.Add( m );
+            ArrayList list = new ArrayList();
 
-			if ( list.Count > 0 )
-			{
-				switch ( Utility.Random( 3 ) )
-				{
-					case 0: /* greater heal */
-					{
-						foreach ( Mobile m in list )
-						{
-							bool isFriendly = ( m is Savage || m is SavageRider || m is SavageShaman || m is SavageRidgeback );
+            foreach (Mobile m in this.GetMobilesInRange(8))
+                list.Add(m);
 
-							if ( !isFriendly )
-								continue;
+            if (list.Count > 0)
+            {
+                switch (Utility.Random(3))
+                {
+                    case 0: /* greater heal */
+                        {
+                            foreach (Mobile m in list)
+                            {
+                                bool isFriendly = (m is Savage || m is SavageRider || m is SavageShaman || m is SavageRidgeback);
 
-							if ( m.Poisoned || MortalStrike.IsWounded( m ) || !CanBeBeneficial( m ) )
-								continue;
+                                if (!isFriendly)
+                                    continue;
 
-							DoBeneficial( m );
+                                if (m.Poisoned || MortalStrike.IsWounded(m) || !CanBeBeneficial(m))
+                                    continue;
 
-							// Algorithm: (40% of magery) + (1-10)
+                                DoBeneficial(m);
 
-							int toHeal = (int)(Skills[SkillName.Magery].Value * 0.4);
-							toHeal += Utility.Random( 1, 10 );
+                                // Algorithm: (40% of magery) + (1-10)
 
-							m.Heal( toHeal, this );
+                                int toHeal = (int)(Skills[SkillName.Magery].Value * 0.4);
+                                toHeal += Utility.Random(1, 10);
 
-							m.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
-							m.PlaySound( 0x202 );
-						}
+                                m.Heal(toHeal, this);
 
-						break;
-					}
-					case 1: /* lightning */
-					{
-						foreach ( Mobile m in list )
-						{
-							bool isFriendly = ( m is Savage || m is SavageRider || m is SavageShaman || m is SavageRidgeback );
+                                m.FixedParticles(0x376A, 9, 32, 5030, EffectLayer.Waist);
+                                m.PlaySound(0x202);
+                            }
 
-							if ( isFriendly )
-								continue;
+                            break;
+                        }
+                    case 1: /* lightning */
+                        {
+                            foreach (Mobile m in list)
+                            {
+                                bool isFriendly = (m is Savage || m is SavageRider || m is SavageShaman || m is SavageRidgeback);
 
-							if ( !CanBeHarmful( m ) )
-								continue;
+                                if (isFriendly)
+                                    continue;
 
-							DoHarmful( m );
+                                if (!CanBeHarmful(m))
+                                    continue;
 
-							double damage;
+                                DoHarmful(m);
 
-							if ( Core.AOS )
-							{
-								int baseDamage = 6 + (int)(Skills[SkillName.Psychology].Value / 5.0);
+                                double damage;
 
-								damage = Utility.RandomMinMax( baseDamage, baseDamage + 3 );
-							}
-							else
-							{
-								damage = Utility.Random( 12, 9 );
-							}
+                                if (Core.AOS)
+                                {
+                                    int baseDamage = 6 + (int)(Skills[SkillName.Psychology].Value / 5.0);
 
-							m.BoltEffect( 0 );
+                                    damage = Utility.RandomMinMax(baseDamage, baseDamage + 3);
+                                }
+                                else
+                                {
+                                    damage = Utility.Random(12, 9);
+                                }
 
-							SpellHelper.Damage( TimeSpan.FromSeconds( 0.25 ), m, this, damage, 0, 0, 0, 0, 100 );
-						}
+                                m.BoltEffect(0);
 
-						break;
-					}
-					case 2: /* poison */
-					{
-						foreach ( Mobile m in list )
-						{
-							bool isFriendly = ( m is Savage || m is SavageRider || m is SavageShaman || m is SavageRidgeback );
+                                SpellHelper.Damage(TimeSpan.FromSeconds(0.25), m, this, damage, 0, 0, 0, 0, 100);
+                            }
 
-							if ( isFriendly )
-								continue;
+                            break;
+                        }
+                    case 2: /* poison */
+                        {
+                            foreach (Mobile m in list)
+                            {
+                                bool isFriendly = (m is Savage || m is SavageRider || m is SavageShaman || m is SavageRidgeback);
 
-							if ( !CanBeHarmful( m ) )
-								continue;
+                                if (isFriendly)
+                                    continue;
 
-							DoHarmful( m );
+                                if (!CanBeHarmful(m))
+                                    continue;
 
-							if ( m.Spell != null )
-								m.Spell.OnCasterHurt();
+                                DoHarmful(m);
 
-							m.Paralyzed = false;
-							BuffInfo.CleanupIcons( m, true );
+                                if (m.Spell != null)
+                                    m.Spell.OnCasterHurt();
 
-							double total = Skills[SkillName.Magery].Value + Skills[SkillName.Poisoning].Value;
+                                m.Paralyzed = false;
+                                BuffInfo.CleanupIcons(m, true);
 
-							double dist = GetDistanceToSqrt( m );
+                                double total = Skills[SkillName.Magery].Value + Skills[SkillName.Poisoning].Value;
 
-							if ( dist >= 3.0 )
-								total -= (dist - 3.0) * 10.0;
+                                double dist = GetDistanceToSqrt(m);
 
-							int level;
+                                if (dist >= 3.0)
+                                    total -= (dist - 3.0) * 10.0;
 
-							if ( total >= 200.0 && Utility.Random( 1, 100 ) <= 10 )
-								level = 3;
-							else if ( total > 170.0 )
-								level = 2;
-							else if ( total > 130.0 )
-								level = 1;
-							else
-								level = 0;
+                                int level;
 
-							m.ApplyPoison( this, Poison.GetPoison( level ) );
+                                if (total >= 200.0 && Utility.Random(1, 100) <= 10)
+                                    level = 3;
+                                else if (total > 170.0)
+                                    level = 2;
+                                else if (total > 130.0)
+                                    level = 1;
+                                else
+                                    level = 0;
 
-							m.FixedParticles( 0x374A, 10, 15, 5021, EffectLayer.Waist );
-							m.PlaySound( 0x474 );
-						}
+                                m.ApplyPoison(this, Poison.GetPoison(level));
 
-						break;
-					}
-				}
-			}
-		}
+                                m.FixedParticles(0x374A, 10, 15, 5021, EffectLayer.Waist);
+                                m.PlaySound(0x474);
+                            }
 
-		public SavageShaman( Serial serial ) : base( serial )
-		{
-		}
+                            break;
+                        }
+                }
+            }
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( (int) 0 );
-		}
+        public SavageShaman(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0);
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

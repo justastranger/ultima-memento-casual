@@ -4,7 +4,7 @@ using Server.Items;
 using Server.Network;
 
 namespace Server.Items
-{    
+{
     public class ESpikePostEastComponent : AddonComponent
     {
         [Constructable]
@@ -43,7 +43,7 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-        
+
     public class ESpikePostEastAddon : BaseAddon
     {
         public override BaseAddonDeed Deed { get { return new ESpikePostEastDeed(); } }
@@ -81,8 +81,8 @@ namespace Server.Items
         [Constructable]
         public ESpikePostEastDeed()
         {
-			Name = "box containing a spike post facing east";
-            ItemID = Utility.RandomList( 0x3420, 0x3425 );
+            Name = "box containing a spike post facing east";
+            ItemID = Utility.RandomList(0x3420, 0x3425);
             Hue = Utility.RandomEvilHue();
             Weight = 5.0;
         }
@@ -105,7 +105,7 @@ namespace Server.Items
 
             int version = reader.ReadInt();
 
-			if ( ItemID != 0x3420 && ItemID != 0x3425 ){ ItemID = 0x3425; }
+            if (ItemID != 0x3420 && ItemID != 0x3425) { ItemID = 0x3425; }
         }
     }
 }

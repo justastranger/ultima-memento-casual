@@ -11,9 +11,9 @@ using Server.Items;
 using Server.Misc;
 using Server.Targeting;
 
-namespace Server.Items	
+namespace Server.Items
 {
-	[FlipableAttribute( 0x4142, 0x4144 )]
+    [FlipableAttribute(0x4142, 0x4144)]
     public class Mailbox : BaseContainer
     {
         public override int LabelNumber { get { return 1113927; } } // Mailbox
@@ -21,58 +21,58 @@ namespace Server.Items
         public override int DefaultDropSound { get { return 0x42; } }
 
         [Constructable]
-        public Mailbox() : base( 0x4142 )
+        public Mailbox() : base(0x4142)
         {
         }
-        
-        public override void OnDoubleClick( Mobile from )
+
+        public override void OnDoubleClick(Mobile from)
         {
-        	BaseHouse housefoundation = BaseHouse.FindHouseAt( this );
+            BaseHouse housefoundation = BaseHouse.FindHouseAt(this);
 
-        	if( !this.IsSecure )
-        	{
-                from.SendMessage("This must be secured in a home to use!");
-        	}
-            else if ( this.IsSecure && housefoundation.IsFriend( from ) ) 
+            if (!this.IsSecure)
             {
-				if ( ItemID == 0x4141 )
-					this.ItemID = 0x4142;
-				else if ( ItemID == 0x4143 )
-					this.ItemID = 0x4144;
+                from.SendMessage("This must be secured in a home to use!");
+            }
+            else if (this.IsSecure && housefoundation.IsFriend(from))
+            {
+                if (ItemID == 0x4141)
+                    this.ItemID = 0x4142;
+                else if (ItemID == 0x4143)
+                    this.ItemID = 0x4144;
 
-            	base.OnDoubleClick(from);
+                base.OnDoubleClick(from);
             }
             else
                 from.SendMessage("You cannot access this mailbox!");
         }
-        
-        public override bool OnDragDrop( Mobile from, Item dropped )
-		{
-        	Item item = dropped as Item;
 
-        	if( !this.IsSecure )
-        	{
+        public override bool OnDragDrop(Mobile from, Item dropped)
+        {
+            Item item = dropped as Item;
+
+            if (!this.IsSecure)
+            {
                 from.SendMessage("This must be secured in a home to use!");
-				return false;
-        	}
-			else if ( dropped is Item )
-			{
-				if (this.ItemID == 0x4142 )
-					this.ItemID = 0x4141;
-				if (this.ItemID == 0x4144 )
-					this.ItemID = 0x4143;
+                return false;
+            }
+            else if (dropped is Item)
+            {
+                if (this.ItemID == 0x4142)
+                    this.ItemID = 0x4141;
+                if (this.ItemID == 0x4144)
+                    this.ItemID = 0x4143;
 
-        		DropItem( dropped );
-				from.PlaySound( 0x42 );
-				from.SendMessage( "You place the item in the mailbox." );
-				return true;
-			}
-			else 
-			{
-				from.SendMessage( "You don't need to put that in there." );
-				return false;
-			}
-		}
+                DropItem(dropped);
+                from.PlaySound(0x42);
+                from.SendMessage("You place the item in the mailbox.");
+                return true;
+            }
+            else
+            {
+                from.SendMessage("You don't need to put that in there.");
+                return false;
+            }
+        }
 
         public Mailbox(Serial serial) : base(serial)
         {

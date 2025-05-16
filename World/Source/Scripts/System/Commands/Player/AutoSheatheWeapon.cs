@@ -16,18 +16,18 @@ namespace Server.Items
 
         private static Type[] ItemTypesToKeepEquiped = new Type[]
         {
-			typeof(JewelryRing),
-			typeof(LevelGoldRing),
-			typeof(GiftGoldRing),
-			typeof(BaseShield),
-			typeof(PugilistGlove),
-			typeof(PugilistGloves),
-			typeof(ThrowingGloves),
-			typeof(LevelPugilistGloves),
-			typeof(LevelThrowingGloves),
-			typeof(GiftPugilistGloves),
-			typeof(GiftThrowingGloves),
-			typeof(Spellbook)
+            typeof(JewelryRing),
+            typeof(LevelGoldRing),
+            typeof(GiftGoldRing),
+            typeof(BaseShield),
+            typeof(PugilistGlove),
+            typeof(PugilistGloves),
+            typeof(ThrowingGloves),
+            typeof(LevelPugilistGloves),
+            typeof(LevelThrowingGloves),
+            typeof(GiftPugilistGloves),
+            typeof(GiftThrowingGloves),
+            typeof(Spellbook)
         };
 
         private static Dictionary<int, Item> PlayerWeapons = new Dictionary<int, Item>();
@@ -48,16 +48,16 @@ namespace Server.Items
         {
             Mobile m = e.Mobile;
 
-			if ( ((PlayerMobile)m).CharacterSheath == 1 )
-			{
-				m.SendMessage(38, "You have disabled the weapon auto-sheathe feature.");
-				((PlayerMobile)m).CharacterSheath = 0;
-			}
-			else
-			{
-				m.SendMessage(68, "You have enabled the weapon auto-sheathe feature.");
-				((PlayerMobile)m).CharacterSheath = 1;
-			}
+            if (((PlayerMobile)m).CharacterSheath == 1)
+            {
+                m.SendMessage(38, "You have disabled the weapon auto-sheathe feature.");
+                ((PlayerMobile)m).CharacterSheath = 0;
+            }
+            else
+            {
+                m.SendMessage(68, "You have enabled the weapon auto-sheathe feature.");
+                ((PlayerMobile)m).CharacterSheath = 1;
+            }
         }
 
         private static void OnPlayerLogout(LogoutEventArgs args)
@@ -73,8 +73,8 @@ namespace Server.Items
                 if (ItemTypesToKeepEquiped[i].IsAssignableFrom(t))
                     return true;
 
-			if ( item is BaseEquipableLight )
-				return true;
+            if (item is BaseEquipableLight)
+                return true;
 
             return false;
         }
@@ -86,7 +86,7 @@ namespace Server.Items
 
             int key = m.Serial.Value;
 
-            if ( Config.AllowPlayerToggle && ((PlayerMobile)m).CharacterSheath != 1 )
+            if (Config.AllowPlayerToggle && ((PlayerMobile)m).CharacterSheath != 1)
                 return;
 
             Item weapon = m.FindItemOnLayer(Layer.OneHanded);

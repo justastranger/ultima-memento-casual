@@ -4,42 +4,42 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class FireThrenodyScroll : SpellScroll
-	{
-		public override string DefaultDescription{ get{ return SongBook.SpellDescription( 356 ); } }
+    public class FireThrenodyScroll : SpellScroll
+    {
+        public override string DefaultDescription { get { return SongBook.SpellDescription(356); } }
 
-		[Constructable]
-		public FireThrenodyScroll() : this( 1 )
-		{
-		}
-
-		[Constructable]
-		public FireThrenodyScroll( int amount ) : base( 356, 0x1F2F, amount )
-		{
-			Name = "fire threnody sheet music";
-			Hue = 0x96;
-			Stackable = true;
+        [Constructable]
+        public FireThrenodyScroll() : this(1)
+        {
         }
 
-		public FireThrenodyScroll( Serial serial ) : base( serial )
-		{
-		}
+        [Constructable]
+        public FireThrenodyScroll(int amount) : base(356, 0x1F2F, amount)
+        {
+            Name = "fire threnody sheet music";
+            Hue = 0x96;
+            Stackable = true;
+        }
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			from.SendMessage( "The sheet music must be in your music book." );
-		}
+        public FireThrenodyScroll(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( (int) 0 ); // version
-		}
+        public override void OnDoubleClick(Mobile from)
+        {
+            from.SendMessage("The sheet music must be in your music book.");
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

@@ -4,8 +4,8 @@ using Server;
 
 namespace Knives.Chat3
 {
-	public class Logging
-	{
+    public class Logging
+    {
         public static void LogChat(string msg)
         {
             if (!Directory.Exists("Data/Logs"))

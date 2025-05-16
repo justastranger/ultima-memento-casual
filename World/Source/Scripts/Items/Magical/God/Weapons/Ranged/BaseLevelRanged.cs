@@ -10,7 +10,7 @@ using Server.Gumps;
 namespace Server.Items
 {
     public abstract class BaseLevelRanged : BaseRanged, ILevelable
-	{
+    {
         /* These private variables store the exp, level, and *
          * points for the item */
         private int m_Experience;
@@ -18,26 +18,26 @@ namespace Server.Items
         private int m_Points;
         private int m_MaxLevel;
 
-		public BaseLevelRanged( int itemID ) : base( itemID )
-		{
+        public BaseLevelRanged(int itemID) : base(itemID)
+        {
             MaxLevel = LevelItems.DefaultMaxLevel;
-			LootType = LootType.Blessed;
+            LootType = LootType.Blessed;
 
             /* Invalidate the level and refresh the item props
              * Extremely important to call this method */
             LevelItemManager.InvalidateLevel(this);
-			ArtifactLevel = 3;
-		}
+            ArtifactLevel = 3;
+        }
 
-		public override bool DisplayLootType{ get{ return false; } }
+        public override bool DisplayLootType { get { return false; } }
 
-		public BaseLevelRanged( Serial serial ) : base( serial )
-		{
-		}
+        public BaseLevelRanged(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
             writer.Write((int)1);
 
@@ -49,13 +49,13 @@ namespace Server.Items
             writer.Write(m_Experience);
             writer.Write(m_Level);
             writer.Write(m_Points);
-		}
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-			int version = reader.ReadInt();
+            int version = reader.ReadInt();
 
             switch (version)
             {
@@ -75,8 +75,8 @@ namespace Server.Items
                         break;
                     }
             }
-			ArtifactLevel = 3;
-		}
+            ArtifactLevel = 3;
+        }
 
         public override void GetProperties(ObjectPropertyList list)
         {
@@ -86,7 +86,7 @@ namespace Server.Items
              * Will display experience as well, if DisplayExpProp.
              * is set to true in LevelItemManager.cs */
             list.Add(1060658, "Level\t{0}", m_Level);
-            if (1==1)
+            if (1 == 1)
                 list.Add(1060659, "Experience\t{0}", m_Experience);
         }
 
@@ -191,5 +191,5 @@ namespace Server.Items
             }
         }
         #endregion
-	}
+    }
 }

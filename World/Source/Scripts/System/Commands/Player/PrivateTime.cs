@@ -18,16 +18,16 @@ namespace Server.Items
         private static void OnTogglePrivateTime(CommandEventArgs e)
         {
             Mobile m = e.Mobile;
-			PlayerMobile pm = (PlayerMobile)m;
+            PlayerMobile pm = (PlayerMobile)m;
 
-            if ( pm.PublicInfo == false )
+            if (pm.PublicInfo == false)
             {
-				pm.PublicInfo = true;
+                pm.PublicInfo = true;
                 m.SendMessage(68, "You set your town crier news to public.");
             }
             else
             {
-				pm.PublicInfo = false;
+                pm.PublicInfo = false;
                 m.SendMessage(38, "You set your town crier news to private.");
             }
         }

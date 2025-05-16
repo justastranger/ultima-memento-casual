@@ -26,13 +26,13 @@ namespace Server.Items
         public SmallBagofHolding()
         {
             Name = "bag of holding";
-			ItemID = Utility.RandomList( 0x658D, 0x658E );
+            ItemID = Utility.RandomList(0x658D, 0x658E);
         }
 
         public override void AddNameProperties(ObjectPropertyList list)
-		{
+        {
             base.AddNameProperties(list);
-			list.Add( 1049644, "small");
+            list.Add(1049644, "small");
         }
 
         public SmallBagofHolding(Serial serial) : base(serial)
@@ -49,7 +49,7 @@ namespace Server.Items
         {
             base.Deserialize(reader);
             int version = reader.ReadInt();
-			if ( ItemID != 0x658D || ItemID != 0x658E ){ ItemID = Utility.RandomList( 0x658D, 0x658E ); }
+            if (ItemID != 0x658D || ItemID != 0x658E) { ItemID = Utility.RandomList(0x658D, 0x658E); }
         }
     }
 
@@ -73,13 +73,13 @@ namespace Server.Items
         public MediumBagofHolding()
         {
             Name = "bag of holding";
-			ItemID = Utility.RandomList( 0x658D, 0x658E );
+            ItemID = Utility.RandomList(0x658D, 0x658E);
         }
 
         public override void AddNameProperties(ObjectPropertyList list)
-		{
+        {
             base.AddNameProperties(list);
-			list.Add( 1049644, "medium");
+            list.Add(1049644, "medium");
         }
 
         public MediumBagofHolding(Serial serial) : base(serial)
@@ -96,7 +96,7 @@ namespace Server.Items
         {
             base.Deserialize(reader);
             int version = reader.ReadInt();
-			if ( ItemID != 0x658D || ItemID != 0x658E ){ ItemID = Utility.RandomList( 0x658D, 0x658E ); }
+            if (ItemID != 0x658D || ItemID != 0x658E) { ItemID = Utility.RandomList(0x658D, 0x658E); }
         }
     }
 
@@ -120,13 +120,13 @@ namespace Server.Items
         public LargeBagofHolding()
         {
             Name = "bag of holding";
-			ItemID = Utility.RandomList( 0x6568, 0x6569 );
+            ItemID = Utility.RandomList(0x6568, 0x6569);
         }
 
         public override void AddNameProperties(ObjectPropertyList list)
-		{
+        {
             base.AddNameProperties(list);
-			list.Add( 1049644, "large");
+            list.Add(1049644, "large");
         }
 
         public LargeBagofHolding(Serial serial) : base(serial)
@@ -143,7 +143,7 @@ namespace Server.Items
         {
             base.Deserialize(reader);
             int version = reader.ReadInt();
-			if ( ItemID != 0x6568 || ItemID != 0x6569 ){ ItemID = Utility.RandomList( 0x6568, 0x6569 ); }
+            if (ItemID != 0x6568 || ItemID != 0x6569) { ItemID = Utility.RandomList(0x6568, 0x6569); }
         }
     }
 

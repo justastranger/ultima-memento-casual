@@ -2,7 +2,7 @@ using Server.Items;
 
 namespace Server.Engines.GlobalShoppe
 {
-	[SkipSerializeReq]
+    [SkipSerializeReq]
     public abstract class BasicCustomerOrderShoppe : CustomerOrderShoppe<EquipmentOrderContext>
     {
         protected BasicCustomerOrderShoppe(Serial serial) : base(serial)

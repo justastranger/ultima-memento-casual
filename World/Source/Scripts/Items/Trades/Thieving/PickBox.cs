@@ -8,23 +8,23 @@ using Server.ContextMenus;
 
 namespace Server.Items
 {
-	[Flipable( 0x1C0E, 0x1C0F )]
+    [Flipable(0x1C0E, 0x1C0F)]
     public class PickBoxEasy : LockableContainer
     {
-		public override string DefaultDescription{ get{ return "These are locked boxes that thieves use to practice their lockpicking skills. They require a single skill point in lockpicking, and can help you learn up to 25."; } }
+        public override string DefaultDescription { get { return "These are locked boxes that thieves use to practice their lockpicking skills. They require a single skill point in lockpicking, and can help you learn up to 25."; } }
 
         [Constructable]
-        public PickBoxEasy(): base( 0x1C0E )
+        public PickBoxEasy() : base(0x1C0E)
         {
-			Name = "Locked Box";
-			InfoText1 = "Easy Lock";
-			Hue = 0xB61;
+            Name = "Locked Box";
+            InfoText1 = "Easy Lock";
+            Hue = 0xB61;
             Locked = true;
             LockLevel = 1;
             MaxLockLevel = 25;
             RequiredSkill = 1;
             Weight = 4.0;
-			Movable = false;
+            Movable = false;
         }
 
         public override void LockPick(Mobile from)
@@ -49,24 +49,24 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-	/////////////////////////////////////////////////////////////////////////////////////////
-	[Flipable( 0x1C0E, 0x1C0F )]
+    /////////////////////////////////////////////////////////////////////////////////////////
+    [Flipable(0x1C0E, 0x1C0F)]
     public class PickBoxNormal : LockableContainer
     {
-		public override string DefaultDescription{ get{ return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 20 lockpicking, and can help you learn up to 35."; } }
+        public override string DefaultDescription { get { return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 20 lockpicking, and can help you learn up to 35."; } }
 
         [Constructable]
-        public PickBoxNormal(): base( 0x1C0E )
+        public PickBoxNormal() : base(0x1C0E)
         {
-			Name = "Locked Box";
-			InfoText1 = "Normal Lock";
-			Hue = 0xB61;
+            Name = "Locked Box";
+            InfoText1 = "Normal Lock";
+            Hue = 0xB61;
             Locked = true;
             LockLevel = 20;
             MaxLockLevel = 35;
             RequiredSkill = 20;
             Weight = 4.0;
-			Movable = false;
+            Movable = false;
         }
 
         public override void LockPick(Mobile from)
@@ -91,24 +91,24 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-	/////////////////////////////////////////////////////////////////////////////////////////
-	[Flipable( 0x1C0E, 0x1C0F )]
+    /////////////////////////////////////////////////////////////////////////////////////////
+    [Flipable(0x1C0E, 0x1C0F)]
     public class PickBoxDifficult : LockableContainer
     {
-		public override string DefaultDescription{ get{ return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 30 lockpicking, and can help you learn up to 45."; } }
+        public override string DefaultDescription { get { return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 30 lockpicking, and can help you learn up to 45."; } }
 
         [Constructable]
-        public PickBoxDifficult(): base( 0x1C0E )
+        public PickBoxDifficult() : base(0x1C0E)
         {
-			Name = "Locked Box";
-			InfoText1 = "Difficult Lock";
-			Hue = 0xB61;
+            Name = "Locked Box";
+            InfoText1 = "Difficult Lock";
+            Hue = 0xB61;
             Locked = true;
             LockLevel = 30;
             MaxLockLevel = 45;
             RequiredSkill = 30;
             Weight = 4.0;
-			Movable = false;
+            Movable = false;
         }
 
         public override void LockPick(Mobile from)
@@ -133,24 +133,24 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-	/////////////////////////////////////////////////////////////////////////////////////////
-	[Flipable( 0x1C0E, 0x1C0F )]
+    /////////////////////////////////////////////////////////////////////////////////////////
+    [Flipable(0x1C0E, 0x1C0F)]
     public class PickBoxChallenging : LockableContainer
     {
-		public override string DefaultDescription{ get{ return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 40 lockpicking, and can help you learn up to 55."; } }
+        public override string DefaultDescription { get { return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 40 lockpicking, and can help you learn up to 55."; } }
 
         [Constructable]
-        public PickBoxChallenging(): base( 0x1C0E )
+        public PickBoxChallenging() : base(0x1C0E)
         {
-			Name = "Locked Box";
-			InfoText1 = "Challenging Lock";
-			Hue = 0xB61;
+            Name = "Locked Box";
+            InfoText1 = "Challenging Lock";
+            Hue = 0xB61;
             Locked = true;
             LockLevel = 40;
             MaxLockLevel = 55;
             RequiredSkill = 40;
             Weight = 4.0;
-			Movable = false;
+            Movable = false;
         }
 
         public override void LockPick(Mobile from)
@@ -175,24 +175,24 @@ namespace Server.Items
             int version = reader.ReadInt();
         }
     }
-	/////////////////////////////////////////////////////////////////////////////////////////
-	[Flipable( 0x1C0E, 0x1C0F )]
+    /////////////////////////////////////////////////////////////////////////////////////////
+    [Flipable(0x1C0E, 0x1C0F)]
     public class PickBoxHard : LockableContainer
     {
-		public override string DefaultDescription{ get{ return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 50 lockpicking, and can help you learn up to 65."; } }
+        public override string DefaultDescription { get { return "These are locked boxes that thieves use to practice their lockpicking skills. They require a 50 lockpicking, and can help you learn up to 65."; } }
 
         [Constructable]
-        public PickBoxHard(): base( 0x1C0E )
+        public PickBoxHard() : base(0x1C0E)
         {
-			Name = "Locked Box";
-			InfoText1 = "Hard Lock";
-			Hue = 0xB61;
+            Name = "Locked Box";
+            InfoText1 = "Hard Lock";
+            Hue = 0xB61;
             Locked = true;
             LockLevel = 50;
             MaxLockLevel = 65;
             RequiredSkill = 50;
             Weight = 4.0;
-			Movable = false;
+            Movable = false;
         }
 
         public override void LockPick(Mobile from)
