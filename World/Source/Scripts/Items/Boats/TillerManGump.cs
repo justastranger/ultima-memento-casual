@@ -2,185 +2,185 @@ using Server.Mobiles;
 using Server.Multis;
 using Server.Network;
 
-namespace Server.Gumps 
+namespace Server.Gumps
 {
     public class TillerManGump : Gump
     {
-		private Mobile m_From;
-		private BaseBoat m_Boat;
-		private bool ToggleOneStep;
-		
-        public TillerManGump ( Mobile from, BaseBoat boat, bool onestep ) : base ( 0, 0 )
+        private Mobile m_From;
+        private BaseBoat m_Boat;
+        private bool ToggleOneStep;
+
+        public TillerManGump(Mobile from, BaseBoat boat, bool onestep) : base(0, 0)
         {
-			m_From = from;
-			m_Boat = boat;
+            m_From = from;
+            m_Boat = boat;
 
-			ToggleOneStep = onestep;
-			
-			Closable=true;
-			Disposable=false;
-			Dragable=true;
-			Resizable=false;
-			AddPage(0);
+            ToggleOneStep = onestep;
 
-			int image = 10920;
-			int color = 10006;
-			if ( BaseBoat.isCarpet( m_Boat ) ){ image = 10923; color = 10924; }
+            Closable = true;
+            Disposable = false;
+            Dragable = true;
+            Resizable = false;
+            AddPage(0);
 
-			AddImage(0, 0, image);
+            int image = 10920;
+            int color = 10006;
+            if (BaseBoat.isCarpet(m_Boat)) { image = 10923; color = 10924; }
 
-			AddButton(11, 106, 10006, 10006, 11, GumpButtonType.Reply, 0);	// TURN LEFT
-			AddTooltip("Turn Left");
+            AddImage(0, 0, image);
 
-			AddButton(147, 106, 10006, 10006, 12, GumpButtonType.Reply, 0);	// TURN RIGHT
-			AddTooltip("Turn Right");
-			AddButton(79, 165, 10006, 10006, 13, GumpButtonType.Reply, 0);	// COME ABOUT
-			AddTooltip("Come About");
+            AddButton(11, 106, 10006, 10006, 11, GumpButtonType.Reply, 0);  // TURN LEFT
+            AddTooltip("Turn Left");
 
-			AddButton(108, 57, color, color, 1, GumpButtonType.Reply, 0);	// N
-			AddTooltip("North");
-			AddButton(124, 91, color, color, 2, GumpButtonType.Reply, 0);	// NE
-			AddTooltip("North East");
-			AddButton(111, 123, color, color, 3, GumpButtonType.Reply, 0);	// E
-			AddTooltip("East");
-			AddButton(79, 138, color, color, 4, GumpButtonType.Reply, 0);	// SE
-			AddTooltip("South East");
-			AddButton(46, 124, color, color, 5, GumpButtonType.Reply, 0);	// S
-			AddTooltip("South");
-			AddButton(32, 91, color, color, 6, GumpButtonType.Reply, 0);	// SW
-			AddTooltip("South West");
-			AddButton(44, 60, color, color, 7, GumpButtonType.Reply, 0);	// W
-			AddTooltip("West");
-			AddButton(78, 45, color, color, 8, GumpButtonType.Reply, 0);	// NW
-			AddTooltip("North West");
+            AddButton(147, 106, 10006, 10006, 12, GumpButtonType.Reply, 0); // TURN RIGHT
+            AddTooltip("Turn Right");
+            AddButton(79, 165, 10006, 10006, 13, GumpButtonType.Reply, 0);  // COME ABOUT
+            AddTooltip("Come About");
 
-			AddButton(78, 16, 10006, 10006, 10, GumpButtonType.Reply, 0);	// ANCHOR
-			AddTooltip("Anchor");
-			AddButton(75, 89, 11410, 11410, 100, GumpButtonType.Reply, 0);	// STOP
-			AddTooltip("Stop");
-			AddButton(38, 159, 2103, 2103, 9, GumpButtonType.Reply, 0);		// ONE STEP
-			AddTooltip("Toggle Speed");
-			AddButton(120, 158, 2103, 2103, 99, GumpButtonType.Reply, 0);	// RENAME SHIP
-			AddTooltip("Rename Ship");
+            AddButton(108, 57, color, color, 1, GumpButtonType.Reply, 0);   // N
+            AddTooltip("North");
+            AddButton(124, 91, color, color, 2, GumpButtonType.Reply, 0);   // NE
+            AddTooltip("North East");
+            AddButton(111, 123, color, color, 3, GumpButtonType.Reply, 0);  // E
+            AddTooltip("East");
+            AddButton(79, 138, color, color, 4, GumpButtonType.Reply, 0);   // SE
+            AddTooltip("South East");
+            AddButton(46, 124, color, color, 5, GumpButtonType.Reply, 0);   // S
+            AddTooltip("South");
+            AddButton(32, 91, color, color, 6, GumpButtonType.Reply, 0);    // SW
+            AddTooltip("South West");
+            AddButton(44, 60, color, color, 7, GumpButtonType.Reply, 0);    // W
+            AddTooltip("West");
+            AddButton(78, 45, color, color, 8, GumpButtonType.Reply, 0);    // NW
+            AddTooltip("North West");
+
+            AddButton(78, 16, 10006, 10006, 10, GumpButtonType.Reply, 0);   // ANCHOR
+            AddTooltip("Anchor");
+            AddButton(75, 89, 11410, 11410, 100, GumpButtonType.Reply, 0);  // STOP
+            AddTooltip("Stop");
+            AddButton(38, 159, 2103, 2103, 9, GumpButtonType.Reply, 0);     // ONE STEP
+            AddTooltip("Toggle Speed");
+            AddButton(120, 158, 2103, 2103, 99, GumpButtonType.Reply, 0);   // RENAME SHIP
+            AddTooltip("Rename Ship");
         }
 
-		public override void OnResponse( NetState sender, RelayInfo info )
-		{
-			if( m_Boat == null || m_From == null )
-				return;
-				
-			if( !m_Boat.Contains( m_From ) )
-			{
-				if ( BaseBoat.isCarpet( m_Boat ) ){ m_From.SendMessage( "You have to be on your carpet to do that!" ); }
-				else { m_From.SendMessage( "You have to be on the boat to do that!" ); }
-				m_From.CloseGump( typeof( TillerManGump ) );
-				return;
-			}
+        public override void OnResponse(NetState sender, RelayInfo info)
+        {
+            if (m_Boat == null || m_From == null)
+                return;
 
-			switch ( info.ButtonID )
-			{
-				case 100: m_Boat.StopMove( true ); break;
-				case 99: m_Boat.BeginRename( m_From ); break;
+            if (!m_Boat.Contains(m_From))
+            {
+                if (BaseBoat.isCarpet(m_Boat)) { m_From.SendMessage("You have to be on your carpet to do that!"); }
+                else { m_From.SendMessage("You have to be on the boat to do that!"); }
+                m_From.CloseGump(typeof(TillerManGump));
+                return;
+            }
 
-				case 1: // N
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.North, true ); } else { m_Boat.OneMove( Direction.North ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.South, true ); } else { m_Boat.OneMove( Direction.South ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.West, true ); } else { m_Boat.OneMove( Direction.West ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.East, true ); } else { m_Boat.OneMove( Direction.East ); }	}
-					break;
-				}
-				case 2: // NE
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Right, true ); } else { m_Boat.OneMove( Direction.Right ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Left, true ); } else { m_Boat.OneMove( Direction.Left ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Up, true ); } else { m_Boat.OneMove( Direction.Up ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Down, true ); } else { m_Boat.OneMove( Direction.Down ); }	}
-					break;
-				}
-				case 3: // E
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.East, true ); } else { m_Boat.OneMove( Direction.East ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.West, true ); } else { m_Boat.OneMove( Direction.West ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.North, true ); } else { m_Boat.OneMove( Direction.North ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.South, true ); } else { m_Boat.OneMove( Direction.South ); }	}
-					break;
-				}
-				case 4: // SE
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Down, true ); } else { m_Boat.OneMove( Direction.Down ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Up, true ); } else { m_Boat.OneMove( Direction.Up ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Right, true ); } else { m_Boat.OneMove( Direction.Right ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Left, true ); } else { m_Boat.OneMove( Direction.Left ); }	}
-					break;
-				}
-				case 5: // S
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.South, true ); } else { m_Boat.OneMove( Direction.South ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.North, true ); } else { m_Boat.OneMove( Direction.North ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.East, true ); } else { m_Boat.OneMove( Direction.East ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.West, true ); } else { m_Boat.OneMove( Direction.West ); }	}
-					break;
-				}
-				case 6: // SW
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Left, true ); } else { m_Boat.OneMove( Direction.Left ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Right, true ); } else { m_Boat.OneMove( Direction.Right ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Down, true ); } else { m_Boat.OneMove( Direction.Down ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Up, true ); } else { m_Boat.OneMove( Direction.Up ); }	}
-					break;
-				}
-				case 7: // W
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.West, true ); } else { m_Boat.OneMove( Direction.West ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.East, true ); } else { m_Boat.OneMove( Direction.East ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.South, true ); } else { m_Boat.OneMove( Direction.South ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.North, true ); } else { m_Boat.OneMove( Direction.North ); }	}
-					break;
-				}
-				case 8: // NW
-				{
-					if ( m_Boat.Facing == Direction.North ){      if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Up, true ); } else { m_Boat.OneMove( Direction.Up ); }	}
-					else if ( m_Boat.Facing == Direction.South ){ if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Down, true ); } else { m_Boat.OneMove( Direction.Down ); }	}
-					else if ( m_Boat.Facing == Direction.East ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Left, true ); } else { m_Boat.OneMove( Direction.Left ); }	}
-					else if ( m_Boat.Facing == Direction.West ){  if( !ToggleOneStep ){ m_Boat.StartMove( Direction.Right, true ); } else { m_Boat.OneMove( Direction.Right ); }	}
-					break;
-				}
+            switch (info.ButtonID)
+            {
+                case 100: m_Boat.StopMove(true); break;
+                case 99: m_Boat.BeginRename(m_From); break;
 
-				case 9:	// TOGGLE ONE STEP
-				{
-					if( !ToggleOneStep )
-						ToggleOneStep = true;
-					else ToggleOneStep = false;
-					break;
-				}
-				case 10:	// RAISE / DROP ANCHOR
-				{
-					if( m_Boat.Anchored )
-						m_Boat.RaiseAnchor( true );
-					else 
-						m_Boat.LowerAnchor( true );
-					break;
-				}
-				case 11:	// TURN LEFT/RIGHT/AROUND
-				{
-					m_Boat.StartTurn(  -2, true );	// LEFT		
-					break;
-				}
-				case 12:
-				{
-					m_Boat.StartTurn(  2, true );	// RIGHT
-					break;
-				}
-				case 13:
-				{
-					m_Boat.StartTurn(  -4, true );	// AROUND
-					break;
-				}
-			}
+                case 1: // N
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.North, true); } else { m_Boat.OneMove(Direction.North); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.South, true); } else { m_Boat.OneMove(Direction.South); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.West, true); } else { m_Boat.OneMove(Direction.West); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.East, true); } else { m_Boat.OneMove(Direction.East); } }
+                        break;
+                    }
+                case 2: // NE
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Right, true); } else { m_Boat.OneMove(Direction.Right); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Left, true); } else { m_Boat.OneMove(Direction.Left); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Up, true); } else { m_Boat.OneMove(Direction.Up); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Down, true); } else { m_Boat.OneMove(Direction.Down); } }
+                        break;
+                    }
+                case 3: // E
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.East, true); } else { m_Boat.OneMove(Direction.East); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.West, true); } else { m_Boat.OneMove(Direction.West); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.North, true); } else { m_Boat.OneMove(Direction.North); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.South, true); } else { m_Boat.OneMove(Direction.South); } }
+                        break;
+                    }
+                case 4: // SE
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Down, true); } else { m_Boat.OneMove(Direction.Down); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Up, true); } else { m_Boat.OneMove(Direction.Up); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Right, true); } else { m_Boat.OneMove(Direction.Right); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Left, true); } else { m_Boat.OneMove(Direction.Left); } }
+                        break;
+                    }
+                case 5: // S
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.South, true); } else { m_Boat.OneMove(Direction.South); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.North, true); } else { m_Boat.OneMove(Direction.North); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.East, true); } else { m_Boat.OneMove(Direction.East); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.West, true); } else { m_Boat.OneMove(Direction.West); } }
+                        break;
+                    }
+                case 6: // SW
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Left, true); } else { m_Boat.OneMove(Direction.Left); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Right, true); } else { m_Boat.OneMove(Direction.Right); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Down, true); } else { m_Boat.OneMove(Direction.Down); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Up, true); } else { m_Boat.OneMove(Direction.Up); } }
+                        break;
+                    }
+                case 7: // W
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.West, true); } else { m_Boat.OneMove(Direction.West); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.East, true); } else { m_Boat.OneMove(Direction.East); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.South, true); } else { m_Boat.OneMove(Direction.South); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.North, true); } else { m_Boat.OneMove(Direction.North); } }
+                        break;
+                    }
+                case 8: // NW
+                    {
+                        if (m_Boat.Facing == Direction.North) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Up, true); } else { m_Boat.OneMove(Direction.Up); } }
+                        else if (m_Boat.Facing == Direction.South) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Down, true); } else { m_Boat.OneMove(Direction.Down); } }
+                        else if (m_Boat.Facing == Direction.East) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Left, true); } else { m_Boat.OneMove(Direction.Left); } }
+                        else if (m_Boat.Facing == Direction.West) { if (!ToggleOneStep) { m_Boat.StartMove(Direction.Right, true); } else { m_Boat.OneMove(Direction.Right); } }
+                        break;
+                    }
 
-			m_From.CloseGump( typeof( TillerManGump ) );
-			m_From.SendGump( new TillerManGump( m_From, m_Boat, ToggleOneStep ) );
-		}	
+                case 9: // TOGGLE ONE STEP
+                    {
+                        if (!ToggleOneStep)
+                            ToggleOneStep = true;
+                        else ToggleOneStep = false;
+                        break;
+                    }
+                case 10:    // RAISE / DROP ANCHOR
+                    {
+                        if (m_Boat.Anchored)
+                            m_Boat.RaiseAnchor(true);
+                        else
+                            m_Boat.LowerAnchor(true);
+                        break;
+                    }
+                case 11:    // TURN LEFT/RIGHT/AROUND
+                    {
+                        m_Boat.StartTurn(-2, true); // LEFT		
+                        break;
+                    }
+                case 12:
+                    {
+                        m_Boat.StartTurn(2, true);  // RIGHT
+                        break;
+                    }
+                case 13:
+                    {
+                        m_Boat.StartTurn(-4, true); // AROUND
+                        break;
+                    }
+            }
+
+            m_From.CloseGump(typeof(TillerManGump));
+            m_From.SendGump(new TillerManGump(m_From, m_Boat, ToggleOneStep));
+        }
     }
 }

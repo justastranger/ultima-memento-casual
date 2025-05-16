@@ -34,7 +34,7 @@ namespace Knives.Chat3
                 c_Timer.Stop();
 
             if (c_Recur != TimeSpan.Zero && Data.Notifications.Contains(this))
-                c_Timer = Timer.DelayCall(c_Recur+TimeSpan.FromSeconds(Utility.Random(20)), new TimerCallback(Notify));
+                c_Timer = Timer.DelayCall(c_Recur + TimeSpan.FromSeconds(Utility.Random(20)), new TimerCallback(Notify));
         }
 
         private void Notify()
@@ -89,7 +89,7 @@ namespace Knives.Chat3
             {
                 c_Not = not;
 
-                if(c_Not.AntiMacro)
+                if (c_Not.AntiMacro)
                     c_Timer = Timer.DelayCall(TimeSpan.FromSeconds(Data.AntiMacroDelay), new TimerCallback(AntiMacro));
             }
 

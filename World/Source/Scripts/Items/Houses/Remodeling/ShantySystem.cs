@@ -50,9 +50,9 @@ namespace Server.Misc
                         continue;
                     }
                     item.FindHouseOfPlacer();
-                    if ( item.House == null || !MySettings.S_ShantysAllowed )
+                    if (item.House == null || !MySettings.S_ShantysAllowed)
                     {
-                        item.Refund( item.Placer );
+                        item.Refund(item.Placer);
                     }
                 }
                 else if (OrphanedShantyItems[i] is ShantyDoor)
@@ -63,9 +63,9 @@ namespace Server.Misc
                         continue;
                     }
                     item.FindHouseOfPlacer();
-                    if ( item.House == null || !MySettings.S_ShantysAllowed )
+                    if (item.House == null || !MySettings.S_ShantysAllowed)
                     {
-                        item.Refund( item.Placer );
+                        item.Refund(item.Placer);
                     }
                 }
             }
@@ -73,72 +73,72 @@ namespace Server.Misc
             OrphanedShantyItems.Clear();
         }
 
-		public static void RemoveVisitors( Item item )
-		{
-			if ( item != null && item is ShantyItem && ( item.Name == "huge fire" || item.Name == "burning pit" || item.Name == "summoning pentagram" ) )
-			{
-				ArrayList mobiles = new ArrayList();
-				foreach ( Mobile m in item.GetMobilesInRange( 2 ) )
-				{
-					if ( m != null && m.Karma != 1 && m is HouseVisitor && m.Region is HouseRegion && m.Map == item.Map )
-					{
-						mobiles.Add( m );
-					}
-				}
-				for ( int i = 0; i < mobiles.Count; ++i )
-				{
-					Mobile from = ( Mobile )mobiles[ i ];
-					if ( from != null ){ from.Delete(); }
-				}
-			}
-		}
-
-        public static void RemoveShantys( BaseHouse house, Mobile from )
+        public static void RemoveVisitors(Item item)
         {
-			int gold = 0;
-			ArrayList items = new ArrayList();
-			ArrayList gates = new ArrayList();
-			foreach ( Item item in World.Items.Values )
-			{
-				if ( item is ShantyItem && ((ShantyItem)item).House == house )
-				{
-					items.Add( item );
-				}
-				else if ( item is ShantyDoor && ((ShantyDoor)item).House == house )
-				{
-					gates.Add( item );
-				}
-			}
-			for ( int i = 0; i < items.Count; ++i )
-			{
-				Item item = ( Item )items[ i ];
-				gold = gold + ((ShantyItem)item).Price;
-				RemoveVisitors( item );
-				item.Delete();
-			}
-			for ( int i = 0; i < gates.Count; ++i )
-			{
-				Item gate = ( Item )gates[ i ];
-				gold = gold + ((ShantyDoor)gate).Price;
-				RemoveVisitors( gate );
-				gate.Delete();
-			}
-			if ( gold > 0 )
-			{
-				Item toGive = new BankCheck( gold );
+            if (item != null && item is ShantyItem && (item.Name == "huge fire" || item.Name == "burning pit" || item.Name == "summoning pentagram"))
+            {
+                ArrayList mobiles = new ArrayList();
+                foreach (Mobile m in item.GetMobilesInRange(2))
+                {
+                    if (m != null && m.Karma != 1 && m is HouseVisitor && m.Region is HouseRegion && m.Map == item.Map)
+                    {
+                        mobiles.Add(m);
+                    }
+                }
+                for (int i = 0; i < mobiles.Count; ++i)
+                {
+                    Mobile from = (Mobile)mobiles[i];
+                    if (from != null) { from.Delete(); }
+                }
+            }
+        }
 
-				BankBox box = from.BankBox;
+        public static void RemoveShantys(BaseHouse house, Mobile from)
+        {
+            int gold = 0;
+            ArrayList items = new ArrayList();
+            ArrayList gates = new ArrayList();
+            foreach (Item item in World.Items.Values)
+            {
+                if (item is ShantyItem && ((ShantyItem)item).House == house)
+                {
+                    items.Add(item);
+                }
+                else if (item is ShantyDoor && ((ShantyDoor)item).House == house)
+                {
+                    gates.Add(item);
+                }
+            }
+            for (int i = 0; i < items.Count; ++i)
+            {
+                Item item = (Item)items[i];
+                gold = gold + ((ShantyItem)item).Price;
+                RemoveVisitors(item);
+                item.Delete();
+            }
+            for (int i = 0; i < gates.Count; ++i)
+            {
+                Item gate = (Item)gates[i];
+                gold = gold + ((ShantyDoor)gate).Price;
+                RemoveVisitors(gate);
+                gate.Delete();
+            }
+            if (gold > 0)
+            {
+                Item toGive = new BankCheck(gold);
 
-				if ( box.TryDropItem( from, toGive, false ) )
-				{
-					from.SendLocalizedMessage( 1060397, ( (BankCheck)toGive ).Worth.ToString() ); // ~1_AMOUNT~ gold has been deposited into your bank box.
-				}
-				else
-				{
-					from.AddToBackpack( toGive );
-					from.SendMessage( "A check for " + gold + " gold was place in your backpack." );
-				}
-			}
+                BankBox box = from.BankBox;
+
+                if (box.TryDropItem(from, toGive, false))
+                {
+                    from.SendLocalizedMessage(1060397, ((BankCheck)toGive).Worth.ToString()); // ~1_AMOUNT~ gold has been deposited into your bank box.
+                }
+                else
+                {
+                    from.AddToBackpack(toGive);
+                    from.SendMessage("A check for " + gold + " gold was place in your backpack.");
+                }
+            }
         }
     }
 }

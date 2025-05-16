@@ -6,91 +6,91 @@ using Server.Items;
 
 namespace Server.SkillHandlers
 {
-	public class Provocation
-	{
-		public static void Initialize()
-		{
-			SkillInfo.Table[(int)SkillName.Provocation].Callback = new SkillUseCallback( OnUse );
-		}
+    public class Provocation
+    {
+        public static void Initialize()
+        {
+            SkillInfo.Table[(int)SkillName.Provocation].Callback = new SkillUseCallback(OnUse);
+        }
 
-		public static TimeSpan OnUse( Mobile m )
-		{
-			m.RevealingAction();
+        public static TimeSpan OnUse(Mobile m)
+        {
+            m.RevealingAction();
 
-			BaseInstrument.PickInstrument( m, new InstrumentPickedCallback( OnPickedInstrument ) );
+            BaseInstrument.PickInstrument(m, new InstrumentPickedCallback(OnPickedInstrument));
 
-			return TimeSpan.FromSeconds( 1.0 ); // Cannot use another skill for 1 second
-		}
+            return TimeSpan.FromSeconds(1.0); // Cannot use another skill for 1 second
+        }
 
-		public static void OnPickedInstrument( Mobile from, BaseInstrument instrument )
-		{
-			from.RevealingAction();
-			from.SendLocalizedMessage( 501587 ); // Whom do you wish to incite?
-			from.Target = new InternalFirstTarget( from, instrument );
-		}
+        public static void OnPickedInstrument(Mobile from, BaseInstrument instrument)
+        {
+            from.RevealingAction();
+            from.SendLocalizedMessage(501587); // Whom do you wish to incite?
+            from.Target = new InternalFirstTarget(from, instrument);
+        }
 
-		private class InternalFirstTarget : Target
-		{
-			private BaseInstrument m_Instrument;
+        private class InternalFirstTarget : Target
+        {
+            private BaseInstrument m_Instrument;
 
-			public InternalFirstTarget( Mobile from, BaseInstrument instrument ) : base( BaseInstrument.GetBardRange( from, SkillName.Provocation ), false, TargetFlags.None )
-			{
-				m_Instrument = instrument;
-			}
+            public InternalFirstTarget(Mobile from, BaseInstrument instrument) : base(BaseInstrument.GetBardRange(from, SkillName.Provocation), false, TargetFlags.None)
+            {
+                m_Instrument = instrument;
+            }
 
-			protected override void OnTarget( Mobile from, object targeted )
-			{
-				from.RevealingAction();
+            protected override void OnTarget(Mobile from, object targeted)
+            {
+                from.RevealingAction();
 
-				if ( targeted is BaseCreature && from.CanBeHarmful( (Mobile)targeted, true ) )
-				{
-					BaseCreature creature = (BaseCreature)targeted;
+                if (targeted is BaseCreature && from.CanBeHarmful((Mobile)targeted, true))
+                {
+                    BaseCreature creature = (BaseCreature)targeted;
 
-					if ( m_Instrument.Parent != from && !m_Instrument.IsChildOf( from.Backpack ) )
-					{
-						from.SendLocalizedMessage( 1062488 ); // The instrument you are trying to play is no longer in your backpack!
-					}
-					else if ( creature.Controlled )
-					{
-						from.SendLocalizedMessage( 501590 ); // They are too loyal to their master to be provoked.
-					}
-					else if ( creature.IsParagon && BaseInstrument.GetBaseDifficulty( creature ) >= 160.0 )
-					{
-						from.SendLocalizedMessage( 1049446 ); // You have no chance of provoking those creatures.
-					}
-					else
-					{
-						from.RevealingAction();
-						m_Instrument.PlayInstrumentWell( from );
-						from.SendLocalizedMessage( 1008085 ); // You play your music and your target becomes angered.  Whom do you wish them to attack?
-						from.Target = new InternalSecondTarget( from, m_Instrument, creature );
-					}
-				}
-				else
-				{
-					from.SendLocalizedMessage( 501589 ); // You can't incite that!
-				}
-			}
-		}
+                    if (m_Instrument.Parent != from && !m_Instrument.IsChildOf(from.Backpack))
+                    {
+                        from.SendLocalizedMessage(1062488); // The instrument you are trying to play is no longer in your backpack!
+                    }
+                    else if (creature.Controlled)
+                    {
+                        from.SendLocalizedMessage(501590); // They are too loyal to their master to be provoked.
+                    }
+                    else if (creature.IsParagon && BaseInstrument.GetBaseDifficulty(creature) >= 160.0)
+                    {
+                        from.SendLocalizedMessage(1049446); // You have no chance of provoking those creatures.
+                    }
+                    else
+                    {
+                        from.RevealingAction();
+                        m_Instrument.PlayInstrumentWell(from);
+                        from.SendLocalizedMessage(1008085); // You play your music and your target becomes angered.  Whom do you wish them to attack?
+                        from.Target = new InternalSecondTarget(from, m_Instrument, creature);
+                    }
+                }
+                else
+                {
+                    from.SendLocalizedMessage(501589); // You can't incite that!
+                }
+            }
+        }
 
-		private class InternalSecondTarget : Target
-		{
-			private BaseCreature m_Creature;
-			private BaseInstrument m_Instrument;
+        private class InternalSecondTarget : Target
+        {
+            private BaseCreature m_Creature;
+            private BaseInstrument m_Instrument;
 
-			public InternalSecondTarget( Mobile from, BaseInstrument instrument, BaseCreature creature ) : base( BaseInstrument.GetBardRange( from, SkillName.Provocation ), false, TargetFlags.None )
-			{
-				m_Instrument = instrument;
-				m_Creature = creature;
-			}
+            public InternalSecondTarget(Mobile from, BaseInstrument instrument, BaseCreature creature) : base(BaseInstrument.GetBardRange(from, SkillName.Provocation), false, TargetFlags.None)
+            {
+                m_Instrument = instrument;
+                m_Creature = creature;
+            }
 
-			protected override void OnTarget( Mobile from, object targeted )
-			{
-				from.RevealingAction();
+            protected override void OnTarget(Mobile from, object targeted)
+            {
+                from.RevealingAction();
 
-				if ( targeted is BaseCreature )
-				{
-					BaseCreature creature = (BaseCreature)targeted;
+                if (targeted is BaseCreature)
+                {
+                    BaseCreature creature = (BaseCreature)targeted;
 
 					if ( m_Instrument.Parent != from && !m_Instrument.IsChildOf( from.Backpack ) )
 					{
@@ -117,8 +117,8 @@ namespace Server.SkillHandlers
 						double diff = ((m_Instrument.GetDifficultyFor( m_Creature ) + m_Instrument.GetDifficultyFor( creature )) * 0.5) - 10.0;
 						double music = from.Skills[SkillName.Musicianship].Value;
 
-						if ( music > 100.0 )
-							diff -= (music - 100.0) * 0.5;
+                        if (music > 100.0)
+                            diff -= (music - 100.0) * 0.5;
 
 						double minSkill = diff - 25;
 						double maxSkill = diff + 25;

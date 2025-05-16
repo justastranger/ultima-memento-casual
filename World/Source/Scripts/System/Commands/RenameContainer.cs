@@ -43,11 +43,12 @@ namespace Server.Commands
 
             protected override void OnTarget(Mobile from, object targeted)
             {
-                if (!(targeted is Container)){
+                if (!(targeted is Container))
+                {
                     from.SendMessage("The targeted item cannot be renamed using this command");
                     return;
                 }
-                
+
                 Container cont = (Container)targeted;
                 if (!from.Backpack.Items.Contains(cont) && !from.BankBox.Items.Contains(cont))
                 {
@@ -66,7 +67,7 @@ namespace Server.Commands
 
                 from.CloseGump(typeof(InternalGump));
                 from.SendGump(new InternalGump(cont));
-                
+
             }
         }
 

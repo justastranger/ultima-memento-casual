@@ -280,7 +280,7 @@ namespace {namespace}
                         foreach (StaticTile t in stlist)
                         {
                             list.Add(t);
-                            
+
                             int id = t.ID - 36653;
                             if (id < 2 || id > 36653)
                                 remove.Add(t);

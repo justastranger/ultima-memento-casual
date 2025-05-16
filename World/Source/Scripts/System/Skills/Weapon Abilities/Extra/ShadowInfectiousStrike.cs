@@ -3,25 +3,25 @@ using Server.Mobiles;
 
 namespace Server.Items
 {
-	public class ShadowInfectiousStrike : WeaponAbility
-	{
-		public ShadowInfectiousStrike(){}
+    public class ShadowInfectiousStrike : WeaponAbility
+    {
+        public ShadowInfectiousStrike() { }
 
-		public override int BaseMana{ get{ return 25; } }
+        public override int BaseMana { get { return 25; } }
 
-		public override void OnHit( Mobile attacker, Mobile defender, int damage )
-		{
-			if ( !Validate( attacker ) ) return;
-			ClearCurrentAbility( attacker );
-			BaseWeapon weapon = attacker.Weapon as BaseWeapon;
-			if ( weapon == null ) return;
-			Skill skill = attacker.Skills[SkillName.Stealth];
-			Poison p = weapon.Poison;
-			bool canpoison = true;
-			bool canhide = true;
+        public override void OnHit(Mobile attacker, Mobile defender, int damage)
+        {
+            if (!Validate(attacker)) return;
+            ClearCurrentAbility(attacker);
+            BaseWeapon weapon = attacker.Weapon as BaseWeapon;
+            if (weapon == null) return;
+            Skill skill = attacker.Skills[SkillName.Stealth];
+            Poison p = weapon.Poison;
+            bool canpoison = true;
+            bool canhide = true;
 
-			int ClassicPoisons = 0;
-			ClassicPoisons = ((PlayerMobile)attacker).ClassicPoisoning;
+            int ClassicPoisons = 0;
+            ClassicPoisons = ((PlayerMobile)attacker).ClassicPoisoning;
 
 			if ( ClassicPoisons > 0 )
 			{

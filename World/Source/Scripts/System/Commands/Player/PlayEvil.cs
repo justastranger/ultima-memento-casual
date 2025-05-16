@@ -19,18 +19,18 @@ namespace Server.Items
         {
             Mobile m = e.Mobile;
 
-			if ( ((PlayerMobile)m).CharacterEvil == 1 )
-			{
-				m.SendMessage(38, "You have disabled the evil play style.");
-				((PlayerMobile)m).CharacterEvil = 0;
-			}
-			else
-			{
-				m.SendMessage(68, "You have enabled the evil play style.");
-				((PlayerMobile)m).CharacterEvil = 1;
-				((PlayerMobile)m).CharacterOriental = 0;
-				((PlayerMobile)m).CharacterBarbaric = 0;
-			}
+            if (((PlayerMobile)m).CharacterEvil == 1)
+            {
+                m.SendMessage(38, "You have disabled the evil play style.");
+                ((PlayerMobile)m).CharacterEvil = 0;
+            }
+            else
+            {
+                m.SendMessage(68, "You have enabled the evil play style.");
+                ((PlayerMobile)m).CharacterEvil = 1;
+                ((PlayerMobile)m).CharacterOriental = 0;
+                ((PlayerMobile)m).CharacterBarbaric = 0;
+            }
         }
     }
 }

@@ -19,44 +19,44 @@ using Scripts.Mythik.Systems.Achievements;
 
 namespace Server.Engines.Help
 {
-	public class ContainedMenu : QuestionMenu
-	{
-		private Mobile m_From;
+    public class ContainedMenu : QuestionMenu
+    {
+        private Mobile m_From;
 
-		public ContainedMenu( Mobile from ) : base( "You already have an open help request. We will have someone assist you as soon as possible.  What would you like to do?", new string[]{ "Leave my old help request like it is.", "Remove my help request from the queue." } )
-		{
-			m_From = from;
-		}
+        public ContainedMenu(Mobile from) : base("You already have an open help request. We will have someone assist you as soon as possible.  What would you like to do?", new string[] { "Leave my old help request like it is.", "Remove my help request from the queue." })
+        {
+            m_From = from;
+        }
 
-		public override void OnCancel( NetState state )
-		{
-			m_From.SendLocalizedMessage( 1005306, "", 0x35 ); // Help request unchanged.
-		}
+        public override void OnCancel(NetState state)
+        {
+            m_From.SendLocalizedMessage(1005306, "", 0x35); // Help request unchanged.
+        }
 
-		public override void OnResponse( NetState state, int index )
-		{
-			m_From.SendSound( 0x4A );
-			if ( index == 0 )
-			{
-				m_From.SendLocalizedMessage( 1005306, "", 0x35 ); // Help request unchanged.
-			}
-			else if ( index == 1 )
-			{
-				PageEntry entry = PageQueue.GetEntry( m_From );
+        public override void OnResponse(NetState state, int index)
+        {
+            m_From.SendSound(0x4A);
+            if (index == 0)
+            {
+                m_From.SendLocalizedMessage(1005306, "", 0x35); // Help request unchanged.
+            }
+            else if (index == 1)
+            {
+                PageEntry entry = PageQueue.GetEntry(m_From);
 
-				if ( entry != null && entry.Handler == null )
-				{
-					m_From.SendLocalizedMessage( 1005307, "", 0x35 ); // Removed help request.
-					entry.AddResponse( entry.Sender, "[Canceled]" );
-					PageQueue.Remove( entry );
-				}
-				else
-				{
-					m_From.SendLocalizedMessage( 1005306, "", 0x35 ); // Help request unchanged.
-				}
-			}
-		}
-	}
+                if (entry != null && entry.Handler == null)
+                {
+                    m_From.SendLocalizedMessage(1005307, "", 0x35); // Removed help request.
+                    entry.AddResponse(entry.Sender, "[Canceled]");
+                    PageQueue.Remove(entry);
+                }
+                else
+                {
+                    m_From.SendLocalizedMessage(1005306, "", 0x35); // Help request unchanged.
+                }
+            }
+        }
+    }
 
 	public class HelpGump : Gump
 	{
@@ -240,54 +240,54 @@ namespace Server.Engines.Help
 		{
 			EventSink.HelpRequest += new HelpRequestEventHandler( EventSink_HelpRequest );
             CommandSystem.Register("toolbars", AccessLevel.Player, e => OpenHelpGumpPageCommand(e, 7));
-		}
+        }
 
         private static void OpenHelpGumpPageCommand(CommandEventArgs e, int pageNumber)
         {
-			var player = e.Mobile as PlayerMobile;
-			if (player == null) return;
+            var player = e.Mobile as PlayerMobile;
+            if (player == null) return;
 
-			player.CloseGump(typeof(HelpGump));
-			player.SendGump(new HelpGump(player, pageNumber));
+            player.CloseGump(typeof(HelpGump));
+            player.SendGump(new HelpGump(player, pageNumber));
         }
 
-        private static void EventSink_HelpRequest( HelpRequestEventArgs e )
-		{
-			foreach ( Gump g in e.Mobile.NetState.Gumps )
-			{
-				if ( g is HelpGump )
-					return;
-			}
+        private static void EventSink_HelpRequest(HelpRequestEventArgs e)
+        {
+            foreach (Gump g in e.Mobile.NetState.Gumps)
+            {
+                if (g is HelpGump)
+                    return;
+            }
 
-			if ( !PageQueue.CheckAllowedToPage( e.Mobile ) )
-				return;
+            if (!PageQueue.CheckAllowedToPage(e.Mobile))
+                return;
 
-			if ( PageQueue.Contains( e.Mobile ) )
-				e.Mobile.SendMenu( new ContainedMenu( e.Mobile ) );
-			else
-				e.Mobile.SendGump( new HelpGump( e.Mobile, 1 ) );
-		}
+            if (PageQueue.Contains(e.Mobile))
+                e.Mobile.SendMenu(new ContainedMenu(e.Mobile));
+            else
+                e.Mobile.SendGump(new HelpGump(e.Mobile, 1));
+        }
 
-		private static bool IsYoung( Mobile m )
-		{
-			if ( m is PlayerMobile )
-				return ((PlayerMobile)m).Young;
+        private static bool IsYoung(Mobile m)
+        {
+            if (m is PlayerMobile)
+                return ((PlayerMobile)m).Young;
 
-			return false;
-		}
+            return false;
+        }
 
-		public static bool CheckCombat( Mobile m )
-		{
-			for ( int i = 0; i < m.Aggressed.Count; ++i )
-			{
-				AggressorInfo info = m.Aggressed[i];
+        public static bool CheckCombat(Mobile m)
+        {
+            for (int i = 0; i < m.Aggressed.Count; ++i)
+            {
+                AggressorInfo info = m.Aggressed[i];
 
-				if ( DateTime.Now - info.LastCombatTime < TimeSpan.FromSeconds( 30.0 ) )
-					return true;
-			}
+                if (DateTime.Now - info.LastCombatTime < TimeSpan.FromSeconds(30.0))
+                    return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
 		public HelpGump( Mobile mobile, int page ) : base( 50, 50 )
 		{
@@ -297,17 +297,17 @@ namespace Server.Engines.Help
 			string HelpText = MyHelp();
 			string color = TEXT_COLOR;
 
-			from.SendSound( 0x4A ); 
+            from.SendSound(0x4A);
 
-            this.Closable=true;
-			this.Disposable=true;
-			this.Dragable=true;
-			this.Resizable=false;
+            this.Closable = true;
+            this.Disposable = true;
+            this.Dragable = true;
+            this.Resizable = false;
 
-			AddPage(0);
+            AddPage(0);
 
-			int r = 40;
-			int e = 30;
+            int r = 40;
+            int e = 30;
 
 			AddImage(0, 0, 9548, Server.Misc.PlayerSettings.GetGumpHue( from ));
 			AddHtml( 12, 12, 300, 20, @"<BODY><BASEFONT Color=" + color + ">HELP OPTIONS</BASEFONT></BODY>", (bool)false, (bool)false);
@@ -324,7 +324,7 @@ namespace Server.Engines.Help
 			r += e;
 			if ( page == (int)PageActionType.Navigate_Main ){ AddHtml( 252, 71, 739, 630, @"<BODY><BASEFONT Color=" + color + ">" + HelpText + "</BASEFONT></BODY>", (bool)false, (bool)true); }
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Achievements", PageActionType.Do_Achievements, NAVIGATION_ITEM_WIDTH);
 			r += e;
@@ -339,38 +339,38 @@ namespace Server.Engines.Help
 				AddHtml( 252, 71, 739, 630, @"<BODY><BASEFONT Color=" + color + ">" + HelpText + "</BASEFONT></BODY>", (bool)false, (bool)true);
 			}
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Chat", PageActionType.Show_Chat, NAVIGATION_ITEM_WIDTH);
 			r += e;
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Conversations", PageActionType.Show_Conversations, NAVIGATION_ITEM_WIDTH);
 			r += e;
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Corpse Clear", PageActionType.Do_CorpseClear, NAVIGATION_ITEM_WIDTH);
 			r += e;
 			if ( page == (int)PageActionType.Do_CorpseClear ){ AddHtml( 252, 71, 739, 630, @"<BODY><BASEFONT Color=" + color + ">Your empty corpses have been removed.</BASEFONT></BODY>", (bool)false, (bool)true); }
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Corpse Search", PageActionType.Do_CorpseSearch, NAVIGATION_ITEM_WIDTH);
 			r += e;
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Emote", PageActionType.Show_Emote, NAVIGATION_ITEM_WIDTH);
 			r += e;
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Library", PageActionType.Navigate_Library, NAVIGATION_ITEM_WIDTH);
 			r += e;
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Magic Toolbars", PageActionType.Navigate_MagicToolbars, NAVIGATION_ITEM_WIDTH);
 			r += e;
@@ -499,12 +499,12 @@ namespace Server.Engines.Help
 				}
 			}
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Moongate Search", PageActionType.Do_MoongateSearch, NAVIGATION_ITEM_WIDTH);
 			r += e;
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "MOTD", PageActionType.Show_MOTD, NAVIGATION_ITEM_WIDTH);
 			r += e;
@@ -515,7 +515,7 @@ namespace Server.Engines.Help
 			r += e;
 			if ( page == (int)PageActionType.Show_Quests ){ AddHtml( 252, 71, 739, 630, @"<BODY><BASEFONT Color=" + color + ">Throughout your journey, you may come across particular events that appear in your quest log. They may be a simple achievement of finding a strange land, or they may reference an item you must find. Quests are handled in a 'virtual' manner. What this means is that any achievements are real, but any references to items found are not. If your quest log states that you found an ebony key, you will not have an ebony key in your backpack...but you will 'virtually' have the item. The quest will keep track of this fact for you. Because of this, you will never lose that ebony key and it remains unique to your character's questing. The quest knows you found it and have it. You may be tasked to find an item in a dungeon. When there is an indication you found it, it will be 'virtually' in your possession. You will often hear a sound of victory when a quest event is reached, along with a message about it. You still may miss it, however. So check your quest log from time to time. One way to get quests is to visit taverns or inns. If you see a bulletin board called 'Seeking Brave Adventurers', single click on it to begin your life questing for fame and fortune.<BR><BR>" + MyQuests( from ) + "<BR><BR></BASEFONT></BODY>", (bool)false, (bool)true); }
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Quick Bar", PageActionType.Show_QuickBar, NAVIGATION_ITEM_WIDTH);
 			r += e;
@@ -523,7 +523,7 @@ namespace Server.Engines.Help
 			AddAction(nav_x, r, from, "Reagent Bar", PageActionType.Show_RegBar, NAVIGATION_ITEM_WIDTH);
 			r += e;
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			AddAction(nav_x, r, from, "Settings", PageActionType.Show_Settings, NAVIGATION_ITEM_WIDTH);
 			r += e;
@@ -930,9 +930,9 @@ namespace Server.Engines.Help
 			int pressed = info.ButtonID;
 			PageActionType actionType = (PageActionType)info.ButtonID;
 
-			from.SendSound( 0x4A ); 
+            from.SendSound(0x4A);
 
-			from.CloseGump( typeof(Server.Engines.Help.HelpGump) );
+            from.CloseGump(typeof(Server.Engines.Help.HelpGump));
 
 			if ( ShowHelpInfoWindow( from, actionType ) ) return;
 			
@@ -1092,22 +1092,22 @@ namespace Server.Engines.Help
 					{
 						BaseHouse house = BaseHouse.FindHouseAt( from );
 
-						if ( house != null && house.IsAosRules )
-						{
-							from.Location = house.BanLocation;
-						}
-						else if ( from.Region.IsPartOf( typeof( Server.Regions.Jail ) ) )
-						{
-							from.SendLocalizedMessage( 1041530, "", 0x35 ); // You'll need a better jailbreak plan then that!
-						}
-						else if ( from.CanUseStuckMenu() && from.Region.CanUseStuckMenu( from ) && !CheckCombat( from ) && !from.Frozen && !from.Criminal && (Core.AOS || from.Kills < 5) )
-						{
-							StuckMenu menu = new StuckMenu( from, from, true );
+                            if (house != null && house.IsAosRules)
+                            {
+                                from.Location = house.BanLocation;
+                            }
+                            else if (from.Region.IsPartOf(typeof(Server.Regions.Jail)))
+                            {
+                                from.SendLocalizedMessage(1041530, "", 0x35); // You'll need a better jailbreak plan then that!
+                            }
+                            else if (from.CanUseStuckMenu() && from.Region.CanUseStuckMenu(from) && !CheckCombat(from) && !from.Frozen && !from.Criminal && (Core.AOS || from.Kills < 5))
+                            {
+                                StuckMenu menu = new StuckMenu(from, from, true);
 
-							menu.BeginClose();
+                                menu.BeginClose();
 
-							from.SendGump( menu );
-						}
+                                from.SendGump(menu);
+                            }
 
 						break;
 					}
@@ -1296,11 +1296,11 @@ namespace Server.Engines.Help
 						else
 								from.RaceMagicSchool = 0;
 
-						if ( from.FindItemOnLayer( Layer.Special ) != null && from.RaceID > 0 )
-						{
-							if ( from.FindItemOnLayer( Layer.Special ) is BaseRace )
-								Server.Items.BaseRace.SetMonsterMagic( from, (BaseRace)(from.FindItemOnLayer( Layer.Special )) );
-						}
+                            if (from.FindItemOnLayer(Layer.Special) != null && from.RaceID > 0)
+                            {
+                                if (from.FindItemOnLayer(Layer.Special) is BaseRace)
+                                    Server.Items.BaseRace.SetMonsterMagic(from, (BaseRace)(from.FindItemOnLayer(Layer.Special)));
+                            }
 
 						from.SendGump( new Server.Engines.Help.HelpGump( from, 12 ) );
 						break;
@@ -1613,468 +1613,468 @@ namespace Server.Engines.Help
 			}
 		}
 
-		public static string MyQuests( Mobile from )
+        public static string MyQuests(Mobile from)
         {
-			PlayerMobile pm = (PlayerMobile)from;
+            PlayerMobile pm = (PlayerMobile)from;
 
-			string sQuests = "Below is a brief list of current quests, along with achievements in specific discoveries. These are owned quests, which are specific to your character. Other quests (like messages in a bottle, treasure maps, or scribbled notes) are not listed here.<br><br>";
+            string sQuests = "Below is a brief list of current quests, along with achievements in specific discoveries. These are owned quests, which are specific to your character. Other quests (like messages in a bottle, treasure maps, or scribbled notes) are not listed here.<br><br>";
 
-			string ContractQuest = PlayerSettings.GetQuestInfo( from, "StandardQuest" );
-			if ( PlayerSettings.GetQuestState( from, "StandardQuest" ) ){ string sAdventurer = StandardQuestFunctions.QuestStatus( from ); sQuests = sQuests + "-" + sAdventurer + ".<br><br>"; }
+            string ContractQuest = PlayerSettings.GetQuestInfo(from, "StandardQuest");
+            if (PlayerSettings.GetQuestState(from, "StandardQuest")) { string sAdventurer = StandardQuestFunctions.QuestStatus(from); sQuests = sQuests + "-" + sAdventurer + ".<br><br>"; }
 
-			string ContractKiller = PlayerSettings.GetQuestInfo( from, "AssassinQuest" );
-			if ( PlayerSettings.GetQuestState( from, "AssassinQuest" ) ){ string sAssassin = AssassinFunctions.QuestStatus( from ); sQuests = sQuests + "-" + sAssassin + ".<br><br>"; }
+            string ContractKiller = PlayerSettings.GetQuestInfo(from, "AssassinQuest");
+            if (PlayerSettings.GetQuestState(from, "AssassinQuest")) { string sAssassin = AssassinFunctions.QuestStatus(from); sQuests = sQuests + "-" + sAssassin + ".<br><br>"; }
 
-			string ContractSailor = PlayerSettings.GetQuestInfo( from, "FishingQuest" );
-			if ( PlayerSettings.GetQuestState( from, "FishingQuest" ) ){ string sSailor = FishingQuestFunctions.QuestStatus( from ); sQuests = sQuests + "-" + sSailor + ".<br><br>"; }
+            string ContractSailor = PlayerSettings.GetQuestInfo(from, "FishingQuest");
+            if (PlayerSettings.GetQuestState(from, "FishingQuest")) { string sSailor = FishingQuestFunctions.QuestStatus(from); sQuests = sQuests + "-" + sSailor + ".<br><br>"; }
 
-			sQuests = sQuests + OtherQuests( from );
+            sQuests = sQuests + OtherQuests(from);
 
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleMadGodName" ) ){ sQuests = sQuests + "-Learned about the Mad God Tarjan.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCatacombKey" ) ){ sQuests = sQuests + "-The priest from the Mad God Temple gave me the key to the Catacombs.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSpectreEye" ) ){ sQuests = sQuests + "-Found a mysterious eye from the Catacombs.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleHarkynKey" ) ){ sQuests = sQuests + "-Found a key with a symbol of a dragon on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleDragonKey" ) ){ sQuests = sQuests + "-Found a rusty key from around a gray dragon's neck.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCrystalSword" ) ){ sQuests = sQuests + "-Found a crystal sword.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverSquare" ) ){ sQuests = sQuests + "-Found a silver square.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleKylearanKey" ) ){ sQuests = sQuests + "-Found a key with a symbol of a unicorn on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleBedroomKey" ) ){ sQuests = sQuests + "-Found a key with a symbol of a tree on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverTriangle" ) ){ sQuests = sQuests + "-Found a silver triangle.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCrystalGolem" ) ){ sQuests = sQuests + "-Destroyed the crystal golem and found a golden key.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleEbonyKey" ) ){ sQuests = sQuests + "-Kylearan gave me an ebony key with a demon symbol on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverCircle" ) ){ sQuests = sQuests + "-Found a silver circle.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleWin" ) && ((PlayerMobile)from).Fugitive != 1 ){ sQuests = sQuests + "-Defeated the evil wizard Mangar and escaped Skara Brae.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleMadGodName")) { sQuests = sQuests + "-Learned about the Mad God Tarjan.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleCatacombKey")) { sQuests = sQuests + "-The priest from the Mad God Temple gave me the key to the Catacombs.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleSpectreEye")) { sQuests = sQuests + "-Found a mysterious eye from the Catacombs.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleHarkynKey")) { sQuests = sQuests + "-Found a key with a symbol of a dragon on it.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleDragonKey")) { sQuests = sQuests + "-Found a rusty key from around a gray dragon's neck.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleCrystalSword")) { sQuests = sQuests + "-Found a crystal sword.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleSilverSquare")) { sQuests = sQuests + "-Found a silver square.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleKylearanKey")) { sQuests = sQuests + "-Found a key with a symbol of a unicorn on it.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleBedroomKey")) { sQuests = sQuests + "-Found a key with a symbol of a tree on it.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleSilverTriangle")) { sQuests = sQuests + "-Found a silver triangle.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleCrystalGolem")) { sQuests = sQuests + "-Destroyed the crystal golem and found a golden key.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleEbonyKey")) { sQuests = sQuests + "-Kylearan gave me an ebony key with a demon symbol on it.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleSilverCircle")) { sQuests = sQuests + "-Found a silver circle.<br><br>"; }
+            if (PlayerSettings.GetBardsTaleQuest(from, "BardsTaleWin") && ((PlayerMobile)from).Fugitive != 1) { sQuests = sQuests + "-Defeated the evil wizard Mangar and escaped Skara Brae.<br><br>"; }
 
-			if ( PlayerSettings.GetKeys( from, "UndermountainKey" ) ){ sQuests = sQuests + "-Found a key made of dwarven steel.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "BlackKnightKey" ) ){ sQuests = sQuests + "-Found the Black Knight's key.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "SkullGate" ) ){ sQuests = sQuests + "-Discovered the secret of Skull Gate.<br>   One is in the Undercity of Umbra in Sosaria.<br>   The other is in the Ravendark Woods.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "SerpentPillars" ) ){ sQuests = sQuests + "-Discovered the secret of the Serpent Pillars.<br>   Sosaria: 86° 41'S, 124° 39'E<br>   Lodoria: 35° 36'S, 65° 2'E<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "RangerOutpost" ) ){ sQuests = sQuests + "-Discovered the Ranger Outpost.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "DragonRiding" ) ){ sQuests = sQuests + "-Learned the secrets of riding draconic creatures.<br><br>"; }
+            if (PlayerSettings.GetKeys(from, "UndermountainKey")) { sQuests = sQuests + "-Found a key made of dwarven steel.<br><br>"; }
+            if (PlayerSettings.GetKeys(from, "BlackKnightKey")) { sQuests = sQuests + "-Found the Black Knight's key.<br><br>"; }
+            if (PlayerSettings.GetKeys(from, "SkullGate")) { sQuests = sQuests + "-Discovered the secret of Skull Gate.<br>   One is in the Undercity of Umbra in Sosaria.<br>   The other is in the Ravendark Woods.<br><br>"; }
+            if (PlayerSettings.GetKeys(from, "SerpentPillars")) { sQuests = sQuests + "-Discovered the secret of the Serpent Pillars.<br>   Sosaria: 86° 41'S, 124° 39'E<br>   Lodoria: 35° 36'S, 65° 2'E<br><br>"; }
+            if (PlayerSettings.GetKeys(from, "RangerOutpost")) { sQuests = sQuests + "-Discovered the Ranger Outpost.<br><br>"; }
+            if (PlayerSettings.GetKeys(from, "DragonRiding")) { sQuests = sQuests + "-Learned the secrets of riding draconic creatures.<br><br>"; }
 
-			if ( PlayerSettings.GetDiscovered( from, Land.Sosaria ) ){ sQuests = sQuests + "-Discovered the World of Sosaria.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.UmberVeil ) ){ sQuests = sQuests + "-Discovered Umber Veil.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.Ambrosia ) ){ sQuests = sQuests + "-Discovered Ambrosia.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.Lodoria ) ){ sQuests = sQuests + "-Discovered the Elven World of Lodoria.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.Serpent ) ){ sQuests = sQuests + "-Discovered the Serpent Island.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.IslesDread ) ){ sQuests = sQuests + "-Discovered the Isles of Dread.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.Savaged ) ){ sQuests = sQuests + "-Discovered the Valley of the Savaged Empire.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.Kuldar ) ){ sQuests = sQuests + "-Discovered the Bottle World of Kuldar.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, Land.Underworld ) ){ sQuests = sQuests + "-Discovered the Underworld.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.Sosaria)) { sQuests = sQuests + "-Discovered the World of Sosaria.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.UmberVeil)) { sQuests = sQuests + "-Discovered Umber Veil.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.Ambrosia)) { sQuests = sQuests + "-Discovered Ambrosia.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.Lodoria)) { sQuests = sQuests + "-Discovered the Elven World of Lodoria.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.Serpent)) { sQuests = sQuests + "-Discovered the Serpent Island.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.IslesDread)) { sQuests = sQuests + "-Discovered the Isles of Dread.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.Savaged)) { sQuests = sQuests + "-Discovered the Valley of the Savaged Empire.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.Kuldar)) { sQuests = sQuests + "-Discovered the Bottle World of Kuldar.<br><br>"; }
+            if (PlayerSettings.GetDiscovered(from, Land.Underworld)) { sQuests = sQuests + "-Discovered the Underworld.<br><br>"; }
 
-			return "Quests For " + from.Name + "<br><br>" + sQuests;
+            return "Quests For " + from.Name + "<br><br>" + sQuests;
         }
 
-		public static string OtherQuests( Mobile from )
+        public static string OtherQuests(Mobile from)
         {
-			string quests = "";
+            string quests = "";
 
-			ArrayList targets = new ArrayList();
-			foreach ( Item item in World.Items.Values )
-			{
-				if ( item is ThiefNote )
-				{
-					if ( ((ThiefNote)item).NoteOwner == from )
-					{
-						if ( Server.Items.ThiefNote.ThiefAllowed( from ) == null )
-						{
-							quests = quests + "-" + ((ThiefNote)item).NoteStory + "<br><br>";
-						}
-						else
-						{
-							quests = quests + "-You have a secret note instructing you to steal something, but you will take a break from thieving and read it in about " + Server.Items.ThiefNote.ThiefAllowed( from ) + " minutes.<br><br>";
-						}
-					}
-				}
-				else if ( item is CourierMail )
-				{
-					if ( ((CourierMail)item).Owner == from )
-					{
-						quests = quests + "-You need to find " + ((CourierMail)item).SearchItem + " for " + ((CourierMail)item).ForWho + ". They said in their letter that you should search in " + ((CourierMail)item).SearchDungeon + " in " + ((CourierMail)item).SearchWorld + ".<br><br>";
-					}
-				}
-				else if ( item is SearchPage )
-				{
-					if ( ((SearchPage)item).Owner == from )
-					{
-						quests = quests + "-You want to find " + ((SearchPage)item).SearchItem + " in " + ((SearchPage)item).SearchDungeon + " in " + ((SearchPage)item).SearchWorld + ".<br><br>";
-					}
-				}
-				else if ( item is SummonPrison )
-				{
-					if ( ((SummonPrison)item).owner == from )
-					{
-						quests = quests + "-You currently have " + System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(((SummonPrison)item).Prisoner.ToLower()) + " in a Magical Prison.<br><br>";
-					}
-				}
-				else if ( item is FrankenJournal )
-				{
-					if ( ((FrankenJournal)item).JournalOwner == from )
-					{
-						int parts = 0;
-						if ( ((FrankenJournal)item).HasArmRight > 0 ){ parts++; }
-						if ( ((FrankenJournal)item).HasArmLeft > 0 ){ parts++; }
-						if ( ((FrankenJournal)item).HasLegRight > 0 ){ parts++; }
-						if ( ((FrankenJournal)item).HasLegLeft > 0 ){ parts++; }
-						if ( ((FrankenJournal)item).HasTorso > 0 ){ parts++; }
-						if ( ((FrankenJournal)item).HasHead > 0 ){ parts++; }
+            ArrayList targets = new ArrayList();
+            foreach (Item item in World.Items.Values)
+            {
+                if (item is ThiefNote)
+                {
+                    if (((ThiefNote)item).NoteOwner == from)
+                    {
+                        if (Server.Items.ThiefNote.ThiefAllowed(from) == null)
+                        {
+                            quests = quests + "-" + ((ThiefNote)item).NoteStory + "<br><br>";
+                        }
+                        else
+                        {
+                            quests = quests + "-You have a secret note instructing you to steal something, but you will take a break from thieving and read it in about " + Server.Items.ThiefNote.ThiefAllowed(from) + " minutes.<br><br>";
+                        }
+                    }
+                }
+                else if (item is CourierMail)
+                {
+                    if (((CourierMail)item).Owner == from)
+                    {
+                        quests = quests + "-You need to find " + ((CourierMail)item).SearchItem + " for " + ((CourierMail)item).ForWho + ". They said in their letter that you should search in " + ((CourierMail)item).SearchDungeon + " in " + ((CourierMail)item).SearchWorld + ".<br><br>";
+                    }
+                }
+                else if (item is SearchPage)
+                {
+                    if (((SearchPage)item).Owner == from)
+                    {
+                        quests = quests + "-You want to find " + ((SearchPage)item).SearchItem + " in " + ((SearchPage)item).SearchDungeon + " in " + ((SearchPage)item).SearchWorld + ".<br><br>";
+                    }
+                }
+                else if (item is SummonPrison)
+                {
+                    if (((SummonPrison)item).owner == from)
+                    {
+                        quests = quests + "-You currently have " + System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(((SummonPrison)item).Prisoner.ToLower()) + " in a Magical Prison.<br><br>";
+                    }
+                }
+                else if (item is FrankenJournal)
+                {
+                    if (((FrankenJournal)item).JournalOwner == from)
+                    {
+                        int parts = 0;
+                        if (((FrankenJournal)item).HasArmRight > 0) { parts++; }
+                        if (((FrankenJournal)item).HasArmLeft > 0) { parts++; }
+                        if (((FrankenJournal)item).HasLegRight > 0) { parts++; }
+                        if (((FrankenJournal)item).HasLegLeft > 0) { parts++; }
+                        if (((FrankenJournal)item).HasTorso > 0) { parts++; }
+                        if (((FrankenJournal)item).HasHead > 0) { parts++; }
 
-						quests = quests + "-You currently have " + parts + " out of 6 body parts needed to create a flesh golem.<br><br>";
-					}
-				}
-				else if ( item is RuneBox )
-				{
-					if ( ((RuneBox)item).RuneBoxOwner == from )
-					{
-						int runes = 0;
-						if ( ((RuneBox)item).HasCompassion > 0 ){ runes++; }
-						if ( ((RuneBox)item).HasHonesty > 0 ){ runes++; }
-						if ( ((RuneBox)item).HasHonor > 0 ){ runes++; }
-						if ( ((RuneBox)item).HasHumility > 0 ){ runes++; }
-						if ( ((RuneBox)item).HasJustice > 0 ){ runes++; }
-						if ( ((RuneBox)item).HasSacrifice > 0 ){ runes++; }
-						if ( ((RuneBox)item).HasSpirituality > 0 ){ runes++; }
-						if ( ((RuneBox)item).HasValor > 0 ){ runes++; }
+                        quests = quests + "-You currently have " + parts + " out of 6 body parts needed to create a flesh golem.<br><br>";
+                    }
+                }
+                else if (item is RuneBox)
+                {
+                    if (((RuneBox)item).RuneBoxOwner == from)
+                    {
+                        int runes = 0;
+                        if (((RuneBox)item).HasCompassion > 0) { runes++; }
+                        if (((RuneBox)item).HasHonesty > 0) { runes++; }
+                        if (((RuneBox)item).HasHonor > 0) { runes++; }
+                        if (((RuneBox)item).HasHumility > 0) { runes++; }
+                        if (((RuneBox)item).HasJustice > 0) { runes++; }
+                        if (((RuneBox)item).HasSacrifice > 0) { runes++; }
+                        if (((RuneBox)item).HasSpirituality > 0) { runes++; }
+                        if (((RuneBox)item).HasValor > 0) { runes++; }
 
-						quests = quests + "-You currently have " + runes + " out of 8 runes of virtue.<br><br>";
-					}
-				}
-				else if ( item is SearchPage )
-				{
-					if ( ((SearchPage)item).Owner == from )
-					{
-						quests = quests + "-You are on a quest to obtain the " + ((SearchPage)item).SearchItem + ".<br><br>";
-					}
-				}
-				else if ( item is VortexCube )
-				{
-					if ( ((VortexCube)item).CubeOwner == from )
-					{
-						VortexCube cube = (VortexCube)item;
-						quests = quests + "-You are searching for the Codex of Ultimate Wisdom.<br>";
+                        quests = quests + "-You currently have " + runes + " out of 8 runes of virtue.<br><br>";
+                    }
+                }
+                else if (item is SearchPage)
+                {
+                    if (((SearchPage)item).Owner == from)
+                    {
+                        quests = quests + "-You are on a quest to obtain the " + ((SearchPage)item).SearchItem + ".<br><br>";
+                    }
+                }
+                else if (item is VortexCube)
+                {
+                    if (((VortexCube)item).CubeOwner == from)
+                    {
+                        VortexCube cube = (VortexCube)item;
+                        quests = quests + "-You are searching for the Codex of Ultimate Wisdom.<br>";
 
-						if ( cube.HasConvexLense > 0 ){ quests = quests + "   -You have the Convex Lense.<br>"; }
-						if ( cube.HasConcaveLense > 0 ){ quests = quests + "   -You have the Concave Lense.<br>"; }
+                        if (cube.HasConvexLense > 0) { quests = quests + "   -You have the Convex Lense.<br>"; }
+                        if (cube.HasConcaveLense > 0) { quests = quests + "   -You have the Concave Lense.<br>"; }
 
-						if ( cube.HasKeyLaw > 0 ){ quests = quests + "   -You have the Key of Law.<br>"; }
-						if ( cube.HasKeyBalance > 0 ){ quests = quests + "   -You have the Key of Balance.<br>"; }
-						if ( cube.HasKeyChaos > 0 ){ quests = quests + "   -You have the Key of Chaos.<br>"; }
+                        if (cube.HasKeyLaw > 0) { quests = quests + "   -You have the Key of Law.<br>"; }
+                        if (cube.HasKeyBalance > 0) { quests = quests + "   -You have the Key of Balance.<br>"; }
+                        if (cube.HasKeyChaos > 0) { quests = quests + "   -You have the Key of Chaos.<br>"; }
 
-						if ( cube.HasCrystalRed > 0 ){ quests = quests + "   -You have the Red Void Crystal.<br>"; }
-						if ( cube.HasCrystalBlue > 0 ){ quests = quests + "   -You have the Blue Void Crystal.<br>"; }
-						if ( cube.HasCrystalGreen > 0 ){ quests = quests + "   -You have the Green Void Crystal.<br>"; }
-						if ( cube.HasCrystalYellow > 0 ){ quests = quests + "   -You have the Yellow Void Crystal.<br>"; }
-						if ( cube.HasCrystalWhite > 0 ){ quests = quests + "   -You have the White Void Crystal.<br>"; }
-						if ( cube.HasCrystalPurple > 0 ){ quests = quests + "   -You have the Purple Void Crystal.<br>"; }
+                        if (cube.HasCrystalRed > 0) { quests = quests + "   -You have the Red Void Crystal.<br>"; }
+                        if (cube.HasCrystalBlue > 0) { quests = quests + "   -You have the Blue Void Crystal.<br>"; }
+                        if (cube.HasCrystalGreen > 0) { quests = quests + "   -You have the Green Void Crystal.<br>"; }
+                        if (cube.HasCrystalYellow > 0) { quests = quests + "   -You have the Yellow Void Crystal.<br>"; }
+                        if (cube.HasCrystalWhite > 0) { quests = quests + "   -You have the White Void Crystal.<br>"; }
+                        if (cube.HasCrystalPurple > 0) { quests = quests + "   -You have the Purple Void Crystal.<br>"; }
 
-						quests = quests + "<br>";
-					}
-				}
-				else if ( item is ObeliskTip )
-				{
-					if ( ((ObeliskTip)item).ObeliskOwner == from )
-					{
-						ObeliskTip obelisk = (ObeliskTip)item;
-						quests = quests + "-You are trying to become a Titan of Ether.<br>";
-						quests = quests + "   -You have the Obelisk Tip.<br>"; 
+                        quests = quests + "<br>";
+                    }
+                }
+                else if (item is ObeliskTip)
+                {
+                    if (((ObeliskTip)item).ObeliskOwner == from)
+                    {
+                        ObeliskTip obelisk = (ObeliskTip)item;
+                        quests = quests + "-You are trying to become a Titan of Ether.<br>";
+                        quests = quests + "   -You have the Obelisk Tip.<br>";
 
-						if ( obelisk.WonAir > 0 ){ quests = quests + "   -You have defeated Stratos, the Titan of Air.<br>"; }
-						else if ( obelisk.HasAir > 0 ){ quests = quests + "   -You have the Breath of Air.<br>"; }
-						if ( obelisk.WonFire > 0 ){ quests = quests + "   -You have defeated Pyros, the Titan of Fire.<br>"; }
-						else if ( obelisk.HasFire > 0 ){ quests = quests + "   -You have the Tongue of Flame.<br>"; }
-						if ( obelisk.WonEarth > 0 ){ quests = quests + "   -You have defeated Lithos, the Titan of Earth.<br>"; }
-						else if ( obelisk.HasEarth > 0 ){ quests = quests + "   -You have the Heart of Earth.<br>"; }
-						if ( obelisk.WonWater > 0 ){ quests = quests + "   -You have defeated Hydros, the Titan of Water.<br>"; }
-						else if ( obelisk.HasWater > 0 ){ quests = quests + "   -You have the Tear of the Seas.<br>"; }
+                        if (obelisk.WonAir > 0) { quests = quests + "   -You have defeated Stratos, the Titan of Air.<br>"; }
+                        else if (obelisk.HasAir > 0) { quests = quests + "   -You have the Breath of Air.<br>"; }
+                        if (obelisk.WonFire > 0) { quests = quests + "   -You have defeated Pyros, the Titan of Fire.<br>"; }
+                        else if (obelisk.HasFire > 0) { quests = quests + "   -You have the Tongue of Flame.<br>"; }
+                        if (obelisk.WonEarth > 0) { quests = quests + "   -You have defeated Lithos, the Titan of Earth.<br>"; }
+                        else if (obelisk.HasEarth > 0) { quests = quests + "   -You have the Heart of Earth.<br>"; }
+                        if (obelisk.WonWater > 0) { quests = quests + "   -You have defeated Hydros, the Titan of Water.<br>"; }
+                        else if (obelisk.HasWater > 0) { quests = quests + "   -You have the Tear of the Seas.<br>"; }
 
-						quests = quests + "<br>";
-					}
-				}
-				else if ( item is MuseumBook )
-				{
-					if ( ((MuseumBook)item).ArtOwner == from )
-					{
-						quests = quests + "-You have found " + MuseumBook.GetTotal( (MuseumBook)item ) + " out of 60 antiques for the museum.<br><br>";
-					}
-				}
-				else if ( item is RuneBox )
-				{
-					if ( ((RuneBox)item).RuneBoxOwner == from )
-					{
-						int runes = ((RuneBox)item).HasCompassion + ((RuneBox)item).HasHonesty + ((RuneBox)item).HasHonor + ((RuneBox)item).HasHumility + ((RuneBox)item).HasJustice + ((RuneBox)item).HasSacrifice + ((RuneBox)item).HasSpirituality + ((RuneBox)item).HasValor;
-						quests = quests + "-You have found " + runes + " out of 8 runes of virtue.<br><br>";
-					}
-				}
-				else if ( item is QuestTome )
-				{
-					if ( ((QuestTome)item).QuestTomeOwner == from )
-					{
-						quests = quests + "-You are on a quest to find " + ((QuestTome)item).GoalItem4 + ".<br><br>";
-					}
-				}
-			}
+                        quests = quests + "<br>";
+                    }
+                }
+                else if (item is MuseumBook)
+                {
+                    if (((MuseumBook)item).ArtOwner == from)
+                    {
+                        quests = quests + "-You have found " + MuseumBook.GetTotal((MuseumBook)item) + " out of 60 antiques for the museum.<br><br>";
+                    }
+                }
+                else if (item is RuneBox)
+                {
+                    if (((RuneBox)item).RuneBoxOwner == from)
+                    {
+                        int runes = ((RuneBox)item).HasCompassion + ((RuneBox)item).HasHonesty + ((RuneBox)item).HasHonor + ((RuneBox)item).HasHumility + ((RuneBox)item).HasJustice + ((RuneBox)item).HasSacrifice + ((RuneBox)item).HasSpirituality + ((RuneBox)item).HasValor;
+                        quests = quests + "-You have found " + runes + " out of 8 runes of virtue.<br><br>";
+                    }
+                }
+                else if (item is QuestTome)
+                {
+                    if (((QuestTome)item).QuestTomeOwner == from)
+                    {
+                        quests = quests + "-You are on a quest to find " + ((QuestTome)item).GoalItem4 + ".<br><br>";
+                    }
+                }
+            }
 
-			if ( 	from.Backpack.FindItemByType( typeof ( ScalesOfEthicality ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( OrbOfLogic ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( LanternOfDiscipline ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( BlackrockSerpentOrder ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( BlackrockSerpentChaos ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( BlackrockSerpentBalance ) ) != null )
-			{
-				quests = quests + "-You are on a quest to bring the Serpents back into balance.<br><br>";
-			}
+            if (from.Backpack.FindItemByType(typeof(ScalesOfEthicality)) != null ||
+                    from.Backpack.FindItemByType(typeof(OrbOfLogic)) != null ||
+                    from.Backpack.FindItemByType(typeof(LanternOfDiscipline)) != null ||
+                    from.Backpack.FindItemByType(typeof(BlackrockSerpentOrder)) != null ||
+                    from.Backpack.FindItemByType(typeof(BlackrockSerpentChaos)) != null ||
+                    from.Backpack.FindItemByType(typeof(BlackrockSerpentBalance)) != null)
+            {
+                quests = quests + "-You are on a quest to bring the Serpents back into balance.<br><br>";
+            }
 
-			if ( 	from.Backpack.FindItemByType( typeof ( ShardOfFalsehood ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( ShardOfCowardice ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( ShardOfHatred ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( CandleOfLove ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( BookOfTruth ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( BellOfCourage ) ) != null )
-			{
-				quests = quests + "-You are on a quest to destroy the Shadowlords and construct a Gem of Immortality.<br><br>";
-			}
-			else if ( from.Backpack.FindItemByType( typeof ( GemImmortality ) ) != null )
-			{
-				quests = quests + "-You have constructed a Gem of Immortality.<br><br>";
-			}
+            if (from.Backpack.FindItemByType(typeof(ShardOfFalsehood)) != null ||
+                    from.Backpack.FindItemByType(typeof(ShardOfCowardice)) != null ||
+                    from.Backpack.FindItemByType(typeof(ShardOfHatred)) != null ||
+                    from.Backpack.FindItemByType(typeof(CandleOfLove)) != null ||
+                    from.Backpack.FindItemByType(typeof(BookOfTruth)) != null ||
+                    from.Backpack.FindItemByType(typeof(BellOfCourage)) != null)
+            {
+                quests = quests + "-You are on a quest to destroy the Shadowlords and construct a Gem of Immortality.<br><br>";
+            }
+            else if (from.Backpack.FindItemByType(typeof(GemImmortality)) != null)
+            {
+                quests = quests + "-You have constructed a Gem of Immortality.<br><br>";
+            }
 
-			if ( PlayerSettings.GetKeys( from, "Museums" ) )
-			{
-				quests = quests + "-You have found all of the antiques for the Museum.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Gygax" ) )
-			{
-				quests = quests + "-You have obtained the Statue of Gygax.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Virtues" ) )
-			{
-				quests = quests + "-You have cleansed all of the Runes of Virtue.<br><br>";
-			}
-			else if ( PlayerSettings.GetKeys( from, "Corrupt" ) )
-			{
-				quests = quests + "-You have corrupted all of the Runes of Virtue.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Exodus" ) )
-			{
-				quests = quests + "-You have destroyed the Core of Exodus.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "BlackGateDemon" ) )
-			{
-				quests = quests + "-You have defeated the Black Gate Demon and found a portal to the Ethereal Plane.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Jormungandr" ) )
-			{
-				quests = quests + "-You have defeated the legendary serpent known as Jormungandr.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Dracula" ) )
-			{
-				quests = quests + "-You have destroyed Dracula, the ruler of all vampires.<br><br>";
-			}
-			if ( 	from.Backpack.FindItemByType( typeof ( StaffPartVenom ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( StaffPartCaddellite ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( StaffPartFire ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( StaffPartLight ) ) != null || 
-					from.Backpack.FindItemByType( typeof ( StaffPartEnergy ) ) != null )
-			{
-				quests = quests + "-You are seeking to assemble the Staff of Ultimate Power.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Arachnar" ) )
-			{
-				quests = quests + "-You have defeated Arachnar, the guardian of the staff.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Surtaz" ) )
-			{
-				quests = quests + "-You have defeated Surtaz, the guardian of the staff.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Vordinax" ) )
-			{
-				quests = quests + "-You have defeated Vordinax, the guardian of the staff.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Vulcrum" ) )
-			{
-				quests = quests + "-You have defeated Vulcrum, the guardian of the staff.<br><br>";
-			}
-			if ( PlayerSettings.GetKeys( from, "Xurtzar" ) )
-			{
-				quests = quests + "-You have defeated Xurtzar, the guardian of the staff.<br><br>";
-			}
+            if (PlayerSettings.GetKeys(from, "Museums"))
+            {
+                quests = quests + "-You have found all of the antiques for the Museum.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Gygax"))
+            {
+                quests = quests + "-You have obtained the Statue of Gygax.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Virtues"))
+            {
+                quests = quests + "-You have cleansed all of the Runes of Virtue.<br><br>";
+            }
+            else if (PlayerSettings.GetKeys(from, "Corrupt"))
+            {
+                quests = quests + "-You have corrupted all of the Runes of Virtue.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Exodus"))
+            {
+                quests = quests + "-You have destroyed the Core of Exodus.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "BlackGateDemon"))
+            {
+                quests = quests + "-You have defeated the Black Gate Demon and found a portal to the Ethereal Plane.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Jormungandr"))
+            {
+                quests = quests + "-You have defeated the legendary serpent known as Jormungandr.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Dracula"))
+            {
+                quests = quests + "-You have destroyed Dracula, the ruler of all vampires.<br><br>";
+            }
+            if (from.Backpack.FindItemByType(typeof(StaffPartVenom)) != null ||
+                    from.Backpack.FindItemByType(typeof(StaffPartCaddellite)) != null ||
+                    from.Backpack.FindItemByType(typeof(StaffPartFire)) != null ||
+                    from.Backpack.FindItemByType(typeof(StaffPartLight)) != null ||
+                    from.Backpack.FindItemByType(typeof(StaffPartEnergy)) != null)
+            {
+                quests = quests + "-You are seeking to assemble the Staff of Ultimate Power.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Arachnar"))
+            {
+                quests = quests + "-You have defeated Arachnar, the guardian of the staff.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Surtaz"))
+            {
+                quests = quests + "-You have defeated Surtaz, the guardian of the staff.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Vordinax"))
+            {
+                quests = quests + "-You have defeated Vordinax, the guardian of the staff.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Vulcrum"))
+            {
+                quests = quests + "-You have defeated Vulcrum, the guardian of the staff.<br><br>";
+            }
+            if (PlayerSettings.GetKeys(from, "Xurtzar"))
+            {
+                quests = quests + "-You have defeated Xurtzar, the guardian of the staff.<br><br>";
+            }
 
-			return quests;
-		}
+            return quests;
+        }
 
-		public static string MyHelp()
+        public static string MyHelp()
         {
-			string HelpText = "If you are looking for help exploring this world, you can learn about almost anything within the game world you travel. Some merchants sell scrolls or books that will explain how some skills can be performed, resources gathered, and even how elements of the world can be manipulated. A sage often sells many tomes of useful information on skills, weapon abilities, or various types of magics available. If you are totally new to this game, buy yourself a Guide to Adventure book from a sage if you lost the one you started with. This book explains how to navigate and play the game. You will also learn some things about how the world behaves such as merchant interactions, how to use items, and what to do when your character dies. Talk to the townsfolk to learn whatever you can. On this screen there are many options, information, and settings that can assist in your journey. Many of the options here have keyboard commands that are listed below. Make sure to check out the 'Info' section on your character's paperdoll as it has some vital information about your character.<br><br>"
-				+ "Common Commands: Below are the commands you can use for various things in the game.<br><br>"
-				+ "[abilitynames - Turns on/off the special weapon ability names next to the appropriate icons.<br><br>"
-				+ "[afk - Turns on/off the notification to others that you are away from keyboard.<br><br>"
-				+ "[ancient - Turns on/off whether you are using magic from the research bag or the ancient spellbook.<br><br>"
-				+ "[autoattack - Turns on/off whether you auto attack when attacked.<br><br>"
-				+ "[bandother - Bandage other command.<br><br>"
-				+ "[bandself - Bandage self command.<br><br>"
-				+ "[barbaric - Turns on/off the barbaric flavor the game provides (see end).<br><br>"
-				+ "[c - Initiates the chat system.<br><br>"
-				+ "[corpse - Helps one find their remains.<br><br>"
-				+ "[corpseclear - Removes your corpse from a ship's deck.<br><br>"
-				+ "[e - Opens the emote mini window.<br><br>"
-				+ "[emote - Opens the emote window.<br><br>"
-				+ "[evil - Turns on/off the evil flavor the game provides (see end).<br><br>"
-				+ "[feats - Opens the Achievements window.<br><br>"
-				+ "[loot - Automatically take certain items from common dungeon chests or corpses and put them in your backpack. The unknown items are those that will need identification, but you may decide to take them anyway. The reagent options have a few categories. Magery and necromancer reagents are those used specifically by those characters, where witches brew reagents mainly fall into the necromancer category. Alchemic reagents are those that fall outside the category of magery and necromancer reagents, and only alchemists use them. Herbalist reagents are useful in druidic herbalism.<br><br>"
-				+ "[magicgate - Helps one find the nearest magical gate.<br><br>"
-				+ "[motd - Opens the message of the day.<br><br>"
-				+ "[oriental - Turns on/off the oriental flavor the game provides (see end).<br><br>"
-				+ "[password - Change your account password.<br><br>"
-				+ "[poisons - This changes how poisoned weapons work, which can be for either precise control with special weapon infectious strikes (default) or with hits of a one-handed slashing or piercing weapon.<br><br>"
-				+ "[private - Turns on/off detailed messages of your journey for the town crier and local citizen chatter.<br><br>"
-				+ "[quests - Opens a scroll to show certain quest events.<br><br>"
-				+ "[quickbar - Opens a small, vertical bar with common game functions for easier use.<br><br>"
-				+ "[sad - Opens the weapon's special abilities.<br><br>"
-				+ "[set1 - Sets your weapon's first ability to active.<br>"
-				+ "[set2 - Sets your weapon's second ability to active.<br>"
-				+ "[set3 - Sets your weapon's third ability to active.<br>"
-				+ "[set4 - Sets your weapon's fourth ability to active.<br>"
-				+ "[set5 - Sets your weapon's fifth ability to active.<br><br>"
-				+ "[sheathe - Turns on/off the feature to sheathe your weapon when not in battle.<br><br>"
-				+ "[skill - Shows you what each skill is used for.<br><br>"
-				+ "[skilllist - Displays a more condensed list of skills you have set to 'up' and perhaps 'locked'.<br><br>"
-				+ "[spellhue ## - This command, following by a color reference hue number, will change all of your magery spell effects to that color. A value of '1' will normally render as '0' so avoid that setting as it will not produce the result you may want.<br><br>"
-				+ "[statistics - Shows you some statistics of the server.<br><br>"
-				+ "[wealth - Opens a small, horizontal bar showing your gold value for the various forms of currency and gold in your bank and backpack. Currency are items you would have a banker convert to gold for you (silver, copper, xormite, jewels, and crystals). If you put these items in your bank, you can update the values on the wealth bar by right clicking on it.<br><br>"
+            string HelpText = "If you are looking for help exploring this world, you can learn about almost anything within the game world you travel. Some merchants sell scrolls or books that will explain how some skills can be performed, resources gathered, and even how elements of the world can be manipulated. A sage often sells many tomes of useful information on skills, weapon abilities, or various types of magics available. If you are totally new to this game, buy yourself a Guide to Adventure book from a sage if you lost the one you started with. This book explains how to navigate and play the game. You will also learn some things about how the world behaves such as merchant interactions, how to use items, and what to do when your character dies. Talk to the townsfolk to learn whatever you can. On this screen there are many options, information, and settings that can assist in your journey. Many of the options here have keyboard commands that are listed below. Make sure to check out the 'Info' section on your character's paperdoll as it has some vital information about your character.<br><br>"
+                + "Common Commands: Below are the commands you can use for various things in the game.<br><br>"
+                + "[abilitynames - Turns on/off the special weapon ability names next to the appropriate icons.<br><br>"
+                + "[afk - Turns on/off the notification to others that you are away from keyboard.<br><br>"
+                + "[ancient - Turns on/off whether you are using magic from the research bag or the ancient spellbook.<br><br>"
+                + "[autoattack - Turns on/off whether you auto attack when attacked.<br><br>"
+                + "[bandother - Bandage other command.<br><br>"
+                + "[bandself - Bandage self command.<br><br>"
+                + "[barbaric - Turns on/off the barbaric flavor the game provides (see end).<br><br>"
+                + "[c - Initiates the chat system.<br><br>"
+                + "[corpse - Helps one find their remains.<br><br>"
+                + "[corpseclear - Removes your corpse from a ship's deck.<br><br>"
+                + "[e - Opens the emote mini window.<br><br>"
+                + "[emote - Opens the emote window.<br><br>"
+                + "[evil - Turns on/off the evil flavor the game provides (see end).<br><br>"
+                + "[feats - Opens the Achievements window.<br><br>"
+                + "[loot - Automatically take certain items from common dungeon chests or corpses and put them in your backpack. The unknown items are those that will need identification, but you may decide to take them anyway. The reagent options have a few categories. Magery and necromancer reagents are those used specifically by those characters, where witches brew reagents mainly fall into the necromancer category. Alchemic reagents are those that fall outside the category of magery and necromancer reagents, and only alchemists use them. Herbalist reagents are useful in druidic herbalism.<br><br>"
+                + "[magicgate - Helps one find the nearest magical gate.<br><br>"
+                + "[motd - Opens the message of the day.<br><br>"
+                + "[oriental - Turns on/off the oriental flavor the game provides (see end).<br><br>"
+                + "[password - Change your account password.<br><br>"
+                + "[poisons - This changes how poisoned weapons work, which can be for either precise control with special weapon infectious strikes (default) or with hits of a one-handed slashing or piercing weapon.<br><br>"
+                + "[private - Turns on/off detailed messages of your journey for the town crier and local citizen chatter.<br><br>"
+                + "[quests - Opens a scroll to show certain quest events.<br><br>"
+                + "[quickbar - Opens a small, vertical bar with common game functions for easier use.<br><br>"
+                + "[sad - Opens the weapon's special abilities.<br><br>"
+                + "[set1 - Sets your weapon's first ability to active.<br>"
+                + "[set2 - Sets your weapon's second ability to active.<br>"
+                + "[set3 - Sets your weapon's third ability to active.<br>"
+                + "[set4 - Sets your weapon's fourth ability to active.<br>"
+                + "[set5 - Sets your weapon's fifth ability to active.<br><br>"
+                + "[sheathe - Turns on/off the feature to sheathe your weapon when not in battle.<br><br>"
+                + "[skill - Shows you what each skill is used for.<br><br>"
+                + "[skilllist - Displays a more condensed list of skills you have set to 'up' and perhaps 'locked'.<br><br>"
+                + "[spellhue ## - This command, following by a color reference hue number, will change all of your magery spell effects to that color. A value of '1' will normally render as '0' so avoid that setting as it will not produce the result you may want.<br><br>"
+                + "[statistics - Shows you some statistics of the server.<br><br>"
+                + "[wealth - Opens a small, horizontal bar showing your gold value for the various forms of currency and gold in your bank and backpack. Currency are items you would have a banker convert to gold for you (silver, copper, xormite, jewels, and crystals). If you put these items in your bank, you can update the values on the wealth bar by right clicking on it.<br><br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Area Difficulty Levels: When you enter many dangerous areas, there will be a message to you that you entered a particular area. There may be a level of difficulty shown in parenthesis, that will give you an indication on the difficulty of the area. Below are the descriptions for each level.<br><br>"
-				+ " - Easy (Not much of a challenge)<br>"
-				+ " - Normal (An average level of challenge)<br>"
-				+ " - Difficult (A tad more difficult)<br>"
-				+ " - Challenging (You will probably run away alot)<br>"
-				+ " - Hard (You will probably die alot)<br>"
-				+ " - Deadly (I dare you)<br>"
-				// + " - Epic (For Titans of Ether)<br>"
+                + "Area Difficulty Levels: When you enter many dangerous areas, there will be a message to you that you entered a particular area. There may be a level of difficulty shown in parenthesis, that will give you an indication on the difficulty of the area. Below are the descriptions for each level.<br><br>"
+                + " - Easy (Not much of a challenge)<br>"
+                + " - Normal (An average level of challenge)<br>"
+                + " - Difficult (A tad more difficult)<br>"
+                + " - Challenging (You will probably run away alot)<br>"
+                + " - Hard (You will probably die alot)<br>"
+                + " - Deadly (I dare you)<br>"
+                // + " - Epic (For Titans of Ether)<br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Skill Titles: You can set your default title for your character. Although you may be a Grandmaster Driven, you may want your title to reflect your Apprentice Wizard title instead. This is how you set it...<br><br>"
-				+ "Type the '[SkillName' command followed by the name of the skill you want to set as your default. Make sure you surround the skill name in quotes and all lowercase. Example...<br>"
-				+ "  [SkillName \"taming\"<br><br>"
-				+ "If you want the game to manage your character's title, simply use the same command with a skill name of \"clear\".<br><br>"
+                + "Skill Titles: You can set your default title for your character. Although you may be a Grandmaster Driven, you may want your title to reflect your Apprentice Wizard title instead. This is how you set it...<br><br>"
+                + "Type the '[SkillName' command followed by the name of the skill you want to set as your default. Make sure you surround the skill name in quotes and all lowercase. Example...<br>"
+                + "  [SkillName \"taming\"<br><br>"
+                + "If you want the game to manage your character's title, simply use the same command with a skill name of \"clear\".<br><br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Reagent Bars: Below are the commands you can use to watch your reagent quantities as you cast spells or create potions. These are customizable bars that will show the quantities of the reagents you are carrying. These will show updated quantities of reagents whenever you cast a spell or make a potion that uses them. Otherwise you can make a macro to these commands and use them to refresh the amounts manually.<br><br>"
-				+ "[regbar - Opens the reagent bar.<br><br>"
-				+ "[regclose - Closes the reagent bar.<br><br>"
+                + "Reagent Bars: Below are the commands you can use to watch your reagent quantities as you cast spells or create potions. These are customizable bars that will show the quantities of the reagents you are carrying. These will show updated quantities of reagents whenever you cast a spell or make a potion that uses them. Otherwise you can make a macro to these commands and use them to refresh the amounts manually.<br><br>"
+                + "[regbar - Opens the reagent bar.<br><br>"
+                + "[regclose - Closes the reagent bar.<br><br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Magic Toolbars: Below are the commands you can use to manage magic toolbars that might help you play better.<br><br>"
-				+ "[archspell1 - Opens the 1st ancient spell bar editor.<br>"
-				+ "[archspell2 - Opens the 2nd ancient spell bar editor.<br>"
-				+ "[archspell3 - Opens the 3rd ancient spell bar editor.<br>"
-				+ "[archspell4 - Opens the 4th ancient spell bar editor.<br>"
-				+ "[archtool1 - Opens the 1st ancient spell bar.<br>"
-				+ "[archtool2 - Opens the 2nd ancient spell bar.<br>"
-				+ "[archtool3 - Opens the 3rd ancient spell bar.<br>"
-				+ "[archtool4 - Opens the 4th ancient spell bar.<br>"
-				+ "[archclose1 - Closes the 1st ancient spell bar.<br>"
-				+ "[archclose2 - Closes the 2nd ancient spell bar.<br>"
-				+ "[archclose3 - Closes the 3rd ancient spell bar.<br>"
-				+ "[archclose4 - Closes the 4th ancient spell bar.<br>"
-				+ "<br>"
+                + "Magic Toolbars: Below are the commands you can use to manage magic toolbars that might help you play better.<br><br>"
+                + "[archspell1 - Opens the 1st ancient spell bar editor.<br>"
+                + "[archspell2 - Opens the 2nd ancient spell bar editor.<br>"
+                + "[archspell3 - Opens the 3rd ancient spell bar editor.<br>"
+                + "[archspell4 - Opens the 4th ancient spell bar editor.<br>"
+                + "[archtool1 - Opens the 1st ancient spell bar.<br>"
+                + "[archtool2 - Opens the 2nd ancient spell bar.<br>"
+                + "[archtool3 - Opens the 3rd ancient spell bar.<br>"
+                + "[archtool4 - Opens the 4th ancient spell bar.<br>"
+                + "[archclose1 - Closes the 1st ancient spell bar.<br>"
+                + "[archclose2 - Closes the 2nd ancient spell bar.<br>"
+                + "[archclose3 - Closes the 3rd ancient spell bar.<br>"
+                + "[archclose4 - Closes the 4th ancient spell bar.<br>"
+                + "<br>"
 
-				+ "[bardsong1 - Opens the 1st bard song bar editor.<br>"
-				+ "[bardsong2 - Opens the 2nd bard song bar editor.<br>"
-				+ "[bardtool1 - Opens the 1st bard song bar.<br>"
-				+ "[bardtool2 - Opens the 2nd bard song bar.<br>"
-				+ "[bardclose1 - Closes the 1st bard song bar.<br>"
-				+ "[bardclose2 - Closes the 2nd bard song bar.<br>"
-				+ "<br>"
+                + "[bardsong1 - Opens the 1st bard song bar editor.<br>"
+                + "[bardsong2 - Opens the 2nd bard song bar editor.<br>"
+                + "[bardtool1 - Opens the 1st bard song bar.<br>"
+                + "[bardtool2 - Opens the 2nd bard song bar.<br>"
+                + "[bardclose1 - Closes the 1st bard song bar.<br>"
+                + "[bardclose2 - Closes the 2nd bard song bar.<br>"
+                + "<br>"
 
-				+ "[knightspell1 - Opens the 1st knight spell bar editor.<br>"
-				+ "[knightspell2 - Opens the 2nd knight spell bar editor.<br>"
-				+ "[knighttool1 - Opens the 1st knight spell bar.<br>"
-				+ "[knighttool2 - Opens the 2nd knight spell bar.<br>"
-				+ "[knightclose1 - Closes the 1st knight spell bar.<br>"
-				+ "[knightclose2 - Closes the 2nd knight spell bar.<br>"
-				+ "<br>"
+                + "[knightspell1 - Opens the 1st knight spell bar editor.<br>"
+                + "[knightspell2 - Opens the 2nd knight spell bar editor.<br>"
+                + "[knighttool1 - Opens the 1st knight spell bar.<br>"
+                + "[knighttool2 - Opens the 2nd knight spell bar.<br>"
+                + "[knightclose1 - Closes the 1st knight spell bar.<br>"
+                + "[knightclose2 - Closes the 2nd knight spell bar.<br>"
+                + "<br>"
 
-				+ "[deathspell1 - Opens the 1st death knight spell bar editor.<br>"
-				+ "[deathspell2 - Opens the 2nd death knight spell bar editor.<br>"
-				+ "[deathtool1 - Opens the 1st death knight spell bar.<br>"
-				+ "[deathtool2 - Opens the 2nd death knight spell bar.<br>"
-				+ "[deathclose1 - Closes the 1st death knight spell bar.<br>"
-				+ "[deathclose2 - Closes the 2nd death knight spell bar.<br>"
-				+ "<br>"
+                + "[deathspell1 - Opens the 1st death knight spell bar editor.<br>"
+                + "[deathspell2 - Opens the 2nd death knight spell bar editor.<br>"
+                + "[deathtool1 - Opens the 1st death knight spell bar.<br>"
+                + "[deathtool2 - Opens the 2nd death knight spell bar.<br>"
+                + "[deathclose1 - Closes the 1st death knight spell bar.<br>"
+                + "[deathclose2 - Closes the 2nd death knight spell bar.<br>"
+                + "<br>"
 
-				+ "[elementspell1 - Opens the 1st elemental spell bar editor.<br>"
-				+ "[elementspell2 - Opens the 2nd elemental spell bar editor.<br>"
-				+ "[elementtool1 - Opens the 1st elemental spell bar.<br>"
-				+ "[elementtool2 - Opens the 2nd elemental spell bar.<br>"
-				+ "[elementclose1 - Closes the 1st elemental spell bar.<br>"
-				+ "[elementclose2 - Closes the 2nd elemental spell bar.<br>"
-				+ "<br>"
+                + "[elementspell1 - Opens the 1st elemental spell bar editor.<br>"
+                + "[elementspell2 - Opens the 2nd elemental spell bar editor.<br>"
+                + "[elementtool1 - Opens the 1st elemental spell bar.<br>"
+                + "[elementtool2 - Opens the 2nd elemental spell bar.<br>"
+                + "[elementclose1 - Closes the 1st elemental spell bar.<br>"
+                + "[elementclose2 - Closes the 2nd elemental spell bar.<br>"
+                + "<br>"
 
-				+ "[holyspell1 - Opens the 1st priest prayer bar editor.<br>"
-				+ "[holyspell2 - Opens the 2nd priest prayer bar editor.<br>"
-				+ "[holytool1 - Opens the 1st priest prayer bar.<br>"
-				+ "[holytool2 - Opens the 2nd priest prayer bar.<br>"
-				+ "[holyclose1 - Closes the 1st priest prayer bar.<br>"
-				+ "[holyclose2 - Closes the 2nd priest prayer bar.<br>"
-				+ "<br>"
+                + "[holyspell1 - Opens the 1st priest prayer bar editor.<br>"
+                + "[holyspell2 - Opens the 2nd priest prayer bar editor.<br>"
+                + "[holytool1 - Opens the 1st priest prayer bar.<br>"
+                + "[holytool2 - Opens the 2nd priest prayer bar.<br>"
+                + "[holyclose1 - Closes the 1st priest prayer bar.<br>"
+                + "[holyclose2 - Closes the 2nd priest prayer bar.<br>"
+                + "<br>"
 
-				+ "[magespell1 - Opens the 1st mage spell bar editor.<br>"
-				+ "[magespell2 - Opens the 2nd mage spell bar editor.<br>"
-				+ "[magespell3 - Opens the 3rd mage spell bar editor.<br>"
-				+ "[magespell4 - Opens the 4th mage spell bar editor.<br>"
-				+ "[magetool1 - Opens the 1st mage spell bar.<br>"
-				+ "[magetool2 - Opens the 2nd mage spell bar.<br>"
-				+ "[magetool3 - Opens the 3rd mage spell bar.<br>"
-				+ "[magetool4 - Opens the 4th mage spell bar.<br>"
-				+ "[mageclose1 - Closes the 1st mage spell bar.<br>"
-				+ "[mageclose2 - Closes the 2nd mage spell bar.<br>"
-				+ "[mageclose3 - Closes the 3rd mage spell bar.<br>"
-				+ "[mageclose4 - Closes the 4th mage spell bar.<br>"
-				+ "<br>"
+                + "[magespell1 - Opens the 1st mage spell bar editor.<br>"
+                + "[magespell2 - Opens the 2nd mage spell bar editor.<br>"
+                + "[magespell3 - Opens the 3rd mage spell bar editor.<br>"
+                + "[magespell4 - Opens the 4th mage spell bar editor.<br>"
+                + "[magetool1 - Opens the 1st mage spell bar.<br>"
+                + "[magetool2 - Opens the 2nd mage spell bar.<br>"
+                + "[magetool3 - Opens the 3rd mage spell bar.<br>"
+                + "[magetool4 - Opens the 4th mage spell bar.<br>"
+                + "[mageclose1 - Closes the 1st mage spell bar.<br>"
+                + "[mageclose2 - Closes the 2nd mage spell bar.<br>"
+                + "[mageclose3 - Closes the 3rd mage spell bar.<br>"
+                + "[mageclose4 - Closes the 4th mage spell bar.<br>"
+                + "<br>"
 
-				+ "[monkspell1 - Opens the 1st monk ability bar editor.<br>"
-				+ "[monkspell2 - Opens the 2nd monk ability bar editor.<br>"
-				+ "[monktool1 - Opens the 1st monk ability bar.<br>"
-				+ "[monktool2 - Opens the 2nd monk ability bar.<br>"
-				+ "[monkclose1 - Closes the 1st monk ability bar.<br>"
-				+ "[monkclose2 - Closes the 2nd monk ability bar.<br>"
-				+ "<br>"
+                + "[monkspell1 - Opens the 1st monk ability bar editor.<br>"
+                + "[monkspell2 - Opens the 2nd monk ability bar editor.<br>"
+                + "[monktool1 - Opens the 1st monk ability bar.<br>"
+                + "[monktool2 - Opens the 2nd monk ability bar.<br>"
+                + "[monkclose1 - Closes the 1st monk ability bar.<br>"
+                + "[monkclose2 - Closes the 2nd monk ability bar.<br>"
+                + "<br>"
 
-				+ "[necrospell1 - Opens the 1st necromancer spell bar editor.<br>"
-				+ "[necrospell2 - Opens the 2nd necromancer spell bar editor.<br>"
-				+ "[necrotool1 - Opens the 1st necromancer spell bar.<br>"
-				+ "[necrotool2 - Opens the 2nd necromancer spell bar.<br>"
-				+ "[necroclose1 - Closes the 1st necromancer spell bar.<br>"
-				+ "[necroclose2 - Closes the 2nd necromancer spell bar.<br>"
+                + "[necrospell1 - Opens the 1st necromancer spell bar editor.<br>"
+                + "[necrospell2 - Opens the 2nd necromancer spell bar editor.<br>"
+                + "[necrotool1 - Opens the 1st necromancer spell bar.<br>"
+                + "[necrotool2 - Opens the 2nd necromancer spell bar.<br>"
+                + "[necroclose1 - Closes the 1st necromancer spell bar.<br>"
+                + "[necroclose2 - Closes the 2nd necromancer spell bar.<br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Music: There is many different pieces of classic music in the game, and they play depending on areas you visit. Some of the music is from the original game, but there are some pieces from older games. There are also some pieces from computer games in the 1990's, but they really fit the theme when traveling the land. You can choose to listen to them, or change the music you are listening to when exploring the world. Keep in mind that when you change the music, and you enter a new area, the default music for that area will play and you may have to change your music again. Also keep in mind that your game client will want to play the song for a few seconds before allowing a switch of new music. You can use the below command to open a window that allows you to choose a song to play. Almost all of them play in a loop, where there are three that do not and are marked with an asterisk. There are two pages of songs to choose from so use the top arrow to go back and forth to each screen. When your music begins to play, then press the OKAY button to exit the screen. Although an unnecessary function, it does give you some control over the music in the game.<br><br>"
-				+ "[music - Opens the music playlist and player.<br><br>"
-				+ "The below command will simply toggle your music preference to play a different set of music in the dungeons. When turned on, it will play music you normally hear when traveling the land, instead of the music commonly played in dungeons.<br><br>"
-				+ "[musical - Sets the default dungeon music.<br><br>"
+                + "Music: There is many different pieces of classic music in the game, and they play depending on areas you visit. Some of the music is from the original game, but there are some pieces from older games. There are also some pieces from computer games in the 1990's, but they really fit the theme when traveling the land. You can choose to listen to them, or change the music you are listening to when exploring the world. Keep in mind that when you change the music, and you enter a new area, the default music for that area will play and you may have to change your music again. Also keep in mind that your game client will want to play the song for a few seconds before allowing a switch of new music. You can use the below command to open a window that allows you to choose a song to play. Almost all of them play in a loop, where there are three that do not and are marked with an asterisk. There are two pages of songs to choose from so use the top arrow to go back and forth to each screen. When your music begins to play, then press the OKAY button to exit the screen. Although an unnecessary function, it does give you some control over the music in the game.<br><br>"
+                + "[music - Opens the music playlist and player.<br><br>"
+                + "The below command will simply toggle your music preference to play a different set of music in the dungeons. When turned on, it will play music you normally hear when traveling the land, instead of the music commonly played in dungeons.<br><br>"
+                + "[musical - Sets the default dungeon music.<br><br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Evil Style: There is an evil element to the game that some want to participate in. With classes such as Necromancers, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between regular and evil flavors. When in the evil mode, some of the treasure you will find will often have a name that fits in the evil style. When you stay within negative karma, skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on karma. Some of the relics you will find may also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
-				+ "[evil - Turns on/off the evil flavor the game provides.<br><br>"
+                + "Evil Style: There is an evil element to the game that some want to participate in. With classes such as Necromancers, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between regular and evil flavors. When in the evil mode, some of the treasure you will find will often have a name that fits in the evil style. When you stay within negative karma, skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on karma. Some of the relics you will find may also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
+                + "[evil - Turns on/off the evil flavor the game provides.<br><br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Oriental Style: There is an oriental element to the game that most do not want to participate in. With classes such as Ninja and Samurai, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between fantasy and oriental. When in the oriental mode, half of the treasure you will find will be of Chinese or Japanese historical origins. These types of items will most times be named to match the style. Items that once belonged to someone, will often have a name that fits in the oriental style. Some of the skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on this play style. Some of the relics and artwork you will find will also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
-				+ "[oriental - Turns on/off the oriental flavor the game provides.<br><br>"
+                + "Oriental Style: There is an oriental element to the game that most do not want to participate in. With classes such as Ninja and Samurai, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between fantasy and oriental. When in the oriental mode, half of the treasure you will find will be of Chinese or Japanese historical origins. These types of items will most times be named to match the style. Items that once belonged to someone, will often have a name that fits in the oriental style. Some of the skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on this play style. Some of the relics and artwork you will find will also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
+                + "[oriental - Turns on/off the oriental flavor the game provides.<br><br>"
 
-				+ "<br><br>"
+                + "<br><br>"
 
-				+ "Barbaric Style: The default game does not lend itself to a sword and sorcery experience. This means that it is not the most optimal play experience to be a loin cloth wearing barbarian that roams the land with a huge axe. Characters generally get as much equipment as they can in order to maximize their rate of survivability. This particular play style can help in this regard. Choosing to play in this style will have a satchel appear in your main pack. You cannot store anything in this satchel, as its purpose is to change certain pieces of equipment you place into it. It will change shields, hats, helms, tunics, sleeves, leggings, boots, gorgets, gloves, necklaces, cloaks, and robes. When these items get changed, they will become something that appears differently but behave in the same way the previous item did. These different items can be equipped but may not appear on your character. Also note that when you wear robes, they cover your character's tunics and sleeves. Wearing a sword and sorcery robe will do the same thing so you will have to remove the robe in order to get to the sleeves and/or tunic. This play style has their own set of skill titles for many skills as well. If you are playing a female character, pressing the button further will convert any 'Barbarian' titles to 'Amazon'. You can open your satchel to learn more about this play style. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
-				+ "[barbaric - Turns on/off the barbaric flavor the game provides.<br><br>"
+                + "Barbaric Style: The default game does not lend itself to a sword and sorcery experience. This means that it is not the most optimal play experience to be a loin cloth wearing barbarian that roams the land with a huge axe. Characters generally get as much equipment as they can in order to maximize their rate of survivability. This particular play style can help in this regard. Choosing to play in this style will have a satchel appear in your main pack. You cannot store anything in this satchel, as its purpose is to change certain pieces of equipment you place into it. It will change shields, hats, helms, tunics, sleeves, leggings, boots, gorgets, gloves, necklaces, cloaks, and robes. When these items get changed, they will become something that appears differently but behave in the same way the previous item did. These different items can be equipped but may not appear on your character. Also note that when you wear robes, they cover your character's tunics and sleeves. Wearing a sword and sorcery robe will do the same thing so you will have to remove the robe in order to get to the sleeves and/or tunic. This play style has their own set of skill titles for many skills as well. If you are playing a female character, pressing the button further will convert any 'Barbarian' titles to 'Amazon'. You can open your satchel to learn more about this play style. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
+                + "[barbaric - Turns on/off the barbaric flavor the game provides.<br><br>"
 
-			+ "";
+            + "";
 
 			return HelpText;
 		}

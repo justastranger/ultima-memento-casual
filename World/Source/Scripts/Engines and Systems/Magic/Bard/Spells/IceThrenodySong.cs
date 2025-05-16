@@ -7,141 +7,141 @@ using Server.Misc;
 
 namespace Server.Spells.Song
 {
-	public class IceThrenodySong : Song
-	{
-		private static SpellInfo m_Info = new SpellInfo(
-				"Ice Threnody", "*plays an ice threnody*",
-				-1
-			);
-		
-		public IceThrenodySong( Mobile caster, Item scroll) : base( caster, scroll, m_Info )
-		{
-		}
-		
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 5 ); } }
-		public override double RequiredSkill{ get{ return 70.0; } }
-		public override int RequiredMana{ get{ return 25; } }
+    public class IceThrenodySong : Song
+    {
+        private static SpellInfo m_Info = new SpellInfo(
+                "Ice Threnody", "*plays an ice threnody*",
+                -1
+            );
 
-		public override void OnCast()
-		{
-			base.OnCast();
+        public IceThrenodySong(Mobile caster, Item scroll) : base(caster, scroll, m_Info)
+        {
+        }
 
-			Caster.Target = new InternalTarget( this );
-		}
+        public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds(5); } }
+        public override double RequiredSkill { get { return 70.0; } }
+        public override int RequiredMana { get { return 25; } }
 
-		public virtual bool CheckSlayer( BaseInstrument instrument, Mobile defender )
-		{
-			SlayerEntry atkSlayer = SlayerGroup.GetEntryByName( instrument.Slayer );
-			SlayerEntry atkSlayer2 = SlayerGroup.GetEntryByName( instrument.Slayer2 );
+        public override void OnCast()
+        {
+            base.OnCast();
 
-			if ( atkSlayer != null && atkSlayer.Slays( defender )  || atkSlayer2 != null && atkSlayer2.Slays( defender ) )
-				return true;
+            Caster.Target = new InternalTarget(this);
+        }
 
-			return false;
-		}
+        public virtual bool CheckSlayer(BaseInstrument instrument, Mobile defender)
+        {
+            SlayerEntry atkSlayer = SlayerGroup.GetEntryByName(instrument.Slayer);
+            SlayerEntry atkSlayer2 = SlayerGroup.GetEntryByName(instrument.Slayer2);
 
-		public void Target( Mobile m )
-		{
+            if (atkSlayer != null && atkSlayer.Slays(defender) || atkSlayer2 != null && atkSlayer2.Slays(defender))
+                return true;
+
+            return false;
+        }
+
+        public void Target(Mobile m)
+        {
             Spellbook book = Spellbook.Find(Caster, -1, SpellbookType.Song);
             if (book == null)
                 return;
 
             m_Book = (SongBook)book;
 
-			bool sings = false;
+            bool sings = false;
 
-			PlayerMobile p = m as PlayerMobile;
-			
-			if ( !Caster.CanSee( m ) )
-			{
-				Caster.SendLocalizedMessage( 500237 ); // Target can not be seen.
-			}
-            else if ( CheckHSequence( m ) )
-			{
-				sings = true;
+            PlayerMobile p = m as PlayerMobile;
 
-				Mobile source = Caster;
-				SpellHelper.Turn( source, m );
-				
-				m.FixedParticles( 0x374A, 10, 30, 5013, 0x480, 2, EffectLayer.Waist );
+            if (!Caster.CanSee(m))
+            {
+                Caster.SendLocalizedMessage(500237); // Target can not be seen.
+            }
+            else if (CheckHSequence(m))
+            {
+                sings = true;
 
-				bool IsSlayer = false;
-				if ( m is BaseCreature ){ IsSlayer = CheckSlayer( m_Book.Instrument, m ); }
+                Mobile source = Caster;
+                SpellHelper.Turn(source, m);
 
-                int amount = (int)(MusicSkill( Caster ) / 16);
-				TimeSpan duration = TimeSpan.FromSeconds( (double)(MusicSkill( Caster )) );
+                m.FixedParticles(0x374A, 10, 30, 5013, 0x480, 2, EffectLayer.Waist);
 
-				if ( IsSlayer == true )
-				{
-					amount = amount * 2;
-					duration = TimeSpan.FromSeconds( (double)(MusicSkill( Caster ) * 2) );
-				}
+                bool IsSlayer = false;
+                if (m is BaseCreature) { IsSlayer = CheckSlayer(m_Book.Instrument, m); }
 
-				m.SendMessage( "Your resistance to cold has decreased." );
-				ResistanceMod mod1 = new ResistanceMod( ResistanceType.Cold, - amount );
-				
-				m.AddResistanceMod( mod1 );
+                int amount = (int)(MusicSkill(Caster) / 16);
+                TimeSpan duration = TimeSpan.FromSeconds((double)(MusicSkill(Caster)));
 
-				ExpireTimer timer1 = new ExpireTimer( m, mod1, duration );
-				timer1.Start();
+                if (IsSlayer == true)
+                {
+                    amount = amount * 2;
+                    duration = TimeSpan.FromSeconds((double)(MusicSkill(Caster) * 2));
+                }
 
-				string args = String.Format("{0}", amount);
-				BuffInfo.RemoveBuff( m, BuffIcon.IceThrenody );
-				BuffInfo.AddBuff( m, new BuffInfo( BuffIcon.IceThrenody, 1063575, 1063576, duration, m, args.ToString(), true));
-			}
+                m.SendMessage("Your resistance to cold has decreased.");
+                ResistanceMod mod1 = new ResistanceMod(ResistanceType.Cold, -amount);
 
-			BardFunctions.UseBardInstrument( m_Book.Instrument, sings, Caster );
-			FinishSequence();
-		}
+                m.AddResistanceMod(mod1);
 
-		private class ExpireTimer : Timer
-		{
-			private Mobile m_Mobile;
-			private ResistanceMod m_Mods;
+                ExpireTimer timer1 = new ExpireTimer(m, mod1, duration);
+                timer1.Start();
 
-			public ExpireTimer( Mobile m, ResistanceMod mod, TimeSpan delay ) : base( delay )
-			{
-				m_Mobile = m;
-				m_Mods = mod;
-			}
+                string args = String.Format("{0}", amount);
+                BuffInfo.RemoveBuff(m, BuffIcon.IceThrenody);
+                BuffInfo.AddBuff(m, new BuffInfo(BuffIcon.IceThrenody, 1063575, 1063576, duration, m, args.ToString(), true));
+            }
 
-			public void DoExpire()
-			{
-				PlayerMobile p = m_Mobile as PlayerMobile;
-				m_Mobile.RemoveResistanceMod( m_Mods );
-				
-				Stop();
-			}
+            BardFunctions.UseBardInstrument(m_Book.Instrument, sings, Caster);
+            FinishSequence();
+        }
 
-			protected override void OnTick()
-			{
-				if ( m_Mobile != null )
-				{
-					m_Mobile.SendMessage( "The effect of the ice threnody wears off." );
-					DoExpire();
-				}
-			}
-		}
+        private class ExpireTimer : Timer
+        {
+            private Mobile m_Mobile;
+            private ResistanceMod m_Mods;
 
-		private class InternalTarget : Target
-		{
-			private IceThrenodySong m_Owner;
+            public ExpireTimer(Mobile m, ResistanceMod mod, TimeSpan delay) : base(delay)
+            {
+                m_Mobile = m;
+                m_Mods = mod;
+            }
 
-			public InternalTarget( IceThrenodySong owner ) : base( 12, false, TargetFlags.Harmful )
-			{
-				m_Owner = owner;
-			}
+            public void DoExpire()
+            {
+                PlayerMobile p = m_Mobile as PlayerMobile;
+                m_Mobile.RemoveResistanceMod(m_Mods);
 
-			protected override void OnTarget( Mobile from, object o )
-			{
-				if ( o is Mobile )
-					m_Owner.Target( (Mobile)o );
-			}
+                Stop();
+            }
 
-			protected override void OnTargetFinish( Mobile from )
-			{
-				m_Owner.FinishSequence();
-			}
-		}
-	}
+            protected override void OnTick()
+            {
+                if (m_Mobile != null)
+                {
+                    m_Mobile.SendMessage("The effect of the ice threnody wears off.");
+                    DoExpire();
+                }
+            }
+        }
+
+        private class InternalTarget : Target
+        {
+            private IceThrenodySong m_Owner;
+
+            public InternalTarget(IceThrenodySong owner) : base(12, false, TargetFlags.Harmful)
+            {
+                m_Owner = owner;
+            }
+
+            protected override void OnTarget(Mobile from, object o)
+            {
+                if (o is Mobile)
+                    m_Owner.Target((Mobile)o);
+            }
+
+            protected override void OnTargetFinish(Mobile from)
+            {
+                m_Owner.FinishSequence();
+            }
+        }
+    }
 }

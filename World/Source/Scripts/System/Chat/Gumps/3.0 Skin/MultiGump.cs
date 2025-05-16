@@ -24,12 +24,12 @@ namespace Knives.Chat3
             AddImage(width / 2 + 70, y + 2, 0x3B);
 
             AddHtml(0, y += 25, width, "<CENTER>" + General.Local(177));
-            AddButton(width / 2 - 80, y+3, 0x2716, "Channel Options", new GumpCallback(ChannelOptions));
-            AddButton(width / 2 + 60, y+3, 0x2716, "Channel Options", new GumpCallback(ChannelOptions));
+            AddButton(width / 2 - 80, y + 3, 0x2716, "Channel Options", new GumpCallback(ChannelOptions));
+            AddButton(width / 2 + 60, y + 3, 0x2716, "Channel Options", new GumpCallback(ChannelOptions));
 
             AddHtml(0, y += 25, width, "<CENTER>" + General.Local(284));
-            AddButton(width/2-80, y, Data.MultiMaster ? 0x2343 : 0x2342, "Multi Master", new GumpCallback(MultiMaster));
-            AddButton(width/2+60, y, Data.MultiMaster ? 0x2343 : 0x2342, "Multi Master", new GumpCallback(MultiMaster));
+            AddButton(width / 2 - 80, y, Data.MultiMaster ? 0x2343 : 0x2342, "Multi Master", new GumpCallback(MultiMaster));
+            AddButton(width / 2 + 60, y, Data.MultiMaster ? 0x2343 : 0x2342, "Multi Master", new GumpCallback(MultiMaster));
 
             if (Data.MultiMaster)
             {
@@ -73,7 +73,7 @@ namespace Knives.Chat3
             AddButton(width / 2 - 60, y + 4, 0x2716, "Connect or Cancel or Close", new GumpCallback(ConnectCancelClose));
             AddButton(width / 2 + 50, y + 4, 0x2716, "Connect or Cancel or Close", new GumpCallback(ConnectCancelClose));
 
-            AddBackgroundZero(0, 0, width, y+40, Data.GetData(Owner).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 40, Data.GetData(Owner).DefaultBack);
         }
 
         private void ChannelOptions()

@@ -103,7 +103,7 @@ namespace Server.Items
             IsLegacyItem = version < 2;
             _uses = reader.ReadInt();
 
-            switch(version)
+            switch (version)
             {
                 case 2:
                     if (Hue != DEFAULT_HUE) Hue = DEFAULT_HUE;

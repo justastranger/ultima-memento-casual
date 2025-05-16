@@ -9,228 +9,228 @@ namespace Server.Misc
 {
     class CorpseSearch
     {
-		public static void Initialize()
-		{
-            CommandSystem.Register( "corpse", AccessLevel.Player, new CommandEventHandler( Corpse_OnCommand ) );
-		}
-		public static void Register( string command, AccessLevel access, CommandEventHandler handler )
-		{
-            CommandSystem.Register(command, access, handler);
-		}
-
-		[Usage( "corpse" )]
-		[Description( "Directs a character to their corpse." )]
-		public static void Corpse_OnCommand( CommandEventArgs e )
+        public static void Initialize()
         {
-			Mobile from = e.Mobile;
+            CommandSystem.Register("corpse", AccessLevel.Player, new CommandEventHandler(Corpse_OnCommand));
+        }
+        public static void Register(string command, AccessLevel access, CommandEventHandler handler)
+        {
+            CommandSystem.Register(command, access, handler);
+        }
 
-			if (!from.Alive)
-			{
-				from.SendMessage("You are dead and cannot do that!");
-				return;
-			}
+        [Usage("corpse")]
+        [Description("Directs a character to their corpse.")]
+        public static void Corpse_OnCommand(CommandEventArgs e)
+        {
+            Mobile from = e.Mobile;
 
-			Map map = from.Map;
+            if (!from.Alive)
+            {
+                from.SendMessage("You are dead and cannot do that!");
+                return;
+            }
 
-			if ( map == null )
-				return;
+            Map map = from.Map;
 
-			int range = 1000; // 1000 TILES AWAY
-			int HowFarAway = 0;
-			int TheClosest = 1000000;
-			int IsClosest = 0;
-			int distchk = 0;
-			int distpck = 0;
+            if (map == null)
+                return;
 
-			ArrayList bodies = new ArrayList();
-			ArrayList empty = new ArrayList();
-			ArrayList mice = new ArrayList();
-			foreach ( Item body in from.GetItemsInRange( range ) )
-			if ( body is Corpse )
-			{
-				Corpse cadaver = (Corpse)body;
+            int range = 1000; // 1000 TILES AWAY
+            int HowFarAway = 0;
+            int TheClosest = 1000000;
+            int IsClosest = 0;
+            int distchk = 0;
+            int distpck = 0;
 
-				if ( cadaver.Owner == from )
-				{
-					int carrying = body.GetTotal( TotalType.Items );
+            ArrayList bodies = new ArrayList();
+            ArrayList empty = new ArrayList();
+            ArrayList mice = new ArrayList();
+            foreach (Item body in from.GetItemsInRange(range))
+                if (body is Corpse)
+                {
+                    Corpse cadaver = (Corpse)body;
 
-					Mobile mSp = new CorpseCritter();
-					mSp.MoveToWorld(new Point3D(body.X, body.Y, body.Z), body.Map);
+                    if (cadaver.Owner == from)
+                    {
+                        int carrying = body.GetTotal(TotalType.Items);
 
-					if ( GhostHelper.SameArea( from, mSp ) == true && cadaver.Owner == from && carrying > 0 )
-					{
-						distchk++;
-						bodies.Add( mSp ); 
-						if ( GhostHelper.HowFar( from.X, from.Y, mSp.X, mSp.Y ) < TheClosest ){ TheClosest = GhostHelper.HowFar( from.X, from.Y, mSp.X, mSp.Y ); IsClosest = distchk; }
-					}
-					else
-					{
-						mice.Add( mSp ); 
-						empty.Add( cadaver ); 
-					}
-				}
-			}
+                        Mobile mSp = new CorpseCritter();
+                        mSp.MoveToWorld(new Point3D(body.X, body.Y, body.Z), body.Map);
 
-			for ( int h = 0; h < bodies.Count; ++h )
-			{
-				distpck++;
-				if ( distpck == IsClosest )
-				{
-					Mobile theBody = ( Mobile )bodies[ h ];
-					HowFarAway = GhostHelper.HowFar( from.X, from.Y, theBody.X, theBody.Y );
-					from.QuestArrow = new CorpseArrow( from, theBody, HowFarAway*2 );
-				}
-			}
+                        if (GhostHelper.SameArea(from, mSp) == true && cadaver.Owner == from && carrying > 0)
+                        {
+                            distchk++;
+                            bodies.Add(mSp);
+                            if (GhostHelper.HowFar(from.X, from.Y, mSp.X, mSp.Y) < TheClosest) { TheClosest = GhostHelper.HowFar(from.X, from.Y, mSp.X, mSp.Y); IsClosest = distchk; }
+                        }
+                        else
+                        {
+                            mice.Add(mSp);
+                            empty.Add(cadaver);
+                        }
+                    }
+                }
 
-			for ( int u = 0; u < empty.Count; ++u ){ Item theEmpty = ( Item )empty[ u ]; theEmpty.Delete(); }
-			for ( int m = 0; m < mice.Count; ++m ){ Mobile theMouse = ( Mobile )mice[ m ]; theMouse.Delete(); }
-			if ( distchk == 0 ){ from.SendMessage("You have no nearby corpse in this area!"); }
-		}
-	}
+            for (int h = 0; h < bodies.Count; ++h)
+            {
+                distpck++;
+                if (distpck == IsClosest)
+                {
+                    Mobile theBody = (Mobile)bodies[h];
+                    HowFarAway = GhostHelper.HowFar(from.X, from.Y, theBody.X, theBody.Y);
+                    from.QuestArrow = new CorpseArrow(from, theBody, HowFarAway * 2);
+                }
+            }
+
+            for (int u = 0; u < empty.Count; ++u) { Item theEmpty = (Item)empty[u]; theEmpty.Delete(); }
+            for (int m = 0; m < mice.Count; ++m) { Mobile theMouse = (Mobile)mice[m]; theMouse.Delete(); }
+            if (distchk == 0) { from.SendMessage("You have no nearby corpse in this area!"); }
+        }
+    }
 
     class CorpseClear
     {
-		public static void Initialize()
-		{
-            CommandSystem.Register( "corpseclear", AccessLevel.Player, new CommandEventHandler( Corpse_OnCommand ) );
-		}
-		public static void Register( string command, AccessLevel access, CommandEventHandler handler )
-		{
-            CommandSystem.Register(command, access, handler);
-		}
-
-		[Usage( "corpseclear" )]
-		[Description( "Removes any of your corpses in the land." )]
-		public static void Corpse_OnCommand( CommandEventArgs e )
+        public static void Initialize()
         {
-			Mobile from = e.Mobile;
+            CommandSystem.Register("corpseclear", AccessLevel.Player, new CommandEventHandler(Corpse_OnCommand));
+        }
+        public static void Register(string command, AccessLevel access, CommandEventHandler handler)
+        {
+            CommandSystem.Register(command, access, handler);
+        }
 
-			if (!from.Alive)
-			{
-				from.SendMessage("You are dead and cannot do that!");
-				return;
-			}
+        [Usage("corpseclear")]
+        [Description("Removes any of your corpses in the land.")]
+        public static void Corpse_OnCommand(CommandEventArgs e)
+        {
+            Mobile from = e.Mobile;
 
-			Map map = from.Map;
-			if ( map == null ) return;
+            if (!from.Alive)
+            {
+                from.SendMessage("You are dead and cannot do that!");
+                return;
+            }
 
-			World.Items.Values
-				.Where(item => item is Corpse)
-				.Cast<Corpse>()
-				.Where(corpse => corpse.Owner == from && corpse.TotalItems == 0)
-				.ToList()
-				.ForEach(item => item.Delete());
+            Map map = from.Map;
+            if (map == null) return;
 
-			from.SendMessage("Your corpses have been deleted.");
-		}
-	}
+            World.Items.Values
+                .Where(item => item is Corpse)
+                .Cast<Corpse>()
+                .Where(corpse => corpse.Owner == from && corpse.TotalItems == 0)
+                .ToList()
+                .ForEach(item => item.Delete());
 
-	public class CorpseArrow : QuestArrow
-	{
-		private Mobile m_From;
-		private Timer m_Timer;
-		private Mobile m_Target;
+            from.SendMessage("Your corpses have been deleted.");
+        }
+    }
 
-		public CorpseArrow( Mobile from, Mobile target, int range ) : base( from, target )
-		{
-			m_From = from;
-			m_Target = target;
-			m_Timer = new CorpseTimer( from, target, range, this );
-			m_Timer.Start();
-		}
+    public class CorpseArrow : QuestArrow
+    {
+        private Mobile m_From;
+        private Timer m_Timer;
+        private Mobile m_Target;
 
-		public override void OnClick( bool rightClick )
-		{
-			if ( rightClick )
-			{
-				m_From = null;
-				Stop();
-			}
-		}
+        public CorpseArrow(Mobile from, Mobile target, int range) : base(from, target)
+        {
+            m_From = from;
+            m_Target = target;
+            m_Timer = new CorpseTimer(from, target, range, this);
+            m_Timer.Start();
+        }
 
-		public override void OnStop()
-		{
-			m_Timer.Stop();
-		}
-	}
+        public override void OnClick(bool rightClick)
+        {
+            if (rightClick)
+            {
+                m_From = null;
+                Stop();
+            }
+        }
 
-	public class CorpseTimer : Timer
-	{
-		private Mobile m_From, m_Target;
-		private int m_Range;
-		private int m_LastX, m_LastY;
-		private QuestArrow m_Arrow;
+        public override void OnStop()
+        {
+            m_Timer.Stop();
+        }
+    }
 
-		public CorpseTimer( Mobile from, Mobile target, int range, QuestArrow arrow ) : base( TimeSpan.FromSeconds( 0.25 ), TimeSpan.FromSeconds( 2.5 ) )
-		{
-			m_From = from;
-			m_Target = target;
-			m_Range = range;
+    public class CorpseTimer : Timer
+    {
+        private Mobile m_From, m_Target;
+        private int m_Range;
+        private int m_LastX, m_LastY;
+        private QuestArrow m_Arrow;
 
-			m_Arrow = arrow;
-		}
+        public CorpseTimer(Mobile from, Mobile target, int range, QuestArrow arrow) : base(TimeSpan.FromSeconds(0.25), TimeSpan.FromSeconds(2.5))
+        {
+            m_From = from;
+            m_Target = target;
+            m_Range = range;
 
-		protected override void OnTick()
-		{
-			if ( !m_Arrow.Running )
-			{
-				Stop();
-				return;
-			}
-			else if ( m_From.NetState == null || !m_From.Alive || m_From.Deleted || m_Target.Deleted || !m_From.InRange( m_Target, m_Range ) || GhostHelper.SameArea( m_From, m_Target ) == false )
-			{
-				m_Arrow.Stop();
-				Stop();
-				return;
-			}
+            m_Arrow = arrow;
+        }
 
-			if ( m_LastX != m_Target.X || m_LastY != m_Target.Y )
-			{
-				m_LastX = m_Target.X;
-				m_LastY = m_Target.Y;
+        protected override void OnTick()
+        {
+            if (!m_Arrow.Running)
+            {
+                Stop();
+                return;
+            }
+            else if (m_From.NetState == null || !m_From.Alive || m_From.Deleted || m_Target.Deleted || !m_From.InRange(m_Target, m_Range) || GhostHelper.SameArea(m_From, m_Target) == false)
+            {
+                m_Arrow.Stop();
+                Stop();
+                return;
+            }
 
-				m_Arrow.Update();
-			}
-		}
-	}
+            if (m_LastX != m_Target.X || m_LastY != m_Target.Y)
+            {
+                m_LastX = m_Target.X;
+                m_LastY = m_Target.Y;
+
+                m_Arrow.Update();
+            }
+        }
+    }
 }
 
 namespace Server.Mobiles
 {
-	[CorpseName( "target" )]
-	public class CorpseCritter : BaseCreature
-	{
-		[Constructable]
-		public CorpseCritter() : base( AIType.AI_Animal, FightMode.Aggressor, 10, 1, 0.2, 0.4 )
-		{
-			Name = "target";
-			Body = 0;
-			BaseSoundID = 0;
-			Hidden = true;
-			CantWalk = true;
-			Timer.DelayCall( TimeSpan.FromMinutes( 10.0 ), new TimerCallback( Delete ) );
+    [CorpseName("target")]
+    public class CorpseCritter : BaseCreature
+    {
+        [Constructable]
+        public CorpseCritter() : base(AIType.AI_Animal, FightMode.Aggressor, 10, 1, 0.2, 0.4)
+        {
+            Name = "target";
+            Body = 0;
+            BaseSoundID = 0;
+            Hidden = true;
+            CantWalk = true;
+            Timer.DelayCall(TimeSpan.FromMinutes(10.0), new TimerCallback(Delete));
 
-			SetSkill( SkillName.Hiding, 500.0 );
-			SetSkill( SkillName.Stealth, 500.0 );
-		}
+            SetSkill(SkillName.Hiding, 500.0);
+            SetSkill(SkillName.Stealth, 500.0);
+        }
 
-		public override bool DeleteCorpseOnDeath{ get{ return true; } }
+        public override bool DeleteCorpseOnDeath { get { return true; } }
 
-		public CorpseCritter(Serial serial) : base(serial)
-		{
-		}
+        public CorpseCritter(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize(GenericWriter writer)
-		{
-			base.Serialize(writer);
-			writer.Write((int) 0);
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0);
+        }
 
-		public override void Deserialize(GenericReader reader)
-		{
-			base.Deserialize(reader);
-			int version = reader.ReadInt();
-			Timer.DelayCall( TimeSpan.FromSeconds( 1.0 ), new TimerCallback( Delete ) );
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+            Timer.DelayCall(TimeSpan.FromSeconds(1.0), new TimerCallback(Delete));
+        }
+    }
 }

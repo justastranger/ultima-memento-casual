@@ -18,9 +18,9 @@ namespace Knives.Chat3
             int width = 300;
             int y = 10;
 
-            AddTextField(width / 2 -50, y, 100, 21, 0x480, 0xBBC, "Name", c_Not.Name);
-            AddButton(width / 2 - 90, y+3, 0x2716, "Name", new GumpCallback(Name));
-            AddButton(width / 2 + 70, y+3, 0x2716, "Name", new GumpCallback(Name));
+            AddTextField(width / 2 - 50, y, 100, 21, 0x480, 0xBBC, "Name", c_Not.Name);
+            AddButton(width / 2 - 90, y + 3, 0x2716, "Name", new GumpCallback(Name));
+            AddButton(width / 2 + 70, y + 3, 0x2716, "Name", new GumpCallback(Name));
 
             AddHtml(0, y += 25, width, "<CENTER>" + General.Local(272) + " | " + General.Local(273));
             AddButton(width / 2 - 60, y + 3, !c_Not.Gump ? 0x939 : 0x2716, "NotGump", new GumpCallback(NotGump));
@@ -45,9 +45,9 @@ namespace Knives.Chat3
                 AddButton(width / 2 - 60, y + 3, Data.MacroPenalty == MacroPenalty.None ? 0x939 : 0x2716, "None", new GumpCallback(None));
                 AddButton(width / 2 + 50, y + 3, Data.MacroPenalty == MacroPenalty.Kick ? 0x939 : 0x2716, "Kick", new GumpCallback(Kick));
 
-                AddHtml(0, y += 25, width/2-20, "<DIV ALIGN=LEFT>" + General.Local(282));
+                AddHtml(0, y += 25, width / 2 - 20, "<DIV ALIGN=LEFT>" + General.Local(282));
                 AddTextField(width / 2 + 20, y, 50, 21, 0x480, 0xBBC, "Delay", "" + Data.AntiMacroDelay);
-                AddHtml(width/2+80, y += 25, 10, "s");
+                AddHtml(width / 2 + 80, y += 25, 10, "s");
                 AddButton(width / 2 + 90, y + 3, 0x2716, "Delay", new GumpCallback(Delay));
             }
 

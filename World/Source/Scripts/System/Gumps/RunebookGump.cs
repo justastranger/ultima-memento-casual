@@ -98,8 +98,8 @@ namespace Server.Gumps
 			if (name == null || (name = name.Trim()).Length <= 0)
 				return "Marked Location";
 
-			return name;
-		}
+            return name;
+        }
 
 		private void AddBackground(Runebook book)
 		{
@@ -117,7 +117,7 @@ namespace Server.Gumps
 			else if (book.ItemID == 0x5463 && book.Hue == 0) { color = 2847; }
 			else if (book.ItemID == 0x5464 && book.Hue == 0) { color = 2847; }
 
-			AddPage(0);
+            AddPage(0);
 
 			// Background image
 			AddImage(0, 0, 7010, color);

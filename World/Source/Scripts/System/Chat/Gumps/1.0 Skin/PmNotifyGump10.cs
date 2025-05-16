@@ -3,15 +3,15 @@ using Server;
 
 namespace Knives.Chat3
 {
-	public class PmNotifyGump10 : GumpPlus
-	{
-		public PmNotifyGump10( Mobile m ) : base( m, 200, 50 )
-		{
-			m.CloseGump( typeof( PmNotifyGump10 ) );
-		}
+    public class PmNotifyGump10 : GumpPlus
+    {
+        public PmNotifyGump10(Mobile m) : base(m, 200, 50)
+        {
+            m.CloseGump(typeof(PmNotifyGump10));
+        }
 
-		protected override void BuildGump()
-		{
+        protected override void BuildGump()
+        {
             if (Data.GetData(Owner).GetMsg() != null)
             {
                 int offset = 30;

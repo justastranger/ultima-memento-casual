@@ -8,7 +8,7 @@ namespace Knives.Chat3
 {
     public enum OnlineStatus { Online, Away, Busy, Hidden }
     public enum Skin { Three, Two, One }
-    
+
     public class Data
     {
         #region Statics
@@ -162,7 +162,7 @@ namespace Knives.Chat3
             writer.Write(s_IrcServer);
             writer.Write(s_IrcRoom);
             writer.Write(s_IrcNick);
-            writer.Write(s_TotalChats+1);
+            writer.Write(s_TotalChats + 1);
 
             writer.Close();
         }
@@ -293,12 +293,12 @@ namespace Knives.Chat3
                 for (int i = 0; i < count; ++i)
                 {
                     txt = reader.ReadString();
-                    if(!s_Filters.Contains(txt))
+                    if (!s_Filters.Contains(txt))
                         s_Filters.Add(txt);
                 }
 
                 s_FilterPenalty = (FilterPenalty)reader.ReadInt();
-                if(version >= 1) s_MacroPenalty = (MacroPenalty)reader.ReadInt();
+                if (version >= 1) s_MacroPenalty = (MacroPenalty)reader.ReadInt();
                 s_MaxMsgs = reader.ReadInt();
                 s_ChatSpam = reader.ReadInt();
                 s_MsgSpam = reader.ReadInt();
@@ -607,7 +607,7 @@ namespace Knives.Chat3
         public Channel CurrentChannel { get { return c_CurrentChannel; } set { c_CurrentChannel = value; } }
         public OnlineStatus Status { get { return c_Status; } set { c_Status = value; } }
         public Skin MenuSkin { get { return c_MenuSkin; } set { c_MenuSkin = value; } }
-        public object Recording{ get{ return c_Recording; } set{ c_Recording = value; } }
+        public object Recording { get { return c_Recording; } set { c_Recording = value; } }
         public ArrayList Friends { get { return c_Friends; } }
         public ArrayList Ignores { get { return c_Ignores; } }
         public ArrayList Messages { get { return c_Messages; } }
@@ -642,7 +642,7 @@ namespace Knives.Chat3
         public int Avatar { get { return c_Avatar; } set { c_Avatar = value; } }
         public int Warnings { get { return c_Warnings; } set { c_Warnings = value; } }
         public string AwayMsg { get { return c_AwayMsg; } set { c_AwayMsg = value; } }
-        public string Signature { get { return c_Signature; } set { c_Signature = value; c_Mobile.SendMessage(c_SystemC, General.Local(246));} }
+        public string Signature { get { return c_Signature; } set { c_Signature = value; c_Mobile.SendMessage(c_SystemC, General.Local(246)); } }
 
         public int Karma
         {
@@ -703,7 +703,7 @@ namespace Knives.Chat3
 
         public bool Banned
         {
-            get{ return c_Banned; }
+            get { return c_Banned; }
             set
             {
                 c_Banned = value;
@@ -825,7 +825,7 @@ namespace Knives.Chat3
 
         public void CheckMsg()
         {
-            foreach( Message msg in c_Messages )
+            foreach (Message msg in c_Messages)
                 if (!msg.Read)
                 {
                     new MessageGump(c_Mobile, msg);
@@ -843,7 +843,7 @@ namespace Knives.Chat3
 
         public void CheckMsgFrom(Mobile m)
         {
-            foreach(Message msg in c_Messages)
+            foreach (Message msg in c_Messages)
                 if (!msg.Read && msg.From == m)
                 {
                     new MessageGump(c_Mobile, msg);
@@ -964,7 +964,7 @@ namespace Knives.Chat3
         {
             c_Messages.Add(msg);
 
-            if(c_MsgSound)
+            if (c_MsgSound)
                 c_Mobile.SendSound(GetSound(msg.From));
 
             if (c_WhenFull && c_Messages.Count > s_MaxMsgs)
@@ -991,7 +991,7 @@ namespace Knives.Chat3
         {
             c_BannedUntil = DateTime.Now;
             c_Banned = false;
-            if(Mobile != null)
+            if (Mobile != null)
                 Mobile.SendMessage(c_SystemC, General.Local(91));
         }
 
@@ -1118,7 +1118,7 @@ namespace Knives.Chat3
             writer.Write(1); // Version
 
             foreach (Message msg in new ArrayList(c_Messages))
-                if (msg.From.Deleted )
+                if (msg.From.Deleted)
                     c_Messages.Remove(msg);
 
             writer.Write(c_Messages.Count);
@@ -1221,7 +1221,7 @@ namespace Knives.Chat3
                 msg = new Message();
                 msg.Load(reader);
 
-                if (msg.From != null )
+                if (msg.From != null)
                     c_Messages.Add(msg);
             }
         }

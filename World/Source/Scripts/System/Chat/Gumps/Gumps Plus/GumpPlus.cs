@@ -9,8 +9,8 @@ namespace Knives.Chat3
     public delegate void GumpStateCallback(object obj);
     public delegate void GumpCallback();
 
-	public abstract class GumpPlus : Gump
-	{
+    public abstract class GumpPlus : Gump
+    {
         public static void RefreshGump(Mobile m, Type type)
         {
             if (m.NetState == null)
@@ -26,56 +26,56 @@ namespace Knives.Chat3
         }
 
         private Mobile c_Owner;
-		private Hashtable c_Buttons, c_Fields;
-		private bool c_Override;
+        private Hashtable c_Buttons, c_Fields;
+        private bool c_Override;
 
-		public Mobile Owner{ get{ return c_Owner; } }
+        public Mobile Owner { get { return c_Owner; } }
         public GumpInfo Info { get { return GumpInfo.GetInfo(c_Owner, this.GetType()); } }
-		public bool Override{ get{ return c_Override; } set{ c_Override = value; } }
+        public bool Override { get { return c_Override; } set { c_Override = value; } }
 
-		public GumpPlus( Mobile m, int x, int y ) : base( x, y )
-		{
-			c_Owner = m;
+        public GumpPlus(Mobile m, int x, int y) : base(x, y)
+        {
+            c_Owner = m;
 
-			c_Buttons = new Hashtable();
-			c_Fields = new Hashtable();
+            c_Buttons = new Hashtable();
+            c_Fields = new Hashtable();
 
             Events.InvokeGumpCreated(new GumpCreatedEventArgs(m, this));
 
             Timer.DelayCall(TimeSpan.Zero, new TimerCallback(NewGump));
-		}
+        }
 
-		public void Clear()
-		{
-			Entries.Clear();
-			c_Buttons.Clear();
-			c_Fields.Clear();
-		}
+        public void Clear()
+        {
+            Entries.Clear();
+            c_Buttons.Clear();
+            c_Fields.Clear();
+        }
 
-		public virtual void NewGump()
-		{
-			NewGump( true );
-		}
+        public virtual void NewGump()
+        {
+            NewGump(true);
+        }
 
-		public void NewGump( bool clear )
-		{
-			if ( clear )
-				Clear();
+        public void NewGump(bool clear)
+        {
+            if (clear)
+                Clear();
 
-			BuildGump();
+            BuildGump();
 
-			if ( c_Override )
-				ModifyGump();
+            if (c_Override)
+                ModifyGump();
 
-			c_Owner.SendGump( this );
-		}
+            c_Owner.SendGump(this);
+        }
 
-		public void SameGump()
-		{
-			c_Owner.SendGump( this );
-		}
+        public void SameGump()
+        {
+            c_Owner.SendGump(this);
+        }
 
-		protected abstract void BuildGump();
+        protected abstract void BuildGump();
 
         private void ModifyGump()
         {
@@ -178,44 +178,44 @@ namespace Knives.Chat3
             catch { Errors.Report("GumpPlus-> ModifyGump-> " + GetType()); }
         }
 
-		private void SortEntries()
-		{
-			ArrayList list = new ArrayList();
+        private void SortEntries()
+        {
+            ArrayList list = new ArrayList();
 
-			foreach( GumpEntry entry in new ArrayList( Entries ) )
-				if ( entry is GumpBackground )
-				{
-					list.Add( entry );
-					Entries.Remove( entry );
-				}
+            foreach (GumpEntry entry in new ArrayList(Entries))
+                if (entry is GumpBackground)
+                {
+                    list.Add(entry);
+                    Entries.Remove(entry);
+                }
 
-			foreach( GumpEntry entry in new ArrayList( Entries ) )
-				if ( entry is GumpAlphaRegion )
-				{
-					list.Add( entry );
-					Entries.Remove( entry );
-				}
+            foreach (GumpEntry entry in new ArrayList(Entries))
+                if (entry is GumpAlphaRegion)
+                {
+                    list.Add(entry);
+                    Entries.Remove(entry);
+                }
 
-			list.AddRange( Entries );
+            list.AddRange(Entries);
 
-			Entries.Clear();
+            Entries.Clear();
 
             foreach (GumpEntry entry in list)
                 Entries.Add(entry);
-		}
+        }
 
-		private int UniqueButton()
-		{
-			int random = 0;
+        private int UniqueButton()
+        {
+            int random = 0;
 
-			do
-			{
-				random = Utility.Random( 20000 );
+            do
+            {
+                random = Utility.Random(20000);
 
-			}while( c_Buttons[random] != null );
+            } while (c_Buttons[random] != null);
 
-			return random;
-		}
+            return random;
+        }
 
         private int UniqueTextId()
         {
@@ -280,31 +280,31 @@ namespace Knives.Chat3
         }
 
         public void AddButton(int x, int y, int up, int down, string name, GumpCallback callback)
-		{
-			int id = UniqueButton();
+        {
+            int id = UniqueButton();
 
-			ButtonPlus button = new ButtonPlus( x, y, up, down, id, name, callback );
+            ButtonPlus button = new ButtonPlus(x, y, up, down, id, name, callback);
 
-			Add( button );
+            Add(button);
 
-			c_Buttons[id] = button;
-		}
+            c_Buttons[id] = button;
+        }
 
-		public void AddButton( int x, int y, int up, int down, GumpStateCallback callback, object arg )
-		{
-			AddButton( x, y, up, down, "None", callback, arg );
-		}
+        public void AddButton(int x, int y, int up, int down, GumpStateCallback callback, object arg)
+        {
+            AddButton(x, y, up, down, "None", callback, arg);
+        }
 
-		public void AddButton( int x, int y, int up, int down, string name, GumpStateCallback callback, object arg )
-		{
-			int id = UniqueButton();
+        public void AddButton(int x, int y, int up, int down, string name, GumpStateCallback callback, object arg)
+        {
+            int id = UniqueButton();
 
-			ButtonPlus button = new ButtonPlus( x, y, up, down, id, name, callback, arg );
+            ButtonPlus button = new ButtonPlus(x, y, up, down, id, name, callback, arg);
 
-			Add( button );
+            Add(button);
 
-			c_Buttons[id] = button;
-		}
+            c_Buttons[id] = button;
+        }
 
         public void AddHtml(int x, int y, int width, string text)
         {
@@ -351,10 +351,10 @@ namespace Knives.Chat3
         {
             return Utility.ToInt32(GetTextField(name));
         }
-        
+
         protected virtual void OnClose()
-		{
-		}
+        {
+        }
 
         public override void OnResponse(NetState state, RelayInfo info)
         {
@@ -385,7 +385,7 @@ namespace Knives.Chat3
             catch (Exception e)
             {
                 Errors.Report("An error occured during a gump response.  More information can be found on the console.");
-                if(name != "")
+                if (name != "")
                     Console.WriteLine("{0} gump name triggered an error.", name);
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.Source);
@@ -417,14 +417,14 @@ namespace Knives.Chat3
         private void TextUp()
         {
             Info.TextColorUp();
-            
+
             NewGump();
         }
 
         private void TextDown()
         {
             Info.TextColorDown();
-            
+
             NewGump();
         }
 

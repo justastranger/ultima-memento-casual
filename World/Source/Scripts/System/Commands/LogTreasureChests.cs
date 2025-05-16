@@ -16,48 +16,48 @@ namespace Server.Misc
 {
     class LogTreasureChests
     {
-		public static void Initialize()
-		{
-            CommandSystem.Register( "logchests", AccessLevel.Administrator, new CommandEventHandler( LogChests_OnCommand ) );
-		}
-		public static void Register( string command, AccessLevel access, CommandEventHandler handler )
-		{
-            CommandSystem.Register(command, access, handler);
-		}
-
-		[Usage( "logchests" )]
-		[Description( "Logs the location of all the treasure chests in the world." )]
-		public static void LogChests_OnCommand( CommandEventArgs e )
+        public static void Initialize()
         {
-			Mobile from = e.Mobile;
+            CommandSystem.Register("logchests", AccessLevel.Administrator, new CommandEventHandler(LogChests_OnCommand));
+        }
+        public static void Register(string command, AccessLevel access, CommandEventHandler handler)
+        {
+            CommandSystem.Register(command, access, handler);
+        }
 
-			if ( !Directory.Exists( "Saves/Data" ) )
-				Directory.CreateDirectory( "Saves/Data" );
+        [Usage("logchests")]
+        [Description("Logs the location of all the treasure chests in the world.")]
+        public static void LogChests_OnCommand(CommandEventArgs e)
+        {
+            Mobile from = e.Mobile;
 
-			string sPath = "Saves/Data/treasurechests.txt";
-			string FoundBox = "";
-			int nCount = 0;
+            if (!Directory.Exists("Saves/Data"))
+                Directory.CreateDirectory("Saves/Data");
 
-			ArrayList chests = new ArrayList();
-			foreach ( Item chest in World.Items.Values )
-			if ( chest is DungeonChest )
-			{
-				chests.Add( chest );
-			}
-			using (StreamWriter writer = new StreamWriter( sPath ))
-			{
-				for ( int i = 0; i < chests.Count; ++i )
-				{
-					nCount++;
-					Item box = ( Item )chests[ i ];
-					string sRegion = Worlds.GetMyRegion( box.Map, box.Location );
-					string sMap = Server.Lands.LandName( box.Land );
-					FoundBox = sMap + "_" + box.X.ToString() + "_" + box.Y.ToString() + "_" + box.Z.ToString() + "_" + sRegion + "\n" + FoundBox;
-				}
-				writer.WriteLine( FoundBox );
-			}
+            string sPath = "Saves/Data/treasurechests.txt";
+            string FoundBox = "";
+            int nCount = 0;
 
-			from.SendMessage( "You have exported " + nCount.ToString() + " treasure chests." );
-		}
-	}
+            ArrayList chests = new ArrayList();
+            foreach (Item chest in World.Items.Values)
+                if (chest is DungeonChest)
+                {
+                    chests.Add(chest);
+                }
+            using (StreamWriter writer = new StreamWriter(sPath))
+            {
+                for (int i = 0; i < chests.Count; ++i)
+                {
+                    nCount++;
+                    Item box = (Item)chests[i];
+                    string sRegion = Worlds.GetMyRegion(box.Map, box.Location);
+                    string sMap = Server.Lands.LandName(box.Land);
+                    FoundBox = sMap + "_" + box.X.ToString() + "_" + box.Y.ToString() + "_" + box.Z.ToString() + "_" + sRegion + "\n" + FoundBox;
+                }
+                writer.WriteLine(FoundBox);
+            }
+
+            from.SendMessage("You have exported " + nCount.ToString() + " treasure chests.");
+        }
+    }
 }

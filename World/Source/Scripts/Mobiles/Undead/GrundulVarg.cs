@@ -8,78 +8,78 @@ using Server.Mobiles;
 
 namespace Server.Mobiles
 {
-	[CorpseName( "a ghostly essence" )]
-	public class GrundulVarg : BaseCreature
-	{
-		[Constructable]
-		public GrundulVarg() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
-		{
-			Name = "Grundul Varg";
-			Title = "the Slayer of Men";
-			BaseSoundID = 412;
-			Hue = 1150;
-			Body = 0x190;
+    [CorpseName("a ghostly essence")]
+    public class GrundulVarg : BaseCreature
+    {
+        [Constructable]
+        public GrundulVarg() : base(AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4)
+        {
+            Name = "Grundul Varg";
+            Title = "the Slayer of Men";
+            BaseSoundID = 412;
+            Hue = 1150;
+            Body = 0x190;
 
-			SetStr( 386, 400 );
-			SetDex( 151, 165 );
-			SetInt( 161, 175 );
+            SetStr(386, 400);
+            SetDex(151, 165);
+            SetInt(161, 175);
 
-			SetHits( 200, 300 );
+            SetHits(200, 300);
 
-			SetDamage( 8, 10 );
+            SetDamage(8, 10);
 
-			SetDamageType( ResistanceType.Physical, 100 );
+            SetDamageType(ResistanceType.Physical, 100);
 
-			SetResistance( ResistanceType.Physical, 35, 45 );
-			SetResistance( ResistanceType.Fire, 25, 30 );
-			SetResistance( ResistanceType.Cold, 25, 30 );
-			SetResistance( ResistanceType.Poison, 10, 20 );
-			SetResistance( ResistanceType.Energy, 10, 20 );
+            SetResistance(ResistanceType.Physical, 35, 45);
+            SetResistance(ResistanceType.Fire, 25, 30);
+            SetResistance(ResistanceType.Cold, 25, 30);
+            SetResistance(ResistanceType.Poison, 10, 20);
+            SetResistance(ResistanceType.Energy, 10, 20);
 
-			SetSkill( SkillName.Searching, 100.0 );
-			SetSkill( SkillName.Anatomy, 125.0 );
-			SetSkill( SkillName.Poisoning, 60.0, 82.5 );
-			SetSkill( SkillName.MagicResist, 83.5, 92.5 );
-			SetSkill( SkillName.Swords, 125.0 );
-			SetSkill( SkillName.Tactics, 125.0 );
+            SetSkill(SkillName.Searching, 100.0);
+            SetSkill(SkillName.Anatomy, 125.0);
+            SetSkill(SkillName.Poisoning, 60.0, 82.5);
+            SetSkill(SkillName.MagicResist, 83.5, 92.5);
+            SetSkill(SkillName.Swords, 125.0);
+            SetSkill(SkillName.Tactics, 125.0);
 
-			Fame = 10000;
-			Karma = -10000;
+            Fame = 10000;
+            Karma = -10000;
 
-			VirtualArmor = 20;
+            VirtualArmor = 20;
 
-			AddItem( new PlateChest() );
-			AddItem( new PlateArms() );
-			AddItem( new PlateLegs() );
-			AddItem( new PlateGorget() );
-			AddItem( new PlateGloves() );
-			AddItem( new OrcHelm() );
-			AddItem( new RoyalSword() );
-			AddItem( new SunShield() );
+            AddItem(new PlateChest());
+            AddItem(new PlateArms());
+            AddItem(new PlateLegs());
+            AddItem(new PlateGorget());
+            AddItem(new PlateGloves());
+            AddItem(new OrcHelm());
+            AddItem(new RoyalSword());
+            AddItem(new SunShield());
 
-			MorphingTime.BlessMyClothes( this );
-			MorphingTime.ColorMyClothes( this, 2937, 0 );
+            MorphingTime.BlessMyClothes(this);
+            MorphingTime.ColorMyClothes(this, 2937, 0);
 
-			AddItem( new LightSource() );
-		}
+            AddItem(new LightSource());
+        }
 
-		public override void GenerateLoot()
-		{
-			AddLoot( LootPack.Rich );
-			AddLoot( LootPack.Rich );
-			AddLoot( LootPack.Rich );
-		}
+        public override void GenerateLoot()
+        {
+            AddLoot(LootPack.Rich);
+            AddLoot(LootPack.Rich);
+            AddLoot(LootPack.Rich);
+        }
 
-		public override bool OnBeforeDeath()
-		{
-			this.Body = 13;
-			this.Hue = 1167;
-			return base.OnBeforeDeath();
-		}
+        public override bool OnBeforeDeath()
+        {
+            this.Body = 13;
+            this.Hue = 1167;
+            return base.OnBeforeDeath();
+        }
 
-		public override void OnDeath( Container c )
-		{
-			base.OnDeath( c );
+        public override void OnDeath(Container c)
+        {
+            base.OnDeath(c);
 
 			PlayerMobile killer = MobileUtilities.TryGetKillingPlayer( this );
 
@@ -116,26 +116,26 @@ namespace Server.Mobiles
 			}
 		}
 
-		public override bool ShowFameTitle{ get{ return false; } }
-		public override bool BleedImmune{ get{ return true; } }
-		public override Poison PoisonImmune{ get{ return Poison.Deadly; } }
-		public override int TreasureMapLevel{ get{ return 3; } }
-		public override bool AlwaysAttackable{ get{ return true; } }
+        public override bool ShowFameTitle { get { return false; } }
+        public override bool BleedImmune { get { return true; } }
+        public override Poison PoisonImmune { get { return Poison.Deadly; } }
+        public override int TreasureMapLevel { get { return 3; } }
+        public override bool AlwaysAttackable { get { return true; } }
 
-		public GrundulVarg( Serial serial ) : base( serial )
-		{
-		}
+        public GrundulVarg(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( (int) 0 );
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0);
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

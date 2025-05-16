@@ -45,11 +45,11 @@ namespace Server.Items
         #endregion
 
         #region Constructors
-        public LawnGate(int itemID, Mobile placer, int price, string title, BaseHouse house, Point3D location, DoorFacing facing): base(itemID, itemID + 1, GetOpenedSound(itemID), GetClosedSound(itemID), BaseDoor.GetOffset(facing))
+        public LawnGate(int itemID, Mobile placer, int price, string title, BaseHouse house, Point3D location, DoorFacing facing) : base(itemID, itemID + 1, GetOpenedSound(itemID), GetClosedSound(itemID), BaseDoor.GetOffset(facing))
         {
             Placer = placer;
             Price = price;
-			Title = title;
+            Title = title;
 
             Movable = false;
             MoveToWorld(location, placer.Map);
@@ -62,11 +62,11 @@ namespace Server.Items
             {
                 House = house;
             }
-			Name = title;
-			if ( itemID > 40000 ){ ItemID = itemID = itemID - Remodeling.GroundID( title ); }
+            Name = title;
+            if (itemID > 40000) { ItemID = itemID = itemID - Remodeling.GroundID(title); }
         }
 
-        public LawnGate(Serial serial): base(serial)
+        public LawnGate(Serial serial) : base(serial)
         {
         }
         #endregion
@@ -74,14 +74,14 @@ namespace Server.Items
         #region Overrides
         public override void Use(Mobile from)
         {
-			if ( Locked && ( House.IsFriend( from ) || House.IsCoOwner( from ) || House.IsOwner( from ) || House.IsGuildMember( from ) || from.AccessLevel >= AccessLevel.GameMaster ) )
+            if (Locked && (House.IsFriend(from) || House.IsCoOwner(from) || House.IsOwner(from) || House.IsGuildMember(from) || from.AccessLevel >= AccessLevel.GameMaster))
             {
                 Locked = false;
                 from.SendMessage("You unlock the gate and lock again.");
                 base.Use(from);
                 Locked = true;
             }
-            else if ( Locked )
+            else if (Locked)
             {
                 from.SendMessage("That gate is locked!");
             }
@@ -94,7 +94,7 @@ namespace Server.Items
         public override void GetContextMenuEntries(Mobile from, System.Collections.Generic.List<ContextMenuEntry> list)
         {
             base.GetContextMenuEntries(from, list);
-            if ( House.IsCoOwner( from ) || House.IsOwner( from ) || from.AccessLevel >= AccessLevel.GameMaster )
+            if (House.IsCoOwner(from) || House.IsOwner(from) || from.AccessLevel >= AccessLevel.GameMaster)
             {
                 list.Add(new LawnSecurityEntry(from, this));
                 list.Add(new RefundEntry(from, this, m_Price));
@@ -106,7 +106,7 @@ namespace Server.Items
             base.Serialize(writer);
             writer.Write((int)0); // version
 
-            if ( House == null || House.Deleted || !MySettings.S_LawnsAllowed )
+            if (House == null || House.Deleted || !MySettings.S_LawnsAllowed)
             {
                 writer.Write(false);
                 LawnSystem.AddOrphanedItem(this);
@@ -139,9 +139,9 @@ namespace Server.Items
             if (House == null)
             {
                 FindHouseOfPlacer();
-                if ( House == null || !MySettings.S_LawnsAllowed )
+                if (House == null || !MySettings.S_LawnsAllowed)
                 {
-                    Refund( Placer );
+                    Refund(Placer);
                 }
             }
         }
@@ -149,24 +149,24 @@ namespace Server.Items
 
         #region Methods
 
-        public void Refund( Mobile from )
+        public void Refund(Mobile from)
         {
-			if ( from != null )
-			{
-				Gold toGive = new Gold(Price);
-				if (from.BankBox.TryDropItem(from, toGive, false))
-				{
-					LawnSystem.RemoveVisitors( this );
-					Delete();
-					from.SendLocalizedMessage(1060397, toGive.Amount.ToString()); // ~1_AMOUNT~ gold has been deposited into your bank box.
-				}
-				else
-				{
-					toGive.Delete();
-					from.SendMessage("Your bank box is full!");
-				}
-			}
-			else { Delete(); }
+            if (from != null)
+            {
+                Gold toGive = new Gold(Price);
+                if (from.BankBox.TryDropItem(from, toGive, false))
+                {
+                    LawnSystem.RemoveVisitors(this);
+                    Delete();
+                    from.SendLocalizedMessage(1060397, toGive.Amount.ToString()); // ~1_AMOUNT~ gold has been deposited into your bank box.
+                }
+                else
+                {
+                    toGive.Delete();
+                    from.SendMessage("Your bank box is full!");
+                }
+            }
+            else { Delete(); }
         }
 
         public void FindHouseOfPlacer()

@@ -4,42 +4,42 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class SheepfoeMamboScroll : SpellScroll
-	{
-		public override string DefaultDescription{ get{ return SongBook.SpellDescription( 365 ); } }
+    public class SheepfoeMamboScroll : SpellScroll
+    {
+        public override string DefaultDescription { get { return SongBook.SpellDescription(365); } }
 
-		[Constructable]
-		public SheepfoeMamboScroll() : this( 1 )
-		{
-		}
-
-		[Constructable]
-		public SheepfoeMamboScroll( int amount ) : base( 365, 0x1F2D, amount )
-		{
-			Name = "shepherd's dance sheet music";
-			Hue = 0x96;
-			Stackable = true;
+        [Constructable]
+        public SheepfoeMamboScroll() : this(1)
+        {
         }
 
-		public SheepfoeMamboScroll( Serial serial ) : base( serial )
-		{
-		}
+        [Constructable]
+        public SheepfoeMamboScroll(int amount) : base(365, 0x1F2D, amount)
+        {
+            Name = "shepherd's dance sheet music";
+            Hue = 0x96;
+            Stackable = true;
+        }
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			from.SendMessage( "The sheet music must be in your music book." );
-		}
+        public SheepfoeMamboScroll(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( (int) 0 ); // version
-		}
+        public override void OnDoubleClick(Mobile from)
+        {
+            from.SendMessage("The sheet music must be in your music book.");
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

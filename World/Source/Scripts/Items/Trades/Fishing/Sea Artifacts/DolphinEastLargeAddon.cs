@@ -4,12 +4,12 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class DolphinEastLargeAddon : BaseAddon
-	{
-		public override string AddonName{ get{ return "dolphin carpet"; } }
+    public class DolphinEastLargeAddon : BaseAddon
+    {
+        public override string AddonName { get { return "dolphin carpet"; } }
 
         private static int[,] m_AddOnSimpleComponents = new int[,] {
-			  {14556, -3, -1, 0}, {14555, -3, 0, 0}, {14554, -3, 1, 0}// 1	2	3	
+              {14556, -3, -1, 0}, {14555, -3, 0, 0}, {14554, -3, 1, 0}// 1	2	3	
 			, {14553, -3, 2, 0}, {14559, -2, -1, 0}, {14558, -2, 0, 0}// 4	5	6	
 			, {14557, -2, 1, 0}, {14560, -2, 2, 0}, {14563, -1, -1, 0}// 7	8	9	
 			, {14562, -1, 0, 0}, {14561, -1, 1, 0}, {14564, -1, 2, 0}// 10	11	12	
@@ -21,69 +21,69 @@ namespace Server.Items
 			, {14580, 3, 2, 0}// 28	
 		};
 
-		public override BaseAddonDeed Deed
-		{
-			get
-			{
-				return new DolphinEastLargeAddonDeed();
-			}
-		}
+        public override BaseAddonDeed Deed
+        {
+            get
+            {
+                return new DolphinEastLargeAddonDeed();
+            }
+        }
 
-		[ Constructable ]
-		public DolphinEastLargeAddon()
-		{
+        [Constructable]
+        public DolphinEastLargeAddon()
+        {
             for (int i = 0; i < m_AddOnSimpleComponents.Length / 4; i++)
-                AddComponent( new AddonComponent( m_AddOnSimpleComponents[i,0] ), m_AddOnSimpleComponents[i,1], m_AddOnSimpleComponents[i,2], m_AddOnSimpleComponents[i,3] );
-		}
+                AddComponent(new AddonComponent(m_AddOnSimpleComponents[i, 0]), m_AddOnSimpleComponents[i, 1], m_AddOnSimpleComponents[i, 2], m_AddOnSimpleComponents[i, 3]);
+        }
 
-		public DolphinEastLargeAddon( Serial serial ) : base( serial )
-		{
-		}
+        public DolphinEastLargeAddon(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 
-	public class DolphinEastLargeAddonDeed : BaseAddonDeed
-	{
-		public override BaseAddon Addon
-		{
-			get
-			{
-				return new DolphinEastLargeAddon();
-			}
-		}
+    public class DolphinEastLargeAddonDeed : BaseAddonDeed
+    {
+        public override BaseAddon Addon
+        {
+            get
+            {
+                return new DolphinEastLargeAddon();
+            }
+        }
 
-		[Constructable]
-		public DolphinEastLargeAddonDeed()
-		{
-			Name = "large dolphin rug (east)";
-			ItemID = 0x44C4;
-		}
+        [Constructable]
+        public DolphinEastLargeAddonDeed()
+        {
+            Name = "large dolphin rug (east)";
+            ItemID = 0x44C4;
+        }
 
-		public DolphinEastLargeAddonDeed( Serial serial ) : base( serial )
-		{
-		}
+        public DolphinEastLargeAddonDeed(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void	Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

@@ -23,11 +23,11 @@ namespace Server.Items
         public ShantyStair(Mobile placer, int defaultID, Point3D loc, int price, string title, BaseHouse house) : base(defaultID, placer, "Stairs", loc, price, "stairs", house)
         {
             DefaultID = defaultID;
-			Name = title;
-			if ( defaultID > 40000 ){ ItemID = defaultID = defaultID - Remodeling.GroundID( title ); }
+            Name = title;
+            if (defaultID > 40000) { ItemID = defaultID = defaultID - Remodeling.GroundID(title); }
         }
 
-        public ShantyStair(Serial serial): base(serial)
+        public ShantyStair(Serial serial) : base(serial)
         {
         }
         #endregion
@@ -52,7 +52,7 @@ namespace Server.Items
         public override void GetContextMenuEntries(Mobile from, System.Collections.Generic.List<ContextMenuEntry> list)
         {
             base.GetContextMenuEntries(from, list);
-            if ( House.IsCoOwner( from ) || House.IsOwner( from ) || from.AccessLevel >= AccessLevel.GameMaster )
+            if (House.IsCoOwner(from) || House.IsOwner(from) || from.AccessLevel >= AccessLevel.GameMaster)
             {
                 list.Add(new ShantyStairShantyRefundEntry(from, this, Price));
             }
@@ -62,7 +62,7 @@ namespace Server.Items
         {
             if (from.InRange(this.GetWorldLocation(), 10))
             {
-                if ( House.IsCoOwner( from ) || House.IsOwner( from ) || from.AccessLevel >= AccessLevel.GameMaster )
+                if (House.IsCoOwner(from) || House.IsOwner(from) || from.AccessLevel >= AccessLevel.GameMaster)
                 {
                     if (ShantyRegistry.ShantyStairIDGroups.ContainsKey(DefaultID) && ShantyRegistry.ShantyStairIDGroups[DefaultID] != null && ShantyRegistry.ShantyStairIDGroups[DefaultID].Length > 0)
                     {
@@ -74,7 +74,7 @@ namespace Server.Items
                                 break;
                             }
                         }
-                        ItemID = (index == ShantyRegistry.ShantyStairIDGroups[DefaultID].Length - 1 ? ShantyRegistry.ShantyStairIDGroups[DefaultID][0] : ShantyRegistry.ShantyStairIDGroups[DefaultID][index+1]);
+                        ItemID = (index == ShantyRegistry.ShantyStairIDGroups[DefaultID].Length - 1 ? ShantyRegistry.ShantyStairIDGroups[DefaultID][0] : ShantyRegistry.ShantyStairIDGroups[DefaultID][index + 1]);
                     }
                 }
             }

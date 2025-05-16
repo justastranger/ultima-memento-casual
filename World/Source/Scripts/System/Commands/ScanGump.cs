@@ -26,12 +26,12 @@ namespace Server.Gumps
 
             if (caller.HasGump(typeof(ScanGump)))
                 caller.CloseGump(typeof(ScanGump));
-            caller.SendGump(new ScanGump(caller,0));
+            caller.SendGump(new ScanGump(caller, 0));
         }
 
-        public ScanGump( Mobile from, int index ) : base(0, 0)
+        public ScanGump(Mobile from, int index) : base(0, 0)
         {
-			if ( index > 0 ){} else {index = 0; }
+            if (index > 0) { } else { index = 0; }
             caller = from;
             currentIndex = index;
             DoGump(currentIndex);
@@ -39,23 +39,23 @@ namespace Server.Gumps
 
         public void DoGump(int currentIndex)
         {
-            this.Closable=true;
-			this.Disposable=true;
-			this.Dragable=true;
-			this.Resizable=false;
+            this.Closable = true;
+            this.Disposable = true;
+            this.Dragable = true;
+            this.Resizable = false;
 
             Mobile watchedPlayer = GetPlayer(currentIndex);
             caller.Map = watchedPlayer.Map;
             caller.Location = watchedPlayer.Location;
 
-			AddPage(0);
-			AddBackground(293, 206, 195, 118, 9270);
-			AddButton(425, 260, 4502, 4502, (int)Buttons.Next, GumpButtonType.Reply, 0);
-			AddImage(363, 277, 2444, 983);
-			AddButton(308, 261, 4506, 4506, (int)Buttons.Previous, GumpButtonType.Reply, 0);
+            AddPage(0);
+            AddBackground(293, 206, 195, 118, 9270);
+            AddButton(425, 260, 4502, 4502, (int)Buttons.Next, GumpButtonType.Reply, 0);
+            AddImage(363, 277, 2444, 983);
+            AddButton(308, 261, 4506, 4506, (int)Buttons.Previous, GumpButtonType.Reply, 0);
             AddLabel(315, 223, 2300, @"Currently watching:");
             AddLabel(319, 242, 2300, watchedPlayer.Name);
-			AddButton(359, 274, 2444, 248, (int)Buttons.TeleportTo, GumpButtonType.Reply, 0);
+            AddButton(359, 274, 2444, 248, (int)Buttons.TeleportTo, GumpButtonType.Reply, 0);
             AddLabel(374, 275, 2300, @"Go To");
         }
 
@@ -122,41 +122,41 @@ namespace Server.Gumps
         }
 
         public enum Buttons
-		{
-			Next = 1,
-			Previous = 2,
-			TeleportTo = 3,
-		}
+        {
+            Next = 1,
+            Previous = 2,
+            TeleportTo = 3,
+        }
 
         public override void OnResponse(NetState sender, RelayInfo info)
         {
             Mobile from = sender.Mobile;
 
-            switch(info.ButtonID)
+            switch (info.ButtonID)
             {
                 case (int)Buttons.Next:
-				{
-                    if (caller.HasGump(typeof(ScanGump)))
-                        caller.CloseGump(typeof(ScanGump));
-                    caller.SendGump(new ScanGump(caller, currentIndex+1));
+                    {
+                        if (caller.HasGump(typeof(ScanGump)))
+                            caller.CloseGump(typeof(ScanGump));
+                        caller.SendGump(new ScanGump(caller, currentIndex + 1));
 
-					break;
-				}
-				case (int)Buttons.Previous:
-				{
-                    if (caller.HasGump(typeof(ScanGump)))
-                        caller.CloseGump(typeof(ScanGump));
-                    caller.SendGump(new ScanGump(caller, currentIndex - 1));
+                        break;
+                    }
+                case (int)Buttons.Previous:
+                    {
+                        if (caller.HasGump(typeof(ScanGump)))
+                            caller.CloseGump(typeof(ScanGump));
+                        caller.SendGump(new ScanGump(caller, currentIndex - 1));
 
-					break;
-				}
-				case (int)Buttons.TeleportTo:
-				{
-                    if (caller.HasGump(typeof(ScanGump)))
-                        caller.CloseGump(typeof(ScanGump));
-                    caller.SendGump(new ScanGump(caller, currentIndex));
-					break;
-				}
+                        break;
+                    }
+                case (int)Buttons.TeleportTo:
+                    {
+                        if (caller.HasGump(typeof(ScanGump)))
+                            caller.CloseGump(typeof(ScanGump));
+                        caller.SendGump(new ScanGump(caller, currentIndex));
+                        break;
+                    }
 
             }
         }

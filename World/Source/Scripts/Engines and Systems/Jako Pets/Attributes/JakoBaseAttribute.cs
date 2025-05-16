@@ -39,8 +39,8 @@ namespace Custom.Jerbal.Jako
             if (currentValue >= Cap) return currentValue; // Already exceeds cap
 
             double proposedValue = (currentValue - IncreasedBy) * CapScale;
-            
-            return (uint) Math.Min(Cap, proposedValue);
+
+            return (uint)Math.Min(Cap, proposedValue);
         }
 
         public bool CanAddBonus(BaseCreature bc)

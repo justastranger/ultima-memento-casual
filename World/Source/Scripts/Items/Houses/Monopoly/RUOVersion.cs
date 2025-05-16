@@ -15,7 +15,7 @@ using Server.Multis;
 using Server.Network;
 
 #if (RunUO_2_RC1)
-    using Server.Commands;
+using Server.Commands;
 #endif
 
 namespace Knives.TownHouses
@@ -28,11 +28,11 @@ namespace Knives.TownHouses
         {
             s_Commands[com.ToLower()] = cch;
 
-            #if(RunUO_1_Final)
+#if (RunUO_1_Final)
                 Server.Commands.Register(com, acc, new CommandEventHandler(OnCommand));
-            #elif(RunUO_2_RC1)
-                Server.Commands.CommandSystem.Register(com, acc, new CommandEventHandler(OnCommand));
-            #endif
+#elif (RunUO_2_RC1)
+            Server.Commands.CommandSystem.Register(com, acc, new CommandEventHandler(OnCommand));
+#endif
         }
 
         public static void OnCommand(CommandEventArgs e)
@@ -48,44 +48,44 @@ namespace Knives.TownHouses
             if (sign.House == null)
                 return;
 
-            #if(RunUO_1_Final)
+#if (RunUO_1_Final)
                 sign.House.Region.Coords = new ArrayList(sign.Blocks);
                 sign.House.Region.MinZ = sign.MinZ;
                 sign.House.Region.MaxZ = sign.MaxZ;
                 sign.House.Region.Unregister();
                 sign.House.Region.Register();
                 sign.House.Region.GoLocation = sign.BanLoc;
-            #elif(RunUO_2_RC1)
-                sign.House.UpdateRegion();
+#elif (RunUO_2_RC1)
+            sign.House.UpdateRegion();
 
-                Rectangle3D rect = new Rectangle3D(Point3D.Zero, Point3D.Zero);
+            Rectangle3D rect = new Rectangle3D(Point3D.Zero, Point3D.Zero);
 
-                for (int i = 0; i < sign.House.Region.Area.Length; ++i)
-                {
-                    rect = sign.House.Region.Area[i];
-                    rect = new Rectangle3D(new Point3D(rect.Start.X - sign.House.X, rect.Start.Y - sign.House.Y, sign.MinZ), new Point3D(rect.End.X - sign.House.X, rect.End.Y - sign.House.Y, sign.MaxZ));
-                    sign.House.Region.Area[i] = rect;
-                }
+            for (int i = 0; i < sign.House.Region.Area.Length; ++i)
+            {
+                rect = sign.House.Region.Area[i];
+                rect = new Rectangle3D(new Point3D(rect.Start.X - sign.House.X, rect.Start.Y - sign.House.Y, sign.MinZ), new Point3D(rect.End.X - sign.House.X, rect.End.Y - sign.House.Y, sign.MaxZ));
+                sign.House.Region.Area[i] = rect;
+            }
 
-                sign.House.Region.Unregister();
-                sign.House.Region.Register();
-                sign.House.Region.GoLocation = sign.BanLoc;
- 
-            #endif
+            sign.House.Region.Unregister();
+            sign.House.Region.Register();
+            sign.House.Region.GoLocation = sign.BanLoc;
+
+#endif
         }
 
         public static bool RegionContains(Region region, Mobile m)
         {
-            #if(RunUO_1_Final)
+#if (RunUO_1_Final)
                 return region.Mobiles.Contains(m);
-            #elif(RunUO_2_RC1)
-                return region.GetMobiles().Contains(m);
-            #endif
+#elif (RunUO_2_RC1)
+            return region.GetMobiles().Contains(m);
+#endif
         }
 
         public static Rectangle3D[] RegionArea(Region region)
         {
-            #if(RunUO_1_Final)
+#if (RunUO_1_Final)
 
                 Rectangle3D[] rects = new Rectangle3D[region.Coords.Count];
                 Rectangle2D rect = new Rectangle2D(Point2D.Zero, Point2D.Zero);
@@ -98,9 +98,9 @@ namespace Knives.TownHouses
 
                 return rects;
 
-            #elif(RunUO_2_RC1)
-                return region.Area;
-            #endif
+#elif (RunUO_2_RC1)
+            return region.Area;
+#endif
         }
     }
 
@@ -113,11 +113,11 @@ namespace Knives.TownHouses
 
         public override Rectangle2D[] Area { get { return new Rectangle2D[5]; } }
 
-        #if(RunUO_2_RC1)
-        
+#if (RunUO_2_RC1)
+
         public override Point3D BaseBanLocation { get { return Point3D.Zero; } }
-        
-        #endif
+
+#endif
 
         public VersionHouse(Serial serial)
             : base(serial)

@@ -60,7 +60,7 @@ namespace Knives.Chat3
                 AddButton(width / 2 + 50, y, Data.GetData(Current).IrcRaw ? 0x2343 : 0x2342, "Irc Raw", new GumpCallback(IrcRaw));
             }
 
-            AddBackgroundZero(0, 0, width, y+40, Data.GetData(Current).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 40, Data.GetData(Current).DefaultBack);
         }
 
         private void Global()

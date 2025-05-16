@@ -5,215 +5,215 @@ using Server.Gumps;
 using Server.Network;
 
 namespace Server.Items
-{	
-	public class StoneAnkhComponent : AddonComponent
-	{
-		public override bool ForceShowProperties{ get{ return ObjectPropertyList.Enabled; } }
+{
+    public class StoneAnkhComponent : AddonComponent
+    {
+        public override bool ForceShowProperties { get { return ObjectPropertyList.Enabled; } }
 
-		public StoneAnkhComponent( int itemID ) : base( itemID )
-		{
-			Weight = 1.0;
-		}
+        public StoneAnkhComponent(int itemID) : base(itemID)
+        {
+            Weight = 1.0;
+        }
 
-		public StoneAnkhComponent( Serial serial ) : base( serial )
-		{
-		}
+        public StoneAnkhComponent(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			writer.WriteEncodedInt( 0 ); // version
-		}
-			
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+            writer.WriteEncodedInt(0); // version
+        }
 
-			int version = reader.ReadEncodedInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-	public class StoneAnkh : BaseAddon
-	{
-		public override string AddonName{ get{ return "ankh"; } }
+            int version = reader.ReadEncodedInt();
+        }
+    }
 
-		public override BaseAddonDeed Deed
-		{ 
-			get
-			{ 
-				StoneAnkhDeed deed = new StoneAnkhDeed();
-				deed.IsRewardItem = m_IsRewardItem;
+    public class StoneAnkh : BaseAddon
+    {
+        public override string AddonName { get { return "ankh"; } }
 
-				return deed; 
-			} 
-		}
+        public override BaseAddonDeed Deed
+        {
+            get
+            {
+                StoneAnkhDeed deed = new StoneAnkhDeed();
+                deed.IsRewardItem = m_IsRewardItem;
 
-		private bool m_IsRewardItem;
+                return deed;
+            }
+        }
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsRewardItem
-		{
-			get{ return m_IsRewardItem; }
-			set{ m_IsRewardItem = value; InvalidateProperties(); }
-		}
-		
-		[Constructable]
-		public StoneAnkh() : this( true )
-		{
-		}
-		
-		[Constructable]
-		public StoneAnkh( bool east ) : base()
-		{			
-			if ( east )
-			{
-				AddComponent( new StoneAnkhComponent( 0x2 ), 0, 0, 0 );
-				AddComponent( new StoneAnkhComponent( 0x3 ), 0, -1, 0 );
-			}
-			else
-			{
-				AddComponent( new StoneAnkhComponent( 0x5 ), 0, 0, 0 );
-				AddComponent( new StoneAnkhComponent( 0x4 ), -1, 0, 0 );
-			}
-		}
+        private bool m_IsRewardItem;
 
-		public StoneAnkh( Serial serial ) : base( serial )
-		{
-		}
+        [CommandProperty(AccessLevel.GameMaster)]
+        public bool IsRewardItem
+        {
+            get { return m_IsRewardItem; }
+            set { m_IsRewardItem = value; InvalidateProperties(); }
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        [Constructable]
+        public StoneAnkh() : this(true)
+        {
+        }
 
-			writer.WriteEncodedInt( 0 ); // version
-			
-			writer.Write( (bool) m_IsRewardItem );
-		}
-			
-			public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        [Constructable]
+        public StoneAnkh(bool east) : base()
+        {
+            if (east)
+            {
+                AddComponent(new StoneAnkhComponent(0x2), 0, 0, 0);
+                AddComponent(new StoneAnkhComponent(0x3), 0, -1, 0);
+            }
+            else
+            {
+                AddComponent(new StoneAnkhComponent(0x5), 0, 0, 0);
+                AddComponent(new StoneAnkhComponent(0x4), -1, 0, 0);
+            }
+        }
 
-			int version = reader.ReadEncodedInt();
-			
-			m_IsRewardItem = reader.ReadBool();
-		}
-	}	
-	
-	public class StoneAnkhDeed : BaseAddonDeed
-	{
-		public override int LabelNumber{ get{ return 1049773; } } // deed for a stone ankh
-		
-		private bool m_East;
-		private bool m_IsRewardItem;
+        public StoneAnkh(Serial serial) : base(serial)
+        {
+        }
 
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsRewardItem
-		{
-			get{ return m_IsRewardItem; }
-			set{ m_IsRewardItem = value; InvalidateProperties(); }
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-		public override BaseAddon Addon
-		{ 
-			get
-			{ 
-				StoneAnkh addon = new StoneAnkh( m_East );
-				addon.IsRewardItem = m_IsRewardItem;
+            writer.WriteEncodedInt(0); // version
 
-				return addon; 
-			} 
-		}
+            writer.Write((bool)m_IsRewardItem);
+        }
 
-		[Constructable]
-		public StoneAnkhDeed() : base()
-		{
-			LootType = LootType.Blessed;
-		}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-		public StoneAnkhDeed( Serial serial ) : base( serial )
-		{
-		}
-		
-		public override void OnDoubleClick( Mobile from )
-		{
-			if ( IsChildOf( from.Backpack ) )
-			{
-				from.CloseGump( typeof( InternalGump ) );
-				from.SendGump( new InternalGump( this ) );
-			}
-			else
-				from.SendLocalizedMessage( 1042038 ); // You must have the object in your backpack to use it.    
-		}
-		
-		private void SendTarget( Mobile m )
-		{
-			base.OnDoubleClick( m );
-		}
+            int version = reader.ReadEncodedInt();
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+            m_IsRewardItem = reader.ReadBool();
+        }
+    }
 
-			writer.WriteEncodedInt( 0 ); // version
+    public class StoneAnkhDeed : BaseAddonDeed
+    {
+        public override int LabelNumber { get { return 1049773; } } // deed for a stone ankh
 
-			writer.Write( (bool) m_IsRewardItem );
-		}
+        private bool m_East;
+        private bool m_IsRewardItem;
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        [CommandProperty(AccessLevel.GameMaster)]
+        public bool IsRewardItem
+        {
+            get { return m_IsRewardItem; }
+            set { m_IsRewardItem = value; InvalidateProperties(); }
+        }
 
-			int version = reader.ReadEncodedInt();
-			
-			m_IsRewardItem = reader.ReadBool();
-		}
-		
-		private class InternalGump : Gump
-		{
-			private StoneAnkhDeed m_Deed;
-				
-			private enum Buttons
-			{
-				Cancel,
-				South,
-				East
-			}
+        public override BaseAddon Addon
+        {
+            get
+            {
+                StoneAnkh addon = new StoneAnkh(m_East);
+                addon.IsRewardItem = m_IsRewardItem;
 
-			public InternalGump( StoneAnkhDeed deed ) : base( 150, 50 )
-			{
-				m_Deed = deed;				
-				
-				Closable = true;
-				Disposable = true;
-				Dragable = true;
-				Resizable = false;
+                return addon;
+            }
+        }
 
-				AddPage( 0 );
+        [Constructable]
+        public StoneAnkhDeed() : base()
+        {
+            LootType = LootType.Blessed;
+        }
 
-				AddBackground( 0, 0, 300, 150, 0xA28 );
+        public StoneAnkhDeed(Serial serial) : base(serial)
+        {
+        }
 
-				AddItem( 90, 30, 0x4 );
-				AddItem( 112, 30, 0x5 );
-				AddButton( 50, 35, 0x867, 0x869, (int) Buttons.South, GumpButtonType.Reply, 0 ); // South
+        public override void OnDoubleClick(Mobile from)
+        {
+            if (IsChildOf(from.Backpack))
+            {
+                from.CloseGump(typeof(InternalGump));
+                from.SendGump(new InternalGump(this));
+            }
+            else
+                from.SendLocalizedMessage(1042038); // You must have the object in your backpack to use it.    
+        }
 
-				AddItem( 170, 30, 0x2 );
-				AddItem( 192, 30, 0x3 );
-				AddButton( 145, 35, 0x867, 0x869, (int) Buttons.East, GumpButtonType.Reply, 0 ); // East
-			}
+        private void SendTarget(Mobile m)
+        {
+            base.OnDoubleClick(m);
+        }
 
-			public override void OnResponse( NetState sender, RelayInfo info )
-			{
-				if ( m_Deed == null || m_Deed.Deleted )
-					return;
-					
-				if ( info.ButtonID != (int) Buttons.Cancel )
-				{
-					m_Deed.m_East = ( info.ButtonID == (int) Buttons.East );
-					m_Deed.SendTarget( sender.Mobile );
-				}
-			}
-		}
-	}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+
+            writer.WriteEncodedInt(0); // version
+
+            writer.Write((bool)m_IsRewardItem);
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+
+            int version = reader.ReadEncodedInt();
+
+            m_IsRewardItem = reader.ReadBool();
+        }
+
+        private class InternalGump : Gump
+        {
+            private StoneAnkhDeed m_Deed;
+
+            private enum Buttons
+            {
+                Cancel,
+                South,
+                East
+            }
+
+            public InternalGump(StoneAnkhDeed deed) : base(150, 50)
+            {
+                m_Deed = deed;
+
+                Closable = true;
+                Disposable = true;
+                Dragable = true;
+                Resizable = false;
+
+                AddPage(0);
+
+                AddBackground(0, 0, 300, 150, 0xA28);
+
+                AddItem(90, 30, 0x4);
+                AddItem(112, 30, 0x5);
+                AddButton(50, 35, 0x867, 0x869, (int)Buttons.South, GumpButtonType.Reply, 0); // South
+
+                AddItem(170, 30, 0x2);
+                AddItem(192, 30, 0x3);
+                AddButton(145, 35, 0x867, 0x869, (int)Buttons.East, GumpButtonType.Reply, 0); // East
+            }
+
+            public override void OnResponse(NetState sender, RelayInfo info)
+            {
+                if (m_Deed == null || m_Deed.Deleted)
+                    return;
+
+                if (info.ButtonID != (int)Buttons.Cancel)
+                {
+                    m_Deed.m_East = (info.ButtonID == (int)Buttons.East);
+                    m_Deed.SendTarget(sender.Mobile);
+                }
+            }
+        }
+    }
 }

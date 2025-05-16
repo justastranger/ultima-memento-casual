@@ -19,77 +19,77 @@ namespace Server.Items
 		{
 		}
 
-		public override int BaseMana{ get{ return 15; } }
+        public override int BaseMana { get { return 15; } }
 
-		public override bool RequiresTactics( Mobile from )
-		{
-			return false;
-		}
+        public override bool RequiresTactics(Mobile from)
+        {
+            return false;
+        }
 
-		public override void OnHit( Mobile attacker, Mobile defender, int damage )
-		{
-			if ( !Validate( attacker ) )
-				return;
+        public override void OnHit(Mobile attacker, Mobile defender, int damage)
+        {
+            if (!Validate(attacker))
+                return;
 
-			ClearCurrentAbility( attacker );
+            ClearCurrentAbility(attacker);
 
-			BaseWeapon weapon = attacker.Weapon as BaseWeapon;
+            BaseWeapon weapon = attacker.Weapon as BaseWeapon;
 
-			if ( weapon == null )
-				return;
+            if (weapon == null)
+                return;
 
-			Poison p = weapon.Poison;
+            Poison p = weapon.Poison;
 
-			int ClassicPoisons = 0;
-			ClassicPoisons = ((PlayerMobile)attacker).ClassicPoisoning;
+            int ClassicPoisons = 0;
+            ClassicPoisons = ((PlayerMobile)attacker).ClassicPoisoning;
 
-			if ( ClassicPoisons > 0 )
-			{
-				attacker.SendMessage( "You cannot use this attack with your current poison settings!" );
-				return;
-			}
-			if ( p == null || weapon.PoisonCharges <= 0 )
-			{
-				attacker.SendLocalizedMessage( 1061141 ); // Your weapon must have a dose of poison to perform an infectious strike!
-				return;
-			}
+            if (ClassicPoisons > 0)
+            {
+                attacker.SendMessage("You cannot use this attack with your current poison settings!");
+                return;
+            }
+            if (p == null || weapon.PoisonCharges <= 0)
+            {
+                attacker.SendLocalizedMessage(1061141); // Your weapon must have a dose of poison to perform an infectious strike!
+                return;
+            }
 
-			if ( !CheckMana( attacker, true ) )
-				return;
+            if (!CheckMana(attacker, true))
+                return;
 
 			if ( Utility.Random( 150 ) < attacker.Skills[SkillName.Poisoning].Value )
 				attacker.SendMessage( "Your strike was perfect." );
 			else
 				--weapon.PoisonCharges;
 
-			// Infectious strike special move now uses poisoning skill to help determine potency 
-			int maxLevel = attacker.Skills[SkillName.Poisoning].Fixed / 200;
-			if ( maxLevel < 0 ) maxLevel = 0;
-			if ( p.Level > maxLevel ) p = Poison.GetPoison( maxLevel );
+            // Infectious strike special move now uses poisoning skill to help determine potency 
+            int maxLevel = attacker.Skills[SkillName.Poisoning].Fixed / 200;
+            if (maxLevel < 0) maxLevel = 0;
+            if (p.Level > maxLevel) p = Poison.GetPoison(maxLevel);
 
-			if ( (attacker.Skills[SkillName.Poisoning].Value / 100.0) > Utility.RandomDouble() )
-			{
-				int level = p.Level + 1;
-				Poison newPoison = Poison.GetPoison( level );
+            if ((attacker.Skills[SkillName.Poisoning].Value / 100.0) > Utility.RandomDouble())
+            {
+                int level = p.Level + 1;
+                Poison newPoison = Poison.GetPoison(level);
 
-				if ( newPoison != null )
-				{
-					p = newPoison;
+                if (newPoison != null)
+                {
+                    p = newPoison;
 
-					attacker.SendLocalizedMessage( 1060080 ); // Your precise strike has increased the level of the poison by 1
-					defender.SendLocalizedMessage( 1060081 ); // The poison seems extra effective!
-				}
-			}
+                    attacker.SendLocalizedMessage(1060080); // Your precise strike has increased the level of the poison by 1
+                    defender.SendLocalizedMessage(1060081); // The poison seems extra effective!
+                }
+            }
 
-			defender.PlaySound( 0xDD );
-			defender.FixedParticles( 0x3728, 244, 25, 9941, 1266, 0, EffectLayer.Waist );
+            defender.PlaySound(0xDD);
+            defender.FixedParticles(0x3728, 244, 25, 9941, 1266, 0, EffectLayer.Waist);
 
-			if ( defender.ApplyPoison( attacker, p ) != ApplyPoisonResult.Immune )
-			{
-				Misc.Titles.AwardKarma( attacker, -20, true );
-				attacker.SendLocalizedMessage( 1008096, true, defender.Name ); // You have poisoned your target : 
-				defender.SendLocalizedMessage( 1008097, false, attacker.Name ); //  : poisoned you!
-			}
-		}
-	}
+            if (defender.ApplyPoison(attacker, p) != ApplyPoisonResult.Immune)
+            {
+                Misc.Titles.AwardKarma(attacker, -20, true);
+                attacker.SendLocalizedMessage(1008096, true, defender.Name); // You have poisoned your target : 
+                defender.SendLocalizedMessage(1008097, false, attacker.Name); //  : poisoned you!
+            }
+        }
+    }
 }

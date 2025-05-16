@@ -71,15 +71,15 @@ namespace Knives.Chat3
             if (c_Search)
                 ShowSearch(width);
 
-            AddButton(5, y-5, 0x5689, "Help", new GumpCallback(Help));
+            AddButton(5, y - 5, 0x5689, "Help", new GumpCallback(Help));
             AddButton(30, y - 1, 0x983, "PerPage Down", new GumpCallback(PerPageDown));
-            AddButton(40, y-1, 0x985, "PerPage Up", new GumpCallback(PerPageUp));
+            AddButton(40, y - 1, 0x985, "PerPage Up", new GumpCallback(PerPageUp));
             AddButton(width - 80, y - 5, 0x768, "Profile", new GumpStateCallback(Profile), Current);
             AddLabel(width - 75, y - 5, 0x47E, "P");
             AddButton(width - 65, y - 5, 0x768, "QuickBar", new GumpCallback(QuickBar));
             AddLabel(width - 60, y - 5, Data.GetData(Current).QuickBar ? 0x34 : 0x47E, "Q");
             AddButton(width - 50, y - 5, 0x768, "Menu", new GumpCallback(Menu));
-            AddLabel(width - 46, y-5, c_Menu ? 0x34 : 0x47E, "M");
+            AddLabel(width - 46, y - 5, c_Menu ? 0x34 : 0x47E, "M");
             AddButton(width - 35, y - 5, 0x768, "Search", new GumpCallback(Search));
             AddLabel(width - 30, y - 5, c_Search ? 0x34 : 0x47E, "S");
 
@@ -91,9 +91,9 @@ namespace Knives.Chat3
                 c_Page = 0;
 
             if (c_Page != 0)
-                AddButton(width / 2 - 20, y-3, 0x25E4, 0x25E5, "Page Down", new GumpCallback(PageDown));
+                AddButton(width / 2 - 20, y - 3, 0x25E4, 0x25E5, "Page Down", new GumpCallback(PageDown));
             if (perpage * (c_Page + 1) < list.Count)
-                AddButton(width / 2, y-3, 0x25E8, 0x25E9, "Page Up", new GumpCallback(PageUp));
+                AddButton(width / 2, y - 3, 0x25E8, 0x25E9, "Page Up", new GumpCallback(PageUp));
 
             if (c_Target != null)
             {
@@ -107,7 +107,7 @@ namespace Knives.Chat3
 
             if (c_ListPage == ListPage.Mail)
                 AddHtml(0, y += 20, width, "<CENTER>" + Data.GetData(Owner).Messages.Count + " / " + Data.MaxMsgs);
-            else if(c_ListPage != ListPage.Notifications)
+            else if (c_ListPage != ListPage.Notifications)
             {
                 ArrayList states = new ArrayList(Server.Network.NetState.Instances);
                 foreach (Server.Network.NetState state in Server.Network.NetState.Instances)
@@ -129,10 +129,10 @@ namespace Knives.Chat3
                     AddHtml(35, y += 20, width - 35, list[i].ToString());
                     AddButton(width - 40, y, Data.GetData(Current).IrcIgnores.Contains(list[i].ToString()) ? 0x5687 : 0x5686, "Ignore IRC", new GumpStateCallback(IgnoreIrc), list[i]);
                 }
-                else if(list[i] is Mobile)
+                else if (list[i] is Mobile)
                 {
                     AddHtml(35, y += 20, width - 35, ColorFor((Mobile)list[i]) + ((Mobile)list[i]).RawName + StatusFor((Mobile)list[i]));
-                    if(Current == Owner && Data.GetData(Owner).NewMsgFrom((Mobile)list[i]))
+                    if (Current == Owner && Data.GetData(Owner).NewMsgFrom((Mobile)list[i]))
                         AddButton(20, y, 0x1523, "Check Msg", new GumpStateCallback(CheckMsg), (Mobile)list[i]);
                     else
                         AddButton(20, y + 3, 0x2716, "Profile", new GumpStateCallback(Profile), (Mobile)list[i]);
@@ -190,8 +190,8 @@ namespace Knives.Chat3
                 {
                     Message msg = (Message)list[i];
 
-                    AddHtml(45, y += 20, width-85, ColorFor(msg) + (msg.Read ? "" : "<B>") + msg.Subject, false);
-                    AddHtml(45, y += 16, width-85, General.Local(60) + " " + msg.From.RawName);
+                    AddHtml(45, y += 20, width - 85, ColorFor(msg) + (msg.Read ? "" : "<B>") + msg.Subject, false);
+                    AddHtml(45, y += 16, width - 85, General.Local(60) + " " + msg.From.RawName);
 
                     AddButton(20, y - 10, 0x2716, "Open", new GumpStateCallback(Open), (Message)list[i]);
                     AddButton(width - 40, y - 10, 0x5686, 0x5687, "Delete", new GumpStateCallback(Delete), (Message)list[i]);
@@ -200,7 +200,7 @@ namespace Knives.Chat3
                 {
                     Notification not = (Notification)list[i];
 
-                    AddHtml(45, y += 20, width-85, ColorFor(not) + not.Name);
+                    AddHtml(45, y += 20, width - 85, ColorFor(not) + not.Name);
 
                     AddButton(20, y + 3, 0x2716, "Edit Notif", new GumpStateCallback(EditNotif), (Notification)list[i]);
                     AddButton(width - 40, y + 3, 0x5686, 0x5687, "Delete", new GumpStateCallback(Delete), (Notification)list[i]);
@@ -224,12 +224,12 @@ namespace Knives.Chat3
                 AddButton(width / 2 + 60, y + 3, 0x2716, "New Notif", new GumpCallback(NewNotif));
             }
 
-            AddImage(width / 2 - 32, (y+=30) - 2, 0x98C);
+            AddImage(width / 2 - 32, (y += 30) - 2, 0x98C);
             AddHtml(0, y, width, "<CENTER>" + General.Local(19 + (int)Data.GetData(Current).Status));
             AddButton(width / 2 - 50, y + 3, 0x2716, "Status", new GumpCallback(Status));
             AddButton(width / 2 + 40, y + 3, 0x2716, "Status", new GumpCallback(Status));
 
-            AddBackgroundZero(0, 0, width, y+50, Data.GetData(Current).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 50, Data.GetData(Current).DefaultBack);
         }
 
         private void ShowMenu(int x)
@@ -237,7 +237,7 @@ namespace Knives.Chat3
             int width = 150;
             int y = -10;
 
-            AddImage(x-8, 10, 0x100);
+            AddImage(x - 8, 10, 0x100);
             AddHtml(x, y += 25, width, "<CENTER>" + General.Local(38));
             AddImage(x + 10, y + 2, 0x39);
             AddImage(x + width - 40, y + 2, 0x3B);
@@ -249,13 +249,13 @@ namespace Knives.Chat3
                 if (!c.CanChat(Current, false))
                     continue;
 
-                AddHtml(x+40, y+=20, width-40, (Data.GetData(Current).CurrentChannel == c ? HTML.Yellow : HTML.White) + "<CENTER>" + (c.Style == ChatStyle.Regional ? c.Name : c.NameFor(Current)));
-                AddButton(x+20, y, c.IsIn(Current) ? 0x2343 : 0x2342, "Join Channel", new GumpStateCallback(JoinChannel), c);
+                AddHtml(x + 40, y += 20, width - 40, (Data.GetData(Current).CurrentChannel == c ? HTML.Yellow : HTML.White) + "<CENTER>" + (c.Style == ChatStyle.Regional ? c.Name : c.NameFor(Current)));
+                AddButton(x + 20, y, c.IsIn(Current) ? 0x2343 : 0x2342, "Join Channel", new GumpStateCallback(JoinChannel), c);
 
                 if (c.IsIn(Current))
                 {
-                    AddButton(x + 40 + (width-40)/2-40, y + 3, 0x2716, "View Channel", new GumpStateCallback(ViewChannel), c);
-                    AddButton(x + 40 + (width-40)/2+30, y + 3, 0x2716, "View Channel", new GumpStateCallback(ViewChannel), c);
+                    AddButton(x + 40 + (width - 40) / 2 - 40, y + 3, 0x2716, "View Channel", new GumpStateCallback(ViewChannel), c);
+                    AddButton(x + 40 + (width - 40) / 2 + 30, y + 3, 0x2716, "View Channel", new GumpStateCallback(ViewChannel), c);
                 }
             }
 
@@ -303,7 +303,7 @@ namespace Knives.Chat3
                 AddButton(x + width - 30, y + 3, 0x2716, "Page", new GumpStateCallback(Page), ListPage.Notifications);
             }
 
-            AddHtml(x, y+=25, width, "<CENTER>" + General.Local(40));
+            AddHtml(x, y += 25, width, "<CENTER>" + General.Local(40));
             AddImage(x + 10, y + 2, 0x39);
             AddImage(x + width - 40, y + 2, 0x3B);
 
@@ -360,12 +360,12 @@ namespace Knives.Chat3
             AddBackground(x, 0, width, 50, Data.GetData(Current).DefaultBack, false);
 
             AddImage(x - 8, 10, 0x100);
-            AddTextField(x+15, 15, 90, 21, 0x480, 0xBBC, "Search", c_TxtSearch);
-            AddButton(x + width-17, 19, 0x2716, "Text Search", new GumpCallback(TxtSearch));
+            AddTextField(x + 15, 15, 90, 21, 0x480, 0xBBC, "Search", c_TxtSearch);
+            AddButton(x + width - 17, 19, 0x2716, "Text Search", new GumpCallback(TxtSearch));
 
             char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
-            int difx = x-13;
+            int difx = x - 13;
             int y = 61;
 
             foreach (char c in chars)
@@ -375,7 +375,7 @@ namespace Knives.Chat3
 
                 if (difx >= x + 102)
                 {
-                    difx = x-13;
+                    difx = x - 13;
                     y += 20;
                 }
             }
@@ -825,7 +825,7 @@ namespace Knives.Chat3
         {
             NewGump();
 
-            if(c_Target == null )
+            if (c_Target == null)
                 new ColorsGump(Owner);
             else
                 new ColorsGump(Owner, c_Target);

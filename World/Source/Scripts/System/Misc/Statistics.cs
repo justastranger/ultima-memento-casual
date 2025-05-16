@@ -74,7 +74,7 @@ namespace Server
         {
             Mobile m = e.Mobile;
             m.CloseGump(typeof(StatisticsGump));
-            m.SendGump(new StatisticsGump( m, 0 ));
+            m.SendGump(new StatisticsGump(m, 0));
         }
 
         [Usage("UpdateStatistics")]
@@ -86,7 +86,7 @@ namespace Server
             CollectStats();
             m.SendMessage(68, "Statistics updated successful.");
             m.CloseGump(typeof(StatisticsGump));
-            m.SendGump(new StatisticsGump( m, 0 ));
+            m.SendGump(new StatisticsGump(m, 0));
         }
 
         private static void CollectStats()
@@ -117,7 +117,7 @@ namespace Server
                 {
                     if (m.AccessLevel == AccessLevel.Player)
                     {
-                        m_PlayerGold += m.TotalGold + GetPlayerInfo.GetBankedGold( m );
+                        m_PlayerGold += m.TotalGold + GetPlayerInfo.GetBankedGold(m);
                     }
                     else
                     {
@@ -169,10 +169,10 @@ namespace Server
             m_ActiveGuilds = Guild.List.Count;
             m_ActiveParties = parties.Count;
 
-			string statUpdate = "Statistics Updated: " + m_LastStatsUpdate + "";
+            string statUpdate = "Statistics Updated: " + m_LastStatsUpdate + "";
 
             StatsList.Add(String.Format(Server.Misc.ChangeLog.Version()));
-			StatsList.Add(String.Format(statUpdate));
+            StatsList.Add(String.Format(statUpdate));
             StatsList.Add(String.Format("World Age: {0:n0} days, {1:n0} hours and {2:n0} minutes", m_ShardAge.Days, m_ShardAge.Hours, m_ShardAge.Minutes));
             StatsList.Add(String.Format("<BR>Total Game Time: {0:n0} hours and {1:n0} minutes", m_TotalGameTime.TotalHours, m_TotalGameTime.Minutes));
             StatsList.Add(String.Format("<BR>Last Restart: {0}", m_LastRestart));
@@ -208,32 +208,32 @@ namespace Server
 
         public class StatisticsGump : Gump
         {
-			public int m_Origin;
+            public int m_Origin;
 
-            public StatisticsGump( Mobile from, int origin ) : base( 50, 50 )
+            public StatisticsGump(Mobile from, int origin) : base(50, 50)
             {
-				m_Origin = origin;
+                m_Origin = origin;
 
-				string color = "#9db1b7";
+                string color = "#9db1b7";
 
-				this.Closable=true;
-				this.Disposable=true;
-				this.Dragable=true;
-				this.Resizable=false;
+                this.Closable = true;
+                this.Disposable = true;
+                this.Dragable = true;
+                this.Resizable = false;
 
-				AddPage(0);
+                AddPage(0);
 
-				AddImage(0, 0, 9549, Server.Misc.PlayerSettings.GetGumpHue( from ));
-				AddHtml( 13, 12, 434, 20, @"<BODY><BASEFONT Color=" + color + ">" + MySettings.S_ServerName + "</BASEFONT></BODY>", (bool)false, (bool)false);
-				AddHtml( 14, 43, 581, 310, @"<BODY><BASEFONT Color=" + color + ">" + String.Join("<br>", StatsList.ToArray()) + "</BASEFONT></BODY>", (bool)false, (bool)false);
-				AddButton(567, 11, 4017, 4017, 0, GumpButtonType.Reply, 0);
+                AddImage(0, 0, 9549, Server.Misc.PlayerSettings.GetGumpHue(from));
+                AddHtml(13, 12, 434, 20, @"<BODY><BASEFONT Color=" + color + ">" + MySettings.S_ServerName + "</BASEFONT></BODY>", (bool)false, (bool)false);
+                AddHtml(14, 43, 581, 310, @"<BODY><BASEFONT Color=" + color + ">" + String.Join("<br>", StatsList.ToArray()) + "</BASEFONT></BODY>", (bool)false, (bool)false);
+                AddButton(567, 11, 4017, 4017, 0, GumpButtonType.Reply, 0);
             }
 
-			public override void OnResponse( NetState sender, RelayInfo info )
-			{
-				Mobile from = sender.Mobile;
-				if ( m_Origin > 0 ){ from.SendSound( 0x4A ); from.SendGump( new Server.Engines.Help.HelpGump( from, 1 ) ); }
-			}
+            public override void OnResponse(NetState sender, RelayInfo info)
+            {
+                Mobile from = sender.Mobile;
+                if (m_Origin > 0) { from.SendSound(0x4A); from.SendGump(new Server.Engines.Help.HelpGump(from, 1)); }
+            }
         }
     }
 }

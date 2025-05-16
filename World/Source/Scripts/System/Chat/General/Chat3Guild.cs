@@ -115,7 +115,7 @@ namespace Server.Engines.PartySystem
             Channel c = Channel.GetByType(typeof(Guild));
             if (RUOVersion.GuildChat(type) && c != null)
             {
-                if(c.CanChat(from, true))
+                if (c.CanChat(from, true))
                     c.OnChat(from, text);
             }
             else

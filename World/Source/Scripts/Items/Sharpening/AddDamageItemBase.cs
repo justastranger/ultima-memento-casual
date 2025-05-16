@@ -35,7 +35,7 @@ namespace Server.Items
 
             var weapon = targeted as BaseWeapon;
             if (!Validate(from, weapon)) return;
-        
+
             var currentDamage = weapon.Attributes.WeaponDamage;
             if (weapon.Quality == WeaponQuality.Exceptional) currentDamage += 15; // Because apparently Exceptional is worth 15% DI
             if (MaxDamageBonus <= currentDamage)

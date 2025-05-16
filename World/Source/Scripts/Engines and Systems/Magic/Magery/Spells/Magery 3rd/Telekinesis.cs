@@ -68,7 +68,7 @@ namespace Server.Spells.Third
                 }
                 else if (this.Caster.Region.OnDoubleClick(this.Caster, item))
                 {
-                    Effects.SendLocationParticles(EffectItem.Create(item.Location, item.Map, EffectItem.DefaultDuration), 0x376A, 9, 32, Server.Misc.PlayerSettings.GetMySpellHue( true, Caster, 0 ), 0, 5022, 0);
+                    Effects.SendLocationParticles(EffectItem.Create(item.Location, item.Map, EffectItem.DefaultDuration), 0x376A, 9, 32, Server.Misc.PlayerSettings.GetMySpellHue(true, Caster, 0), 0, 5022, 0);
                     Effects.PlaySound(item.Location, item.Map, 0x1F5);
 
                     item.OnItemUsed(this.Caster, item);
@@ -78,7 +78,7 @@ namespace Server.Spells.Third
             this.FinishSequence();
         }
 
-#region Grab
+        #region Grab
         public void Target(Item item)
         {
             if (this.CheckSequence())
@@ -86,21 +86,21 @@ namespace Server.Spells.Third
                 SpellHelper.Turn(this.Caster, item);
                 object root = item.RootParent;
 
-				if (item.Movable == false){ Caster.SendMessage( "That item does not seem to move." ); }
-				else if (item.Amount > 1){ Caster.SendMessage( "There are too many items stacked here to move." ); }
-				else if (item.Weight > (Caster.Int / 20)){ Caster.SendMessage( "That is to heavy to move." ); }
-				else if (item.RootParentEntity != null){ Caster.SendMessage( "You can not move objects that are inside of other objects or being worn." ); }
-				else
-				{
-					Effects.SendLocationParticles(EffectItem.Create(item.Location, item.Map, EffectItem.DefaultDuration), 0x376A, 9, 32, Server.Misc.PlayerSettings.GetMySpellHue( true, Caster, 0 ), 0, 5022, 0);
-					Effects.PlaySound(item.Location, item.Map, 0x1F5);
-					Caster.AddToBackpack( item );
-					Caster.SendMessage( "You move the object to within your grasp and place it in your backpack."); 
-				}
-			}
+                if (item.Movable == false) { Caster.SendMessage("That item does not seem to move."); }
+                else if (item.Amount > 1) { Caster.SendMessage("There are too many items stacked here to move."); }
+                else if (item.Weight > (Caster.Int / 20)) { Caster.SendMessage("That is to heavy to move."); }
+                else if (item.RootParentEntity != null) { Caster.SendMessage("You can not move objects that are inside of other objects or being worn."); }
+                else
+                {
+                    Effects.SendLocationParticles(EffectItem.Create(item.Location, item.Map, EffectItem.DefaultDuration), 0x376A, 9, 32, Server.Misc.PlayerSettings.GetMySpellHue(true, Caster, 0), 0, 5022, 0);
+                    Effects.PlaySound(item.Location, item.Map, 0x1F5);
+                    Caster.AddToBackpack(item);
+                    Caster.SendMessage("You move the object to within your grasp and place it in your backpack.");
+                }
+            }
             this.FinishSequence();
         }
-#endregion
+        #endregion
 
         public class InternalTarget : Target
         {
@@ -116,7 +116,7 @@ namespace Server.Spells.Third
                     this.m_Owner.Target((ITelekinesisable)o);
                 else if (o is Container)
                     this.m_Owner.Target((Container)o);
-                    else if (o is Item)
+                else if (o is Item)
                     this.m_Owner.Target((Item)o);
                 else
                     from.SendLocalizedMessage(501857); // This spell won't work on that!

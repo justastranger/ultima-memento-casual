@@ -6,7 +6,7 @@
         {
         }
 
-        protected DamageIncreaseWeightingStoneBase(int uses) : base(uses,0x1F14)
+        protected DamageIncreaseWeightingStoneBase(int uses) : base(uses, 0x1F14)
         {
         }
 

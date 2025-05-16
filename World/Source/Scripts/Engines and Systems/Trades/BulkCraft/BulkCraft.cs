@@ -3,49 +3,49 @@ using Server.Mobiles;
 
 namespace Server.Engines.Craft
 {
-	public class BulkCraft
-	{
-		public static void Configure()
-		{
-			EventSink.Disconnected += args => StopTimer(args.Mobile as PlayerMobile);
-			EventSink.PlayerDeath += args => StopTimer(args.Mobile as PlayerMobile);
-		}
+    public class BulkCraft
+    {
+        public static void Configure()
+        {
+            EventSink.Disconnected += args => StopTimer(args.Mobile as PlayerMobile);
+            EventSink.PlayerDeath += args => StopTimer(args.Mobile as PlayerMobile);
+        }
 
-		private static readonly Dictionary<Serial, BulkCraftTimer> m_Timers = new Dictionary<Serial, BulkCraftTimer>();
+        private static readonly Dictionary<Serial, BulkCraftTimer> m_Timers = new Dictionary<Serial, BulkCraftTimer>();
 
-		private static BulkCraftTimer GetTimer(PlayerMobile player)
-		{
-			if (player == null) return null;
+        private static BulkCraftTimer GetTimer(PlayerMobile player)
+        {
+            if (player == null) return null;
 
-			BulkCraftTimer timer;
-			return m_Timers.TryGetValue(player.Serial, out timer) ? timer : null;
-		}
+            BulkCraftTimer timer;
+            return m_Timers.TryGetValue(player.Serial, out timer) ? timer : null;
+        }
 
-		public static void StartTimer(BulkCraftTimer newTimer)
-		{
-			StopTimer(newTimer.Player);
-			newTimer.Start();
-			m_Timers[newTimer.Player.Serial] = newTimer;
-		}
+        public static void StartTimer(BulkCraftTimer newTimer)
+        {
+            StopTimer(newTimer.Player);
+            newTimer.Start();
+            m_Timers[newTimer.Player.Serial] = newTimer;
+        }
 
-		public static void Cancel(PlayerMobile player)
-		{
-			if (player == null) return;
+        public static void Cancel(PlayerMobile player)
+        {
+            if (player == null) return;
 
-			var timer = GetTimer(player);
-			if (timer != null)
-				timer.Cancel();
-		}
+            var timer = GetTimer(player);
+            if (timer != null)
+                timer.Cancel();
+        }
 
-		public static void StopTimer(PlayerMobile player)
-		{
-			if (player == null) return;
+        public static void StopTimer(PlayerMobile player)
+        {
+            if (player == null) return;
 
-			var timer = GetTimer(player);
-			if (timer != null)
-				timer.Cancel();
+            var timer = GetTimer(player);
+            if (timer != null)
+                timer.Cancel();
 
-			m_Timers[player.Serial] = null;
-		}
-	}
+            m_Timers[player.Serial] = null;
+        }
+    }
 }

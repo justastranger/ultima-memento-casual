@@ -10,7 +10,7 @@ namespace Server.Items
     {
         public static void Initialize()
         {
-			CommandSystem.Register("autoattack", AccessLevel.Player, new CommandEventHandler(OnToggleAutoAttack));
+            CommandSystem.Register("autoattack", AccessLevel.Player, new CommandEventHandler(OnToggleAutoAttack));
         }
 
         [Usage("autoattack")]
@@ -19,16 +19,16 @@ namespace Server.Items
         {
             Mobile m = e.Mobile;
 
-			if ( m.NoAutoAttack == false )
-			{
-				m.SendMessage(38, "You have disabled auto attacking.");
-				m.NoAutoAttack = true;
-			}
-			else
-			{
-				m.SendMessage(68, "You have enabled auto attacking.");
-				m.NoAutoAttack = false;
-			}
+            if (m.NoAutoAttack == false)
+            {
+                m.SendMessage(38, "You have disabled auto attacking.");
+                m.NoAutoAttack = true;
+            }
+            else
+            {
+                m.SendMessage(68, "You have enabled auto attacking.");
+                m.NoAutoAttack = false;
+            }
         }
     }
 }

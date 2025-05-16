@@ -4,19 +4,19 @@ using Server.Mobiles;
 
 namespace Server.Items
 {
-	public class SlayerEntry
-	{
-		private SlayerGroup m_Group;
-		private SlayerName m_Name;
-		private Type[] m_Types;
+    public class SlayerEntry
+    {
+        private SlayerGroup m_Group;
+        private SlayerName m_Name;
+        private Type[] m_Types;
 
-		public SlayerGroup Group{ get{ return m_Group; } set{ m_Group = value; } }
-		public SlayerName Name{ get{ return m_Name; } }
-		public Type[] Types{ get{ return m_Types; } }
+        public SlayerGroup Group { get { return m_Group; } set { m_Group = value; } }
+        public SlayerName Name { get { return m_Name; } }
+        public Type[] Types { get { return m_Types; } }
 
-		private static int[] m_AosTitles = new int[]
-			{
-				1060479, // supernatural vanquishing
+        private static int[] m_AosTitles = new int[]
+            {
+                1060479, // supernatural vanquishing
 				1060470, // orcish demise
 				1060480, // troll killer
 				1060468, // ogre extinction
@@ -53,9 +53,9 @@ namespace Server.Items
 				1070855  // fey slayer
 			};
 
-		private static int[] m_OldTitles = new int[]
-			{
-				1017384, // Silver
+        private static int[] m_OldTitles = new int[]
+            {
+                1017384, // Silver
 				1017385, // Orc Slaying
 				1017386, // Troll Slaughter
 				1017387, // Ogre Thrashing
@@ -92,33 +92,33 @@ namespace Server.Items
 				1070855  // fey slayer
 			};
 
-		public int Title
-		{
-			get
-			{
-				int[] titles = ( Core.AOS ? m_AosTitles : m_OldTitles );
+        public int Title
+        {
+            get
+            {
+                int[] titles = (Core.AOS ? m_AosTitles : m_OldTitles);
 
-				return titles[(int)m_Name - 1];
-			}
-		}
+                return titles[(int)m_Name - 1];
+            }
+        }
 
-		public SlayerEntry( SlayerName name, params Type[] types )
-		{
-			m_Name = name;
-			m_Types = types;
-		}
+        public SlayerEntry(SlayerName name, params Type[] types)
+        {
+            m_Name = name;
+            m_Types = types;
+        }
 
-		public bool Slays( Mobile m )
-		{
-			Type t = m.GetType();
+        public bool Slays(Mobile m)
+        {
+            Type t = m.GetType();
 
-			for ( int i = 0; i < m_Types.Length; ++i )
-			{
-				if ( m_Types[i] == t )
-					return true;
-			}
+            for (int i = 0; i < m_Types.Length; ++i)
+            {
+                if (m_Types[i] == t)
+                    return true;
+            }
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 }

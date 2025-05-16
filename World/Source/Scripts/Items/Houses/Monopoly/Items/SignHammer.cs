@@ -7,7 +7,7 @@ using Server.Targeting;
 
 namespace Knives.TownHouses
 {
-	public enum HammerJob{ Flip, Swap }
+    public enum HammerJob { Flip, Swap }
 
     public class SignHammer : Item
     {
@@ -264,36 +264,36 @@ namespace Knives.TownHouses
         }
     }
 
-	public class SignHammerGump : GumpPlusLight
-	{
-		private SignHammer c_Hammer;
+    public class SignHammerGump : GumpPlusLight
+    {
+        private SignHammer c_Hammer;
 
-		public SignHammerGump( Mobile m, SignHammer hammer ) : base( m, 100, 100 )
-		{
-			c_Hammer = hammer;
+        public SignHammerGump(Mobile m, SignHammer hammer) : base(m, 100, 100)
+        {
+            c_Hammer = hammer;
 
-			NewGump();
-		}
+            NewGump();
+        }
 
-		protected override void BuildGump()
-		{
+        protected override void BuildGump()
+        {
             AddBackground(0, 0, 200, 200, 2600);
 
             AddButton(50, 45, 2152, 2154, "Swap", new GumpCallback(Swap));
-			AddHtml( 90, 50, 70, "Swap Hanger");
+            AddHtml(90, 50, 70, "Swap Hanger");
 
-			AddButton( 50, 95, 2152, 2154, "Flip", new GumpCallback( Flip ) );
-			AddHtml( 90, 100, 70, "Flip Sign or Hanger");
+            AddButton(50, 95, 2152, 2154, "Flip", new GumpCallback(Flip));
+            AddHtml(90, 100, 70, "Flip Sign or Hanger");
         }
 
-		private void Swap()
-		{
-			c_Hammer.Job = HammerJob.Swap;
-		}
+        private void Swap()
+        {
+            c_Hammer.Job = HammerJob.Swap;
+        }
 
-		private void Flip()
-		{
-			c_Hammer.Job = HammerJob.Flip;
-		}
-	}
+        private void Flip()
+        {
+            c_Hammer.Job = HammerJob.Flip;
+        }
+    }
 }

@@ -4,7 +4,7 @@ using Server;
 using Server.Targeting;
 using Server.Commands;
 
-namespace Server.Scripts.Commands 
+namespace Server.Scripts.Commands
 {
     public class RecordItems
     {
@@ -25,11 +25,11 @@ namespace Server.Scripts.Commands
 
             StreamWriter w = File.AppendText("region.txt");
             w.WriteLine("");
-            w.WriteLine(e.Mobile.Region.GetType().Name + " Name: " + Server.Misc.Worlds.GetRegionName( e.Mobile.Map, e.Mobile.Location ));
+            w.WriteLine(e.Mobile.Region.GetType().Name + " Name: " + Server.Misc.Worlds.GetRegionName(e.Mobile.Map, e.Mobile.Location));
             w.WriteLine("");
 
             foreach (Item item in World.Items.Values)
-                if(!item.Movable && item.Map == e.Mobile.Map && e.Mobile.Region.Contains(item.Location))
+                if (!item.Movable && item.Map == e.Mobile.Map && e.Mobile.Region.Contains(item.Location))
                     w.WriteLine("Type: " + item.GetType().Name + " ID: " + item.ItemID + " Location: " + item.Location);
 
             w.Close();

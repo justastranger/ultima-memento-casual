@@ -4,10 +4,10 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class HolidayTreeFlat : BaseAddon
-	{
+    public class HolidayTreeFlat : BaseAddon
+    {
         private static int[,] m_AddOnSimpleComponentsA = new int[,] {
-			  {11868, -3, -3, 13}, {11870, -3, -2, 13}, {11869, -2, -3, 13}// 1	2	3	
+              {11868, -3, -3, 13}, {11870, -3, -2, 13}, {11869, -2, -3, 13}// 1	2	3	
 			, {11871, -2, -2, 13}, {11875, -2, -1, 13}, {11996, -2, 0, 13}// 4	5	6	
 			, {11872, -1, -2, 13}, {11876, -1, -1, 13}, {11997, -1, 0, 13}// 7	8	9	
 			, {12048, -1, 1, 13}, {12089, -1, 2, 13}, {11873, 0, -2, 13}// 10	11	12	
@@ -22,7 +22,7 @@ namespace Server.Items
 		};
 
         private static int[,] m_AddOnSimpleComponentsB = new int[,] {
-			  {11868, -3, -3, 13}, {11870, -3, -2, 13}, {11869, -2, -3, 13}// 1	2	3	
+              {11868, -3, -3, 13}, {11870, -3, -2, 13}, {11869, -2, -3, 13}// 1	2	3	
 			, {11871, -2, -2, 13}, {11875, -2, -1, 13}, {11996, -2, 0, 13}// 4	5	6	
 			, {11872, -1, -2, 13}, {11876, -1, -1, 13}, {11997, -1, 0, 13}// 7	8	9	
 			, {12048, -1, 1, 13}, {12089, -1, 2, 13}, {11873, 0, -2, 13}// 10	11	12	
@@ -36,84 +36,84 @@ namespace Server.Items
 			, {12098, 3, 3, 13}// 34	
 		};
 
-		public override BaseAddonDeed Deed
-		{
-			get
-			{
-				return new HolidayTreeFlatDeed();
-			}
-		}
-
-		[ Constructable ]
-		public HolidayTreeFlat()
-		{
-			if ( Utility.RandomMinMax( 1, 2 ) == 1 )
-			{
-				for (int i = 0; i < m_AddOnSimpleComponentsA.Length / 4; i++)
-					AddComponent( new AddonComponent( m_AddOnSimpleComponentsA[i,0] ), m_AddOnSimpleComponentsA[i,1], m_AddOnSimpleComponentsA[i,2], m_AddOnSimpleComponentsA[i,3] );
-			}
-			else
-			{
-				for (int i = 0; i < m_AddOnSimpleComponentsB.Length / 4; i++)
-					AddComponent( new AddonComponent( m_AddOnSimpleComponentsB[i,0] ), m_AddOnSimpleComponentsB[i,1], m_AddOnSimpleComponentsB[i,2], m_AddOnSimpleComponentsB[i,3] );
-			}
-		}
-
-		public HolidayTreeFlat( Serial serial ) : base( serial )
-		{
-		}
-
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
-
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
-
-	public class HolidayTreeFlatDeed : BaseAddonDeed
-	{
-		public override BaseAddon Addon
-		{
-			get
-			{
-				return new HolidayTreeFlat();
-			}
-		}
-
-		[Constructable]
-		public HolidayTreeFlatDeed()
-		{
-			Name = "holiday tree";
-			ItemID = 0x0CC8;
-		}
-
-        public override void AddNameProperties(ObjectPropertyList list)
-		{
-            base.AddNameProperties(list);
-            list.Add( 1049644, "Double Click To Place In Your Home");
-			list.Add( 1070722, "For Low Ceilings");
+        public override BaseAddonDeed Deed
+        {
+            get
+            {
+                return new HolidayTreeFlatDeed();
+            }
         }
 
-		public HolidayTreeFlatDeed( Serial serial ) : base( serial )
-		{
-		}
+        [Constructable]
+        public HolidayTreeFlat()
+        {
+            if (Utility.RandomMinMax(1, 2) == 1)
+            {
+                for (int i = 0; i < m_AddOnSimpleComponentsA.Length / 4; i++)
+                    AddComponent(new AddonComponent(m_AddOnSimpleComponentsA[i, 0]), m_AddOnSimpleComponentsA[i, 1], m_AddOnSimpleComponentsA[i, 2], m_AddOnSimpleComponentsA[i, 3]);
+            }
+            else
+            {
+                for (int i = 0; i < m_AddOnSimpleComponentsB.Length / 4; i++)
+                    AddComponent(new AddonComponent(m_AddOnSimpleComponentsB[i, 0]), m_AddOnSimpleComponentsB[i, 1], m_AddOnSimpleComponentsB[i, 2], m_AddOnSimpleComponentsB[i, 3]);
+            }
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public HolidayTreeFlat(Serial serial) : base(serial)
+        {
+        }
 
-		public override void	Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
+
+    public class HolidayTreeFlatDeed : BaseAddonDeed
+    {
+        public override BaseAddon Addon
+        {
+            get
+            {
+                return new HolidayTreeFlat();
+            }
+        }
+
+        [Constructable]
+        public HolidayTreeFlatDeed()
+        {
+            Name = "holiday tree";
+            ItemID = 0x0CC8;
+        }
+
+        public override void AddNameProperties(ObjectPropertyList list)
+        {
+            base.AddNameProperties(list);
+            list.Add(1049644, "Double Click To Place In Your Home");
+            list.Add(1070722, "For Low Ceilings");
+        }
+
+        public HolidayTreeFlatDeed(Serial serial) : base(serial)
+        {
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

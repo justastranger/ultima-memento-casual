@@ -6,29 +6,29 @@ using Server.Mobiles;
 
 namespace Server.SkillHandlers
 {
-	public class Discordance
-	{
-		public static void Initialize()
-		{
-			SkillInfo.Table[(int)SkillName.Discordance].Callback = new SkillUseCallback( OnUse );
-		}
+    public class Discordance
+    {
+        public static void Initialize()
+        {
+            SkillInfo.Table[(int)SkillName.Discordance].Callback = new SkillUseCallback(OnUse);
+        }
 
-		public static TimeSpan OnUse( Mobile m )
-		{
-			m.RevealingAction();
+        public static TimeSpan OnUse(Mobile m)
+        {
+            m.RevealingAction();
 
-			BaseInstrument.PickInstrument( m, new InstrumentPickedCallback( OnPickedInstrument ) );
+            BaseInstrument.PickInstrument(m, new InstrumentPickedCallback(OnPickedInstrument));
 
-			return TimeSpan.FromSeconds( 1.0 ); // Cannot use another skill for 1 second
-		}
+            return TimeSpan.FromSeconds(1.0); // Cannot use another skill for 1 second
+        }
 
-		public static void OnPickedInstrument( Mobile from, BaseInstrument instrument )
-		{
-			from.RevealingAction();
-			from.SendLocalizedMessage( 1049541 ); // Choose the target for your song of discordance.
-			from.Target = new DiscordanceTarget( from, instrument );
-			from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 6.0 );
-		}
+        public static void OnPickedInstrument(Mobile from, BaseInstrument instrument)
+        {
+            from.RevealingAction();
+            from.SendLocalizedMessage(1049541); // Choose the target for your song of discordance.
+            from.Target = new DiscordanceTarget(from, instrument);
+            from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds(6.0);
+        }
 
 		private class DiscordanceInfo
 		{
@@ -49,8 +49,8 @@ namespace Server.SkillHandlers
 				m_Scalar = scalar;
 				m_EndTime = DateTime.Now;
 
-				Apply();
-			}
+                Apply();
+            }
 
 			public void IncreaseDuration( int seconds )
 			{
@@ -63,45 +63,45 @@ namespace Server.SkillHandlers
 				{
 					object mod = m_Mods[i];
 
-					if ( mod is ResistanceMod )
-						m_Creature.AddResistanceMod( (ResistanceMod) mod );
-					else if ( mod is StatMod )
-						m_Creature.AddStatMod( (StatMod) mod );
-					else if ( mod is SkillMod )
-						m_Creature.AddSkillMod( (SkillMod) mod );
-				}
-			}
+                    if (mod is ResistanceMod)
+                        m_Creature.AddResistanceMod((ResistanceMod)mod);
+                    else if (mod is StatMod)
+                        m_Creature.AddStatMod((StatMod)mod);
+                    else if (mod is SkillMod)
+                        m_Creature.AddSkillMod((SkillMod)mod);
+                }
+            }
 
-			public void Clear()
-			{
-				for ( int i = 0; i < m_Mods.Count; ++i )
-				{
-					object mod = m_Mods[i];
+            public void Clear()
+            {
+                for (int i = 0; i < m_Mods.Count; ++i)
+                {
+                    object mod = m_Mods[i];
 
-					if ( mod is ResistanceMod )
-						m_Creature.RemoveResistanceMod( (ResistanceMod) mod );
-					else if ( mod is StatMod )
-						m_Creature.RemoveStatMod( ((StatMod) mod).Name );
-					else if ( mod is SkillMod )
-						m_Creature.RemoveSkillMod( (SkillMod) mod );
+                    if (mod is ResistanceMod)
+                        m_Creature.RemoveResistanceMod((ResistanceMod)mod);
+                    else if (mod is StatMod)
+                        m_Creature.RemoveStatMod(((StatMod)mod).Name);
+                    else if (mod is SkillMod)
+                        m_Creature.RemoveSkillMod((SkillMod)mod);
 
-					BuffInfo.RemoveBuff( m_Creature, BuffIcon.Discordance );
-				}
-			}
-		}
+                    BuffInfo.RemoveBuff(m_Creature, BuffIcon.Discordance);
+                }
+            }
+        }
 
 		private static readonly Hashtable m_Table = new Hashtable();
 
-		public static bool GetEffect( Mobile targ, ref int effect )
-		{
-			DiscordanceInfo info = m_Table[targ] as DiscordanceInfo;
+        public static bool GetEffect(Mobile targ, ref int effect)
+        {
+            DiscordanceInfo info = m_Table[targ] as DiscordanceInfo;
 
-			if ( info == null )
-				return false;
+            if (info == null)
+                return false;
 
-			effect = info.m_Effect;
-			return true;
-		}
+            effect = info.m_Effect;
+            return true;
+        }
 
 		private class DiscordanceTimer : Timer
 		{
@@ -141,18 +141,18 @@ namespace Server.SkillHandlers
 					return;
 				}
 
-				targ.FixedEffect( 0x376A, 1, 32 );
-			}
-		}
+                targ.FixedEffect(0x376A, 1, 32);
+            }
+        }
 
 		public class DiscordanceTarget : Target
 		{
 			private readonly BaseInstrument m_Instrument;
 
-			public DiscordanceTarget( Mobile from, BaseInstrument inst ) : base( BaseInstrument.GetBardRange( from, SkillName.Discordance ), false, TargetFlags.None )
-			{
-				m_Instrument = inst;
-			}
+            public DiscordanceTarget(Mobile from, BaseInstrument inst) : base(BaseInstrument.GetBardRange(from, SkillName.Discordance), false, TargetFlags.None)
+            {
+                m_Instrument = inst;
+            }
 
 			protected override void OnTarget( Mobile from, object target )
 			{

@@ -38,7 +38,7 @@ namespace Server.Items
                 foreach (AttributeHandler handler in AttributeHandler.Definitions)
                 {
                     int attr = handler.Upgrade(ItemToUpgrade, true);
-                    
+
                     if (attr > 0)
                         CurrentAttributeCount++;
 
@@ -46,7 +46,7 @@ namespace Server.Items
                         MaxedAttributes++;
                 }
 
-                if (CurrentAttributeCount > MaxAttrCount || MaxedAttributes >= MaxAttrCount )
+                if (CurrentAttributeCount > MaxAttrCount || MaxedAttributes >= MaxAttrCount)
                     Owner.SendMessage("This piece of equipment cannot be enhanced any further.");
                 else
                     Owner.SendGump(new EnhancementGump(this));
@@ -55,10 +55,10 @@ namespace Server.Items
 
         public void BeginUpgrade(AttributeHandler handler)
         {
-            if (GetCostToUpgrade(handler) < 1 )
-			{
-				Owner.SendMessage("This piece of equipment cannot be enhanced with that any further.");
-			}
+            if (GetCostToUpgrade(handler) < 1)
+            {
+                Owner.SendMessage("This piece of equipment cannot be enhanced with that any further.");
+            }
             else if (SpendGold(GetCostToUpgrade(handler)))
             {
                 handler.Upgrade(ItemToUpgrade, false);
@@ -101,33 +101,33 @@ namespace Server.Items
                     Owner.SendMessage("The total of your purchase is {0} gold.", amount);
             }
 
-			PlayerMobile pc = (PlayerMobile)Owner;
-			if ( pc.NpcGuild == NpcGuild.TailorsGuild ){ Owner.PlaySound( 0x248 ); }
-			else if ( pc.NpcGuild == NpcGuild.CarpentersGuild ){ Owner.PlaySound( 0x23D ); }
-			else if ( pc.NpcGuild == NpcGuild.ArchersGuild ){ Owner.PlaySound( 0x55 ); }
-			else if ( pc.NpcGuild == NpcGuild.TinkersGuild ){ Owner.PlaySound( 0x542 ); }
-			else if ( pc.NpcGuild == NpcGuild.BlacksmithsGuild ){ Owner.PlaySound( 0x541 ); }
+            PlayerMobile pc = (PlayerMobile)Owner;
+            if (pc.NpcGuild == NpcGuild.TailorsGuild) { Owner.PlaySound(0x248); }
+            else if (pc.NpcGuild == NpcGuild.CarpentersGuild) { Owner.PlaySound(0x23D); }
+            else if (pc.NpcGuild == NpcGuild.ArchersGuild) { Owner.PlaySound(0x55); }
+            else if (pc.NpcGuild == NpcGuild.TinkersGuild) { Owner.PlaySound(0x542); }
+            else if (pc.NpcGuild == NpcGuild.BlacksmithsGuild) { Owner.PlaySound(0x541); }
 
             return bought;
         }
 
-		public bool IsCraftedByEnhancer( Item item, Mobile from )
-		{
-			bool crafted = false;
+        public bool IsCraftedByEnhancer(Item item, Mobile from)
+        {
+            bool crafted = false;
 
-			if ( item is BaseClothing ){ BaseClothing cloth = (BaseClothing)item; if ( cloth.BuiltBy == from ){ crafted = true; } }
-			else if ( item is BaseArmor ){ BaseArmor armor = (BaseArmor)item; if ( armor.BuiltBy == from ){ crafted = true; } }
-			else if ( item is BaseWeapon ){ BaseWeapon weapon = (BaseWeapon)item; if ( weapon.BuiltBy == from ){ crafted = true; } }
+            if (item is BaseClothing) { BaseClothing cloth = (BaseClothing)item; if (cloth.BuiltBy == from) { crafted = true; } }
+            else if (item is BaseArmor) { BaseArmor armor = (BaseArmor)item; if (armor.BuiltBy == from) { crafted = true; } }
+            else if (item is BaseWeapon) { BaseWeapon weapon = (BaseWeapon)item; if (weapon.BuiltBy == from) { crafted = true; } }
 
-			return crafted;
-		}
+            return crafted;
+        }
 
         public int GetCostToUpgrade(AttributeHandler handler)
         {
             int attrMultiplier = 1;
 
-			int gold = (int)( (double)BaseCost * ( 1.0 + ( (double)MySettings.S_GuildEnhanceMod / 100.0 ) ) );
-				if ( IsCraftedByEnhancer( ItemToUpgrade, Owner ) ){ gold = (int)( gold / 2 ); }
+            int gold = (int)((double)BaseCost * (1.0 + ((double)MySettings.S_GuildEnhanceMod / 100.0)));
+            if (IsCraftedByEnhancer(ItemToUpgrade, Owner)) { gold = (int)(gold / 2); }
 
             if (AttrCountAffectsCost)
             {
@@ -139,11 +139,11 @@ namespace Server.Items
             int cost = 0;
 
             int max = handler.MaxValue;
-			int inc = handler.IncrementValue;
+            int inc = handler.IncrementValue;
             int lvl = handler.Upgrade(ItemToUpgrade, true);
 
-			if ( lvl < max )
-				cost = ((lvl+1)*handler.Cost)*gold;
+            if (lvl < max)
+                cost = ((lvl + 1) * handler.Cost) * gold;
 
             cost = (int)(cost * attrMultiplier);
 

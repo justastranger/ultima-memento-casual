@@ -27,23 +27,23 @@ namespace Knives.Chat3
             AddImage(width / 2 - 100, y + 2, 0x39);
             AddImage(width / 2 + 70, y + 2, 0x3B);
 
-            AddTextField(width/2-70, y+=25, 140, 21, 0x480, 0xBBC, "Search", c_Search);
-            AddButton(width / 2 - 90, y+3, 0x2716, "Search", new GumpCallback(Search));
-            AddButton(width / 2 + 80, y+3, 0x2716, "Search", new GumpCallback(Search));
+            AddTextField(width / 2 - 70, y += 25, 140, 21, 0x480, 0xBBC, "Search", c_Search);
+            AddButton(width / 2 - 90, y + 3, 0x2716, "Search", new GumpCallback(Search));
+            AddButton(width / 2 + 80, y + 3, 0x2716, "Search", new GumpCallback(Search));
 
             if (c_Topic != "")
             {
-                AddHtml(0, y+=35, width, "<CENTER>" + c_Topic);
+                AddHtml(0, y += 35, width, "<CENTER>" + c_Topic);
 
                 AddHtml(20, y += 25, width - 20, 100, General.GetHelp(c_Topic), false, true);
-                AddBackgroundZero(0, 0, width, y+=120, 0x1400);
+                AddBackgroundZero(0, 0, width, y += 120, 0x1400);
                 return;
             }
 
             if (c_Search == "")
             {
-                AddHtml(20, y+=35, width-40, 90, "<CENTER>" + General.Local(262), false, false);
-                AddBackgroundZero(0, 0, width, y+110, 0x1400);
+                AddHtml(20, y += 35, width - 40, 90, "<CENTER>" + General.Local(262), false, false);
+                AddBackgroundZero(0, 0, width, y + 110, 0x1400);
                 return;
             }
 
@@ -81,11 +81,11 @@ namespace Knives.Chat3
 
             for (int i = c_Page * perpage; i < (c_Page + 1) * perpage && i < list.Count; ++i)
             {
-                AddHtml(30, y+=20, width-30, list[i].ToString());
-                AddButton(10, y+3, 0x2716, "Select", new GumpStateCallback(Select), list[i]);
+                AddHtml(30, y += 20, width - 30, list[i].ToString());
+                AddButton(10, y + 3, 0x2716, "Select", new GumpStateCallback(Select), list[i]);
             }
 
-            AddBackgroundZero(0, 0, width, y+40, 0x1400);
+            AddBackgroundZero(0, 0, width, y + 40, 0x1400);
         }
 
         private void PageUp()

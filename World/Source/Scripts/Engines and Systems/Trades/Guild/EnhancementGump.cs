@@ -36,7 +36,7 @@ namespace Server.Gumps
             int column = 0;
             int row = 0;
 
-            for ( int i = 0; i < AttributeHandler.Definitions.Count; i++)
+            for (int i = 0; i < AttributeHandler.Definitions.Count; i++)
             {
                 AttributeHandler handler = AttributeHandler.Definitions[i];
 

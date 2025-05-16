@@ -30,14 +30,14 @@ namespace Knives.Chat3
             AddImage(width / 2 - 100, y + 2, 0x39);
             AddImage(width / 2 + 70, y + 2, 0x3B);
 
-            AddImage(width/2-73, (y += 25) - 1, 0x9C5);
-            AddHtml(width/2-50, y, 100, "<CENTER>" + (c_Channel == null ? "" : c_Channel.Name));
+            AddImage(width / 2 - 73, (y += 25) - 1, 0x9C5);
+            AddHtml(width / 2 - 50, y, 100, "<CENTER>" + (c_Channel == null ? "" : c_Channel.Name));
             AddButton(width / 2 - 65, y + 3, 0x2716, "Channel Select", new GumpCallback(ChannelSelect));
             AddButton(width / 2 + 52, y + 3, 0x2716, "Channel Select", new GumpCallback(ChannelSelect));
 
             AddHtml(0, y += 25, width, "<CENTER>" + General.Local(178));
-            AddButton(width/2-60, y+3, 0x2716, "New Channel", new GumpCallback(NewChannel));
-            AddButton(width/2+50, y+3, 0x2716, "New Channel", new GumpCallback(NewChannel));
+            AddButton(width / 2 - 60, y + 3, 0x2716, "New Channel", new GumpCallback(NewChannel));
+            AddButton(width / 2 + 50, y + 3, 0x2716, "New Channel", new GumpCallback(NewChannel));
 
             if (c_Channel == null)
             {
@@ -54,17 +54,17 @@ namespace Knives.Chat3
                 AddButton(width / 2 + 50, y + 1, 0x5686, 0x5687, "Delete Channel", new GumpCallback(DeleteChannel));
             }
 
-            AddHtml(0, y += 25, width/2-10, "<DIV ALIGN=RIGHT>" + General.Local(180));
+            AddHtml(0, y += 25, width / 2 - 10, "<DIV ALIGN=RIGHT>" + General.Local(180));
             AddTextField(width / 2 + 10, y, 70, 21, 0x480, 0xBBA, "Channel Name", "" + c_Channel.Name);
-            AddButton(width/2-5, y + 3, 0x2716, "Channel Name", new GumpCallback(ChannelName));
+            AddButton(width / 2 - 5, y + 3, 0x2716, "Channel Name", new GumpCallback(ChannelName));
 
             AddHtml(0, y += 25, width, "<CENTER>" + General.Local(212));
             AddButton(width / 2 - 100, y, c_Channel.Enabled ? 0x2343 : 0x2342, "Enable", new GumpCallback(Enable));
             AddButton(width / 2 + 80, y, c_Channel.Enabled ? 0x2343 : 0x2342, "Enable", new GumpCallback(Enable));
 
             AddHtml(0, y += 25, width, "<CENTER>" + General.Local(182) + " | " + General.Local(183));
-            AddButton(width/2-100, y + 3, c_Channel.Style == ChatStyle.Global ? 0x939 : 0x2716, "Global", new GumpCallback(Global));
-            AddButton(width/2+90, y + 3, c_Channel.Style == ChatStyle.Regional ? 0x939 : 0x2716, "Regional", new GumpCallback(Regional));
+            AddButton(width / 2 - 100, y + 3, c_Channel.Style == ChatStyle.Global ? 0x939 : 0x2716, "Global", new GumpCallback(Global));
+            AddButton(width / 2 + 90, y + 3, c_Channel.Style == ChatStyle.Regional ? 0x939 : 0x2716, "Regional", new GumpCallback(Regional));
 
             AddHtml(0, y += 20, width, "<CENTER>" + General.Local(223));
             AddButton(width / 2 - 100, y, c_Channel.ShowStaff ? 0x2343 : 0x2342, "Show Staff", new GumpCallback(ShowStaff));
@@ -83,21 +83,21 @@ namespace Knives.Chat3
             AddButton(width / 2 + 80, y, c_Channel.Filter ? 0x2343 : 0x2342, "Apply Filter", new GumpCallback(ApplyFilter));
 
             AddHtml(0, y += 20, width, "<CENTER>" + General.Local(220));
-            AddButton(width/2-100, y, c_Channel.Delay ? 0x2343 : 0x2342, "Apply Delay", new GumpCallback(ApplyDelay));
-            AddButton(width/2+80, y, c_Channel.Delay ? 0x2343 : 0x2342, "Apply Delay", new GumpCallback(ApplyDelay));
+            AddButton(width / 2 - 100, y, c_Channel.Delay ? 0x2343 : 0x2342, "Apply Delay", new GumpCallback(ApplyDelay));
+            AddButton(width / 2 + 80, y, c_Channel.Delay ? 0x2343 : 0x2342, "Apply Delay", new GumpCallback(ApplyDelay));
 
-            AddHtml(0, y += 25, width/2-10, "<DIV ALIGN=RIGHT>" + General.Local(185));
-            AddTextField(width/2+10, y, 70, 21, 0x480, 0xBBA, "Add/Remove", "");
-            AddButton(width/2-5, y + 4, 0x2716, "Add/Remove Command", new GumpCallback(AddCommand));
+            AddHtml(0, y += 25, width / 2 - 10, "<DIV ALIGN=RIGHT>" + General.Local(185));
+            AddTextField(width / 2 + 10, y, 70, 21, 0x480, 0xBBA, "Add/Remove", "");
+            AddButton(width / 2 - 5, y + 4, 0x2716, "Add/Remove Command", new GumpCallback(AddCommand));
 
             string txt = General.Local(42) + ": ";
 
             foreach (string str in c_Channel.Commands)
                 txt += str + " ";
 
-            AddHtml(20, y += 25, width-40, 60, txt, false, false);
+            AddHtml(20, y += 25, width - 40, 60, txt, false, false);
 
-            AddBackgroundZero(0, 0, width, y+100, Data.GetData(Owner).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 100, Data.GetData(Owner).DefaultBack);
         }
 
         private void ChannelSelect()
@@ -174,7 +174,7 @@ namespace Knives.Chat3
 
         private void ChannelName()
         {
-            if(c_Channel != null)
+            if (c_Channel != null)
                 c_Channel.Name = GetTextField("Channel Name");
 
             NewGump();
@@ -204,7 +204,7 @@ namespace Knives.Chat3
 
         private void Global()
         {
-            if(c_Channel != null)
+            if (c_Channel != null)
                 c_Channel.Style = ChatStyle.Global;
 
             NewGump();
@@ -212,7 +212,7 @@ namespace Knives.Chat3
 
         private void Regional()
         {
-            if(c_Channel != null)
+            if (c_Channel != null)
                 c_Channel.Style = ChatStyle.Regional;
 
             NewGump();
@@ -220,7 +220,7 @@ namespace Knives.Chat3
 
         private void SendToIrc()
         {
-            if(c_Channel != null)
+            if (c_Channel != null)
                 c_Channel.ToIrc = !c_Channel.ToIrc;
 
             NewGump();

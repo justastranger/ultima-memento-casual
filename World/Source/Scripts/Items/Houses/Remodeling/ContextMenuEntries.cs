@@ -14,7 +14,7 @@ namespace Server.Misc
         private LawnStair m_Stair;
         private int value = 0;
 
-        public StairRefundEntry(Mobile from, LawnStair stair, int price): base(6104, 9)
+        public StairRefundEntry(Mobile from, LawnStair stair, int price) : base(6104, 9)
         {
             m_From = from;
             m_Stair = stair;
@@ -23,7 +23,7 @@ namespace Server.Misc
 
         public override void OnClick()
         {
-            m_Stair.Refund( m_From );
+            m_Stair.Refund(m_From);
         }
     }
 
@@ -32,7 +32,7 @@ namespace Server.Misc
         private Mobile m_From;
         private BaseDoor m_Gate;
 
-        public LawnSecurityEntry(Mobile from, LawnGate gate): base(6203, 9)
+        public LawnSecurityEntry(Mobile from, LawnGate gate) : base(6203, 9)
         {
             m_From = from;
             m_Gate = gate;
@@ -50,7 +50,7 @@ namespace Server.Misc
         private LawnGate m_Gate;
         private int value = 0;
 
-        public RefundEntry(Mobile from, LawnGate gate, int price): base(6104, 9)
+        public RefundEntry(Mobile from, LawnGate gate, int price) : base(6104, 9)
         {
             m_From = from;
             m_Gate = gate;
@@ -59,7 +59,7 @@ namespace Server.Misc
 
         public override void OnClick()
         {
-            m_Gate.Refund( m_From );
+            m_Gate.Refund(m_From);
         }
     }
 
@@ -69,7 +69,7 @@ namespace Server.Misc
         private ShantyStair m_Stair;
         private int value = 0;
 
-        public ShantyStairShantyRefundEntry(Mobile from, ShantyStair stair, int price): base(6104, 9)
+        public ShantyStairShantyRefundEntry(Mobile from, ShantyStair stair, int price) : base(6104, 9)
         {
             m_From = from;
             m_Stair = stair;
@@ -78,7 +78,7 @@ namespace Server.Misc
 
         public override void OnClick()
         {
-            m_Stair.Refund( m_From );
+            m_Stair.Refund(m_From);
         }
     }
 
@@ -87,7 +87,7 @@ namespace Server.Misc
         private Mobile m_From;
         private BaseDoor m_Gate;
 
-        public ShantySecurityEntry(Mobile from, ShantyDoor gate): base(6203, 9)
+        public ShantySecurityEntry(Mobile from, ShantyDoor gate) : base(6203, 9)
         {
             m_From = from;
             m_Gate = gate;
@@ -105,7 +105,7 @@ namespace Server.Misc
         private ShantyDoor m_Gate;
         private int value = 0;
 
-        public ShantyRefundEntry(Mobile from, ShantyDoor gate, int price): base(6104, 9)
+        public ShantyRefundEntry(Mobile from, ShantyDoor gate, int price) : base(6104, 9)
         {
             m_From = from;
             m_Gate = gate;
@@ -114,7 +114,7 @@ namespace Server.Misc
 
         public override void OnClick()
         {
-            m_Gate.Refund( m_From );
+            m_Gate.Refund(m_From);
         }
     }
 }

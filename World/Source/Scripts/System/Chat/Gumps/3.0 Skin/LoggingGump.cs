@@ -27,7 +27,7 @@ namespace Knives.Chat3
             AddButton(width / 2 - 60, y, Data.LogPms ? 0x2343 : 0x2342, "Log Pms", new GumpCallback(Pms));
             AddButton(width / 2 + 40, y, Data.LogPms ? 0x2343 : 0x2342, "Log Pms", new GumpCallback(Pms));
 
-            AddBackgroundZero(0, 0, width, y+40, Data.GetData(Owner).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 40, Data.GetData(Owner).DefaultBack);
         }
 
         private void Chat()

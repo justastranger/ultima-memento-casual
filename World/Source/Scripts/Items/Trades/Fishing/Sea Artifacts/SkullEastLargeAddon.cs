@@ -4,12 +4,12 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class SkullEastLargeAddon : BaseAddon
-	{
-		public override string AddonName{ get{ return "skull carpet"; } }
+    public class SkullEastLargeAddon : BaseAddon
+    {
+        public override string AddonName { get { return "skull carpet"; } }
 
         private static int[,] m_AddOnSimpleComponents = new int[,] {
-			  {14444, -3, -1, 0}, {14443, -3, 0, 0}, {14442, -3, 1, 0}// 1	2	3	
+              {14444, -3, -1, 0}, {14443, -3, 0, 0}, {14442, -3, 1, 0}// 1	2	3	
 			, {14441, -3, 2, 0}, {14447, -2, -1, 0}, {14446, -2, 0, 0}// 4	5	6	
 			, {14445, -2, 1, 0}, {14448, -2, 2, 0}, {14451, -1, -1, 0}// 7	8	9	
 			, {14450, -1, 0, 0}, {14449, -1, 1, 0}, {14452, -1, 2, 0}// 10	11	12	
@@ -21,69 +21,69 @@ namespace Server.Items
 			, {14468, 3, 2, 0}// 28	
 		};
 
-		public override BaseAddonDeed Deed
-		{
-			get
-			{
-				return new SkullEastLargeAddonDeed();
-			}
-		}
+        public override BaseAddonDeed Deed
+        {
+            get
+            {
+                return new SkullEastLargeAddonDeed();
+            }
+        }
 
-		[ Constructable ]
-		public SkullEastLargeAddon()
-		{
+        [Constructable]
+        public SkullEastLargeAddon()
+        {
             for (int i = 0; i < m_AddOnSimpleComponents.Length / 4; i++)
-                AddComponent( new AddonComponent( m_AddOnSimpleComponents[i,0] ), m_AddOnSimpleComponents[i,1], m_AddOnSimpleComponents[i,2], m_AddOnSimpleComponents[i,3] );
-		}
+                AddComponent(new AddonComponent(m_AddOnSimpleComponents[i, 0]), m_AddOnSimpleComponents[i, 1], m_AddOnSimpleComponents[i, 2], m_AddOnSimpleComponents[i, 3]);
+        }
 
-		public SkullEastLargeAddon( Serial serial ) : base( serial )
-		{
-		}
+        public SkullEastLargeAddon(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 
-	public class SkullEastLargeAddonDeed : BaseAddonDeed
-	{
-		public override BaseAddon Addon
-		{
-			get
-			{
-				return new SkullEastLargeAddon();
-			}
-		}
+    public class SkullEastLargeAddonDeed : BaseAddonDeed
+    {
+        public override BaseAddon Addon
+        {
+            get
+            {
+                return new SkullEastLargeAddon();
+            }
+        }
 
-		[Constructable]
-		public SkullEastLargeAddonDeed()
-		{
-			Name = "large skull rug (east)";
-			ItemID = 0x1AE2;
-		}
+        [Constructable]
+        public SkullEastLargeAddonDeed()
+        {
+            Name = "large skull rug (east)";
+            ItemID = 0x1AE2;
+        }
 
-		public SkullEastLargeAddonDeed( Serial serial ) : base( serial )
-		{
-		}
+        public SkullEastLargeAddonDeed(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void	Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

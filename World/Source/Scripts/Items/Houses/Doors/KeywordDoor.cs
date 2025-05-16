@@ -171,7 +171,7 @@ namespace Server.Items
                 this.Open = true;
                 m.SendMessage(1154, "The door has been opened.");
 
-                if(m_QuickClose)
+                if (m_QuickClose)
                     m_Timer.Start();
             }
         }
@@ -181,115 +181,115 @@ namespace Server.Items
         {
             switch (Doors)
             {
-                case DoorSet.IronGateShort :
+                case DoorSet.IronGateShort:
                     this.ClosedID = 0x84c + (2 * m_FaceValue);
                     this.OpenedID = 0x84d + (2 * m_FaceValue);
                     this.OpenedSound = 0xEC;
                     this.ClosedSound = 0xF3;
                     break;
-                case DoorSet.IronGate :
+                case DoorSet.IronGate:
                     this.ClosedID = 0x824 + (2 * m_FaceValue);
                     this.OpenedID = 0x825 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEC;
                     this.ClosedSound = 0xF3;
                     break;
-                case DoorSet.LightWoodGate :
+                case DoorSet.LightWoodGate:
                     this.ClosedID = 0x839 + (2 * m_FaceValue);
                     this.OpenedID = 0x83A + (2 * m_FaceValue);
                     this.OpenedSound = 0xEB;
                     this.ClosedSound = 0xF2;
                     break;
-                case DoorSet.DarkWoodGate :
+                case DoorSet.DarkWoodGate:
                     this.ClosedID = 0x866 + (2 * m_FaceValue);
                     this.OpenedID = 0x867 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEB;
                     this.ClosedSound = 0xF2;
                     break;
-                case DoorSet.MetalDoor :
+                case DoorSet.MetalDoor:
                     this.ClosedID = 0x675 + (2 * m_FaceValue);
                     this.OpenedID = 0x676 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEC;
                     this.ClosedSound = 0xF3;
                     break;
-                case DoorSet.BarredMetalDoor :
+                case DoorSet.BarredMetalDoor:
                     this.ClosedID = 0x685 + (2 * m_FaceValue);
                     this.OpenedID = 0x686 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEC;
                     this.ClosedSound = 0xF3;
                     break;
-                case DoorSet.BarredMetalDoor2 :
+                case DoorSet.BarredMetalDoor2:
                     this.ClosedID = 0x1FED + (2 * m_FaceValue);
                     this.OpenedID = 0x1FEE + (2 * m_FaceValue);
                     this.OpenedSound = 0xEC;
                     this.ClosedSound = 0xF3;
                     break;
-                case DoorSet.RattanDoor :
+                case DoorSet.RattanDoor:
                     this.ClosedID = 0x695 + (2 * m_FaceValue);
                     this.OpenedID = 0x696 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEB;
                     this.ClosedSound = 0xF2;
                     break;
-                case DoorSet.DarkWoodDoor :
+                case DoorSet.DarkWoodDoor:
                     this.ClosedID = 0x6A5 + (2 * m_FaceValue);
                     this.OpenedID = 0x6A6 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEA;
                     this.ClosedSound = 0xF1;
                     break;
-                case DoorSet.MediumWoodDoor :
+                case DoorSet.MediumWoodDoor:
                     this.ClosedID = 0x6B5 + (2 * m_FaceValue);
                     this.OpenedID = 0x6B6 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEA;
                     this.ClosedSound = 0xF1;
                     break;
-                case DoorSet.MetalDoor2 :
+                case DoorSet.MetalDoor2:
                     this.ClosedID = 0x6C5 + (2 * m_FaceValue);
                     this.OpenedID = 0x6C6 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEC;
                     this.ClosedSound = 0xF3;
                     break;
-                case DoorSet.LightWoodDoor :
+                case DoorSet.LightWoodDoor:
                     this.ClosedID = 0x6D5 + (2 * m_FaceValue);
                     this.OpenedID = 0x6D6 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEA;
                     this.ClosedSound = 0xF1;
                     break;
-                case DoorSet.StrongWoodDoor :
+                case DoorSet.StrongWoodDoor:
                     this.ClosedID = 0x6E5 + (2 * m_FaceValue);
                     this.OpenedID = 0x6E6 + (2 * m_FaceValue);
                     this.OpenedSound = 0xEA;
                     this.ClosedSound = 0xF1;
                     break;
-                case DoorSet.SecretStoneDoor1 :
+                case DoorSet.SecretStoneDoor1:
                     this.ClosedID = 0xE8 + (2 * m_FaceValue);
                     this.OpenedID = 0xE9 + (2 * m_FaceValue);
                     this.OpenedSound = 0xED;
                     this.ClosedSound = 0xF4;
                     break;
-                case DoorSet.SecretDungeonDoor :
+                case DoorSet.SecretDungeonDoor:
                     this.ClosedID = 0x314 + (2 * m_FaceValue);
                     this.OpenedID = 0x315 + (2 * m_FaceValue);
                     this.OpenedSound = 0xED;
                     this.ClosedSound = 0xF4;
                     break;
-                case DoorSet.SecretStoneDoor2 :
+                case DoorSet.SecretStoneDoor2:
                     this.ClosedID = 0x324 + (2 * m_FaceValue);
                     this.OpenedID = 0x325 + (2 * m_FaceValue);
                     this.OpenedSound = 0xED;
                     this.ClosedSound = 0xF4;
                     break;
-                case DoorSet.SecretWoodenDoor :
+                case DoorSet.SecretWoodenDoor:
                     this.ClosedID = 0x334 + (2 * m_FaceValue);
                     this.OpenedID = 0x335 + (2 * m_FaceValue);
                     this.OpenedSound = 0xED;
                     this.ClosedSound = 0xF4;
                     break;
-                case DoorSet.SecretLightWoodDoor :
+                case DoorSet.SecretLightWoodDoor:
                     this.ClosedID = 0x344 + (2 * m_FaceValue);
                     this.OpenedID = 0x345 + (2 * m_FaceValue);
                     this.OpenedSound = 0xED;
                     this.ClosedSound = 0xF4;
                     break;
-                case DoorSet.SecretStoneDoor3 :
+                case DoorSet.SecretStoneDoor3:
                     this.ClosedID = 0x354 + (2 * m_FaceValue);
                     this.OpenedID = 0x355 + (2 * m_FaceValue);
                     this.OpenedSound = 0xED;

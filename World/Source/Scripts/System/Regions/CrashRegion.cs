@@ -4,21 +4,21 @@ using Server.Mobiles;
 
 namespace Server.Regions
 {
-	public class CrashRegion : BaseRegion
-	{
-		public CrashRegion( XmlElement xml, Map map, Region parent ) : base( xml, map, parent )
-		{
-		}
+    public class CrashRegion : BaseRegion
+    {
+        public CrashRegion(XmlElement xml, Map map, Region parent) : base(xml, map, parent)
+        {
+        }
 
-		public override bool AllowHousing( Mobile from, Point3D p )
-		{
-			return false;
-		}
+        public override bool AllowHousing(Mobile from, Point3D p)
+        {
+            return false;
+        }
 
-		public override TimeSpan GetLogoutDelay( Mobile m )
-		{
-			return TimeSpan.Zero;
-		}
+        public override TimeSpan GetLogoutDelay(Mobile m)
+        {
+            return TimeSpan.Zero;
+        }
 
 		public override bool AllowHarmful( Mobile from, Mobile target )
 		{
@@ -39,7 +39,7 @@ namespace Server.Regions
 				m.SendMessage( "You find yourself near a crashed shuttle." );
 			}
 
-			Server.Misc.RegionMusic.MusicRegion( m, this );
-		}								
-	}
+            Server.Misc.RegionMusic.MusicRegion(m, this);
+        }
+    }
 }

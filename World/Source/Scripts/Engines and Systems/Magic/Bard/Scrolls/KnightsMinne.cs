@@ -4,42 +4,42 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class KnightsMinneScroll : SpellScroll
-	{
-		public override string DefaultDescription{ get{ return SongBook.SpellDescription( 360 ); } }
+    public class KnightsMinneScroll : SpellScroll
+    {
+        public override string DefaultDescription { get { return SongBook.SpellDescription(360); } }
 
-		[Constructable]
-		public KnightsMinneScroll() : this( 1 )
-		{
-		}
-
-		[Constructable]
-		public KnightsMinneScroll( int amount ) : base( 360, 0x1F31, amount )
-		{
-			Name = "knight's minne sheet music";
-			Hue = 0x96;
-			Stackable = true;
+        [Constructable]
+        public KnightsMinneScroll() : this(1)
+        {
         }
 
-		public KnightsMinneScroll( Serial serial ) : base( serial )
-		{
-		}
+        [Constructable]
+        public KnightsMinneScroll(int amount) : base(360, 0x1F31, amount)
+        {
+            Name = "knight's minne sheet music";
+            Hue = 0x96;
+            Stackable = true;
+        }
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			from.SendMessage( "The sheet music must be in your music book." );
-		}
+        public KnightsMinneScroll(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( (int) 0 ); // version
-		}
+        public override void OnDoubleClick(Mobile from)
+        {
+            from.SendMessage("The sheet music must be in your music book.");
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0); // version
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

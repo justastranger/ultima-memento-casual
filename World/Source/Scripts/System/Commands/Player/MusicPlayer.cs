@@ -8,7 +8,7 @@ using Server.Commands;
 using Server.Commands.Generic;
 using Server.Gumps;
 
-namespace Server.Gumps 
+namespace Server.Gumps
 {
     class Musical
     {
@@ -23,16 +23,16 @@ namespace Server.Gumps
         {
             Mobile m = e.Mobile;
 
-			string tunes = ((PlayerMobile)m).CharMusical;
+            string tunes = ((PlayerMobile)m).CharMusical;
 
-            if ( tunes == "Forest" )
+            if (tunes == "Forest")
             {
-				((PlayerMobile)m).CharMusical = "Dungeon";
+                ((PlayerMobile)m).CharMusical = "Dungeon";
                 m.SendMessage(68, "Your dungeon music preference has been set to normal.");
             }
             else
             {
-				((PlayerMobile)m).CharMusical = "Forest";
+                ((PlayerMobile)m).CharMusical = "Forest";
                 m.SendMessage(68, "Your dungeon music preference has been set to casual.");
             }
         }

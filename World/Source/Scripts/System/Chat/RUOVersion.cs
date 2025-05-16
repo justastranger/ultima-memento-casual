@@ -14,7 +14,7 @@ using Server;
 using Server.Network;
 
 #if (RunUO_2_RC1)
-    using Server.Commands;
+using Server.Commands;
 #endif
 
 namespace Knives.Chat3
@@ -27,22 +27,22 @@ namespace Knives.Chat3
         {
             s_Commands[com.ToLower()] = cch;
 
-            #if(RunUO_1_Final)
+#if (RunUO_1_Final)
                 Server.Commands.Register(com, acc, new CommandEventHandler(OnCommand));
-            #elif(RunUO_2_RC1)
-                Server.Commands.CommandSystem.Register(com, acc, new CommandEventHandler(OnCommand));
-            #endif
+#elif (RunUO_2_RC1)
+            Server.Commands.CommandSystem.Register(com, acc, new CommandEventHandler(OnCommand));
+#endif
         }
 
         public static void RemoveCommand(string com)
         {
             s_Commands[com.ToLower()] = null;
 
-            #if (RunUO_1_Final)
+#if (RunUO_1_Final)
                 Server.Commands.Entries.Remove(com);
-            #else
-                Server.Commands.CommandSystem.Entries.Remove(com);
-            #endif
+#else
+            Server.Commands.CommandSystem.Entries.Remove(com);
+#endif
         }
 
         public static void OnCommand(CommandEventArgs e)
@@ -55,11 +55,11 @@ namespace Knives.Chat3
 
         public static bool GuildChat(MessageType type)
         {
-            #if (RunUO_1_Final)
+#if (RunUO_1_Final)
                 return false;
-            #else
-                return type == MessageType.Guild;
-            #endif
+#else
+            return type == MessageType.Guild;
+#endif
         }
     }
 }

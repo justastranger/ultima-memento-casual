@@ -46,18 +46,18 @@ namespace Knives.Chat3
                 AddButton(width / 2 - 5, y + 4, 0x2716, "Submit", new GumpCallback(Submit));
             }
 
-            AddHtml(0, y += 25, width/2-10, "<DIV ALIGN=RIGHT>" + General.Local(148));
-            AddTextField(width/2+15, y, 70, 21, 0x480, 0xBBA, "Add/Remove", "");
-            AddButton(width/2-5, y + 4, 0x2716, "Add/Remove Filter", new GumpCallback(AddFilter));
+            AddHtml(0, y += 25, width / 2 - 10, "<DIV ALIGN=RIGHT>" + General.Local(148));
+            AddTextField(width / 2 + 15, y, 70, 21, 0x480, 0xBBA, "Add/Remove", "");
+            AddButton(width / 2 - 5, y + 4, 0x2716, "Add/Remove Filter", new GumpCallback(AddFilter));
 
             string txt = General.Local(151) + " ";
 
             foreach (string filter in Data.Filters)
                 txt += filter + " ";
 
-            AddHtml(20, y += 25, width-40, 60, txt, false, false);
+            AddHtml(20, y += 25, width - 40, 60, txt, false, false);
 
-            AddBackgroundZero(0, 0, width, y+80, Data.GetData(Owner).DefaultBack);
+            AddBackgroundZero(0, 0, width, y + 80, Data.GetData(Owner).DefaultBack);
         }
 
         private void FilterSpeech()

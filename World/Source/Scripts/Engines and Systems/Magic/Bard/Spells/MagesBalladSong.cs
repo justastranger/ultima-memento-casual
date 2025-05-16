@@ -21,67 +21,67 @@ namespace Server.Spells.Song
         public override double RequiredSkill { get { return 55; } }
         public override int RequiredMana { get { return 15; } }
 
-        public MagesBalladSong(Mobile caster, Item scroll): base(caster, scroll, m_Info){}
+        public MagesBalladSong(Mobile caster, Item scroll) : base(caster, scroll, m_Info) { }
 
         public override void OnCast()
         {
-			base.OnCast();
+            base.OnCast();
 
-			bool sings = false;
- 
+            bool sings = false;
+
             if (CheckSequence())
-			{
-				sings = true;
- 
-                double allvalue = (double)MusicSkill( Caster );
+            {
+                sings = true;
 
+                double allvalue = (double)MusicSkill(Caster);
+
+                {
+                    ArrayList targets = new ArrayList();
+
+                    foreach (Mobile m in Caster.GetMobilesInRange(10))
                     {
-                        ArrayList targets = new ArrayList();
-
-                        foreach (Mobile m in Caster.GetMobilesInRange( 10 ))
-                        {
-                            if ( isFriendly( Caster, m ) )
-                                targets.Add(m);
-                        }
-
-                        for (int i = 0; i < targets.Count; ++i)
-                        {
-                            Mobile m = (Mobile)targets[i];
-
-                            //TimeSpan duration = TimeSpan.FromSeconds(Caster.Skills[SkillName.Musicianship].Value * 0.375);
-                            TimeSpan duration = TimeSpan.FromSeconds(allvalue/4 * 0.5);
-                            int rounds = (int)(Caster.Skills[SkillName.Musicianship].Value * .16);
-
-                            if (allvalue < 120)
-                            { new ExpireTimer(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
-                            //2 mana
-                            else if (allvalue < 240)
-                            { new ExpireTimer1(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
-                            //3 mana
-                            else if (allvalue < 360)
-                            { new ExpireTimer2(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
-                            //4 mana
-                            else if (allvalue < 480)
-                            { new ExpireTimer3(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
-                            //5
-                            else if (allvalue >= 480)
-                            { new ExpireTimer4(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
-                            //10
-                            else
-                            { new ExpireTimer(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
-                            //not required, just in case the else if dont cover it all, same as first if 
-
-                            m.FixedParticles(0x376A, 9, 32, 5030, 0x256, 3, EffectLayer.Waist);
-                            m.PlaySound(0x1F2);
-
-							BuffInfo.RemoveBuff( m, BuffIcon.MagesBallad );
-							BuffInfo.AddBuff( m, new BuffInfo( BuffIcon.MagesBallad, 1063580, TimeSpan.FromSeconds( (double)( rounds * 2.0 ) ), m ) );
-                        }
+                        if (isFriendly(Caster, m))
+                            targets.Add(m);
                     }
+
+                    for (int i = 0; i < targets.Count; ++i)
+                    {
+                        Mobile m = (Mobile)targets[i];
+
+                        //TimeSpan duration = TimeSpan.FromSeconds(Caster.Skills[SkillName.Musicianship].Value * 0.375);
+                        TimeSpan duration = TimeSpan.FromSeconds(allvalue / 4 * 0.5);
+                        int rounds = (int)(Caster.Skills[SkillName.Musicianship].Value * .16);
+
+                        if (allvalue < 120)
+                        { new ExpireTimer(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
+                        //2 mana
+                        else if (allvalue < 240)
+                        { new ExpireTimer1(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
+                        //3 mana
+                        else if (allvalue < 360)
+                        { new ExpireTimer2(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
+                        //4 mana
+                        else if (allvalue < 480)
+                        { new ExpireTimer3(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
+                        //5
+                        else if (allvalue >= 480)
+                        { new ExpireTimer4(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
+                        //10
+                        else
+                        { new ExpireTimer(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); }
+                        //not required, just in case the else if dont cover it all, same as first if 
+
+                        m.FixedParticles(0x376A, 9, 32, 5030, 0x256, 3, EffectLayer.Waist);
+                        m.PlaySound(0x1F2);
+
+                        BuffInfo.RemoveBuff(m, BuffIcon.MagesBallad);
+                        BuffInfo.AddBuff(m, new BuffInfo(BuffIcon.MagesBallad, 1063580, TimeSpan.FromSeconds((double)(rounds * 2.0)), m));
+                    }
+                }
 
                 FinishSequence();
             }
-			BardFunctions.UseBardInstrument( m_Book.Instrument, sings, Caster );
+            BardFunctions.UseBardInstrument(m_Book.Instrument, sings, Caster);
         }
 
         private class ExpireTimer : Timer
@@ -102,13 +102,13 @@ namespace Server.Spells.Song
             {
                 if (m_Mobile != null)
                 {
-                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod( 6, m_Mobile );
+                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod(6, m_Mobile);
 
                     if (m_Round >= m_Totalrounds)
                     {
                         m_Mobile.SendMessage("The effect of mage's ballad wears off.");
-						BuffInfo.RemoveBuff( m_Mobile, BuffIcon.MagesBallad );
-					}
+                        BuffInfo.RemoveBuff(m_Mobile, BuffIcon.MagesBallad);
+                    }
                     else
                     {
                         m_Round += 1;
@@ -136,13 +136,13 @@ namespace Server.Spells.Song
             {
                 if (m_Mobile != null)
                 {
-                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod( 7, m_Mobile );
+                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod(7, m_Mobile);
 
                     if (m_Round >= m_Totalrounds)
                     {
                         m_Mobile.SendMessage("The effect of mage's ballad wears off.");
- 						BuffInfo.RemoveBuff( m_Mobile, BuffIcon.MagesBallad );
-					}
+                        BuffInfo.RemoveBuff(m_Mobile, BuffIcon.MagesBallad);
+                    }
                     else
                     {
                         m_Round += 1;
@@ -170,13 +170,13 @@ namespace Server.Spells.Song
             {
                 if (m_Mobile != null)
                 {
-                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod( 8, m_Mobile );
+                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod(8, m_Mobile);
 
                     if (m_Round >= m_Totalrounds)
                     {
                         m_Mobile.SendMessage("The effect of mage's ballad wears off.");
-						BuffInfo.RemoveBuff( m_Mobile, BuffIcon.MagesBallad );
-					}
+                        BuffInfo.RemoveBuff(m_Mobile, BuffIcon.MagesBallad);
+                    }
                     else
                     {
                         m_Round += 1;
@@ -204,13 +204,13 @@ namespace Server.Spells.Song
             {
                 if (m_Mobile != null)
                 {
-                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod( 9, m_Mobile );
+                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod(9, m_Mobile);
 
                     if (m_Round >= m_Totalrounds)
                     {
                         m_Mobile.SendMessage("The effect of mage's ballad wears off.");
-						BuffInfo.RemoveBuff( m_Mobile, BuffIcon.MagesBallad );
-					}
+                        BuffInfo.RemoveBuff(m_Mobile, BuffIcon.MagesBallad);
+                    }
                     else
                     {
                         m_Round += 1;
@@ -238,13 +238,13 @@ namespace Server.Spells.Song
             {
                 if (m_Mobile != null)
                 {
-                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod( 10, m_Mobile );
+                    m_Mobile.Mana += MyServerSettings.PlayerLevelMod(10, m_Mobile);
 
                     if (m_Round >= m_Totalrounds)
                     {
                         m_Mobile.SendMessage("The effect of mage's ballad wears off.");
-						BuffInfo.RemoveBuff( m_Mobile, BuffIcon.MagesBallad );
-					}
+                        BuffInfo.RemoveBuff(m_Mobile, BuffIcon.MagesBallad);
+                    }
                     else
                     {
                         m_Round += 1;

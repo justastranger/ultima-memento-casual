@@ -39,7 +39,7 @@ namespace Knives.Chat3
                 if (IsIn(data.Mobile))
                     data.Mobile.SendMessage(ColorFor(data.Mobile), msg);
                 else if (data.GlobalC)
-                    data.Mobile.SendMessage(data.GlobalCC, String.Format("(Global) {0}", msg ));
+                    data.Mobile.SendMessage(data.GlobalCC, String.Format("(Global) {0}", msg));
             }
         }
 

@@ -4,10 +4,10 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class TelescopeAddon : BaseAddon
-	{
+    public class TelescopeAddon : BaseAddon
+    {
         private static int[,] m_AddOnSimpleComponents = new int[,] {
-			  {5268, -5, 0, 0}, {5211, -5, 1, 0}, {5210, -5, 2, 0}// 1	2	3	
+              {5268, -5, 0, 0}, {5211, -5, 1, 0}, {5210, -5, 2, 0}// 1	2	3	
 			, {5269, -4, -1, 0}, {5212, -4, 2, 0}, {5270, -3, -2, 0}// 4	5	6	
 			, {5273, -3, -1, 0}, {5262, -3, 1, 0}, {5267, -3, 2, 0}// 7	8	9	
 			, {5271, -2, -3, 0}, {5274, -1, -4, 0}, {5272, -1, -3, 0}// 10	11	12	
@@ -31,75 +31,75 @@ namespace Server.Items
 			, {5220, 2, 4, 0}, {5222, 3, 3, 0}// 64	65	
 		};
 
-		public override BaseAddonDeed Deed
-		{
-			get
-			{
-				return new TelescopeAddonDeed();
-			}
-		}
+        public override BaseAddonDeed Deed
+        {
+            get
+            {
+                return new TelescopeAddonDeed();
+            }
+        }
 
-		[ Constructable ]
-		public TelescopeAddon()
-		{
+        [Constructable]
+        public TelescopeAddon()
+        {
             for (int i = 0; i < m_AddOnSimpleComponents.Length / 4; i++)
-                AddComponent( new AddonComponent( m_AddOnSimpleComponents[i,0] ), m_AddOnSimpleComponents[i,1], m_AddOnSimpleComponents[i,2], m_AddOnSimpleComponents[i,3] );
-		}
+                AddComponent(new AddonComponent(m_AddOnSimpleComponents[i, 0]), m_AddOnSimpleComponents[i, 1], m_AddOnSimpleComponents[i, 2], m_AddOnSimpleComponents[i, 3]);
+        }
 
-		public TelescopeAddon( Serial serial ) : base( serial )
-		{
-		}
+        public TelescopeAddon(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 
-	public class TelescopeAddonDeed : BaseAddonDeed
-	{
-		public override BaseAddon Addon
-		{
-			get
-			{
-				return new TelescopeAddon();
-			}
-		}
+    public class TelescopeAddonDeed : BaseAddonDeed
+    {
+        public override BaseAddon Addon
+        {
+            get
+            {
+                return new TelescopeAddon();
+            }
+        }
 
-		[Constructable]
-		public TelescopeAddonDeed()
-		{
-			Name = "telescope";
-			ItemID = 0x14F6;
-		}
+        [Constructable]
+        public TelescopeAddonDeed()
+        {
+            Name = "telescope";
+            ItemID = 0x14F6;
+        }
 
         public override void AddNameProperties(ObjectPropertyList list)
-		{
+        {
             base.AddNameProperties(list);
-			list.Add( 1070722, "To Be Built In A Home");
-        } 
+            list.Add(1070722, "To Be Built In A Home");
+        }
 
-		public TelescopeAddonDeed( Serial serial ) : base( serial )
-		{
-		}
+        public TelescopeAddonDeed(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-			writer.Write( 0 ); // Version
-		}
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(0); // Version
+        }
 
-		public override void	Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-			int version = reader.ReadInt();
-		}
-	}
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+        }
+    }
 }

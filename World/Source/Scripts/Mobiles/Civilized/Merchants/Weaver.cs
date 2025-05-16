@@ -7,102 +7,102 @@ using Server.Misc;
 
 namespace Server.Mobiles
 {
-	public class Weaver : BaseVendor
-	{
-		private List<SBInfo> m_SBInfos = new List<SBInfo>();
-		protected override List<SBInfo> SBInfos{ get { return m_SBInfos; } }
+    public class Weaver : BaseVendor
+    {
+        private List<SBInfo> m_SBInfos = new List<SBInfo>();
+        protected override List<SBInfo> SBInfos { get { return m_SBInfos; } }
 
-		public override string TalkGumpTitle{ get{ return "Altering Cloaks And Robes"; } }
-		public override string TalkGumpSubject{ get{ return "Tailor"; } }
+        public override string TalkGumpTitle { get { return "Altering Cloaks And Robes"; } }
+        public override string TalkGumpSubject { get { return "Tailor"; } }
 
-		public override NpcGuild NpcGuild{ get{ return NpcGuild.TailorsGuild; } }
+        public override NpcGuild NpcGuild { get { return NpcGuild.TailorsGuild; } }
 
-		[Constructable]
-		public Weaver() : base( "the weaver" )
-		{
-			SetSkill( SkillName.Tailoring, 65.0, 88.0 );
-		}
+        [Constructable]
+        public Weaver() : base("the weaver")
+        {
+            SetSkill(SkillName.Tailoring, 65.0, 88.0);
+        }
 
-		public override void InitSBInfo( Mobile m )
-		{
-			m_Merchant = m;
-			m_SBInfos.Add( new MyStock() );
-		}
+        public override void InitSBInfo(Mobile m)
+        {
+            m_Merchant = m;
+            m_SBInfos.Add(new MyStock());
+        }
 
-		public class MyStock: SBInfo
-		{
-			private List<GenericBuyInfo> m_BuyInfo = new InternalBuyInfo();
-			private IShopSellInfo m_SellInfo = new InternalSellInfo();
+        public class MyStock : SBInfo
+        {
+            private List<GenericBuyInfo> m_BuyInfo = new InternalBuyInfo();
+            private IShopSellInfo m_SellInfo = new InternalSellInfo();
 
-			public MyStock()
-			{
-			}
+            public MyStock()
+            {
+            }
 
-			public override IShopSellInfo SellInfo { get { return m_SellInfo; } }
-			public override List<GenericBuyInfo> BuyInfo { get { return m_BuyInfo; } }
+            public override IShopSellInfo SellInfo { get { return m_SellInfo; } }
+            public override List<GenericBuyInfo> BuyInfo { get { return m_BuyInfo; } }
 
-			public class InternalBuyInfo : List<GenericBuyInfo>
-			{
-				public InternalBuyInfo()
-				{
-					ItemInformation.GetSellList( m_Merchant, this, 	ItemSalesInfo.Category.None,		ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Tailor,		ItemSalesInfo.World.None,	null	 );
-					ItemInformation.GetSellList( m_Merchant, this, 	ItemSalesInfo.Category.Rare,		ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Tailor,		ItemSalesInfo.World.None,	null	 );
-					ItemInformation.GetSellList( m_Merchant, this, 	ItemSalesInfo.Category.Resource,	ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Tailor,		ItemSalesInfo.World.None,	null	 );
-				}
-			}
+            public class InternalBuyInfo : List<GenericBuyInfo>
+            {
+                public InternalBuyInfo()
+                {
+                    ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.None, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Tailor, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.Rare, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Tailor, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.Resource, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Tailor, ItemSalesInfo.World.None, null);
+                }
+            }
 
-			public class InternalSellInfo : GenericSellInfo
-			{
-				public InternalSellInfo()
-				{
-					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.None,		ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Tailor,		ItemSalesInfo.World.None,	null	 );
-					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Rare,		ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Tailor,		ItemSalesInfo.World.None,	null	 );
-					ItemInformation.GetBuysList( m_Merchant, this, 	ItemSalesInfo.Category.Resource,	ItemSalesInfo.Material.None,		ItemSalesInfo.Market.Tailor,		ItemSalesInfo.World.None,	null	 );
-				}
-			}
-		}
+            public class InternalSellInfo : GenericSellInfo
+            {
+                public InternalSellInfo()
+                {
+                    ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.None, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Tailor, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.Rare, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Tailor, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.Resource, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Tailor, ItemSalesInfo.World.None, null);
+                }
+            }
+        }
 
-		private class FixEntry : ContextMenuEntry
-		{
-			private Weaver m_Weaver;
-			private Mobile m_From;
+        private class FixEntry : ContextMenuEntry
+        {
+            private Weaver m_Weaver;
+            private Mobile m_From;
 
-			public FixEntry( Weaver Weaver, Mobile from ) : base( 6120, 12 )
-			{
-				m_Weaver = Weaver;
-				m_From = from;
-				Enabled = Weaver.CheckVendorAccess( from );
-			}
+            public FixEntry(Weaver Weaver, Mobile from) : base(6120, 12)
+            {
+                m_Weaver = Weaver;
+                m_From = from;
+                Enabled = Weaver.CheckVendorAccess(from);
+            }
 
-			public override void OnClick()
-			{
-				m_Weaver.BeginServices( m_From );
-			}
-		}
+            public override void OnClick()
+            {
+                m_Weaver.BeginServices(m_From);
+            }
+        }
 
-		public override void AddCustomContextEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			if ( CheckChattingAccess( from ) )
-				list.Add( new FixEntry( this, from ) );
+        public override void AddCustomContextEntries(Mobile from, List<ContextMenuEntry> list)
+        {
+            if (CheckChattingAccess(from))
+                list.Add(new FixEntry(this, from));
 
-			base.AddCustomContextEntries( from, list );
-		}
+            base.AddCustomContextEntries(from, list);
+        }
 
         public void BeginServices(Mobile from)
         {
-            if ( Deleted || !from.Alive )
+            if (Deleted || !from.Alive)
                 return;
 
-			int nCost = 5;
-			int nCostH = 10;
+            int nCost = 5;
+            int nCostH = 10;
 
-			if ( BeggingPose(from) > 0 ) // LET US SEE IF THEY ARE BEGGING
-			{
-				nCost = nCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * nCost ); if ( nCost < 1 ){ nCost = 1; }
-				nCostH = nCostH - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * nCostH ); if ( nCostH < 1 ){ nCostH = 1; }
-				SayTo(from, "Since you are begging, do you still want me to tailor your robe or cloak to look normal, it will only cost you " + nCost.ToString() + " gold? Maybe repair a hat for at least " + nCostH.ToString() + " gold per durability?");
-			}
-			else { SayTo(from, "If you want me to tailor your robe or cloak to look normal, it will cost you " + nCost.ToString() + " gold. Maybe repair a hat at " + nCostH.ToString() + " gold per durability?"); }
+            if (BeggingPose(from) > 0) // LET US SEE IF THEY ARE BEGGING
+            {
+                nCost = nCost - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCost); if (nCost < 1) { nCost = 1; }
+                nCostH = nCostH - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCostH); if (nCostH < 1) { nCostH = 1; }
+                SayTo(from, "Since you are begging, do you still want me to tailor your robe or cloak to look normal, it will only cost you " + nCost.ToString() + " gold? Maybe repair a hat for at least " + nCostH.ToString() + " gold per durability?");
+            }
+            else { SayTo(from, "If you want me to tailor your robe or cloak to look normal, it will cost you " + nCost.ToString() + " gold. Maybe repair a hat at " + nCostH.ToString() + " gold per durability?"); }
 
             from.Target = new RepairTarget(this);
         }
@@ -117,40 +117,40 @@ namespace Server.Mobiles
             }
 
             protected override void OnTarget(Mobile from, object targeted)
-			{
-				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				if ( targeted is BaseHat && from.Backpack != null )
-				{
+            {
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if (targeted is BaseHat && from.Backpack != null)
+                {
                     BaseHat ba = targeted as BaseHat;
                     Container pack = from.Backpack;
                     int toConsume = 0;
 
                     if (ba.HitPoints < ba.MaxHitPoints)
                     {
-						int nCost = 10;
+                        int nCost = 10;
 
-						if ( BeggingPose(from) > 0 ) // LET US SEE IF THEY ARE BEGGING
-						{
-							nCost = nCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * nCost ); if ( nCost < 1 ){ nCost = 1; }
-							toConsume = (ba.MaxHitPoints - ba.HitPoints) * nCost;
-						}
-						else { toConsume = (ba.MaxHitPoints - ba.HitPoints) * nCost; }
+                        if (BeggingPose(from) > 0) // LET US SEE IF THEY ARE BEGGING
+                        {
+                            nCost = nCost - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCost); if (nCost < 1) { nCost = 1; }
+                            toConsume = (ba.MaxHitPoints - ba.HitPoints) * nCost;
+                        }
+                        else { toConsume = (ba.MaxHitPoints - ba.HitPoints) * nCost; }
                     }
                     else if (ba.HitPoints >= ba.MaxHitPoints)
                     {
-						m_Weaver.SayTo(from, "That does not need to be repaired.");
+                        m_Weaver.SayTo(from, "That does not need to be repaired.");
                     }
-					else
-					{
-						m_Weaver.SayTo(from, "I cannot repair that.");
-					}
+                    else
+                    {
+                        m_Weaver.SayTo(from, "I cannot repair that.");
+                    }
 
                     if (toConsume == 0)
                         return;
 
                     if (pack.ConsumeTotal(typeof(Gold), toConsume))
                     {
-						if ( BeggingPose(from) > 0 ){ Titles.AwardKarma( from, -BeggingKarma( from ), true ); } // DO ANY KARMA LOSS
+                        if (BeggingPose(from) > 0) { Titles.AwardKarma(from, -BeggingKarma(from), true); } // DO ANY KARMA LOSS
                         m_Weaver.SayTo(from, "Here is your hat.");
                         from.SendMessage(String.Format("You pay {0} gold.", toConsume));
                         Effects.PlaySound(from.Location, from.Map, 0x248);
@@ -163,27 +163,27 @@ namespace Server.Mobiles
                         from.SendMessage("You do not have enough gold.");
                     }
                 }
-				else
-					m_Weaver.SayTo(from, "That does not need my services.");
+                else
+                    m_Weaver.SayTo(from, "That does not need my services.");
             }
         }
 
-		public Weaver( Serial serial ) : base( serial )
-		{
-		}
+        public Weaver(Serial serial) : base(serial)
+        {
+        }
 
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
 
-			writer.Write( (int) 0 ); // version
-		}
+            writer.Write((int)0); // version
+        }
 
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
 
-			int version = reader.ReadInt();
-		}
-	}
+            int version = reader.ReadInt();
+        }
+    }
 }

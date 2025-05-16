@@ -8,36 +8,36 @@ namespace Server.Gumps
 {
     public class NewSkillsGump : Gump
     {
-		public int m_Origin;
+        public int m_Origin;
 
-		public static void Initialize()
-		{
-			CommandSystem.Register( "skill", AccessLevel.Player, new CommandEventHandler( NewSkillsGump_OnCommand ) );
-		}
-
-		[Usage( "skill" )]
-		[Description( "Shows the player the definition of the skills in the game." )]
-		public static void NewSkillsGump_OnCommand( CommandEventArgs e )
-		{
-			e.Mobile.SendGump( new NewSkillsGump( e.Mobile, 0 ) );
-		}
-
-        public NewSkillsGump( Mobile from, int origin ) : base( 50, 50 )
+        public static void Initialize()
         {
-			m_Origin = origin;
-			string color = "#ddbc4b";
-			from.SendSound( 0x4A ); 
+            CommandSystem.Register("skill", AccessLevel.Player, new CommandEventHandler(NewSkillsGump_OnCommand));
+        }
 
-			this.Closable=true;
-			this.Disposable=true;
-			this.Dragable=true;
-			this.Resizable=false;
+        [Usage("skill")]
+        [Description("Shows the player the definition of the skills in the game.")]
+        public static void NewSkillsGump_OnCommand(CommandEventArgs e)
+        {
+            e.Mobile.SendGump(new NewSkillsGump(e.Mobile, 0));
+        }
 
-			AddPage(0);
+        public NewSkillsGump(Mobile from, int origin) : base(50, 50)
+        {
+            m_Origin = origin;
+            string color = "#ddbc4b";
+            from.SendSound(0x4A);
 
-			AddImage(0, 0, 9546, Server.Misc.PlayerSettings.GetGumpHue( from ));
-			AddHtml( 14, 14, 400, 20, @"<BODY><BASEFONT Color=" + color + ">SKILL DESCRIPTIONS</BASEFONT></BODY>", (bool)false, (bool)false);
-			AddButton(867, 10, 4017, 4017, 0, GumpButtonType.Reply, 0);
+            this.Closable = true;
+            this.Disposable = true;
+            this.Dragable = true;
+            this.Resizable = false;
+
+            AddPage(0);
+
+            AddImage(0, 0, 9546, Server.Misc.PlayerSettings.GetGumpHue(from));
+            AddHtml(14, 14, 400, 20, @"<BODY><BASEFONT Color=" + color + ">SKILL DESCRIPTIONS</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddButton(867, 10, 4017, 4017, 0, GumpButtonType.Reply, 0);
 
 			string text = "";
 text = text + "Alchemy - This will need a mortar, pestle, empty bottle, and some reagents. A potion keg can hold many bottles of potions. Double clicking the mortar and pestle will start you on your way. These consumables are a cheap and effective way to boost your survivability and damage!<BR><BR>";
@@ -95,15 +95,15 @@ text = text + "Tinkering - This skill allows one to make many different types of
 text = text + "Tracking - Hunters are proficient with this skill as it allows them to track their prey. With a good tracking skill, one may even track hidden or invisible creatures.<BR><BR>";
 text = text + "Veterinary - If one decides to become a Tamer, this skill will allow you to use bandages to heal your pets and even resurrect them. This skill is also required if one intends to explore druidic herbalism.<BR><BR>";
 
-			AddHtml( 17, 49, 875, 726, @"<BODY><BASEFONT Color=" + color + ">" + text + "</BASEFONT></BODY>", (bool)false, (bool)true);
+            AddHtml(17, 49, 875, 726, @"<BODY><BASEFONT Color=" + color + ">" + text + "</BASEFONT></BODY>", (bool)false, (bool)true);
 
         }
 
-		public override void OnResponse( NetState sender, RelayInfo info )
-		{
-			Mobile from = sender.Mobile;
-			from.SendSound( 0x4A ); 
-			if ( m_Origin > 0 ){ from.SendGump( new Server.Engines.Help.HelpGump( from, 1 ) ); }
-		}
+        public override void OnResponse(NetState sender, RelayInfo info)
+        {
+            Mobile from = sender.Mobile;
+            from.SendSound(0x4A);
+            if (m_Origin > 0) { from.SendGump(new Server.Engines.Help.HelpGump(from, 1)); }
+        }
     }
 }

@@ -107,7 +107,7 @@ namespace Knives.Chat3
             if (Data.GetData(args.Mobile).NewMsg())
                 PmNotify(args.Mobile);
 
-            if(!Data.GetData(args.Mobile).WhenFull)
+            if (!Data.GetData(args.Mobile).WhenFull)
                 args.Mobile.SendMessage(Data.GetData(args.Mobile).SystemC, General.Local(258), Data.GetData(args.Mobile).Messages.Count, Data.MaxMsgs);
 
             foreach (Data data in Data.Datas.Values)
@@ -223,12 +223,12 @@ namespace Knives.Chat3
 
         public static string FactionName(Mobile m)
         {
-			return "";
+            return "";
         }
 
         public static string FactionTitle(Mobile m)
         {
-			return "";
+            return "";
         }
     }
 }

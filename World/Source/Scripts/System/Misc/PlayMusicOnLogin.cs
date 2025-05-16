@@ -22,24 +22,24 @@ namespace Felladrin.Automations
 
         static void OnLogin(LoginEventArgs args)
         {
-			Mobile from = args.Mobile;
+            Mobile from = args.Mobile;
 
             MusicName toPlay = Config.SingleMusic;
 
             if (Config.PlayRandomMusic)
                 toPlay = MusicList[Utility.Random(MusicList.Length)];
 
-			if ( from.Region is StartRegion )
-			{
-				if ( (from.Region).Name == "the Forest" )
-					from.Send(PlayMusic.GetInstance(MusicName.City));
-				else 
-					from.Send(PlayMusic.GetInstance(toPlay));
-			}
-			else
-				from.Send(PlayMusic.GetInstance(toPlay));
+            if (from.Region is StartRegion)
+            {
+                if ((from.Region).Name == "the Forest")
+                    from.Send(PlayMusic.GetInstance(MusicName.City));
+                else
+                    from.Send(PlayMusic.GetInstance(toPlay));
+            }
+            else
+                from.Send(PlayMusic.GetInstance(toPlay));
         }
-        
+
         public static MusicName[] MusicList = {
             MusicName.Traveling,
             MusicName.Explore,

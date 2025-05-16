@@ -21,74 +21,74 @@ namespace Server.Misc
 
     class LoggingFunctions
     {
-		public static bool LoggingEvents()
-		{
-			return true; // SET TO TRUE TO ENABLE LOG SYSTEM FOR GAME EVENTS AND TOWN CRIERS
-		}
+        public static bool LoggingEvents()
+        {
+            return true; // SET TO TRUE TO ENABLE LOG SYSTEM FOR GAME EVENTS AND TOWN CRIERS
+        }
 
-		public static void CreateFile(string sPath)
-		{
-			/// CREATE THE FILE IF IT DOES NOT EXIST ///
-			StreamWriter w = null; 
-			try
-			{
-				using (w = File.AppendText( sPath ) ){}
-			}
-			catch(Exception)
-			{
-			}
-			finally
-			{
-				if (w != null)
-					w.Dispose();
-			}
-		}
+        public static void CreateFile(string sPath)
+        {
+            /// CREATE THE FILE IF IT DOES NOT EXIST ///
+            StreamWriter w = null;
+            try
+            {
+                using (w = File.AppendText(sPath)) { }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (w != null)
+                    w.Dispose();
+            }
+        }
 
-		public static void UpdateFile(string filename, string header)
-		{
-			int nLine = 0;
-			int nTrim = 150;
-			string tempfile = Path.GetTempFileName();
-			StreamWriter writer = null;
-			StreamReader reader = null;
-			using (writer = new StreamWriter(tempfile))
-			using (reader = new StreamReader(filename))
-			{
-				writer.WriteLine(header);
-				while (!reader.EndOfStream)
-				{
-					nLine = nLine + 1;
-					if ( nLine < nTrim )
-					{
-						writer.WriteLine(reader.ReadLine());
-					}
-					else
-					{
-						reader.ReadLine();
-					}
-				}
-			}
+        public static void UpdateFile(string filename, string header)
+        {
+            int nLine = 0;
+            int nTrim = 150;
+            string tempfile = Path.GetTempFileName();
+            StreamWriter writer = null;
+            StreamReader reader = null;
+            using (writer = new StreamWriter(tempfile))
+            using (reader = new StreamReader(filename))
+            {
+                writer.WriteLine(header);
+                while (!reader.EndOfStream)
+                {
+                    nLine = nLine + 1;
+                    if (nLine < nTrim)
+                    {
+                        writer.WriteLine(reader.ReadLine());
+                    }
+                    else
+                    {
+                        reader.ReadLine();
+                    }
+                }
+            }
 
-			if (writer != null)
-				writer.Dispose();
+            if (writer != null)
+                writer.Dispose();
 
-			if (reader != null)
-				reader.Dispose();
+            if (reader != null)
+                reader.Dispose();
 
-			File.Copy(tempfile, filename, true);
-			File.Delete(tempfile);
-		}
+            File.Copy(tempfile, filename, true);
+            File.Delete(tempfile);
+        }
 
-		public static void DeleteFile(string filename)
-		{
-			try
-			{
-				File.Delete(filename);
-			}
-			catch(Exception)
-			{
-			}
-		}
+        public static void DeleteFile(string filename)
+        {
+            try
+            {
+                File.Delete(filename);
+            }
+            catch (Exception)
+            {
+            }
+        }
 
 		public static void EmitAndLogEvent( PlayerMobile mobile, string sEvent, LogEventType sLog, bool includeDate, bool prependNameAndTitle = true )
 		{
@@ -114,7 +114,7 @@ namespace Server.Misc
 				if ( !Directory.Exists( "Saves/Data" ) )
 					Directory.CreateDirectory( "Saves/Data" );
 
-				string sPath = "Saves/Data/adventures.txt";
+                string sPath = "Saves/Data/adventures.txt";
 
 				switch (sLog)
 				{
@@ -141,14 +141,14 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static string LogRead( LogEventType sLog, Mobile m )
 		{
 			if ( !Directory.Exists( "Saves/Data" ) )
 				Directory.CreateDirectory( "Saves/Data" );
 
-			string sPath = "Saves/Data/adventures.txt";
+            string sPath = "Saves/Data/adventures.txt";
 
 			switch (sLog)
 			{
@@ -160,44 +160,44 @@ namespace Server.Misc
 				case LogEventType.Journies: sPath = "Saves/Data/journies.txt"; break;
 			}
 
-			string sBreak = "";
+            string sBreak = "";
 
 			if ( sLog == LogEventType.Murderers){ sBreak = "<br>"; }
 			string sLogEntries = "";
 
-			CreateFile( sPath );
+            CreateFile(sPath);
 
-			string eachLine = "";
-			int nLine = 0;
-			int nBlank = 1;
-			StreamReader reader = null;
+            string eachLine = "";
+            int nLine = 0;
+            int nBlank = 1;
+            StreamReader reader = null;
 
-			try
-			{
-				using (reader = new StreamReader( sPath ))
-				{
-					while (!reader.EndOfStream)
-					{
-						eachLine = reader.ReadLine();
-						string[] eachWord = eachLine.Split('#');
-						nLine = 1;
-						foreach (string eachWords in eachWord)
-						{
-							if ( nLine == 1 ){ nLine = 2; sLogEntries = sLogEntries + eachWords + ".<br>" + sBreak; nBlank = 0; }
-							else { nLine = 1; sLogEntries = sLogEntries + " - " + eachWords + "<br><br>"; }
-						}
-					}
-				}
-			}
-			catch(Exception)
-			{
-				sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I am busy at the moment.";
-			}
-			finally
-			{
-				if (reader != null)
-					reader.Dispose();
-			}
+            try
+            {
+                using (reader = new StreamReader(sPath))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        eachLine = reader.ReadLine();
+                        string[] eachWord = eachLine.Split('#');
+                        nLine = 1;
+                        foreach (string eachWords in eachWord)
+                        {
+                            if (nLine == 1) { nLine = 2; sLogEntries = sLogEntries + eachWords + ".<br>" + sBreak; nBlank = 0; }
+                            else { nLine = 1; sLogEntries = sLogEntries + " - " + eachWords + "<br><br>"; }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I am busy at the moment.";
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Dispose();
+            }
 
 			if ( nBlank == 1 )
 			{
@@ -213,87 +213,87 @@ namespace Server.Misc
 				}
 			}
 
-			if ( sLogEntries.Contains(" .") ){ sLogEntries = sLogEntries.Replace(" .", "."); }
-			if ( sLogEntries.Contains("..") ){ sLogEntries = sLogEntries.Replace("..", "."); }
+            if (sLogEntries.Contains(" .")) { sLogEntries = sLogEntries.Replace(" .", "."); }
+            if (sLogEntries.Contains("..")) { sLogEntries = sLogEntries.Replace("..", "."); }
 
-			return sLogEntries;
-		}
+            return sLogEntries;
+        }
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogArticles( int article, int section )
-		{
-			if ( !Directory.Exists( "Info" ) )
-				Directory.CreateDirectory( "Info" );
+        public static string LogArticles(int article, int section)
+        {
+            if (!Directory.Exists("Info"))
+                Directory.CreateDirectory("Info");
 
-			if ( !Directory.Exists( "Info/Articles" ) )
-				Directory.CreateDirectory( "Info/Articles" );
+            if (!Directory.Exists("Info/Articles"))
+                Directory.CreateDirectory("Info/Articles");
 
-			if ( article > 10 ){ article = 0; }
-			else if ( article > 0 ){}
-			else { article = 0; }
+            if (article > 10) { article = 0; }
+            else if (article > 0) { }
+            else { article = 0; }
 
-			string text = article.ToString();
+            string text = article.ToString();
 
-			string path = "Info/Articles/" + text + ".txt";
+            string path = "Info/Articles/" + text + ".txt";
 
-			string part = "";
+            string part = "";
 
-			string title = "";
-			string date = "";
-			string message = "";
+            string title = "";
+            string date = "";
+            string message = "";
 
-			CreateFile( path );
+            CreateFile(path);
 
-			StreamReader reader = null;
+            StreamReader reader = null;
 
-			int line = 0;
+            int line = 0;
 
-			try
-			{
-				using (reader = new StreamReader( path ))
-				{
-					while (!reader.EndOfStream)
-					{
-						if ( line == 0 ){ title = reader.ReadLine(); }
-						else if ( line == 1 ){ date = reader.ReadLine(); }
-						else { message = reader.ReadLine(); }
+            try
+            {
+                using (reader = new StreamReader(path))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        if (line == 0) { title = reader.ReadLine(); }
+                        else if (line == 1) { date = reader.ReadLine(); }
+                        else { message = reader.ReadLine(); }
 
-						line++;
-					}
-				}
-			}
-			catch(Exception)
-			{
-			}
-			finally
-			{
-				if (reader != null)
-					reader.Dispose();
-			}
+                        line++;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Dispose();
+            }
 
-			if ( section == 1 ){ part = title; }
-			else if ( section == 2 ){ part = date; }
-			else if ( section == 3 ){ part = message; }
+            if (section == 1) { part = title; }
+            else if (section == 2) { part = date; }
+            else if (section == 3) { part = message; }
 
-			if ( part.Contains(" .") ){ part = part.Replace(" .", "."); }
+            if (part.Contains(" .")) { part = part.Replace(" .", "."); }
 
-			return part;
-		}
+            return part;
+        }
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static int TotalLines(string filePath)
-		{
-			int i = 0;
-			using (StreamReader r = new StreamReader(filePath)){ while (r.ReadLine() != null) { i++; } }
-			return i;
-		}
+        public static int TotalLines(string filePath)
+        {
+            int i = 0;
+            using (StreamReader r = new StreamReader(filePath)) { while (r.ReadLine() != null) { i++; } }
+            return i;
+        }
 
-		public static string LogShout()
-		{
-			if ( !Directory.Exists( "Saves/Data" ) )
-				Directory.CreateDirectory( "Saves/Data" );
+        public static string LogShout()
+        {
+            if (!Directory.Exists("Saves/Data"))
+                Directory.CreateDirectory("Saves/Data");
 
 			LogEventType sLog = LogEventType.Adventures;
 			switch ( Utility.Random( 6 ))
@@ -306,7 +306,7 @@ namespace Server.Misc
 				case 5: sLog = LogEventType.Adventures; break;
 			};
 
-			string sPath = "Saves/Data/adventures.txt";
+            string sPath = "Saves/Data/adventures.txt";
 
 			if ( sLog == LogEventType.Adventures ){ sPath = "Saves/Data/adventures.txt"; }
 			else if ( sLog == LogEventType.Quests ){ sPath = "Saves/Data/quests.txt"; }
@@ -315,90 +315,92 @@ namespace Server.Misc
 			else if ( sLog == LogEventType.Murderers ){ sPath = "Saves/Data/murderers.txt"; }
 			else if ( sLog == LogEventType.Journies ){ sPath = "Saves/Data/journies.txt"; }
 
-			CreateFile( sPath );
+            CreateFile(sPath);
 
-			int lineCount = 1;
-			string sGreet = "Hear ye, hear ye!";
-				switch ( Utility.Random( 4 ))
-				{
-					case 0: sGreet = "Hear ye, hear ye!"; break;
-					case 1: sGreet = "Everyone listen!"; break;
-					case 2: sGreet = "All hail and hear my words!"; break;
-					case 3: sGreet = "Your attention please!"; break;
-				};
+            int lineCount = 1;
+            string sGreet = "Hear ye, hear ye!";
+            switch (Utility.Random(4))
+            {
+                case 0: sGreet = "Hear ye, hear ye!"; break;
+                case 1: sGreet = "Everyone listen!"; break;
+                case 2: sGreet = "All hail and hear my words!"; break;
+                case 3: sGreet = "Your attention please!"; break;
+            }
+            ;
 
 			string myShout = "";
 			if ( sLog == LogEventType.Murderers ){ myShout = Server.Mobiles.TownHerald.randomShout( null ); }
 			else { myShout = Server.Mobiles.TownHerald.randomShout( null ); }
 
-			try
-			{
-				lineCount = TotalLines( sPath );
-			}
-			catch(Exception)
-			{
-			}
+            try
+            {
+                lineCount = TotalLines(sPath);
+            }
+            catch (Exception)
+            {
+            }
 
-			lineCount = Utility.RandomMinMax( 1, lineCount );
-			string readLine = "";
-			StreamReader reader = null;
-			int nWhichLine = 0;
-			int nLine = 1;
-			try
-			{
-				using (reader = new StreamReader( sPath ))
-				{
-					string line;
+            lineCount = Utility.RandomMinMax(1, lineCount);
+            string readLine = "";
+            StreamReader reader = null;
+            int nWhichLine = 0;
+            int nLine = 1;
+            try
+            {
+                using (reader = new StreamReader(sPath))
+                {
+                    string line;
 
-					while ((line = reader.ReadLine()) != null)
-					{
-						nWhichLine = nWhichLine + 1;
-						if ( nWhichLine == lineCount )
-						{
-							readLine = line;
-							string[] shoutOut = readLine.Split('#');
-							foreach (string shoutOuts in shoutOut)
-							{
-								if ( nLine == 1 ){ nLine = 2; readLine = shoutOuts; }
-							}
-						}
-					}
-					if ( readLine != "" ){ myShout = readLine; }
-				}
-			}
-			catch(Exception)
-			{
-			}
-			finally
-			{
-				if (reader != null)
-					reader.Dispose();
-			}
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        nWhichLine = nWhichLine + 1;
+                        if (nWhichLine == lineCount)
+                        {
+                            readLine = line;
+                            string[] shoutOut = readLine.Split('#');
+                            foreach (string shoutOuts in shoutOut)
+                            {
+                                if (nLine == 1) { nLine = 2; readLine = shoutOuts; }
+                            }
+                        }
+                    }
+                    if (readLine != "") { myShout = readLine; }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Dispose();
+            }
 
-			string sVerb1 = "";
-			string sVerb2 = "";
-			switch ( Utility.Random( 4 ))
-			{
-				case 0: sVerb1 = "was seen in";				sVerb2 = "was seen leaving"; 			break;
-				case 1: sVerb1 = "was spotted in";			sVerb2 = "was spotted leaving"; 		break;
-				case 2: sVerb1 = "was known to be in";		sVerb2 = "was seen near"; 				break;
-				case 3: sVerb1 = "was rumored to be in";	sVerb2 = "was spotted by"; 				break;
-			};
+            string sVerb1 = "";
+            string sVerb2 = "";
+            switch (Utility.Random(4))
+            {
+                case 0: sVerb1 = "was seen in"; sVerb2 = "was seen leaving"; break;
+                case 1: sVerb1 = "was spotted in"; sVerb2 = "was spotted leaving"; break;
+                case 2: sVerb1 = "was known to be in"; sVerb2 = "was seen near"; break;
+                case 3: sVerb1 = "was rumored to be in"; sVerb2 = "was spotted by"; break;
+            }
+            ;
 
-			myShout = sGreet + " " + myShout + "!";
-			if ( myShout.Contains(" !") ){ myShout = myShout.Replace(" !", "!"); }
-			if ( myShout.Contains(" had entered ") ){ myShout = myShout.Replace(" had entered ", " " + sVerb1 + " "); }
-			if ( myShout.Contains(" had left ") ){ myShout = myShout.Replace(" left ", " " + sVerb2 + " "); }
+            myShout = sGreet + " " + myShout + "!";
+            if (myShout.Contains(" !")) { myShout = myShout.Replace(" !", "!"); }
+            if (myShout.Contains(" had entered ")) { myShout = myShout.Replace(" had entered ", " " + sVerb1 + " "); }
+            if (myShout.Contains(" had left ")) { myShout = myShout.Replace(" left ", " " + sVerb2 + " "); }
 
-			return myShout;
-		}
+            return myShout;
+        }
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogSpeak()
-		{
-			if ( !Directory.Exists( "Saves/Data" ) )
-				Directory.CreateDirectory( "Saves/Data" );
+        public static string LogSpeak()
+        {
+            if (!Directory.Exists("Saves/Data"))
+                Directory.CreateDirectory("Saves/Data");
 
 			LogEventType sLog = LogEventType.Murderers;
 			switch ( Utility.Random( 6 ))
@@ -410,144 +412,145 @@ namespace Server.Misc
 				case 4: sLog = LogEventType.Journies; break;
 			};
 
-			string sPath = "Saves/Data/murderers.txt";
+            string sPath = "Saves/Data/murderers.txt";
 
 			if ( sLog == LogEventType.Battles ){ sPath = "Saves/Data/battles.txt"; }
 			else if ( sLog == LogEventType.Deaths ){ sPath = "Saves/Data/deaths.txt"; }
 			else if ( sLog == LogEventType.Journies ){ sPath = "Saves/Data/journies.txt"; }
 
-			CreateFile( sPath );
+            CreateFile(sPath);
 
-			int lineCount = 1;
+            int lineCount = 1;
 
-			string mySpeaking = "things being quiet throughout the land";
+            string mySpeaking = "things being quiet throughout the land";
 
-			try
-			{
-				lineCount = TotalLines( sPath );
-			}
-			catch(Exception)
-			{
-			}
+            try
+            {
+                lineCount = TotalLines(sPath);
+            }
+            catch (Exception)
+            {
+            }
 
-			lineCount = Utility.RandomMinMax( 1, lineCount );
-			string readLine = "";
-			StreamReader reader = null;
-			int nWhichLine = 0;
-			int nLine = 1;
-			try
-			{
-				using (reader = new StreamReader( sPath ))
-				{
-					string line;
+            lineCount = Utility.RandomMinMax(1, lineCount);
+            string readLine = "";
+            StreamReader reader = null;
+            int nWhichLine = 0;
+            int nLine = 1;
+            try
+            {
+                using (reader = new StreamReader(sPath))
+                {
+                    string line;
 
-					while ((line = reader.ReadLine()) != null)
-					{
-						nWhichLine = nWhichLine + 1;
-						if ( nWhichLine == lineCount )
-						{
-							readLine = line;
-							string[] shoutOut = readLine.Split('#');
-							foreach (string shoutOuts in shoutOut)
-							{
-								if ( nLine == 1 ){ nLine = 2; readLine = shoutOuts; }
-							}
-						}
-					}
-					if ( readLine != "" ){ mySpeaking = readLine; }
-				}
-			}
-			catch(Exception)
-			{
-			}
-			finally
-			{
-				if (reader != null)
-					reader.Dispose();
-			}
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        nWhichLine = nWhichLine + 1;
+                        if (nWhichLine == lineCount)
+                        {
+                            readLine = line;
+                            string[] shoutOut = readLine.Split('#');
+                            foreach (string shoutOuts in shoutOut)
+                            {
+                                if (nLine == 1) { nLine = 2; readLine = shoutOuts; }
+                            }
+                        }
+                    }
+                    if (readLine != "") { mySpeaking = readLine; }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Dispose();
+            }
 
-			string sVerb1 = "";
-			string sVerb2 = "";
-			string sVerb3 = "";
-			switch ( Utility.Random( 4 ))
-			{
-				case 0: sVerb1 = "being seen in";		sVerb2 = "being seen leaving"; 		sVerb3 = "killing";		break;
-				case 1: sVerb1 = "being spotted in";	sVerb2 = "being spotted leaving"; 	sVerb3 = "slaying";		break;
-				case 2: sVerb1 = "being seen in";		sVerb2 = "being seen near"; 		sVerb3 = "besting";		break;
-				case 3: sVerb1 = "being spotted in";	sVerb2 = "being spotted by"; 		sVerb3 = "slaying";		break;
-			};
+            string sVerb1 = "";
+            string sVerb2 = "";
+            string sVerb3 = "";
+            switch (Utility.Random(4))
+            {
+                case 0: sVerb1 = "being seen in"; sVerb2 = "being seen leaving"; sVerb3 = "killing"; break;
+                case 1: sVerb1 = "being spotted in"; sVerb2 = "being spotted leaving"; sVerb3 = "slaying"; break;
+                case 2: sVerb1 = "being seen in"; sVerb2 = "being seen near"; sVerb3 = "besting"; break;
+                case 3: sVerb1 = "being spotted in"; sVerb2 = "being spotted by"; sVerb3 = "slaying"; break;
+            }
+            ;
 
-			if ( mySpeaking.Contains(" had been ") ){ mySpeaking = mySpeaking.Replace(" had been ", " being "); }
-			if ( mySpeaking.Contains(" had slain ") ){ mySpeaking = mySpeaking.Replace(" had slain ", " " + sVerb3 + " "); }
-			if ( mySpeaking.Contains(" had killed ") ){ mySpeaking = mySpeaking.Replace(" had killed ", " accidentally killing "); }
-			if ( mySpeaking.Contains(" made a fatal mistake ") ){ mySpeaking = mySpeaking.Replace(" made a fatal mistake ", " making a fatal mistake "); }
-			if ( mySpeaking.Contains(" entered ") ){ mySpeaking = mySpeaking.Replace(" entered ", " " + sVerb1 + " "); }
-			if ( mySpeaking.Contains(" left ") ){ mySpeaking = mySpeaking.Replace(" left ", " " + sVerb2 + " "); }
-						
-			return mySpeaking;
-		}
+            if (mySpeaking.Contains(" had been ")) { mySpeaking = mySpeaking.Replace(" had been ", " being "); }
+            if (mySpeaking.Contains(" had slain ")) { mySpeaking = mySpeaking.Replace(" had slain ", " " + sVerb3 + " "); }
+            if (mySpeaking.Contains(" had killed ")) { mySpeaking = mySpeaking.Replace(" had killed ", " accidentally killing "); }
+            if (mySpeaking.Contains(" made a fatal mistake ")) { mySpeaking = mySpeaking.Replace(" made a fatal mistake ", " making a fatal mistake "); }
+            if (mySpeaking.Contains(" entered ")) { mySpeaking = mySpeaking.Replace(" entered ", " " + sVerb1 + " "); }
+            if (mySpeaking.Contains(" left ")) { mySpeaking = mySpeaking.Replace(" left ", " " + sVerb2 + " "); }
 
-		public static string LogSpeakQuest()
-		{
-			if ( !Directory.Exists( "Saves/Data" ) )
-				Directory.CreateDirectory( "Saves/Data" );
+            return mySpeaking;
+        }
 
-			string sPath = "Saves/Data/quests.txt";
+        public static string LogSpeakQuest()
+        {
+            if (!Directory.Exists("Saves/Data"))
+                Directory.CreateDirectory("Saves/Data");
 
-			CreateFile( sPath );
+            string sPath = "Saves/Data/quests.txt";
 
-			int lineCount = 1;
+            CreateFile(sPath);
 
-			string mySpeaking = "Adventurers seem to be all sitting around in taverns";
+            int lineCount = 1;
 
-			try
-			{
-				lineCount = TotalLines( sPath );
-			}
-			catch(Exception)
-			{
-			}
+            string mySpeaking = "Adventurers seem to be all sitting around in taverns";
 
-			lineCount = Utility.RandomMinMax( 1, lineCount );
-			string readLine = "";
-			StreamReader reader = null;
-			int nWhichLine = 0;
-			int nLine = 1;
-			try
-			{
-				using (reader = new StreamReader( sPath ))
-				{
-					string line;
+            try
+            {
+                lineCount = TotalLines(sPath);
+            }
+            catch (Exception)
+            {
+            }
 
-					while ((line = reader.ReadLine()) != null)
-					{
-						nWhichLine = nWhichLine + 1;
-						if ( nWhichLine == lineCount )
-						{
-							readLine = line;
-							string[] shoutOut = readLine.Split('#');
-							foreach (string shoutOuts in shoutOut)
-							{
-								if ( nLine == 1 ){ nLine = 2; readLine = shoutOuts; }
-							}
-						}
-					}
-					if ( readLine != "" ){ mySpeaking = readLine; }
-				}
-			}
-			catch(Exception)
-			{
-			}
-			finally
-			{
-				if (reader != null)
-					reader.Dispose();
-			}
-						
-			return mySpeaking;
-		}
+            lineCount = Utility.RandomMinMax(1, lineCount);
+            string readLine = "";
+            StreamReader reader = null;
+            int nWhichLine = 0;
+            int nLine = 1;
+            try
+            {
+                using (reader = new StreamReader(sPath))
+                {
+                    string line;
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        nWhichLine = nWhichLine + 1;
+                        if (nWhichLine == lineCount)
+                        {
+                            readLine = line;
+                            string[] shoutOut = readLine.Split('#');
+                            foreach (string shoutOuts in shoutOut)
+                            {
+                                if (nLine == 1) { nLine = 2; readLine = shoutOuts; }
+                            }
+                        }
+                    }
+                    if (readLine != "") { mySpeaking = readLine; }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Dispose();
+            }
+
+            return mySpeaking;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogRegions( Mobile m, string sRegion, string sDirection )
 		{
@@ -556,17 +559,17 @@ namespace Server.Misc
 				int nDifficulty = Server.Difficult.GetDifficulty( m.Location, m.Map );
 				string sDifficulty = "";
 
-				if ( nDifficulty == -1 ){ sDifficulty = " (Easy)"; }
-				else if ( nDifficulty == 0 ){ sDifficulty = " (Normal)"; }
-				else if ( nDifficulty == 1 ){ sDifficulty = " (Difficult)"; }
-				else if ( nDifficulty == 2 ){ sDifficulty = " (Challenging)"; }
-				else if ( nDifficulty == 3 ){ sDifficulty = " (Hard)"; }
-				else if ( nDifficulty == 4 ){ sDifficulty = " (Deadly)"; }
-				else if ( nDifficulty > 4 ){ sDifficulty = " (Epic)"; }
+                if (nDifficulty == -1) { sDifficulty = " (Easy)"; }
+                else if (nDifficulty == 0) { sDifficulty = " (Normal)"; }
+                else if (nDifficulty == 1) { sDifficulty = " (Difficult)"; }
+                else if (nDifficulty == 2) { sDifficulty = " (Challenging)"; }
+                else if (nDifficulty == 3) { sDifficulty = " (Hard)"; }
+                else if (nDifficulty == 4) { sDifficulty = " (Deadly)"; }
+                else if (nDifficulty > 4) { sDifficulty = " (Epic)"; }
 
-				if ( sDirection == "enter" ){ m.SendMessage("You have entered " + sRegion + sDifficulty + "."); }
-				else { m.SendMessage("You have left " + sRegion + "."); }
-			}
+                if (sDirection == "enter") { m.SendMessage("You have entered " + sRegion + sDifficulty + "."); }
+                else { m.SendMessage("You have left " + sRegion + "."); }
+            }
 
 			if ( ( m is PlayerMobile ) && ( m.AccessLevel < AccessLevel.GameMaster ) )
 			{
@@ -589,7 +592,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogBattles( Mobile m, Mobile mob )
 		{
@@ -641,7 +644,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogTraps( Mobile m, string sTrap, bool emitEvent = true )
 		{
@@ -667,7 +670,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogVoid( Mobile m, string sTrap )
 		{
@@ -679,7 +682,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogPrison( Mobile m, string sJail )
 		{
@@ -691,7 +694,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogKillTile( Mobile m, string sTrap )
 		{
@@ -703,7 +706,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogLoot( Mobile m, string sBox, string sType )
 		{
@@ -751,7 +754,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogSlayingLord( PlayerMobile m, string creature )
 		{
@@ -1017,7 +1020,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogGeneric( Mobile m, string sText )
 		{
@@ -1029,7 +1032,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogStandard( Mobile m, string sText, bool emitEvent = true )
 		{
@@ -1071,7 +1074,7 @@ namespace Server.Misc
             }
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogDeaths( Mobile m, Mobile mob )
 		{
@@ -1079,14 +1082,14 @@ namespace Server.Misc
 			{
 				PlayerMobile pm = (PlayerMobile)m;
 
-				string sKiller = mob.Name;
-				string[] eachWord = sKiller.Split('[');
-				int nLine = 1;
-				foreach (string eachWords in eachWord)
-				{
-					if ( nLine == 1 ){ nLine = 2; sKiller = eachWords; }
-				}
-				sKiller = sKiller.TrimEnd();
+                string sKiller = mob.Name;
+                string[] eachWord = sKiller.Split('[');
+                int nLine = 1;
+                foreach (string eachWords in eachWord)
+                {
+                    if (nLine == 1) { nLine = 2; sKiller = eachWords; }
+                }
+                sKiller = sKiller.TrimEnd();
 
 				///////// PLAYER DIED SO DO SINGLE FILES //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				if ( m.AccessLevel < AccessLevel.GameMaster )
@@ -1154,7 +1157,7 @@ namespace Server.Misc
 			}
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogKillers( Mobile m, int nKills )
 		{
@@ -1168,7 +1171,7 @@ namespace Server.Misc
 			LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Murderers, false );
 		}
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void LogClear( LogEventType sLog )
 		{
@@ -1191,119 +1194,119 @@ namespace Server.Misc
 
 namespace Server.Misc
 {
-	public class StatusPage : Timer
-	{
-		public static bool Enabled = true;
+    public class StatusPage : Timer
+    {
+        public static bool Enabled = true;
 
-		public static void Initialize()
-		{
-			if ( Enabled )
-				new StatusPage().Start();
-		}
+        public static void Initialize()
+        {
+            if (Enabled)
+                new StatusPage().Start();
+        }
 
-		public StatusPage() : base( TimeSpan.FromSeconds( 5.0 ), TimeSpan.FromSeconds( 60.0 ) )
-		{
-			Priority = TimerPriority.FiveSeconds;
-		}
+        public StatusPage() : base(TimeSpan.FromSeconds(5.0), TimeSpan.FromSeconds(60.0))
+        {
+            Priority = TimerPriority.FiveSeconds;
+        }
 
-		private static string Encode( string input )
-		{
-			StringBuilder sb = new StringBuilder( input );
+        private static string Encode(string input)
+        {
+            StringBuilder sb = new StringBuilder(input);
 
-			sb.Replace( "&", "&amp;" );
-			sb.Replace( "<", "&lt;" );
-			sb.Replace( ">", "&gt;" );
-			sb.Replace( "\"", "&quot;" );
-			sb.Replace( "'", "&apos;" );
+            sb.Replace("&", "&amp;");
+            sb.Replace("<", "&lt;");
+            sb.Replace(">", "&gt;");
+            sb.Replace("\"", "&quot;");
+            sb.Replace("'", "&apos;");
 
-			return sb.ToString();
-		}
+            return sb.ToString();
+        }
 
-		protected override void OnTick()
-		{
-			if ( !Directory.Exists( "Saves/Data" ) )
-				Directory.CreateDirectory( "Saves/Data" );
+        protected override void OnTick()
+        {
+            if (!Directory.Exists("Saves/Data"))
+                Directory.CreateDirectory("Saves/Data");
 
-			LoggingFunctions.CreateFile( "Saves/Data/online.txt" );
+            LoggingFunctions.CreateFile("Saves/Data/online.txt");
 
-			using ( StreamWriter op = new StreamWriter( "Saves/Data/online.txt" ) )
-			{
-				foreach ( NetState state in NetState.Instances )
-				{
-					Mobile m = state.Mobile;
+            using (StreamWriter op = new StreamWriter("Saves/Data/online.txt"))
+            {
+                foreach (NetState state in NetState.Instances)
+                {
+                    Mobile m = state.Mobile;
 
-					if ( m != null && ( m.AccessLevel < AccessLevel.GameMaster ) )
-					{
-						op.Write( Encode( m.Name ) );
-						op.Write( " the " );
-						op.Write( GetPlayerInfo.GetSkillTitle( m ) );
-						op.Write( "\n" );
-					}
-				}
-			}
+                    if (m != null && (m.AccessLevel < AccessLevel.GameMaster))
+                    {
+                        op.Write(Encode(m.Name));
+                        op.Write(" the ");
+                        op.Write(GetPlayerInfo.GetSkillTitle(m));
+                        op.Write("\n");
+                    }
+                }
+            }
 
 			if ( LoggingFunctions.LoggingEvents() == true )
 			{
 				LoggingFunctions.LogClear( LogEventType.Murderers );
 
-				// GET ALL OF THE MURDERERS ///////////////////////////////
-				foreach ( Account a in Accounts.GetAccounts() )
-				{
-					if (a == null)
-						break;
+                // GET ALL OF THE MURDERERS ///////////////////////////////
+                foreach (Account a in Accounts.GetAccounts())
+                {
+                    if (a == null)
+                        break;
 
-					int index = 0;
+                    int index = 0;
 
-					for (int i = 0; i < a.Length; ++i)
-					{
-						Mobile m = a[i];
+                    for (int i = 0; i < a.Length; ++i)
+                    {
+                        Mobile m = a[i];
 
-						if (m == null)
-							continue;
+                        if (m == null)
+                            continue;
 
-						if ( ( m.Kills > 0 ) && (m.AccessLevel < AccessLevel.GameMaster) )
-						{
-							LoggingFunctions.LogKillers( m, m.Kills );
-						}
+                        if ((m.Kills > 0) && (m.AccessLevel < AccessLevel.GameMaster))
+                        {
+                            LoggingFunctions.LogKillers(m, m.Kills);
+                        }
 
-						++index;
-					}
-				}
-			}
-		}
-	}
+                        ++index;
+                    }
+                }
+            }
+        }
+    }
 }
 
 namespace Server.Gumps
 {
-	public class LoggingGumpCrier : Gump
-	{
-        public LoggingGumpCrier( Mobile from, int page ) : base( 50, 50 )
+    public class LoggingGumpCrier : Gump
+    {
+        public LoggingGumpCrier(Mobile from, int page) : base(50, 50)
         {
-			from.SendSound( 0x4A ); 
-			string color = "#aecdf6";
-			string sEvents = "";
-			bool scroll = false;
+            from.SendSound(0x4A);
+            string color = "#aecdf6";
+            string sEvents = "";
+            bool scroll = false;
 
-            this.Closable=true;
-			this.Disposable=true;
-			this.Dragable=true;
-			this.Resizable=false;
+            this.Closable = true;
+            this.Disposable = true;
+            this.Dragable = true;
+            this.Resizable = false;
 
-			AddPage(0);
+            AddPage(0);
 
-			AddImage(0, 0, 7018, Server.Misc.PlayerSettings.GetGumpHue( from ));
+            AddImage(0, 0, 7018, Server.Misc.PlayerSettings.GetGumpHue(from));
 
-			AddHtml( 12, 12, 835, 20, @"<BODY><BASEFONT Color=" + color + ">THE NEWS FROM THE TOWN CRIER</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddHtml(12, 12, 835, 20, @"<BODY><BASEFONT Color=" + color + ">THE NEWS FROM THE TOWN CRIER</BASEFONT></BODY>", (bool)false, (bool)false);
 
-			AddButton(879, 10, 4017, 4017, 0, GumpButtonType.Reply, 0);
+            AddButton(879, 10, 4017, 4017, 0, GumpButtonType.Reply, 0);
 
-			int btn1 = 3609;
-			int btn2 = 3609;
-			int btn3 = 3609;
-			int btn4 = 3609;
-			int btn5 = 3609;
-			int btn6 = 3609;
+            int btn1 = 3609;
+            int btn2 = 3609;
+            int btn3 = 3609;
+            int btn4 = 3609;
+            int btn5 = 3609;
+            int btn6 = 3609;
 
 			if ( page == 2 )
 			{
@@ -1330,72 +1333,72 @@ namespace Server.Gumps
 				sEvents = "Gossip In The Realm<br><br>" + LoggingFunctions.LogRead( LogEventType.Adventures, from ); scroll = true; btn6 = 4011;
 			}
 
-			AddButton(12, 48, btn1, btn1, 1, GumpButtonType.Reply, 0);
-			AddHtml( 52, 50, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Deeds in the Realm</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddButton(12, 48, btn1, btn1, 1, GumpButtonType.Reply, 0);
+            AddHtml(52, 50, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Deeds in the Realm</BASEFONT></BODY>", (bool)false, (bool)false);
 
-			AddButton(344, 49, btn2, btn2, 2, GumpButtonType.Reply, 0);
-			AddHtml( 384, 51, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Exploration in the Realm</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddButton(344, 49, btn2, btn2, 2, GumpButtonType.Reply, 0);
+            AddHtml(384, 51, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Exploration in the Realm</BASEFONT></BODY>", (bool)false, (bool)false);
 
-			AddButton(676, 50, btn3, btn3, 3, GumpButtonType.Reply, 0);
-			AddHtml( 716, 52, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Victories in Battle</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddButton(676, 50, btn3, btn3, 3, GumpButtonType.Reply, 0);
+            AddHtml(716, 52, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Victories in Battle</BASEFONT></BODY>", (bool)false, (bool)false);
 
 
-			AddButton(12, 77, btn6, btn6, 6, GumpButtonType.Reply, 0);
-			AddHtml( 52, 79, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Gossip in the Realm</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddButton(12, 77, btn6, btn6, 6, GumpButtonType.Reply, 0);
+            AddHtml(52, 79, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Gossip in the Realm</BASEFONT></BODY>", (bool)false, (bool)false);
 
-			AddButton(344, 78, btn4, btn4, 4, GumpButtonType.Reply, 0);
-			AddHtml( 384, 80, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Recent Deaths</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddButton(344, 78, btn4, btn4, 4, GumpButtonType.Reply, 0);
+            AddHtml(384, 80, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Recent Deaths</BASEFONT></BODY>", (bool)false, (bool)false);
 
-			AddButton(676, 79, btn5, btn5, 5, GumpButtonType.Reply, 0);
-			AddHtml( 716, 81, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Wanted Murderers</BASEFONT></BODY>", (bool)false, (bool)false);
+            AddButton(676, 79, btn5, btn5, 5, GumpButtonType.Reply, 0);
+            AddHtml(716, 81, 185, 20, @"<BODY><BASEFONT Color=" + color + ">Wanted Murderers</BASEFONT></BODY>", (bool)false, (bool)false);
 
-			AddHtml( 12, 111, 888, 491, @"<BODY><BASEFONT Color=" + color + ">" + sEvents + "</BASEFONT></BODY>", (bool)false, (bool)scroll);
+            AddHtml(12, 111, 888, 491, @"<BODY><BASEFONT Color=" + color + ">" + sEvents + "</BASEFONT></BODY>", (bool)false, (bool)scroll);
         }
 
-		public override void OnResponse( NetState sender, RelayInfo info )
-		{
-			Mobile from = sender.Mobile;
-			from.SendSound( 0x4A ); 
+        public override void OnResponse(NetState sender, RelayInfo info)
+        {
+            Mobile from = sender.Mobile;
+            from.SendSound(0x4A);
 
-			switch ( info.ButtonID )
-			{
-				case 1:
-				{
-					from.CloseGump( typeof( LoggingGumpCrier ) );
-					from.SendGump( new LoggingGumpCrier( from, 2 ) );
-					break;
-				}
-				case 2:
-				{
-					from.CloseGump( typeof( LoggingGumpCrier ) );
-					from.SendGump( new LoggingGumpCrier( from, 3 ) );
-					break;
-				}
-				case 3:
-				{
-					from.CloseGump( typeof( LoggingGumpCrier ) );
-					from.SendGump( new LoggingGumpCrier( from, 4 ) );
-					break;
-				}
-				case 4:
-				{
-					from.CloseGump( typeof( LoggingGumpCrier ) );
-					from.SendGump( new LoggingGumpCrier( from, 5 ) );
-					break;
-				}
-				case 5:
-				{
-					from.CloseGump( typeof( LoggingGumpCrier ) );
-					from.SendGump( new LoggingGumpCrier( from, 6 ) );
-					break;
-				}
-				case 6:
-				{
-					from.CloseGump( typeof( LoggingGumpCrier ) );
-					from.SendGump( new LoggingGumpCrier( from, 7 ) );
-					break;
-				}
-			}
-		}
+            switch (info.ButtonID)
+            {
+                case 1:
+                    {
+                        from.CloseGump(typeof(LoggingGumpCrier));
+                        from.SendGump(new LoggingGumpCrier(from, 2));
+                        break;
+                    }
+                case 2:
+                    {
+                        from.CloseGump(typeof(LoggingGumpCrier));
+                        from.SendGump(new LoggingGumpCrier(from, 3));
+                        break;
+                    }
+                case 3:
+                    {
+                        from.CloseGump(typeof(LoggingGumpCrier));
+                        from.SendGump(new LoggingGumpCrier(from, 4));
+                        break;
+                    }
+                case 4:
+                    {
+                        from.CloseGump(typeof(LoggingGumpCrier));
+                        from.SendGump(new LoggingGumpCrier(from, 5));
+                        break;
+                    }
+                case 5:
+                    {
+                        from.CloseGump(typeof(LoggingGumpCrier));
+                        from.SendGump(new LoggingGumpCrier(from, 6));
+                        break;
+                    }
+                case 6:
+                    {
+                        from.CloseGump(typeof(LoggingGumpCrier));
+                        from.SendGump(new LoggingGumpCrier(from, 7));
+                        break;
+                    }
+            }
+        }
     }
 }

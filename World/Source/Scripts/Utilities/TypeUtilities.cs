@@ -21,13 +21,13 @@ namespace Server.Utilities
         {
             if (type == null) return false;
 
-			return IsTypeOrDerived(type, typeof(T));
+            return IsTypeOrDerived(type, typeof(T));
         }
 
         public static bool IsTypeOrDerived(Type type, Type targetType)
         {
             if (type == null) return false;
-			if (targetType == null) return false;
+            if (targetType == null) return false;
 
             return targetType.IsAssignableFrom(type);
         }

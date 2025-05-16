@@ -11,11 +11,11 @@ namespace Server.Items
 		private static Dictionary<Mobile, FeintTimer> m_Registry = new Dictionary<Mobile, FeintTimer>();
 		public static Dictionary<Mobile, FeintTimer> Registry { get { return m_Registry; } }
 
-		public Feint()
-		{
-		}
+        public Feint()
+        {
+        }
 
-		public override int BaseMana { get { return 25; } }
+        public override int BaseMana { get { return 25; } }
 
 		public override void OnHit(Mobile attacker, Mobile defender, int damage)
 		{
@@ -30,12 +30,12 @@ namespace Server.Items
 				Registry.Remove(attacker);
 			}
 
-			ClearCurrentAbility(attacker);
+            ClearCurrentAbility(attacker);
 
-			attacker.SendLocalizedMessage(1063360); // You baffle your target with a feint!
-			defender.SendLocalizedMessage(1063361); // You were deceived by an attacker's feint!
+            attacker.SendLocalizedMessage(1063360); // You baffle your target with a feint!
+            defender.SendLocalizedMessage(1063361); // You were deceived by an attacker's feint!
 
-			attacker.FixedParticles(0x3728, 1, 13, 0x7F3, 0x962, 0, EffectLayer.Waist);
+            attacker.FixedParticles(0x3728, 1, 13, 0x7F3, 0x962, 0, EffectLayer.Waist);
 
 			// 100 (41%) // 120 (50%) // 125 (52%)
 			double skill = Math.Max(attacker.Skills[SkillName.Ninjitsu].Value, attacker.Skills[SkillName.Bushido].Value);

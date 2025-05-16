@@ -81,8 +81,8 @@ namespace Server.Items
         [Constructable]
         public EShadowPillarDeed()
         {
-			Name = "box containing a shadow pillar";
-            ItemID = Utility.RandomList( 0x3420, 0x3425 );
+            Name = "box containing a shadow pillar";
+            ItemID = Utility.RandomList(0x3420, 0x3425);
             Hue = Utility.RandomEvilHue();
             Weight = 5.0;
         }
@@ -105,7 +105,7 @@ namespace Server.Items
 
             int version = reader.ReadInt();
 
-			if ( ItemID != 0x3420 && ItemID != 0x3425 ){ ItemID = 0x3425; }
+            if (ItemID != 0x3420 && ItemID != 0x3425) { ItemID = 0x3425; }
         }
     }
 }

@@ -63,18 +63,18 @@ namespace Knives.Chat3
 
             if (Data.GetData(Owner).Recording == this)
             {
-                AddHtml(30, y+=20, width-60, 25, c_Subject, true, false);
-                AddHtml(20, y+=30, width-40, field, c_Text, true, true);
-                AddHtml(0, y+=(field+20), width, "<CENTER>" + General.Local(63));
+                AddHtml(30, y += 20, width - 60, 25, c_Subject, true, false);
+                AddHtml(20, y += 30, width - 40, field, c_Text, true, true);
+                AddHtml(0, y += (field + 20), width, "<CENTER>" + General.Local(63));
             }
             else
             {
-                AddTextField(30, y+=20, width - 60, 21, Data.GetData(Owner).MsgC, 0xBBC, "Subject", c_Subject);
-                AddTextField(20, y+=30, width - 40, field, Data.GetData(Owner).MsgC, 0xBBC, "Text", c_Text);
+                AddTextField(30, y += 20, width - 60, 21, Data.GetData(Owner).MsgC, 0xBBC, "Subject", c_Subject);
+                AddTextField(20, y += 30, width - 40, field, Data.GetData(Owner).MsgC, 0xBBC, "Text", c_Text);
 
-                y+=(field+15);
+                y += (field + 15);
 
-                if(Data.GetData(Owner).ExtraPm)
+                if (Data.GetData(Owner).ExtraPm)
                     AddButton(20, y, 0x2333, "Record", new GumpCallback(Record));
 
                 AddButton(50, y, Data.GetData(Owner).ExtraPm ? 0x25E4 : 0x25E8, Data.GetData(Owner).ExtraPm ? 0x25E5 : 0x25E9, "ExtraPm", new GumpCallback(ExtraPm));
@@ -83,7 +83,7 @@ namespace Knives.Chat3
             AddImage(width / 2 - 10, y, 0x2342, Data.GetData(Owner).MsgC);
             AddButton(width / 2 - 6, y + 4, 0x2716, "Channel Color", new GumpCallback(Color));
             AddHtml(width - 85, y, 50, General.Local(252));
-            AddButton(width-100, y+3, 0x2716, "Send", new GumpCallback(Send));
+            AddButton(width - 100, y + 3, 0x2716, "Send", new GumpCallback(Send));
 
             AddBackgroundZero(0, 0, width, y + 30, Data.GetData(Owner).DefaultBack);
         }
@@ -116,7 +116,7 @@ namespace Knives.Chat3
 
             if (c_Subject.Trim() == "")
                 c_Subject = "No Subject";
- 
+
             Data.GetData(Owner).Recording = this;
             Owner.SendMessage(Data.GetData(Owner).SystemC, General.Local(65));
 
@@ -125,7 +125,7 @@ namespace Knives.Chat3
 
         private void Send()
         {
-            if( Data.GetData(Owner).Recording == null )
+            if (Data.GetData(Owner).Recording == null)
                 Save();
 
             if (c_Text.Trim() == "")
@@ -185,10 +185,10 @@ namespace Knives.Chat3
 
             if (Data.LogPms)
                 Logging.LogPm(String.Format(DateTime.Now + " <Mail> {0} to {1}: {2}", Owner.RawName, (c_To == null ? "All" : c_To.RawName), c_Text));
- 
-            foreach( Data data in Data.Datas.Values)
+
+            foreach (Data data in Data.Datas.Values)
                 if (data.Mobile.AccessLevel >= c_From.AccessLevel && ((data.GlobalM && !data.GIgnores.Contains(c_From)) || data.GListens.Contains(c_From)))
-                    data.Mobile.SendMessage(data.GlobalMC, String.Format("(Global) <Mail> {0} to {1}: {2}", Owner.RawName, (c_To == null ? "All" : c_To.RawName), c_Text ));
+                    data.Mobile.SendMessage(data.GlobalMC, String.Format("(Global) <Mail> {0} to {1}: {2}", Owner.RawName, (c_To == null ? "All" : c_To.RawName), c_Text));
         }
 
         private void Color()

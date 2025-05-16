@@ -44,11 +44,11 @@ namespace Knives.TownHouses
                 AddButton(width / 2 - 10, y += 25, 0x25E4, 0x25E5, "Page Down", new GumpCallback(PageDown));
 
             ArrayList list = new ArrayList();
-            if(c_ListPage == ListPage.Town)
+            if (c_ListPage == ListPage.Town)
                 list = new ArrayList(TownHouseSign.AllSigns);
             else
-                foreach(Item item in World.Items.Values)
-                    if(item is BaseHouse)
+                foreach (Item item in World.Items.Values)
+                    if (item is BaseHouse)
                         list.Add(item);
 
             list.Sort(new InternalSort());
