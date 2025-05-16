@@ -1431,8 +1431,11 @@ namespace Server.Items
 
 				--Quantity;
 
-				if ( this is WaterBottle && IsEmpty )
-					this.Delete();
+				if (this is WaterBottle && IsEmpty)
+                {
+                    from.Mana += 15;
+                    this.Delete();
+                }
 			}
 			else
 			{
