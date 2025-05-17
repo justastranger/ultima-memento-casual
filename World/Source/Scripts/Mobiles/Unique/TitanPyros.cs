@@ -104,7 +104,7 @@ namespace Server.Mobiles
             {
                 foreach (Mobile m in this.GetMobilesInRange(30))
                 {
-                    if (m is PlayerMobile && m.Map == this.Map && !m.Blessed && m.StatCap >= 300) // TITANS OF ETHER CAN KILL IT
+                    if (m is PlayerMobile && m.Map == this.Map && !m.Blessed && m.StatCap >= (MySettings.S_StatCap + 50)) // TITANS OF ETHER CAN KILL IT
                     {
                         CanKillIt = 1;
                     }
@@ -152,7 +152,7 @@ namespace Server.Mobiles
                         {
                             foreach (PartyMemberInfo pmi in p.Members)
                             {
-                                if (pmi.Mobile is PlayerMobile && pmi.Mobile.InRange(this.Location, 20) && pmi.Mobile.Map == this.Map && !pmi.Mobile.Blessed && pmi.Mobile.StatCap < 300 && !Server.Misc.PlayerSettings.GetSpecialsKilled(pmi.Mobile, "TitanPyros"))
+                                if (pmi.Mobile is PlayerMobile && pmi.Mobile.InRange(this.Location, 20) && pmi.Mobile.Map == this.Map && !pmi.Mobile.Blessed && pmi.Mobile.StatCap < (MySettings.S_StatCap + 50) && !Server.Misc.PlayerSettings.GetSpecialsKilled(pmi.Mobile, "TitanPyros"))
                                 {
                                     Server.Misc.PlayerSettings.SetSpecialsKilled(pmi.Mobile, "TitanPyros", true);
                                     ManualOfItems book = new ManualOfItems();
@@ -184,7 +184,7 @@ namespace Server.Mobiles
                                 }
                             }
                         }
-                        else if (winner.StatCap < 300 && !Server.Misc.PlayerSettings.GetSpecialsKilled(winner, "TitanPyros"))
+                        else if (winner.StatCap < (MySettings.S_StatCap + 50) && !Server.Misc.PlayerSettings.GetSpecialsKilled(winner, "TitanPyros"))
                         {
                             Server.Misc.PlayerSettings.SetSpecialsKilled(winner, "TitanPyros", true);
                             ManualOfItems book = new ManualOfItems();

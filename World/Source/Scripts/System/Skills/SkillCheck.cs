@@ -468,7 +468,7 @@ namespace Server.Misc
                     return false;
             }
 
-            if (from.StatCap > 250)
+            if (from.StatCap > MySettings.S_StatCap)
             {
                 switch (stat)
                 {

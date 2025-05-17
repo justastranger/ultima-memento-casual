@@ -30,7 +30,7 @@ namespace Server.Items
 
                 bool HasObelisk = false;
 
-                if (pm.StatCap > 250) // THEY ARE ALREADY A TITAN
+                if (pm.StatCap > MySettings.S_StatCap) // THEY ARE ALREADY A TITAN
                 {
                     HasObelisk = true;
                     from.SendMessage("Being a Titan of Ether, you have no use for that.");

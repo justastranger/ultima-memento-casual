@@ -1486,19 +1486,59 @@ namespace Server.Mobiles
                     }
                 }
 
-                if (((PlayerMobile)m).SkillEther != 5000 && m.StatCap != 250)
+                // If the player is not a Titan of Ether
+                if (((PlayerMobile)m).SkillEther != 5000)
                 {
-                    m.StatCap = 250;
-                    m.RawStr = 20;
-                    m.RawInt = 20;
-                    m.RawDex = 20;
+                    // Harmlessly raise StatCap for pre-cap-increase players
+                    if (m.StatCap < MySettings.S_StatCap)
+                    {
+                        m.StatCap = MySettings.S_StatCap;
+                    }
+                    else
+                    {
+                        // if we exceed the new stat cap
+                        // decrease each stat equally to below the cap
+                        if (m.RawStatTotal >= MySettings.S_StatCap)
+                        {
+                            int sub = (int)Math.Ceiling((double)(m.StatCap - MySettings.S_StatCap) / 3);
+                            m.StatCap = MySettings.S_StatCap;
+                            m.RawStr = m.RawStr - sub;
+                            m.RawInt = m.RawInt - sub;
+                            m.RawDex = m.RawDex - sub;
+                        }
+                        // otherwise just decrease the cap harmlessly
+                        else
+                        {
+                            m.StatCap = MySettings.S_StatCap;
+                        }
+                    }
                 }
-                else if (((PlayerMobile)m).SkillEther == 5000 && m.StatCap != 300)
+                // if they're a Titan of Ether, go off the increased stat cap
+                else if (((PlayerMobile)m).SkillEther == 5000)
                 {
-                    m.StatCap = 300;
-                    m.RawStr = 20;
-                    m.RawInt = 20;
-                    m.RawDex = 20;
+                    // Harmlessly raise StatCap for pre-cap-increase players
+                    if (m.StatCap < (MySettings.S_StatCap + 50))
+                    {
+                        m.StatCap = MySettings.S_StatCap + 50;
+                    }
+                    else
+                    {
+                        // if we exceed the new stat cap
+                        // decrease each stat equally to below the cap
+                        if (m.RawStatTotal >= (MySettings.S_StatCap + 50))
+                        {
+                            int sub = (int)Math.Ceiling((double)(m.StatCap - (MySettings.S_StatCap + 50)) / 3);
+                            m.StatCap = MySettings.S_StatCap + 50;
+                            m.RawStr = m.RawStr - sub;
+                            m.RawInt = m.RawInt - sub;
+                            m.RawDex = m.RawDex - sub;
+                        }
+                        // otherwise just decrease the cap harmlessly
+                        else
+                        {
+                            m.StatCap = MySettings.S_StatCap + 50;
+                        }
+                    }
                 }
             }
         }

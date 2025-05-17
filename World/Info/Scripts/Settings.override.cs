@@ -20,6 +20,7 @@ namespace Server
             MySettings.S_DamageToPets = 1.2;
             MySettings.S_Stables = 7;
             MySettings.S_SkillBoost = 10;
+            MySettings.S_StatCap = 350;
             Console.WriteLine("Settings Overridden.");
         }
     }

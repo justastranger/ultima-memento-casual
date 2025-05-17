@@ -55,7 +55,7 @@ namespace Server.Items
 
                             m.Skills.Cap = m.Skills.Cap + 5000;
                             ((PlayerMobile)m).SkillEther = 5000;
-                            m.StatCap = 300;
+                            m.StatCap = MySettings.S_StatCap + 50;
 
                             Server.Items.QuestSouvenir.GiveReward(m, "Obelisk Tip", 0, 0x185F);
                             Server.Items.QuestSouvenir.GiveReward(m, "Breath of Air", 0, 0x1860);
