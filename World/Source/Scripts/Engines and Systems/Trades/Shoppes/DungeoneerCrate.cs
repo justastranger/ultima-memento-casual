@@ -14,7 +14,7 @@ namespace Server.Items
         private static readonly InternalSellInfo SELL_INFO = new InternalSellInfo();
 
         private int m_CrateGold;
-        private int m_PercentReduction = 50;
+        private int m_PercentReduction = 25;
         private Timer m_Timer;
 
         [CommandProperty(AccessLevel.GameMaster)]
