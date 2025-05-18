@@ -3362,6 +3362,7 @@ namespace Server.Mobiles
                             else
                             {
                                 SkillStart = 10000;
+                                SkillBoost = MyServerSettings.SkillBoost();
                                 SkillEther = 0;
                             }
                         }
