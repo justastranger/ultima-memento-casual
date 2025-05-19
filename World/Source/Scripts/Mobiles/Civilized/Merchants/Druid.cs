@@ -62,6 +62,7 @@ namespace Server.Mobiles
                     ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.Potion, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
                     ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.Resource, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
                     ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.Reagent, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.Weapon, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
                 }
             }
 
@@ -74,6 +75,7 @@ namespace Server.Mobiles
                     ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.Potion, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
                     ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.Resource, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
                     ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.Reagent, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.Weapon, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Druid, ItemSalesInfo.World.None, null);
                 }
             }
         }
