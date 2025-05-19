@@ -384,6 +384,7 @@ namespace Server.Mobiles
             {
                 mobile.LoadSBInfo();
             }
+            Console.WriteLine("Reloaded vendors.");
         }
 
 
