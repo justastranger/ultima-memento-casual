@@ -295,7 +295,7 @@ namespace Server.Items
         [Constructable]
         public BaseSkull(int itemId) : base(itemId)
         {
-
+            Weight = 10.0;
         }
 
         public BaseSkull(Serial serial) : base(serial)
@@ -339,7 +339,7 @@ namespace Server.Items
         [Constructable]
         public BaseHeart(int itemId) : base(itemId)
         {
-
+            Weight = 10.0;
         }
 
         public BaseHeart(Serial serial) : base(serial)
@@ -376,7 +376,6 @@ namespace Server.Items
         [Constructable]
         public HeartOfIce() : base(0x1444)
         {
-            Weight = 10.0;
             Hue = 0x480;
             Movable = true;
             Light = LightType.Circle225;
@@ -393,7 +392,6 @@ namespace Server.Items
         [Constructable]
         public HeartOfFire() : base(0x81E)
         {
-            Weight = 10.0;
             Movable = true;
             Light = LightType.Circle225;
             Name = "fire heart";
@@ -411,7 +409,6 @@ namespace Server.Items
         [Constructable]
         public SkullMinotaur() : base(0x3DE0)
         {
-            Weight = 10.0;
             Name = "minotaur skull";
         }
 
@@ -428,7 +425,6 @@ namespace Server.Items
         [Constructable]
         public SkullDinosaur() : base(0x65CA)
         {
-            Weight = 10.0;
             Name = "dinosaur skull";
         }
 
@@ -444,7 +440,6 @@ namespace Server.Items
         [Constructable]
         public SkullWyrm() : base(0x3DCC)
         {
-            Weight = 10.0;
             Name = "dragon skull";
         }
 
@@ -476,7 +471,6 @@ namespace Server.Items
         [Constructable]
         public SkullDragon() : base(8782)
         {
-            Weight = 10.0;
             Name = "dragon skull";
         }
 
@@ -492,7 +486,6 @@ namespace Server.Items
         [Constructable]
         public SkullDemon() : base(8784)
         {
-            Weight = 10.0;
             Name = "demon skull";
         }
 
@@ -508,7 +501,6 @@ namespace Server.Items
         [Constructable]
         public SkullGiant() : base(0x224)
         {
-            Weight = 10.0;
             Name = "giant skull";
         }
 
@@ -524,7 +516,6 @@ namespace Server.Items
         [Constructable]
         public DeamonHeadA() : base(0x65C2)
         {
-            Weight = 10.0;
             Name = "demon head";
         }
 
@@ -540,7 +531,6 @@ namespace Server.Items
         [Constructable]
         public DeamonHeadB() : base(0x65C4)
         {
-            Weight = 10.0;
             Name = "demon head";
         }
 
@@ -555,7 +545,6 @@ namespace Server.Items
         [Constructable]
         public DeamonHeadC() : base(0x65C6)
         {
-            Weight = 10.0;
             Name = "demon head";
         }
 
@@ -570,7 +559,6 @@ namespace Server.Items
         [Constructable]
         public VampireHead() : base(0x65C8)
         {
-            Weight = 10.0;
             Name = "vampire head";
         }
 
