@@ -1023,27 +1023,22 @@ namespace Server.Items
             door.MoveToWorld(new Point3D(m.X, m.Y, z), m.Map);
         }
 
-        public override bool OnDroppedOnto(Mobile from, Item dropped)
+        public void Agitate(PlayerMobile player, BaseSkull skull)
         {
-            if (from is PlayerMobile)
+            if (skull is SkullDemon || skull is DeamonHeadA || skull is DeamonHeadB || skull is DeamonHeadC)
             {
-                if (dropped is SkullDemon || dropped is DeamonHeadA || dropped is DeamonHeadB || dropped is DeamonHeadC)
+                if (agitationTimer != null)
                 {
-                    if (agitationTimer != null)
-                    {
-                        from.SendMessage("You've already provoked the forces of Hell!");
-                        // bounce the item
-                        return false;
-                    }
-                    itemRemovalTimer.Stop();
-                    dropped.Delete();
-                    agitationTimer = new AgitationTimer(this, (PlayerMobile)from, TimeSpan.FromSeconds(30.0), TimeSpan.FromMinutes(1.5), Utility.RandomMinMax(1, 3));
-                    from.SendMessage("You've provoked the forces of Hell!");
-                    return true;
+                    player.SendMessage("You've already provoked the forces of Hell!");
+                    return;
                 }
+                itemRemovalTimer.Stop();
+                //dropped.Delete();
+                agitationTimer = new AgitationTimer(this, player, TimeSpan.FromSeconds(30.0), TimeSpan.FromMinutes(1.5), Utility.RandomMinMax(1, 3));
+                player.SendMessage("You've provoked the forces of Hell!");
+                skull.Delete();
+                return;
             }
-            // reject attempts at dropping other items onto it
-            return false;
         }
 
         public class AgitationTimer : Timer

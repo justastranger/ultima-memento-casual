@@ -6,6 +6,7 @@ using System.Collections;
 using Server.Network;
 using Server.Misc;
 using Server.Items;
+using Server.Targeting;
 
 namespace Server.Misc
 {
@@ -323,6 +324,39 @@ namespace Server.Items
             int version = reader.ReadInt();
             SkullKiller = reader.ReadString();
             SkullWhere = reader.ReadString();
+        }
+
+        public override void OnDoubleClick(Mobile from)
+        {
+            if (from is PlayerMobile)
+            {
+                PlayerMobile player = (PlayerMobile)from;
+                player.Target = new InternalTarget(this, player);
+            }
+        }
+
+        private class InternalTarget : Target
+        {
+            private BaseSkull i_skull;
+            private PlayerMobile i_source;
+            public InternalTarget(BaseSkull skull, PlayerMobile from) : base(8, true, TargetFlags.None)
+            {
+                i_skull = skull;
+                i_source = from;
+            }
+
+            protected override void OnTarget(Mobile from, object targeted)
+            {
+                if (targeted is DemonGate && (i_skull is SkullDemon || i_skull is DeamonHeadA || i_skull is DeamonHeadB || i_skull is DeamonHeadC))
+                {
+                    DemonGate gate = (DemonGate)targeted;
+                    gate.Agitate(i_source, i_skull);
+                }
+                else
+                {
+                    from.SendMessage("Nothing happens.");
+                }
+            }
         }
     }
     public class BaseHeart : Item
