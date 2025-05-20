@@ -1102,8 +1102,7 @@ namespace Server.Items
                         level = 5;
                         break;
                 }
-                // spawn the demons asynchronously
-                Task.Run(() =>
+                // spawn the demons
                 {
                     for (var i = 0; i < count; i++)
                     {
@@ -1169,7 +1168,7 @@ namespace Server.Items
                         // fire sound effect
                         demon.PlaySound(0x208);
                     }
-                });
+                }
 
                 i_wave++;
             }
