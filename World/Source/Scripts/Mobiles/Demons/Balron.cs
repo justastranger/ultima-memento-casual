@@ -1186,9 +1186,9 @@ namespace Server.Items
         public class ItemRemovalTimer : Timer
         {
             private Item i_item;
-            public ItemRemovalTimer(Item item) : base(TimeSpan.FromSeconds(20.0))
+            public ItemRemovalTimer(Item item) : base(TimeSpan.FromMinutes(5.0))
             {
-                Priority = TimerPriority.OneSecond;
+                Priority = TimerPriority.OneMinute;
                 i_item = item;
             }
 
