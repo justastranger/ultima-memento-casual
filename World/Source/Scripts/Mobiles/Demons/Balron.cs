@@ -8,6 +8,7 @@ using Server.Mobiles;
 using System.Collections.Generic;
 using Server.Misc;
 using Server.Regions;
+using System.Threading.Tasks;
 
 namespace Server.Mobiles
 {
@@ -938,14 +939,29 @@ namespace Server.Items
 {
     public class DemonGate : Item
     {
+        private ItemRemovalTimer itemRemovalTimer;
+        private AgitationTimer agitationTimer;
+        private BaseCreature i_demon;
+
         [Constructable]
         public DemonGate() : base(0x3D5E)
         {
             Name = "demon gate";
             Movable = false;
             Light = LightType.Circle300;
-            ItemRemovalTimer thisTimer = new ItemRemovalTimer(this);
-            thisTimer.Start();
+            itemRemovalTimer = new ItemRemovalTimer(this);
+            itemRemovalTimer.Start();
+        }
+
+
+        public DemonGate(BaseCreature demon) : base(0x3D5E)
+        {
+            Name = "demon gate";
+            Movable = false;
+            Light = LightType.Circle300;
+            i_demon = demon;
+            itemRemovalTimer = new ItemRemovalTimer(this);
+            itemRemovalTimer.Start();
         }
 
         public DemonGate(Serial serial) : base(serial)
@@ -980,7 +996,7 @@ namespace Server.Items
             if (m is Balron) { Balron balron = (Balron)m; color = balron.rMainColor; }
             else if (m is Daemon) { Daemon daemon = (Daemon)m; color = daemon.rMainColor; }
 
-            Item door = new DemonGate();
+            Item door = new DemonGate((BaseCreature)m);
             m.PlaySound(0x653);
             door.ItemID = Utility.RandomList(0x3D5E, 0x53FC);
             if (m is Balron) { door.ItemID = Utility.RandomList(0x3EED, 0x53F0); }
@@ -1007,6 +1023,157 @@ namespace Server.Items
             door.MoveToWorld(new Point3D(m.X, m.Y, z), m.Map);
         }
 
+        public override bool OnDragDrop(Mobile from, Item dropped)
+        {
+            if (from is PlayerMobile)
+            {
+                if (dropped is SkullDemon || dropped is DeamonHeadA || dropped is DeamonHeadB || dropped is DeamonHeadC)
+                {
+                    if (agitationTimer != null)
+                    {
+                        from.SendMessage("You've already provoked the forces of Hell!");
+                        // bounce the item
+                        return false;
+                    }
+                    itemRemovalTimer.Stop();
+                    dropped.Delete();
+                    agitationTimer = new AgitationTimer(this, (PlayerMobile)from, TimeSpan.FromSeconds(30.0), TimeSpan.FromMinutes(1.5), Utility.RandomMinMax(1, 3));
+                    from.SendMessage("You've provoked the forces of Hell!");
+                    return true;
+                }
+            }
+            // reject attempts at dropping other items onto it
+            return false;
+        }
+
+        public class AgitationTimer : Timer
+        {
+            private Item i_DemonGate;
+            private int i_wave = 0;
+            private int i_total;
+            private PlayerMobile i_target;
+
+            public AgitationTimer(Item gate, PlayerMobile target, TimeSpan delay, TimeSpan interval, int waveCount) : base(delay, interval, waveCount + 1)
+            {
+                i_DemonGate = gate;
+                i_total = waveCount;
+                i_target = target;
+            }
+
+            protected override void OnTick()
+            {
+                // we're zero indexing the wave count so once we hit the total we're done
+                if (i_wave >= i_total)
+                {
+                    if ((i_DemonGate != null) && (!i_DemonGate.Deleted))
+                        i_DemonGate.Delete();
+                    return;
+                }
+                // decide how much and how strong
+                int count = 0;
+                int level = 0;
+                switch (i_wave)
+                {
+                    // first wave
+                    case 0:
+                        if (i_total == 1)
+                        {
+                            // only one wave, so make it a little stronger
+                            count = 5;
+                            level = 3;
+                        }
+                        else
+                        {
+                            count = 5;
+                            level = 2;
+                        }
+                        break;
+                    // second wave
+                    case 1:
+                        count = 4;
+                        level = 3;
+                        break;
+                    case 2:
+                        count = 3;
+                        level = 4;
+                        break;
+                    case 3:
+                        count = 1;
+                        level = 5;
+                        break;
+                }
+                // spawn the demons asynchronously
+                Task.Run(() =>
+                {
+                    for (var i = 0; i < count; i++)
+                    {
+                        int type = 0;
+                        BaseCreature demon;
+                        switch (level)
+                        {
+                            case 5:
+                                type = Utility.RandomMinMax(1, 5);
+                                switch (type)
+                                {
+                                    case 1: demon = new Fiend(); break;
+                                    case 2: demon = new Devil(); break;
+                                    case 3: demon = new Archfiend(); break;
+                                    case 4: demon = new DeepSeaDevil(); break;
+                                    default: demon = new Balron(); break;
+                                }
+                                break;
+                            case 4:
+                                type = Utility.RandomMinMax(1, 5);
+                                switch (type)
+                                {
+                                    case 1: demon = new Ifreet(); break;
+                                    case 2: demon = new Fiend(); break;
+                                    case 3: demon = new Succubus(); break;
+                                    case 4: demon = new BoneDemon(); break;
+                                    default: demon = new Daemon(); break;
+                                }
+                                break;
+                            case 3:
+                                type = Utility.RandomMinMax(1, 4);
+                                switch (type)
+                                {
+                                    case 1: demon = new LowerDemon(); break;
+                                    case 2: demon = new ShadowDemon(); break;
+                                    case 3: demon = new Demon(); break;
+                                    default: demon = new Demon(); break;
+                                }
+                                break;
+                            case 2:
+                                type = Utility.RandomMinMax(1, 4);
+                                switch (type)
+                                {
+                                    case 1: demon = new Imp(); break;
+                                    case 2: demon = new FireDemon(); break;
+                                    case 3: demon = new FireMephit(); break;
+                                    default: demon = new LesserDemon(); break;
+                                }
+                                break;
+                            default:
+                                demon = new Imp();
+                                break;
+                        }
+                        demon.OnBeforeSpawn(i_DemonGate.Location, i_DemonGate.Map);
+                        demon.Home = i_DemonGate.Location;
+                        demon.RangeHome = 8;
+                        demon.Combatant = i_target;
+                        // use handy existing function to create a random offset for spawning near the gate
+                        Point3D dest = Balron.BlastZone(Utility.RandomMinMax(1, 81), i_DemonGate.Location.X, i_DemonGate.Location.Y, i_DemonGate.Location.Z);
+                        // spawn fire effect at demon gate
+                        Effects.SendLocationEffect(dest, i_DemonGate.Map, 0x3709, 30, 10);
+                        demon.MoveToWorld(dest, i_DemonGate.Map);
+                        // fire sound effect
+                        demon.PlaySound(0x208);
+                    }
+                });
+
+                i_wave++;
+            }
+        }
         public class ItemRemovalTimer : Timer
         {
             private Item i_item;
