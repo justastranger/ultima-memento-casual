@@ -941,7 +941,7 @@ namespace Server.Items
     {
         private ItemRemovalTimer itemRemovalTimer;
         private AgitationTimer agitationTimer;
-        private BaseCreature i_demon;
+        public Type i_demonType;
 
         [Constructable]
         public DemonGate() : base(0x3D5E)
@@ -959,7 +959,7 @@ namespace Server.Items
             Name = "demon gate";
             Movable = false;
             Light = LightType.Circle300;
-            i_demon = demon;
+            i_demonType = demon.GetType();
             itemRemovalTimer = new ItemRemovalTimer(this);
             itemRemovalTimer.Start();
         }
@@ -1048,12 +1048,12 @@ namespace Server.Items
 
         public class AgitationTimer : Timer
         {
-            private Item i_DemonGate;
+            private DemonGate i_DemonGate;
             private int i_wave = 0;
             private int i_total;
             private PlayerMobile i_target;
 
-            public AgitationTimer(Item gate, PlayerMobile target, TimeSpan delay, TimeSpan interval, int waveCount) : base(delay, interval, waveCount + 1)
+            public AgitationTimer(DemonGate gate, PlayerMobile target, TimeSpan delay, TimeSpan interval, int waveCount) : base(delay, interval, waveCount + 1)
             {
                 i_DemonGate = gate;
                 i_total = waveCount;
@@ -1062,6 +1062,8 @@ namespace Server.Items
 
             protected override void OnTick()
             {
+                // if the gate somehow disappears, halt the invasion
+                if ((i_DemonGate == null) || (i_DemonGate.Deleted)) return;
                 // we're zero indexing the wave count so once we hit the total we're done
                 if (i_wave >= i_total)
                 {
@@ -1070,6 +1072,12 @@ namespace Server.Items
                     return;
                 }
                 // decide how much and how strong
+                // 2 is Challenging, 3 is Hard, 4 is Deadly
+                int difficulty = 2;
+                if (i_DemonGate.i_demonType == typeof(Balron))
+                    difficulty = 4;
+                else if (i_DemonGate.i_demonType == typeof(Daemon))
+                    difficulty = 3;
                 int count = 0;
                 int level = 0;
                 switch (i_wave)
@@ -1157,6 +1165,8 @@ namespace Server.Items
                                 break;
                         }
                         demon.OnBeforeSpawn(i_DemonGate.Location, i_DemonGate.Map);
+                        BaseCreature.BeefUp(demon, difficulty);
+                        BaseCreature.BeefUpLoot(demon, difficulty);
                         demon.Home = i_DemonGate.Location;
                         demon.RangeHome = 8;
                         demon.Combatant = i_target;
