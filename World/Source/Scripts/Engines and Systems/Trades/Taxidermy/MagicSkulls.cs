@@ -385,6 +385,14 @@ namespace Server.Items
         public HeartOfIce(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
 
     public class HeartOfFire : BaseHeart
@@ -400,6 +408,14 @@ namespace Server.Items
         public HeartOfFire(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
 
     [Furniture]
@@ -414,6 +430,14 @@ namespace Server.Items
 
         public SkullMinotaur(Serial serial) : base(serial)
         {
+        }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
         }
 
     }
@@ -431,6 +455,14 @@ namespace Server.Items
         public SkullDinosaur(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
 
     [Furniture]
@@ -445,6 +477,14 @@ namespace Server.Items
 
         public SkullWyrm(Serial serial) : base(serial)
         {
+        }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
         }
     }
 
@@ -462,6 +502,14 @@ namespace Server.Items
         public SkullGreatDragon(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
 
     [Furniture]
@@ -476,6 +524,14 @@ namespace Server.Items
 
         public SkullDragon(Serial serial) : base(serial)
         {
+        }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
         }
     }
 
@@ -492,6 +548,14 @@ namespace Server.Items
         public SkullDemon(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
 
     [Furniture]
@@ -506,6 +570,14 @@ namespace Server.Items
 
         public SkullGiant(Serial serial) : base(serial)
         {
+        }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
         }
     }
 
@@ -522,6 +594,14 @@ namespace Server.Items
         public DeamonHeadA(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
 
     [Furniture]
@@ -537,6 +617,14 @@ namespace Server.Items
         public DeamonHeadB(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
     [Furniture]
     [Flipable(0x65C6, 0x65C7)]
@@ -551,6 +639,14 @@ namespace Server.Items
         public DeamonHeadC(Serial serial) : base(serial)
         {
         }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+        }
     }
     [Furniture]
     [Flipable(0x65C8, 0x65C9)]
@@ -564,6 +660,14 @@ namespace Server.Items
 
         public VampireHead(Serial serial) : base(serial)
         {
+        }
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+        }
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
         }
     }
 }
