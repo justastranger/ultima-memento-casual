@@ -281,7 +281,51 @@ namespace Server.Misc
 
 namespace Server.Items
 {
-    public class HeartOfIce : Item
+    public class BaseSkull : Item
+    {
+        public string SkullKiller;
+        public string SkullWhere;
+
+        [CommandProperty(AccessLevel.Owner)]
+        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
+
+        [CommandProperty(AccessLevel.Owner)]
+        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
+
+        [Constructable]
+        public BaseSkull(int itemId) : base(itemId)
+        {
+
+        }
+
+        public BaseSkull(Serial serial) : base(serial)
+        {
+
+        }
+        public override void AddNameProperties(ObjectPropertyList list)
+        {
+            base.AddNameProperties(list);
+            list.Add(1070722, "From " + SkullWhere);
+            list.Add(1049644, "Slain by " + SkullKiller);
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0);
+            writer.Write(SkullKiller);
+            writer.Write(SkullWhere);
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+            SkullKiller = reader.ReadString();
+            SkullWhere = reader.ReadString();
+        }
+    }
+    public class BaseHeart : Item
     {
         public string HeartKiller;
         public string HeartWhere;
@@ -291,6 +335,43 @@ namespace Server.Items
 
         [CommandProperty(AccessLevel.Owner)]
         public string Heart_Where { get { return HeartWhere; } set { HeartWhere = value; InvalidateProperties(); } }
+
+        [Constructable]
+        public BaseHeart(int itemId) : base(itemId)
+        {
+
+        }
+
+        public BaseHeart(Serial serial) : base(serial)
+        {
+
+        }
+
+        public override void AddNameProperties(ObjectPropertyList list)
+        {
+            base.AddNameProperties(list);
+            list.Add(1070722, "From " + HeartWhere);
+            list.Add(1049644, "Slain by " + HeartKiller);
+        }
+
+        public override void Serialize(GenericWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write((int)0);
+            writer.Write(HeartKiller);
+            writer.Write(HeartWhere);
+        }
+
+        public override void Deserialize(GenericReader reader)
+        {
+            base.Deserialize(reader);
+            int version = reader.ReadInt();
+            HeartKiller = reader.ReadString();
+            HeartWhere = reader.ReadString();
+        }
+    }
+    public class HeartOfIce : BaseHeart
+    {
 
         [Constructable]
         public HeartOfIce() : base(0x1444)
@@ -302,45 +383,13 @@ namespace Server.Items
             Name = "ice heart";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + HeartWhere);
-            list.Add(1049644, "Slain by " + HeartKiller);
-        }
-
         public HeartOfIce(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(HeartKiller);
-            writer.Write(HeartWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            HeartKiller = reader.ReadString();
-            HeartWhere = reader.ReadString();
-        }
     }
 
-    public class HeartOfFire : Item
+    public class HeartOfFire : BaseHeart
     {
-        public string HeartKiller;
-        public string HeartWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Heart_Killer { get { return HeartKiller; } set { HeartKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Heart_Where { get { return HeartWhere; } set { HeartWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public HeartOfFire() : base(0x81E)
         {
@@ -350,47 +399,15 @@ namespace Server.Items
             Name = "fire heart";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + HeartWhere);
-            list.Add(1049644, "Slain by " + HeartKiller);
-        }
-
         public HeartOfFire(Serial serial) : base(serial)
         {
-        }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(HeartKiller);
-            writer.Write(HeartWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            HeartKiller = reader.ReadString();
-            HeartWhere = reader.ReadString();
         }
     }
 
     [Furniture]
     [Flipable(0x3DE0, 0x3DE1)]
-    public class SkullMinotaur : Item
+    public class SkullMinotaur : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public SkullMinotaur() : base(0x3DE0)
         {
@@ -398,46 +415,16 @@ namespace Server.Items
             Name = "minotaur skull";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public SkullMinotaur(Serial serial) : base(serial)
         {
         }
 
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(0x65CA, 0x65CB)]
-    public class SkullDinosaur : Item
+    public class SkullDinosaur : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public SkullDinosaur() : base(0x65CA)
         {
@@ -445,46 +432,15 @@ namespace Server.Items
             Name = "dinosaur skull";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public SkullDinosaur(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(0x3DCC, 0x3DCD)]
-    public class SkullWyrm : Item
+    public class SkullWyrm : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public SkullWyrm() : base(0x3DCC)
         {
@@ -492,46 +448,15 @@ namespace Server.Items
             Name = "dragon skull";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public SkullWyrm(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(0x1AEE, 0x1AEF)]
-    public class SkullGreatDragon : Item
+    public class SkullGreatDragon : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public SkullGreatDragon() : base(0x1AEE)
         {
@@ -539,46 +464,15 @@ namespace Server.Items
             Name = "dragon skull";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public SkullGreatDragon(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(8782, 8783)]
-    public class SkullDragon : Item
+    public class SkullDragon : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public SkullDragon() : base(8782)
         {
@@ -586,46 +480,15 @@ namespace Server.Items
             Name = "dragon skull";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public SkullDragon(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(8784, 8785)]
-    public class SkullDemon : Item
+    public class SkullDemon : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public SkullDemon() : base(8784)
         {
@@ -633,46 +496,15 @@ namespace Server.Items
             Name = "demon skull";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public SkullDemon(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(0x224, 0x225)]
-    public class SkullGiant : Item
+    public class SkullGiant : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public SkullGiant() : base(0x224)
         {
@@ -680,46 +512,15 @@ namespace Server.Items
             Name = "giant skull";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public SkullGiant(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(0x65C2, 0x65C3)]
-    public class DeamonHeadA : Item
+    public class DeamonHeadA : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public DeamonHeadA() : base(0x65C2)
         {
@@ -727,46 +528,15 @@ namespace Server.Items
             Name = "demon head";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public DeamonHeadA(Serial serial) : base(serial)
         {
         }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
-        }
     }
+
     [Furniture]
     [Flipable(0x65C4, 0x65C5)]
-    public class DeamonHeadB : Item
+    public class DeamonHeadB : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public DeamonHeadB() : base(0x65C4)
         {
@@ -774,46 +544,14 @@ namespace Server.Items
             Name = "demon head";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public DeamonHeadB(Serial serial) : base(serial)
         {
-        }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
         }
     }
     [Furniture]
     [Flipable(0x65C6, 0x65C7)]
-    public class DeamonHeadC : Item
+    public class DeamonHeadC : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public DeamonHeadC() : base(0x65C6)
         {
@@ -821,46 +559,14 @@ namespace Server.Items
             Name = "demon head";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public DeamonHeadC(Serial serial) : base(serial)
         {
-        }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
         }
     }
     [Furniture]
     [Flipable(0x65C8, 0x65C9)]
-    public class VampireHead : Item
+    public class VampireHead : BaseSkull
     {
-        public string SkullKiller;
-        public string SkullWhere;
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Killer { get { return SkullKiller; } set { SkullKiller = value; InvalidateProperties(); } }
-
-        [CommandProperty(AccessLevel.Owner)]
-        public string Skull_Where { get { return SkullWhere; } set { SkullWhere = value; InvalidateProperties(); } }
-
         [Constructable]
         public VampireHead() : base(0x65C8)
         {
@@ -868,31 +574,8 @@ namespace Server.Items
             Name = "vampire head";
         }
 
-        public override void AddNameProperties(ObjectPropertyList list)
-        {
-            base.AddNameProperties(list);
-            list.Add(1070722, "From " + SkullWhere);
-            list.Add(1049644, "Slain by " + SkullKiller);
-        }
-
         public VampireHead(Serial serial) : base(serial)
         {
-        }
-
-        public override void Serialize(GenericWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write((int)0);
-            writer.Write(SkullKiller);
-            writer.Write(SkullWhere);
-        }
-
-        public override void Deserialize(GenericReader reader)
-        {
-            base.Deserialize(reader);
-            int version = reader.ReadInt();
-            SkullKiller = reader.ReadString();
-            SkullWhere = reader.ReadString();
         }
     }
 }
