@@ -1023,7 +1023,7 @@ namespace Server.Items
             door.MoveToWorld(new Point3D(m.X, m.Y, z), m.Map);
         }
 
-        public override bool OnDragDrop(Mobile from, Item dropped)
+        public override bool OnDroppedOnto(Mobile from, Item dropped)
         {
             if (from is PlayerMobile)
             {
