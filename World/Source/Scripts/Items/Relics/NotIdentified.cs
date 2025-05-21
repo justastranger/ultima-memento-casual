@@ -80,6 +80,10 @@ namespace Server.Items
                 TrinketTalisman trinketTalisman = (TrinketTalisman)item;
                 blankItemName = TrinketTalisman.GetSubtypeName(trinketTalisman.Subtype);
             }
+            else if (item is MagicalWand)
+            {
+                blankItemName = "Magic Wand";
+            }
             if ((item.Catalog != Catalogs.Reagent) && (item.Catalog != Catalogs.Potion) && (item.Catalog != Catalogs.Scroll) && (item.Catalog != Catalogs.Book))
             {
                 string resourceName = item.Resource.ToString();
@@ -97,11 +101,16 @@ namespace Server.Items
                         resourceName = resourceName.Insert(matches[i].Index, " ");
                     }
                 }
-                // 
+                string prefix = RandomThings.GetOddityAdjective();
+                if (blankItemName.EndsWith("s"))
+                {
+                    prefix = RandomThings.GetOddityAdjectivePlural();
+                }
+                // only show the name of the resource if it's not the base level material
                 if (IsStandardResource(item.Resource))
-                    unk.Name = RandomThings.GetOddityAdjective() + " " + blankItemName;
+                    unk.Name = prefix + " " + blankItemName;
                 else
-                    unk.Name = RandomThings.GetOddityAdjective() + " " + resourceName + " " + blankItemName;
+                    unk.Name = prefix + " " + resourceName + " " + blankItemName;
                 // Clean up the temporary, fake Item that we used to get an accurate Item Type name
                 blankItem.Delete();
             }

@@ -29,6 +29,23 @@ namespace Server.Misc
             return sAdjective;
         }
 
+        public static string GetOddityAdjectivePlural()
+        {
+            string sAdjective = "odd";
+
+            switch (Utility.RandomMinMax(0, 6))
+            {
+                case 0: sAdjective = "odd"; break;
+                case 1: sAdjective = "unusual"; break;
+                case 2: sAdjective = "bizarre"; break;
+                case 3: sAdjective = "curious"; break;
+                case 4: sAdjective = "peculiar"; break;
+                case 5: sAdjective = "strange"; break;
+                case 6: sAdjective = "weird"; break;
+            }
+            return sAdjective;
+        }
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public static string GetRandomAuthor()
