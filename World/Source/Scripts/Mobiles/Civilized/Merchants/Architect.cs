@@ -48,7 +48,7 @@ namespace Server.Mobiles
             {
                 public InternalBuyInfo()
                 {
-                    ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.All, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Home, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.All, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Home, ItemSalesInfo.World.None, null);
                     ItemInformation.GetSellList(m_Merchant, this, ItemSalesInfo.Category.Christmas, ItemSalesInfo.Material.All, ItemSalesInfo.Market.All, ItemSalesInfo.World.None, null);
                 }
             }
@@ -57,7 +57,7 @@ namespace Server.Mobiles
             {
                 public InternalSellInfo()
                 {
-                    ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.All, ItemSalesInfo.Material.None, ItemSalesInfo.Market.Home, ItemSalesInfo.World.None, null);
+                    ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.All, ItemSalesInfo.Material.All, ItemSalesInfo.Market.Home, ItemSalesInfo.World.None, null);
                     ItemInformation.GetBuysList(m_Merchant, this, ItemSalesInfo.Category.Christmas, ItemSalesInfo.Material.All, ItemSalesInfo.Market.All, ItemSalesInfo.World.None, null);
                 }
             }
