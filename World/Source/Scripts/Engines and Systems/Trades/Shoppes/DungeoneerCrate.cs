@@ -4,6 +4,7 @@ using Server.Multis;
 using Server.Network;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Server.Items
 {
@@ -12,6 +13,10 @@ namespace Server.Items
     public class DungeoneerCrate : Container
     {
         private static readonly InternalSellInfo SELL_INFO = new InternalSellInfo();
+        private static readonly List<Type> BaseResourceTypes = new List<Type> {
+            typeof(BaseOre), typeof(BaseGranite), typeof(BaseIngot), typeof(BaseBlocks), typeof(BaseScales), typeof(BaseLog), typeof(BaseBoard), typeof(BaseLeather), typeof(BaseSkins), typeof(BaseFabric), typeof(BaseHides), typeof(BaseSkeletal), typeof(Sand), typeof(BaseReagent)
+        };
+        private static readonly HashSet<Type> CachedResourceSubtypes = new HashSet<Type>();
 
         private int m_CrateGold;
         private int m_PercentReduction = 25;
@@ -141,14 +146,26 @@ namespace Server.Items
 
         private static int GetItemValue(Item item, int amount, int reductionAmount)
         {
-            if (item.Built)
-                return 0;
-
             var price = SELL_INFO.GetSellPriceFor(item, 0) * amount;
             if (0 < reductionAmount)
                 price = (int)(price - ((double)reductionAmount * price / 100));
 
-            return price;
+            if (CachedResourceSubtypes.Contains(item.GetType()) || (BaseResourceTypes.Any(t =>
+            {
+                if (t.IsAssignableFrom(item.GetType()))
+                {
+                    CachedResourceSubtypes.Add(item.GetType());
+                    return true;
+                }
+                else return false;
+            })))
+            {
+                return price;
+            }
+            else if (item.Built)
+                return 0;
+            else
+                return price;
         }
 
         private bool CanAddItem(Mobile from, Item dropped)
@@ -175,7 +192,18 @@ namespace Server.Items
                     return false;
                 }
             }
-
+            if (CachedResourceSubtypes.Contains(dropped.GetType()) || (BaseResourceTypes.Any(t =>
+            {
+                if (t.IsAssignableFrom(dropped.GetType()))
+                {
+                    CachedResourceSubtypes.Add(dropped.GetType());
+                    return true;
+                }
+                else return false;
+            })))
+            {
+                return true;
+            }
             if (dropped.Built || dropped.BuiltBy != null)
             {
                 from.SendMessage("The merchants already know plenty of craftsmen. Try something else.");
