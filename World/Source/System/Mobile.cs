@@ -4518,7 +4518,7 @@ namespace Server
                             if (liftSound != -1)
                                 from.Send(new PlaySound(liftSound, from));
 
-                            from.NextActionTime = DateTime.Now + TimeSpan.FromSeconds(0.5);
+                            from.NextActionTime = DateTime.Now + TimeSpan.FromSeconds(0.1);
 
                             if (fixMap != null && shouldFix)
                                 fixMap.FixColumn(fixLoc.m_X, fixLoc.m_Y);
